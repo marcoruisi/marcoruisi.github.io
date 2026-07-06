@@ -1,1 +1,24 @@
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Hidden files
+.*
+!.gitignore
+
+# Keep Git metadata
+!.git
+
+# Scripts
+scripts/
+
+# Python
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# JetBrains
+.idea/
