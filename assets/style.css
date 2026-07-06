@@ -98,7 +98,7 @@ body {
 }
 .language-switch .active {
     color: var(--text);
-    font-weight: 600;
+    font-weight: 900;
 }
 .author {
     margin: 0;
