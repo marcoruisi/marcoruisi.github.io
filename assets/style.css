@@ -374,3 +374,26 @@ body{
     }
 
 }
+
+/* ---------- 404 ---------- */
+
+.back-home{
+    margin-top:56px;
+    font-family:"Inter";
+    font-size:15px;
+}
+
+.back-home span{
+    margin:0 12px;
+    color:var(--line);
+}
+
+.back-home a{
+    color:var(--muted);
+    text-decoration:none;
+    transition:.2s;
+}
+
+.back-home a:hover{
+    color:var(--text);
+}
