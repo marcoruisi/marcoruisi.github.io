@@ -72,10 +72,19 @@ body {
     margin-bottom: 90px;
 }
 .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 70px;
+
+    margin: -72px -72px 70px;
+    padding: 24px 72px;
+
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
 }
 .logo-mark {
     display: inline-flex;
@@ -260,7 +269,8 @@ body {
         border: 0;
     }
     .topbar {
-        margin-bottom: 48px;
+        margin: -28px -28px 48px;
+        padding: 20px 28px;
     }
     .claim {
         margin-bottom: 48px;
