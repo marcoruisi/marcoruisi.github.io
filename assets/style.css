@@ -40,6 +40,9 @@
     --muted: #777777;
     --line: #e7e7e7;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
     font-family: "IBM Plex Serif", Georgia, serif;
     font-weight: 400;
