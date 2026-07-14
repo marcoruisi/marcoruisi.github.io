@@ -13,22 +13,24 @@
     font-display: swap;
 }
 @font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-Regular.woff2") format("woff2");
-    font-weight: 300;
+    font-family: "Manrope";
+    src: url("../fonts/Manrope-Regular.woff2") format("woff2");
+    font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-Medium.woff2") format("woff2");
+    font-family: "Manrope";
+    src: url("../fonts/Manrope-Medium.woff2") format("woff2");
     font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
+
 @font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-SemiBold.woff2") format("woff2");
+    font-family: "Manrope";
+    src: url("../fonts/Manrope-SemiBold.woff2") format("woff2");
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -57,7 +59,7 @@ body {
 }
 .breadcrumb {
     margin-bottom: 52px;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Manrope", system-ui, sans-serif;
     font-size: 12px;
     color: var(--muted);
 }
@@ -100,7 +102,7 @@ body {
     height: auto;
 }
 .language-switch {
-    font-family: "Inter";
+    font-family: "Manrope";
     font-size: 13px;
     color: var(--muted);
 }
@@ -146,7 +148,7 @@ body {
     margin-bottom: 22px;
 }
 .toc a {
-    font-family: "Inter";
+    font-family: "Manrope";
     font-size: 17px;
     text-decoration: none;
     color: var(--text);
@@ -209,7 +211,7 @@ body {
     margin-top: 96px;
     padding-top: 32px;
     border-top: 1px solid var(--line);
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Manrope", system-ui, sans-serif;
     font-size: 14px;
 }
 .page-nav a {
@@ -226,7 +228,7 @@ body {
     margin-top: 110px;
     padding-top: 35px;
     border-top: 1px solid var(--line);
-    font-family: "Inter";
+    font-family: "Manrope";
     font-size: 14px;
     color: var(--muted);
 }
@@ -308,7 +310,7 @@ body {
     align-items: start;
 }
 .note-number {
-    font-family: "Inter";
+    font-family: "Manrope";
     font-size: 13px;
     font-weight: 500;
     color: #cfcfcf;
@@ -344,7 +346,7 @@ body {
 /* ---------- 404 ---------- */
 .back-home {
     margin-top: 56px;
-    font-family: "Inter";
+    font-family: "Manrope";
     font-size: 15px;
 }
 .back-home span {
@@ -372,7 +374,7 @@ body {
 .story-number{
     display:block;
     margin-bottom:22px;
-    font-family:"Inter", system-ui, sans-serif;
+    font-family:"Manrope", system-ui, sans-serif;
     font-size:13px;
     font-weight:500;
     letter-spacing:.12em;
@@ -380,7 +382,7 @@ body {
 }
 .story-keyword{
     margin:0 0 12px !important;
-    font-family:"Inter", system-ui, sans-serif;
+    font-family:"Manrope", system-ui, sans-serif;
     font-size:12px !important;
     line-height:1.4 !important;
     letter-spacing:.12em;
@@ -399,14 +401,14 @@ body {
 }
 .story-context{
     margin-top:28px !important;
-    font-family:"Inter", system-ui, sans-serif;
+    font-family:"Manrope", system-ui, sans-serif;
     font-size:13px !important;
     line-height:1.5 !important;
     color:var(--muted);
 }
 .story-link{
     margin-top:18px !important;
-    font-family:"Inter", system-ui, sans-serif;
+    font-family:"Manrope", system-ui, sans-serif;
     font-size:14px !important;
 }
 .story-link a{
@@ -462,3 +464,171 @@ body {
 .content a:hover{
     text-decoration-color:var(--text);
 }
+
+/* MRC POPUP MENU START */
+
+.logo-mark {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text);
+    font-family: "IBM Plex Serif", Georgia, serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+}
+
+.logo-mark:hover {
+    opacity: 0.72;
+}
+
+.logo-mark:focus,
+.logo-mark:focus-visible {
+    outline: 0;
+    box-shadow: none;
+}
+
+.menu-trigger {
+    appearance: none;
+    min-width: 48px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: right;
+    cursor: pointer;
+}
+
+.menu-trigger:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.menu-trigger:focus-visible,
+.popup-language a:focus-visible,
+.popup-nav a:focus-visible {
+    outline: 1px solid var(--muted);
+    outline-offset: 4px;
+}
+
+.site-popup-menu {
+    position: fixed;
+    z-index: 90;
+    box-sizing: border-box;
+    max-height: calc(100vh - 24px);
+    padding: 34px 72px 38px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgba(255, 255, 255, 0.99);
+    border: 1px solid var(--line);
+    border-top: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease,
+        visibility 180ms ease;
+}
+
+.site-popup-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.popup-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "language"
+        "nav";
+    gap: 28px;
+}
+
+.popup-language {
+    grid-area: language;
+    justify-self: start;
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.popup-language a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.popup-language a.active {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.popup-language span {
+    margin: 0 6px;
+    color: var(--line);
+}
+
+.popup-nav {
+    grid-area: nav;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+}
+
+.popup-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.popup-nav li {
+    margin: 0;
+}
+
+.popup-nav li + li {
+    margin-top: 18px;
+}
+
+.popup-nav a {
+    font-family: "Manrope", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.popup-nav a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+    .logo-mark {
+        font-size: 22px;
+    }
+
+    .site-popup-menu {
+        padding: 28px;
+        border-right: 0;
+        border-left: 0;
+    }
+
+    .popup-inner {
+        gap: 24px;
+    }
+
+    .popup-nav {
+        padding-top: 24px;
+    }
+}
+
+/* MRC POPUP MENU END */

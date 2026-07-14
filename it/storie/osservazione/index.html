@@ -13,15 +13,53 @@
 <body>
     <main class="site">
             <div class="topbar">
-                <a class="logo-mark" href="/it/">
-                    <img src="/img/logo.svg" alt="MRC">
-                </a>
-                <nav class="language-switch" aria-label="Lingua">
-                    <a href="/stories/observation/">EN</a>
-                    <span>/</span>
-                    <a href="/it/storie/osservazione/" class="active">IT</a>
-                </nav>
+                <a class="logo-mark" href="/it/" aria-label="MRC home">mrc</a>
+                <button
+    class="menu-trigger"
+    type="button"
+    data-popup-menu-toggle
+    data-open-label="Menu"
+    data-close-label="Chiudi"
+    aria-label="Apri il menu"
+    aria-expanded="false"
+    aria-controls="site-popup-menu"
+>
+    Menu
+</button>
             </div>
+
+<!-- MRC POPUP MENU START -->
+<div
+    class="site-popup-menu"
+    id="site-popup-menu"
+    aria-hidden="true"
+    inert
+>
+    <div class="popup-inner">
+<nav class="popup-language" aria-label="Selezione lingua">
+            <a href="/stories/observation/">EN</a>
+            <span>/</span>
+            <a href="/it/storie/osservazione/" class="active" aria-current="page">IT</a>
+        </nav>
+
+        <nav class="popup-nav" aria-label="Navigazione del sito">
+            <ul>
+                <li><a href="/it/manifesto/">Manifesto</a></li>
+                <li><a href="/it/chi-sono/">Chi sono</a></li>
+                <li><a href="/it/perche/">Perché continuo a farlo</a></li>
+                <li><a href="/it/principi/">Principi</a></li>
+                <li><a href="/it/taccuino/">Taccuino</a></li>
+                <li><a href="/it/storie/">Storie</a></li>
+                <li><a href="/it/idee/">Idee che continuano a tornare</a></li>
+                <li><a href="/it/colophon/">Colophon</a></li>
+                <li><a href="/it/contatti/">Contatti</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- MRC POPUP MENU END -->
+
+
         <header class="page-header">
             <nav class="breadcrumb" aria-label="Percorso">
                 <a href="/it/">Home</a> / <a href="/it/storie/">Storie</a> / Osservazione
@@ -72,6 +110,12 @@
         src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
 <!-- End Cloudflare Web Analytics -->
+
+
+
+<!-- MRC POPUP MENU SCRIPT START -->
+<script src="/assets/menu.js"></script>
+<!-- MRC POPUP MENU SCRIPT END -->
 
 </body>
 

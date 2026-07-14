@@ -7,20 +7,59 @@
 <title>Marco Ruisi · Simple systems. Better questions.</title>
     <meta name="description" content="Notes on systems, workflows, information and design.">
     <link rel="stylesheet" href="/assets/style.css">
-    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml"></head>
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+</head>
 
 <body>
     <main class="site">
             <div class="topbar">
-                <a class="logo-mark" href="/" aria-label="MRC home">
-                  <img src="/img/logo.svg" alt="MRC" width="120" height="35">
-                </a>
-                <nav class="language-switch">
-                    <a href="/#toc" class="active">EN</a>
-                    <span>/</span>
-                    <a href="/it/#toc">IT</a>
-                </nav>
+                <a class="logo-mark" href="/" aria-label="MRC home">mrc</a>
+                <button
+    class="menu-trigger"
+    type="button"
+    data-popup-menu-toggle
+    data-open-label="Menu"
+    data-close-label="Close"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="site-popup-menu"
+>
+    Menu
+</button>
             </div>
+
+<!-- MRC POPUP MENU START -->
+<div
+    class="site-popup-menu"
+    id="site-popup-menu"
+    aria-hidden="true"
+    inert
+>
+    <div class="popup-inner">
+<nav class="popup-language" aria-label="Language selection">
+            <a href="/" class="active" aria-current="page">EN</a>
+            <span>/</span>
+            <a href="/it/">IT</a>
+        </nav>
+
+        <nav class="popup-nav" aria-label="Site navigation">
+            <ul>
+                <li><a href="/manifesto/">Manifesto</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/why/">Why I Keep Doing This</a></li>
+                <li><a href="/principles/">Principles</a></li>
+                <li><a href="/field-notes/">Field Notes</a></li>
+                <li><a href="/stories/">In Practice</a></li>
+                <li><a href="/ideas/">Ideas I Keep Coming Back To</a></li>
+                <li><a href="/colophon/">Colophon</a></li>
+                <li><a href="/contact/">Let's Talk</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- MRC POPUP MENU END -->
+
+
         <header class="hero">
             <h1 class="author">
                 Marco Ruisi
@@ -69,6 +108,12 @@
         src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
 <!-- End Cloudflare Web Analytics -->
+
+
+
+<!-- MRC POPUP MENU SCRIPT START -->
+<script src="/assets/menu.js"></script>
+<!-- MRC POPUP MENU SCRIPT END -->
 
 </body>
 
