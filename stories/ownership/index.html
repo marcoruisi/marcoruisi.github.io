@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Source · Marco Ruisi</title>
+    <meta name="description" content="The fourth story: designing systems that adapt to change without needing to be rebuilt.">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+    <main class="site">
+        <div class="topbar">
+            <a class="logo-mark" href="/" aria-label="MRC home">mrc</a>
+            <button class="menu-trigger" type="button" data-popup-menu-toggle data-open-label="Menu" data-close-label="Close" aria-label="Open menu" aria-expanded="false" aria-controls="site-popup-menu">
+                Menu
+            </button>
+        </div>
+        <!-- MRC POPUP MENU START -->
+        <div class="site-popup-menu" id="site-popup-menu" aria-hidden="true" inert>
+            <div class="popup-inner">
+                <nav class="popup-language" aria-label="Language selection">
+                    <a href="/stories/source/" class="active" aria-current="page">EN</a>
+                    <span>/</span>
+                    <a href="/it/storie/origine/">IT</a>
+                </nav>
+                <nav class="popup-nav" aria-label="Site navigation">
+                    <ul>
+                        <li><a href="/manifesto/">Manifesto</a></li>
+                        <li><a href="/about/">About</a></li>
+                        <li><a href="/why/">Why I Keep Doing This</a></li>
+                        <li><a href="/principles/">Principles</a></li>
+                        <li><a href="/field-notes/">Field Notes</a></li>
+                        <li><a href="/stories/">In Practice</a></li>
+                        <li><a href="/ideas/">Ideas I Keep Coming Back To</a></li>
+                        <li><a href="/colophon/">Colophon</a></li>
+                        <li><a href="/contact/">Let's Talk</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- MRC POPUP MENU END -->
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="/">Home</a> /
+                <a href="/stories/">In Practice</a> /
+                Ownership
+            </nav>
+            <h1 class="page-title">
+                Understanding a Problem Also Means Knowing Who Can Solve It.
+            </h1>
+        </header>
+        <article class="content">
+            <p><strong>Ownership</strong></p>
+            <p>I bought a projector.</p>
+            <p>Connecting a Bluetooth speaker should have been simple.</p>
+            <p>It wasn't.</p>
+            <p>The volume behaved unpredictably.</p>
+            <p>No setting changed the outcome.</p>
+            <p>Trying different devices didn't help either.</p>
+            <p>At first I assumed I had overlooked something.</p>
+            <p>Then I stopped looking for settings and started following the problem.</p>
+            <p>I decompiled the Bluetooth module.</p>
+            <p>I reconstructed how Android handled AVRCP Absolute Volume.</p>
+            <p>I inspected the interoperability database.</p>
+            <p>I checked the device state through ADB.</p>
+            <p>Each step ruled out another possibility.</p>
+            <p>Eventually a pattern emerged.</p>
+            <p>The speaker was probably being treated as compatible with a Bluetooth feature it didn't fully support.</p>
+            <p>For the first time, I had a coherent explanation.</p>
+            <p>Then I discovered something equally important.</p>
+            <p>Even if the hypothesis was correct, there was nothing left for me to change.</p>
+            <p>The interoperability database belonged to a read-only APEX package.</p>
+            <p>Without root access or a modified firmware, the system couldn't be altered.</p>
+            <p>For a moment, that felt like failure.</p>
+            <p>Then I realized the objective had quietly changed.</p>
+            <p>I was no longer trying to solve the problem.</p>
+            <p>I was trying to understand who actually owned it.</p>
+            <p>Once that became clear, writing to the manufacturer was no longer a generic support request.</p>
+            <p>It became a technical report.</p>
+            <p>Not a complaint.</p>
+            <p>A reproducible hypothesis supported by evidence.</p>
+            <p>A few days later, the support team replied that the entire analysis had been forwarded to their developers for internal verification.</p>
+            <p>I still don't know whether the hypothesis will prove correct.</p>
+            <p>That isn't the interesting part.</p>
+            <p>The interesting part is realizing that understanding a system also means recognizing where your responsibility ends and someone else's begins.</p>
+            <p><strong>Sometimes solving a problem means discovering that it no longer belongs to you.</strong></p>
+        </article>
+        <nav class="page-nav">
+            <a href="/stories/observation/">← Observation</a>
+            <a href="/stories/">In Practice →</a>
+        </nav>
+        <footer class="footer">
+            <p class="footer-name">Marco Ruisi</p>
+            <p class="footer-claim">Simple systems. Better questions.</p>
+            <p><a href="mailto:marcoruisi@gmail.com" target="_blank" rel="noopener noreferrer">marcoruisi@gmail.com</a></p>
+            <p class="copyright">© 2026</p>
+        </footer>
+    </main>
+    <!-- Cloudflare Web Analytics -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+    <!-- MRC POPUP MENU SCRIPT START -->
+    <script src="/assets/menu.js"></script>
+    <!-- MRC POPUP MENU SCRIPT END -->
+</body>
+
+</html>

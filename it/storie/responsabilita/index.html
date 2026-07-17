@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Osservazione · Marco Ruisi</title>
+    <meta name="description" content="La sesta storia: osservare un sistema è spesso il primo passo per riuscire a progettarlo meglio.">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+    <main class="site">
+        <div class="topbar">
+            <a class="logo-mark" href="/it/" aria-label="MRC home">mrc</a>
+            <button class="menu-trigger" type="button" data-popup-menu-toggle data-open-label="Menu" data-close-label="Chiudi" aria-label="Apri il menu" aria-expanded="false" aria-controls="site-popup-menu">
+                Menu
+            </button>
+        </div>
+        <!-- MRC POPUP MENU START -->
+        <div class="site-popup-menu" id="site-popup-menu" aria-hidden="true" inert>
+            <div class="popup-inner">
+                <nav class="popup-language" aria-label="Selezione lingua">
+                    <a href="/stories/observation/">EN</a>
+                    <span>/</span>
+                    <a href="/it/storie/osservazione/" class="active" aria-current="page">IT</a>
+                </nav>
+                <nav class="popup-nav" aria-label="Navigazione del sito">
+                    <ul>
+                        <li><a href="/it/manifesto/">Manifesto</a></li>
+                        <li><a href="/it/chi-sono/">Chi sono</a></li>
+                        <li><a href="/it/perche/">Perché continuo a farlo</a></li>
+                        <li><a href="/it/principi/">Principi</a></li>
+                        <li><a href="/it/taccuino/">Taccuino</a></li>
+                        <li><a href="/it/storie/">Storie</a></li>
+                        <li><a href="/it/idee/">Idee che continuano a tornare</a></li>
+                        <li><a href="/it/colophon/">Colophon</a></li>
+                        <li><a href="/it/contatti/">Contatti</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- MRC POPUP MENU END -->
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="/it/">Home</a> /
+                <a href="/it/storie/">In pratica</a> /
+                Responsabilità
+            </nav>
+            <h1 class="page-title">
+                Capire un problema significa anche sapere chi può risolverlo.
+            </h1>
+        </header>
+        <article class="content">
+            <p><strong>Responsabilità</strong></p>
+            <p>Avevo acquistato un proiettore.</p>
+            <p>Collegare un diffusore Bluetooth avrebbe dovuto essere semplice.</p>
+            <p>Non lo era.</p>
+            <p>Il volume si comportava in modo imprevedibile.</p>
+            <p>Nessuna impostazione cambiava il risultato.</p>
+            <p>Nemmeno provare altri dispositivi aiutava.</p>
+            <p>All'inizio pensavo di essermi perso qualcosa.</p>
+            <p>Poi ho smesso di cercare impostazioni e ho iniziato a seguire il problema.</p>
+            <p>Ho decompilato il modulo Bluetooth.</p>
+            <p>Ho ricostruito il modo in cui Android gestiva l'AVRCP Absolute Volume.</p>
+            <p>Ho analizzato il database di interoperabilità.</p>
+            <p>Ho verificato lo stato del dispositivo tramite ADB.</p>
+            <p>Ogni passaggio eliminava una possibilità.</p>
+            <p>Alla fine è emerso uno schema.</p>
+            <p>Il diffusore veniva probabilmente considerato compatibile con una funzione Bluetooth che non implementava correttamente.</p>
+            <p>Per la prima volta avevo una spiegazione coerente.</p>
+            <p>Poi ho scoperto una cosa altrettanto importante.</p>
+            <p>Anche se l'ipotesi fosse stata corretta, non c'era più nulla che potessi modificare.</p>
+            <p>Il database di interoperabilità apparteneva a un pacchetto APEX in sola lettura.</p>
+            <p>Senza root o un firmware modificato, il sistema non poteva essere cambiato.</p>
+            <p>Per un momento mi è sembrato un fallimento.</p>
+            <p>Poi mi sono accorto che l'obiettivo era cambiato.</p>
+            <p>Non stavo più cercando di risolvere il problema.</p>
+            <p>Stavo cercando di capire a chi appartenesse davvero.</p>
+            <p>Quando questo è diventato chiaro, scrivere al produttore non è stato più un semplice contatto con l'assistenza.</p>
+            <p>È diventato un rapporto tecnico.</p>
+            <p>Non una lamentela.</p>
+            <p>Un'ipotesi verificabile supportata da prove.</p>
+            <p>Qualche giorno dopo il team di assistenza mi ha risposto che tutta l'analisi era stata inoltrata agli sviluppatori per una verifica interna.</p>
+            <p>Non so ancora se l'ipotesi verrà confermata.</p>
+            <p>Non è questo il punto.</p>
+            <p>Il punto è che comprendere un sistema significa anche riconoscere dove termina la propria responsabilità e inizia quella di qualcun altro.</p>
+            <p><strong>A volte risolvere un problema significa scoprire che non appartiene più a te.</strong></p>
+        </article>
+        <nav class="page-nav">
+            <a href="/it/storie/connessioni/">← Connessioni</a>
+            <a href="/it/storie/">Storie →</a>
+        </nav>
+        <footer class="footer">
+            <p class="footer-name">Marco Ruisi</p>
+            <p class="footer-claim">Simple systems. Better questions.</p>
+            <p><a href="mailto:marcoruisi@gmail.com" target="_blank" rel="noopener noreferrer">marcoruisi@gmail.com</a></p>
+            <p class="copyright">© 2026</p>
+        </footer>
+    </main>
+    <!-- Cloudflare Web Analytics -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+    <!-- MRC POPUP MENU SCRIPT START -->
+    <script src="/assets/menu.js"></script>
+    <!-- MRC POPUP MENU SCRIPT END -->
+</body>
+
+</html>
