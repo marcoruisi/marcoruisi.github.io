@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clean WP Clipboard</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f5f7;
+      --panel: #ffffff;
+      --text: #202124;
+      --muted: #687078;
+      --border: #d7dbe0;
+      --primary: #2271b1;
+      --primary-hover: #135e96;
+      --success: #198754;
+      --danger: #b42318;
+      --flash: #dff4e7;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #17191c;
+        --panel: #22252a;
+        --text: #f2f3f5;
+        --muted: #adb3ba;
+        --border: #41464d;
+        --primary: #72aee6;
+        --primary-hover: #9ec5e8;
+        --success: #58c98d;
+        --danger: #ff8a80;
+        --flash: #264a35;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .intro {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .panel {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel);
+    }
+
+    .editor {
+      min-height: 460px;
+      max-height: 68vh;
+      overflow: auto;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      line-height: 1.6;
+      outline: none;
+      transition: background-color .35s ease, border-color .2s ease;
+    }
+
+    .editor:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 22%, transparent);
+    }
+
+    .editor:empty::before {
+      content: attr(data-placeholder);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .editor.cleaned {
+      background: var(--flash);
+    }
+
+    .format-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .format-button {
+      min-width: 42px;
+      padding: 7px 10px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 10px 15px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--panel);
+      color: var(--text);
+    }
+
+    button.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    button.primary:hover {
+      background: var(--primary-hover);
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: default;
+    }
+
+    .status {
+      flex: 1 1 280px;
+      min-height: 24px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .status.success { color: var(--success); }
+    .status.error { color: var(--danger); }
+
+    .stats {
+      display: none;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .stats.visible {
+      display: flex;
+    }
+
+    .chip {
+      padding: 6px 9px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    details {
+      margin-top: 14px;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .code {
+      width: 100%;
+      min-height: 220px;
+      margin-top: 12px;
+      padding: 12px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--bg);
+      color: var(--text);
+      font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    }
+
+    .footer {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 14px; }
+      .editor { min-height: 340px; }
+      .toolbar { align-items: stretch; }
+      .toolbar button { width: 100%; }
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .workspace-column {
+      min-width: 0;
+    }
+
+    .column-header {
+      display: flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .column-header h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .always-visible {
+      display: block;
+      min-height: 460px;
+      max-height: 68vh;
+      margin-top: 0;
+      resize: none;
+    }
+
+    @media (max-width: 760px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .always-visible {
+        min-height: 320px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="app">
+    <h1>Clean WP Clipboard</h1>
+    <p class="intro">
+      Incolla da Word, Google Docs o LibreOffice. Il contenuto viene pulito automaticamente
+      e resta pronto da copiare come HTML per WordPress.
+    </p>
+
+    <section class="panel">
+      <div class="workspace">
+        <div class="workspace-column">
+          <div class="column-header">
+            <h2>Contenuto pulito</h2>
+            <div class="format-toolbar" role="toolbar" aria-label="Formattazione testo">
+              <button type="button" class="format-button" data-command="bold" title="Grassetto"><strong>B</strong></button>
+              <button type="button" class="format-button" data-command="italic" title="Corsivo"><em>I</em></button>
+              <button type="button" class="format-button" data-command="insertUnorderedList" title="Elenco puntato">• Elenco</button>
+              <button type="button" class="format-button" data-command="insertOrderedList" title="Elenco numerato">1. Elenco</button>
+            </div>
+          </div>
+
+          <div
+            id="editor"
+            class="editor"
+            contenteditable="true"
+            spellcheck="true"
+            data-placeholder="Incolla qui il contenuto copiato da Word o Google Docs…"
+          ></div>
+        </div>
+
+        <div class="workspace-column">
+          <div class="column-header">
+            <h2>HTML pulito</h2>
+          </div>
+          <textarea id="htmlOutput" class="code always-visible" readonly></textarea>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button id="copyButton" class="primary" type="button" disabled>Copia HTML pulito</button>
+        <button id="clearButton" type="button">Svuota</button>
+        <div id="status" class="status" aria-live="polite"></div>
+      </div>
+
+      <div id="stats" class="stats" aria-live="polite"></div>
+
+      <details>
+        <summary>Opzioni</summary>
+        <div class="options">
+          <label><input id="keepHeadings" type="checkbox" checked> Mantieni titoli H1–H6</label>
+          <label><input id="keepBlockquote" type="checkbox" checked> Mantieni citazioni</label>
+          <label><input id="replaceImages" type="checkbox"> Sostituisci immagini con [[IMAGE-01]]</label>
+        </div>
+      </details>
+    </section>
+
+    <p class="footer">
+      Tutto avviene localmente nel browser. Nessun contenuto viene inviato online.
+    </p>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const editor = document.getElementById("editor");
+      const htmlOutput = document.getElementById("htmlOutput");
+      const status = document.getElementById("status");
+      const statsBox = document.getElementById("stats");
+      const copyButton = document.getElementById("copyButton");
+      const clearButton = document.getElementById("clearButton");
+      const keepHeadings = document.getElementById("keepHeadings");
+      const keepBlockquote = document.getElementById("keepBlockquote");
+      const replaceImages = document.getElementById("replaceImages");
+      const formatButtons = [...document.querySelectorAll(".format-button")];
+
+      const baseAllowedTags = new Set([
+        "P", "STRONG", "EM", "A", "UL", "OL", "LI", "BR"
+      ]);
+
+      const removeCompletely = new Set([
+        "SCRIPT", "STYLE", "META", "LINK", "IFRAME", "OBJECT", "EMBED",
+        "FORM", "INPUT", "BUTTON", "SELECT", "TEXTAREA", "NOSCRIPT", "SVG"
+      ]);
+
+      let isCleaning = false;
+      let lastCleanHtml = "";
+
+      function setStatus(message, type = "") {
+        status.textContent = message;
+        status.className = "status" + (type ? " " + type : "");
+      }
+
+      function addStat(stats, key, amount = 1) {
+        stats[key] = (stats[key] || 0) + amount;
+      }
+
+      function renderStats(stats) {
+        const labels = [
+          ["removedTags", "tag rimossi"],
+          ["removedAttributes", "attributi rimossi"],
+          ["convertedTags", "tag convertiti"],
+          ["removedEmpty", "elementi vuoti eliminati"],
+          ["removedBreaks", "<br> inutili eliminati"],
+          ["simplifiedLists", "voci elenco semplificate"],
+          ["removedImages", "immagini rimosse"],
+          ["placeholderImages", "placeholder immagini creati"]
+        ];
+
+        statsBox.innerHTML = "";
+
+        const active = labels.filter(([key]) => stats[key] > 0);
+
+        if (!active.length) {
+          statsBox.classList.remove("visible");
+          return;
+        }
+
+        for (const [key, label] of active) {
+          const chip = document.createElement("span");
+          chip.className = "chip";
+          chip.textContent = `${stats[key]} ${label}`;
+          statsBox.appendChild(chip);
+        }
+
+        statsBox.classList.add("visible");
+      }
+
+      function normalizeTextNodes(root) {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+
+        while (walker.nextNode()) {
+          nodes.push(walker.currentNode);
+        }
+
+        for (const node of nodes) {
+          node.nodeValue = node.nodeValue
+            .replace(/\u00A0/g, " ")
+            .replace(/[ \t]+/g, " ");
+        }
+      }
+
+      function renameTag(element, newTagName) {
+        const replacement = document.createElement(newTagName);
+
+        while (element.firstChild) {
+          replacement.appendChild(element.firstChild);
+        }
+
+        element.replaceWith(replacement);
+        return replacement;
+      }
+
+      function unwrap(element) {
+        const parent = element.parentNode;
+        if (!parent) return;
+
+        while (element.firstChild) {
+          parent.insertBefore(element.firstChild, element);
+        }
+
+        element.remove();
+      }
+
+      function isEmptyElement(element) {
+        if (element.querySelector("img, hr")) return false;
+
+        const text = element.textContent
+          .replace(/\u00A0/g, " ")
+          .replace(/\s+/g, "")
+          .trim();
+
+        const meaningfulChildren = element.querySelector(
+          "a[href], ul, ol, li, blockquote, h1, h2, h3, h4, h5, h6"
+        );
+
+        return text === "" && !meaningfulChildren;
+      }
+
+      function sanitizeUrl(value) {
+        const url = value.trim();
+        if (!url) return "";
+
+        if (
+          url.startsWith("#") ||
+          url.startsWith("/") ||
+          url.startsWith("./") ||
+          url.startsWith("../")
+        ) {
+          return url;
+        }
+
+        try {
+          const parsed = new URL(url, window.location.href);
+          const allowedProtocols = new Set(["http:", "https:", "mailto:", "tel:"]);
+          return allowedProtocols.has(parsed.protocol) ? url : "";
+        } catch {
+          return "";
+        }
+      }
+
+      function cleanHtml(sourceHtml) {
+        const stats = {};
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(
+          `<div id="clean-root">${sourceHtml}</div>`,
+          "text/html"
+        );
+        const root = doc.getElementById("clean-root");
+
+        for (const node of [...root.querySelectorAll("*")]) {
+          if (removeCompletely.has(node.tagName)) {
+            node.remove();
+            addStat(stats, "removedTags");
+          }
+        }
+
+        const comments = [];
+        const commentWalker = doc.createTreeWalker(root, NodeFilter.SHOW_COMMENT);
+        while (commentWalker.nextNode()) comments.push(commentWalker.currentNode);
+        comments.forEach(comment => comment.remove());
+
+        let imageNumber = 0;
+        for (const image of [...root.querySelectorAll("img")]) {
+          if (replaceImages.checked) {
+            imageNumber += 1;
+            const placeholder = doc.createElement("p");
+            placeholder.textContent = `[[IMAGE-${String(imageNumber).padStart(2, "0")}]]`;
+            image.replaceWith(placeholder);
+            addStat(stats, "placeholderImages");
+          } else {
+            image.remove();
+            addStat(stats, "removedImages");
+          }
+        }
+
+        // Word, Google Docs e i comandi del browser possono rappresentare
+        // grassetto e corsivo tramite stili inline anziché con <strong>/<em>.
+        // Li convertiamo prima di eliminare span e attributi.
+        for (const element of [...root.querySelectorAll("[style]")]) {
+          const style = element.getAttribute("style") || "";
+          const isBold = /font-weight\s*:\s*(bold|[6-9]00)/i.test(style);
+          const isItalic = /font-style\s*:\s*italic/i.test(style);
+
+          if (!isBold && !isItalic) continue;
+
+          const fragment = doc.createDocumentFragment();
+          while (element.firstChild) fragment.appendChild(element.firstChild);
+
+          let content = fragment;
+
+          if (isItalic) {
+            const em = doc.createElement("em");
+            em.appendChild(content);
+            content = em;
+          }
+
+          if (isBold) {
+            const strong = doc.createElement("strong");
+            strong.appendChild(content);
+            content = strong;
+          }
+
+          element.appendChild(content);
+          addStat(stats, "convertedTags");
+        }
+
+        for (const element of [...root.querySelectorAll("b")]) {
+          renameTag(element, "strong");
+          addStat(stats, "convertedTags");
+        }
+
+        for (const element of [...root.querySelectorAll("i")]) {
+          renameTag(element, "em");
+          addStat(stats, "convertedTags");
+        }
+
+        const allowedTags = new Set(baseAllowedTags);
+
+        if (keepHeadings.checked) {
+          ["H1", "H2", "H3", "H4", "H5", "H6"].forEach(tag => allowedTags.add(tag));
+        }
+
+        if (keepBlockquote.checked) {
+          allowedTags.add("BLOCKQUOTE");
+        }
+
+        for (const element of [...root.querySelectorAll("*")]) {
+          if (!element.isConnected) continue;
+
+          if (element.tagName === "DIV") {
+            const hasBlockChildren = element.querySelector(
+              ":scope > p, :scope > ul, :scope > ol, :scope > blockquote, :scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > h5, :scope > h6"
+            );
+
+            if (hasBlockChildren) {
+              unwrap(element);
+            } else {
+              renameTag(element, "p");
+            }
+
+            addStat(stats, "removedTags");
+            continue;
+          }
+
+          if (!allowedTags.has(element.tagName)) {
+            unwrap(element);
+            addStat(stats, "removedTags");
+            continue;
+          }
+
+          const attributes = [...element.attributes];
+
+          for (const attribute of attributes) {
+            const keepHref = element.tagName === "A" && attribute.name.toLowerCase() === "href";
+
+            if (!keepHref) {
+              element.removeAttribute(attribute.name);
+              addStat(stats, "removedAttributes");
+            }
+          }
+
+          if (element.tagName === "A") {
+            const href = sanitizeUrl(element.getAttribute("href") || "");
+
+            if (href) {
+              element.setAttribute("href", href);
+            } else {
+              unwrap(element);
+              addStat(stats, "removedTags");
+            }
+          }
+        }
+
+        normalizeTextNodes(root);
+
+        for (const element of [...root.querySelectorAll("br")]) {
+          let next = element.nextSibling;
+          let brCount = 1;
+
+          while (next) {
+            if (next.nodeType === Node.TEXT_NODE && next.textContent.trim() === "") {
+              const removable = next;
+              next = next.nextSibling;
+              removable.remove();
+              continue;
+            }
+
+            if (next.nodeType === Node.ELEMENT_NODE && next.tagName === "BR") {
+              brCount += 1;
+              const removable = next;
+              next = next.nextSibling;
+
+              if (brCount > 2) {
+                removable.remove();
+                addStat(stats, "removedBreaks");
+              }
+
+              continue;
+            }
+
+            break;
+          }
+        }
+
+        const removableTags = [
+          "p", "strong", "em", "a", "li", "blockquote",
+          "h1", "h2", "h3", "h4", "h5", "h6"
+        ];
+
+        let changed = true;
+
+        while (changed) {
+          changed = false;
+
+          for (const element of [...root.querySelectorAll(removableTags.join(","))]) {
+            if (isEmptyElement(element)) {
+              element.remove();
+              changed = true;
+              addStat(stats, "removedEmpty");
+            }
+          }
+
+          for (const list of [...root.querySelectorAll("ul, ol")]) {
+            if (!list.querySelector("li")) {
+              list.remove();
+              changed = true;
+              addStat(stats, "removedEmpty");
+            }
+          }
+        }
+
+        for (const block of [...root.querySelectorAll("p, li, blockquote, h1, h2, h3, h4, h5, h6")]) {
+          while (
+            block.firstChild &&
+            block.firstChild.nodeType === Node.ELEMENT_NODE &&
+            block.firstChild.tagName === "BR"
+          ) {
+            block.firstChild.remove();
+            addStat(stats, "removedBreaks");
+          }
+
+          while (
+            block.lastChild &&
+            block.lastChild.nodeType === Node.ELEMENT_NODE &&
+            block.lastChild.tagName === "BR"
+          ) {
+            block.lastChild.remove();
+            addStat(stats, "removedBreaks");
+          }
+        }
+
+        for (const item of [...root.querySelectorAll("li")]) {
+          const elementChildren = [...item.children];
+          const significantTextNodes = [...item.childNodes].filter(node => (
+            node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ""
+          ));
+
+          if (
+            elementChildren.length === 1 &&
+            elementChildren[0].tagName === "P" &&
+            significantTextNodes.length === 0
+          ) {
+            unwrap(elementChildren[0]);
+            addStat(stats, "simplifiedLists");
+          }
+        }
+
+        const blockSelector = "p, ul, ol, blockquote, h1, h2, h3, h4, h5, h6";
+
+        while (
+          root.firstChild &&
+          (
+            (root.firstChild.nodeType === Node.ELEMENT_NODE && root.firstChild.tagName === "BR") ||
+            (root.firstChild.nodeType === Node.TEXT_NODE && root.firstChild.textContent.trim() === "")
+          )
+        ) {
+          if (root.firstChild.nodeType === Node.ELEMENT_NODE) {
+            addStat(stats, "removedBreaks");
+          }
+          root.firstChild.remove();
+        }
+
+        while (
+          root.lastChild &&
+          (
+            (root.lastChild.nodeType === Node.ELEMENT_NODE && root.lastChild.tagName === "BR") ||
+            (root.lastChild.nodeType === Node.TEXT_NODE && root.lastChild.textContent.trim() === "")
+          )
+        ) {
+          if (root.lastChild.nodeType === Node.ELEMENT_NODE) {
+            addStat(stats, "removedBreaks");
+          }
+          root.lastChild.remove();
+        }
+
+        for (const br of [...root.querySelectorAll("br")]) {
+          const parent = br.parentElement;
+
+          if (parent && parent.matches("p, li, blockquote, h1, h2, h3, h4, h5, h6")) {
+            continue;
+          }
+
+          let previous = br.previousSibling;
+          let next = br.nextSibling;
+
+          while (previous && previous.nodeType === Node.TEXT_NODE && previous.textContent.trim() === "") {
+            previous = previous.previousSibling;
+          }
+
+          while (next && next.nodeType === Node.TEXT_NODE && next.textContent.trim() === "") {
+            next = next.nextSibling;
+          }
+
+          const previousIsBlock = previous?.nodeType === Node.ELEMENT_NODE &&
+            previous.matches?.(blockSelector);
+          const nextIsBlock = next?.nodeType === Node.ELEMENT_NODE &&
+            next.matches?.(blockSelector);
+
+          if (!previous || !next || previousIsBlock || nextIsBlock) {
+            br.remove();
+            addStat(stats, "removedBreaks");
+          }
+        }
+
+        return {
+          html: root.innerHTML.trim(),
+          stats
+        };
+      }
+
+      function formatHtml(html) {
+        const container = document.createElement("div");
+        container.innerHTML = html;
+
+        const blockTags = new Set([
+          "P", "UL", "OL", "LI", "BLOCKQUOTE",
+          "H1", "H2", "H3", "H4", "H5", "H6"
+        ]);
+
+        const lines = [];
+
+        function walk(node, depth = 0) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.textContent;
+            if (text.trim()) {
+              lines.push("  ".repeat(depth) + text.trim());
+            }
+            return;
+          }
+
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+          const tag = node.tagName.toLowerCase();
+          const attrs = [...node.attributes]
+            .map(attr => ` ${attr.name}="${attr.value.replace(/"/g, "&quot;")}"`)
+            .join("");
+
+          const isBlock = blockTags.has(node.tagName);
+          const indent = "  ".repeat(depth);
+
+          if (node.tagName === "BR") {
+            lines.push(indent + "<br>");
+            return;
+          }
+
+          if (!isBlock) {
+            lines.push(indent + node.outerHTML);
+            return;
+          }
+
+          lines.push(`${indent}<${tag}${attrs}>`);
+
+          for (const child of node.childNodes) {
+            walk(child, depth + 1);
+          }
+
+          lines.push(`${indent}</${tag}>`);
+        }
+
+        for (const child of container.childNodes) {
+          walk(child, 0);
+        }
+
+        return lines.join("\n").trim();
+      }
+
+      function runCleaner() {
+        if (isCleaning) return;
+
+        const source = editor.innerHTML;
+
+        if (!editor.textContent.trim() && !editor.querySelector("img")) {
+          lastCleanHtml = "";
+          htmlOutput.value = "";
+          copyButton.disabled = true;
+          statsBox.classList.remove("visible");
+          setStatus("");
+          return;
+        }
+
+        isCleaning = true;
+
+        try {
+          const result = cleanHtml(source);
+          editor.innerHTML = result.html;
+          lastCleanHtml = result.html;
+          htmlOutput.value = formatHtml(result.html);
+          copyButton.disabled = !result.html;
+          renderStats(result.stats);
+          setStatus("Pulizia completata automaticamente.", "success");
+
+          editor.classList.add("cleaned");
+          setTimeout(() => editor.classList.remove("cleaned"), 600);
+        } catch (error) {
+          console.error(error);
+          setStatus("Non è stato possibile pulire questo contenuto.", "error");
+        } finally {
+          isCleaning = false;
+        }
+      }
+
+      function syncHtmlFromEditor() {
+        const cleaned = cleanHtml(editor.innerHTML);
+        lastCleanHtml = cleaned.html;
+        htmlOutput.value = formatHtml(cleaned.html);
+        copyButton.disabled = !htmlOutput.value.trim();
+      }
+
+      async function copyCleanHtml({ automatic = false } = {}) {
+        syncHtmlFromEditor();
+        const htmlCode = htmlOutput.value.trim();
+
+        if (!htmlCode) return false;
+
+        try {
+          if (window.ClipboardItem && navigator.clipboard?.write) {
+            const item = new ClipboardItem({
+              "text/html": new Blob([lastCleanHtml], { type: "text/html" }),
+              "text/plain": new Blob([htmlCode], { type: "text/plain" })
+            });
+
+            await navigator.clipboard.write([item]);
+          } else {
+            await navigator.clipboard.writeText(htmlCode);
+          }
+
+          setStatus(
+            automatic
+              ? "Contenuto pulito e copiato automaticamente negli appunti."
+              : "HTML pulito copiato negli appunti.",
+            "success"
+          );
+          return true;
+        } catch (error) {
+          console.error(error);
+
+          try {
+            await navigator.clipboard.writeText(htmlCode);
+            setStatus(
+              automatic
+                ? "Contenuto pulito e copiato automaticamente come codice HTML."
+                : "HTML pulito copiato come codice.",
+              "success"
+            );
+            return true;
+          } catch {
+            setStatus(
+              automatic
+                ? "Pulizia completata, ma il browser ha bloccato la copia automatica. Premi “Copia HTML pulito”."
+                : "Copia automatica bloccata. Seleziona l’HTML e usa ⌘C.",
+              "error"
+            );
+            return false;
+          }
+        }
+      }
+
+      function applyFormatting(command) {
+        editor.focus();
+
+        // Chiede al browser di preferire tag semantici invece di span con stile.
+        try {
+          document.execCommand("styleWithCSS", false, false);
+        } catch (_) {}
+
+        document.execCommand(command, false, null);
+        syncHtmlFromEditor();
+        setStatus("Formattazione aggiornata e registrata nell’HTML pulito.", "success");
+      }
+
+      function clearAll() {
+        editor.innerHTML = "";
+        htmlOutput.value = "";
+        lastCleanHtml = "";
+        copyButton.disabled = true;
+        statsBox.innerHTML = "";
+        statsBox.classList.remove("visible");
+        setStatus("");
+        editor.focus();
+      }
+
+      editor.addEventListener("paste", () => {
+        setStatus("Pulizia e copia automatica in corso…");
+
+        requestAnimationFrame(() => {
+          setTimeout(async () => {
+            runCleaner();
+            await copyCleanHtml({ automatic: true });
+          }, 30);
+        });
+      });
+
+      editor.addEventListener("input", () => {
+        if (isCleaning) return;
+
+        if (!editor.textContent.trim()) {
+          clearAll();
+          return;
+        }
+
+        syncHtmlFromEditor();
+      });
+
+      formatButtons.forEach(button => {
+        button.addEventListener("mousedown", event => {
+          event.preventDefault();
+        });
+
+        button.addEventListener("click", () => {
+          applyFormatting(button.dataset.command);
+        });
+      });
+
+      copyButton.addEventListener("click", () => copyCleanHtml({ automatic: false }));
+      clearButton.addEventListener("click", clearAll);
+
+      [keepHeadings, keepBlockquote, replaceImages].forEach(option => {
+        option.addEventListener("change", () => {
+          if (editor.innerHTML.trim()) {
+            runCleaner();
+          }
+        });
+      });
+
+      editor.focus();
+    })();
+  </script>
+</body>
+</html>
