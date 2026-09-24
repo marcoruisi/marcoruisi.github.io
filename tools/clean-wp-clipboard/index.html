@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clean WP Clipboard</title>
+  <title>HTML Editor</title>
   <style>
     :root {
       color-scheme: light dark;
@@ -105,6 +105,24 @@
     .format-button {
       min-width: 42px;
       padding: 7px 10px;
+    }
+
+    .format-select {
+      min-height: 36px;
+      padding: 6px 30px 6px 9px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--panel);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .format-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 22%, transparent);
     }
 
     .toolbar {
@@ -268,7 +286,9 @@
     /* MRC Tools navigation */
     .mrc-tools-nav {
       max-width: 920px;
-      margin: 0 auto 18px;
+      margin: 0 auto 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -322,15 +342,15 @@
 <body>
   <nav class="mrc-tools-nav" aria-label="MRC Tools">
     <span class="mrc-tools-brand">MRC Tools</span>
-    <a href="../clean-wp-clipboard/" aria-current="page">Clean WP Clipboard</a>
+    <a href="../clean-wp-clipboard/" aria-current="page">HTML Editor</a>
     <a href="../webp-compressor/">WebP Compressor</a>
   </nav>
 
   <main class="app">
-    <h1>Clean WP Clipboard</h1>
+    <h1>HTML Editor</h1>
     <p class="intro">
-      Incolla da Word, Google Docs o LibreOffice. Il contenuto viene pulito automaticamente
-      e resta pronto da copiare come HTML per WordPress.
+      Scrivi direttamente oppure incolla da Word, Google Docs o LibreOffice. Il contenuto viene
+      ripulito e resta pronto da copiare come HTML pulito per WordPress o altri siti.
     </p>
 
     <section class="panel">
@@ -343,6 +363,12 @@
               <button type="button" class="format-button" data-command="italic" title="Corsivo"><em>I</em></button>
               <button type="button" class="format-button" data-command="insertUnorderedList" title="Elenco puntato">• Elenco</button>
               <button type="button" class="format-button" data-command="insertOrderedList" title="Elenco numerato">1. Elenco</button>
+              <button type="button" class="format-button" id="linkButton" title="Inserisci o modifica link">🔗 Link</button>
+              <select id="linkTarget" class="format-select" title="Target del link" aria-label="Target del link">
+                <option value="_self">Stessa scheda</option>
+                <option value="_blank">Nuova scheda</option>
+              </select>
+              <button type="button" class="format-button" id="unlinkButton" title="Rimuovi link">Rimuovi link</button>
             </div>
           </div>
 
@@ -351,7 +377,7 @@
             class="editor"
             contenteditable="true"
             spellcheck="true"
-            data-placeholder="Incolla qui il contenuto copiato da Word o Google Docs…"
+            data-placeholder="Scrivi qui oppure incolla contenuto da Word, Google Docs o LibreOffice…"
           ></div>
         </div>
 
@@ -399,7 +425,10 @@
       const keepHeadings = document.getElementById("keepHeadings");
       const keepBlockquote = document.getElementById("keepBlockquote");
       const replaceImages = document.getElementById("replaceImages");
-      const formatButtons = [...document.querySelectorAll(".format-button")];
+      const formatButtons = [...document.querySelectorAll(".format-button[data-command]")];
+      const linkButton = document.getElementById("linkButton");
+      const unlinkButton = document.getElementById("unlinkButton");
+      const linkTarget = document.getElementById("linkTarget");
 
       const baseAllowedTags = new Set([
         "P", "STRONG", "EM", "A", "UL", "OL", "LI", "BR"
@@ -640,9 +669,12 @@
           const attributes = [...element.attributes];
 
           for (const attribute of attributes) {
-            const keepHref = element.tagName === "A" && attribute.name.toLowerCase() === "href";
+            const attrName = attribute.name.toLowerCase();
+            const keepLinkAttribute =
+              element.tagName === "A" &&
+              ["href", "target", "rel"].includes(attrName);
 
-            if (!keepHref) {
+            if (!keepLinkAttribute) {
               element.removeAttribute(attribute.name);
               addStat(stats, "removedAttributes");
             }
@@ -653,6 +685,18 @@
 
             if (href) {
               element.setAttribute("href", href);
+
+              const target = element.getAttribute("target") === "_blank"
+                ? "_blank"
+                : "_self";
+
+              element.setAttribute("target", target);
+
+              if (target === "_blank") {
+                element.setAttribute("rel", "noopener noreferrer");
+              } else {
+                element.removeAttribute("rel");
+              }
             } else {
               unwrap(element);
               addStat(stats, "removedTags");
@@ -977,6 +1021,113 @@
         setStatus("Formattazione aggiornata e registrata nell’HTML pulito.", "success");
       }
 
+      function getEditorSelectionRange() {
+        const selection = window.getSelection();
+        if (!selection || !selection.rangeCount) return null;
+
+        const range = selection.getRangeAt(0);
+        const container = range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
+          ? range.commonAncestorContainer
+          : range.commonAncestorContainer.parentElement;
+
+        return container && editor.contains(container) ? range.cloneRange() : null;
+      }
+
+      function restoreEditorSelection(range) {
+        if (!range) return false;
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        return true;
+      }
+
+      function closestAnchorFromSelection() {
+        const selection = window.getSelection();
+        if (!selection || !selection.rangeCount) return null;
+
+        let node = selection.anchorNode;
+        if (!node) return null;
+        if (node.nodeType !== Node.ELEMENT_NODE) node = node.parentElement;
+
+        const anchor = node?.closest?.("a");
+        return anchor && editor.contains(anchor) ? anchor : null;
+      }
+
+      function insertOrEditLink() {
+        editor.focus();
+
+        const existingAnchor = closestAnchorFromSelection();
+        const savedRange = getEditorSelectionRange();
+        const currentHref = existingAnchor?.getAttribute("href") || "";
+        const currentTarget = existingAnchor?.getAttribute("target") === "_blank"
+          ? "_blank"
+          : linkTarget.value;
+
+        const rawUrl = window.prompt("URL del link:", currentHref || "https://");
+        if (rawUrl === null) return;
+
+        const href = sanitizeUrl(rawUrl);
+        if (!href) {
+          setStatus("Inserisci un URL valido.", "error");
+          return;
+        }
+
+        const target = linkTarget.value === "_blank" ? "_blank" : "_self";
+
+        if (existingAnchor) {
+          existingAnchor.setAttribute("href", href);
+          existingAnchor.setAttribute("target", target);
+          if (target === "_blank") {
+            existingAnchor.setAttribute("rel", "noopener noreferrer");
+          } else {
+            existingAnchor.removeAttribute("rel");
+          }
+        } else {
+          if (!savedRange || savedRange.collapsed) {
+            setStatus("Seleziona prima il testo da trasformare in link.", "error");
+            return;
+          }
+
+          restoreEditorSelection(savedRange);
+          document.execCommand("createLink", false, href);
+
+          const createdAnchor = closestAnchorFromSelection();
+          if (createdAnchor) {
+            createdAnchor.setAttribute("target", target);
+            if (target === "_blank") {
+              createdAnchor.setAttribute("rel", "noopener noreferrer");
+            } else {
+              createdAnchor.removeAttribute("rel");
+            }
+          }
+        }
+
+        syncHtmlFromEditor();
+        setStatus(
+          target === "_blank"
+            ? "Link inserito: apertura in nuova scheda."
+            : "Link inserito: apertura nella stessa scheda.",
+          "success"
+        );
+      }
+
+      function removeLink() {
+        editor.focus();
+        const anchor = closestAnchorFromSelection();
+
+        if (anchor) {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(anchor);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+
+        document.execCommand("unlink", false, null);
+        syncHtmlFromEditor();
+        setStatus("Link rimosso.", "success");
+      }
+
       function clearAll() {
         editor.innerHTML = "";
         htmlOutput.value = "";
@@ -1019,6 +1170,11 @@
           applyFormatting(button.dataset.command);
         });
       });
+
+      linkButton.addEventListener("mousedown", event => event.preventDefault());
+      unlinkButton.addEventListener("mousedown", event => event.preventDefault());
+      linkButton.addEventListener("click", insertOrEditLink);
+      unlinkButton.addEventListener("click", removeLink);
 
       copyButton.addEventListener("click", () => copyCleanHtml({ automatic: false }));
       clearButton.addEventListener("click", clearAll);
