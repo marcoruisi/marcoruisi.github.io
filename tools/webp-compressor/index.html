@@ -235,9 +235,20 @@
     });
   }
 
+  function slugifyName(value) {
+    return value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .replace(/-{2,}/g, '-');
+  }
+
   function outputName(name) {
     const base = name.replace(/\.[^.]+$/, '') || 'immagine';
-    return `${base}.webp`;
+    const slug = slugifyName(base) || 'immagine';
+    return `${slug}.webp`;
   }
 
   async function convertFile(file) {
