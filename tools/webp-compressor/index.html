@@ -125,6 +125,55 @@
       margin-right: auto;
     }
 
+  
+    .preset-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 14px;
+    }
+
+    .preset-button {
+      min-width: 92px;
+    }
+
+    .preset-button.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .preset-button.active:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+  
+    .field-checkbox {
+      display: flex;
+      align-items: end;
+    }
+
+    .field-checkbox label {
+      min-height: 44px;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 2px;
+      cursor: pointer;
+    }
+
+    .field-checkbox input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    .field.is-disabled {
+      opacity: .45;
+    }
+
   </style>
 </head>
 <body>
@@ -147,26 +196,64 @@
     </label>
     <input id="fileInput" type="file" accept="image/*" multiple>
 
+    <div class="preset-bar" role="group" aria-label="Resize presets">
+      <button type="button" class="preset-button" data-preset="full">Full</button>
+      <button type="button" class="preset-button active" data-preset="2200">2200 px</button>
+      <button type="button" class="preset-button" data-preset="1920">1920 px</button>
+      <button type="button" class="preset-button" data-preset="1600">1600 px</button>
+      <button type="button" class="preset-button" data-preset="1200">1200 px</button>
+      <button type="button" class="preset-button" data-preset="800">800 px</button>
+      <button type="button" class="preset-button" data-preset="600">600 px</button>
+      <button type="button" class="preset-button" data-preset="400">400 px</button>
+      <button type="button" class="preset-button" data-preset="250">250 px</button>
+    </div>
+
     <div class="settings">
       <div class="field">
-        <label for="maxWidth">Max width (px)</label>
+        <label for="maxWidth">Target width (px)</label>
         <input id="maxWidth" type="number" min="1" step="1" value="2200">
       </div>
+
       <div class="field">
-        <label for="maxHeight">Max height (px)</label>
+        <label for="maxHeight">Target height (px)</label>
         <input id="maxHeight" type="number" min="1" step="1" value="2200">
       </div>
+
       <div class="field">
         <label for="quality">WebP quality</label>
         <input id="quality" type="number" min="1" max="100" step="1" value="82">
       </div>
+
       <div class="field">
-        <label for="resizeMode">Ridimensionamento</label>
+        <label for="resizeMode">Resize mode</label>
         <select id="resizeMode">
-          <option value="fit">Fit within limits</option>
-          <option value="width">Max width only</option>
+          <option value="contain" selected>Contain</option>
+          <option value="cover">Cover</option>
+          <option value="stretch">Stretch</option>
           <option value="none">No resize</option>
         </select>
+      </div>
+
+      <div class="field" id="cropPositionField">
+        <label for="cropPosition">Crop position</label>
+        <select id="cropPosition">
+          <option value="center" selected>Center</option>
+          <option value="top">Top</option>
+          <option value="bottom">Bottom</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+          <option value="top-left">Top left</option>
+          <option value="top-right">Top right</option>
+          <option value="bottom-left">Bottom left</option>
+          <option value="bottom-right">Bottom right</option>
+        </select>
+      </div>
+
+      <div class="field field-checkbox">
+        <label>
+          <input id="allowUpscale" type="checkbox">
+          Allow upscaling
+        </label>
       </div>
     </div>
 
@@ -196,6 +283,10 @@
   const maxHeight = document.getElementById('maxHeight');
   const quality = document.getElementById('quality');
   const resizeMode = document.getElementById('resizeMode');
+  const cropPosition = document.getElementById('cropPosition');
+  const cropPositionField = document.getElementById('cropPositionField');
+  const allowUpscale = document.getElementById('allowUpscale');
+  const presetButtons = [...document.querySelectorAll('.preset-button')];
   const processButton = document.getElementById('processButton');
   const downloadAllButton = document.getElementById('downloadAllButton');
   const clearButton = document.getElementById('clearButton');
@@ -218,6 +309,40 @@
   function setStatus(message, type = '') {
     status.textContent = message;
     status.className = 'status' + (type ? ' ' + type : '');
+  }
+
+  function updateModeUI() {
+    const mode = resizeMode.value;
+    const noResize = mode === 'none';
+
+    maxWidth.disabled = noResize;
+    maxHeight.disabled = noResize;
+
+    cropPosition.disabled = mode !== 'cover';
+    cropPositionField.classList.toggle('is-disabled', mode !== 'cover');
+  }
+
+  function setPreset(value) {
+    presetButtons.forEach(button => {
+      button.classList.toggle('active', button.dataset.preset === String(value));
+    });
+
+    if (value === 'full') {
+      resizeMode.value = 'none';
+      updateModeUI();
+      return;
+    }
+
+    const size = Number(value);
+    resizeMode.value = 'contain';
+    maxWidth.value = size;
+    maxHeight.value = size;
+    updateModeUI();
+  }
+
+  function clearPresetSelection() {
+    presetButtons.forEach(button => button.classList.remove('active'));
+    updateModeUI();
   }
 
   function updateButtons() {
@@ -288,28 +413,101 @@
 
   function targetSize(width, height) {
     const mode = resizeMode.value;
-    if (mode === 'none') return { width, height };
-
-    const mw = Math.max(1, parseInt(maxWidth.value || width, 10));
-    const mh = Math.max(1, parseInt(maxHeight.value || height, 10));
-
-    let scale = 1;
-    if (mode === 'width') {
-      scale = Math.min(1, mw / width);
-    } else {
-      scale = Math.min(1, mw / width, mh / height);
+    if (mode === 'none') {
+      return {
+        width,
+        height,
+        drawWidth: width,
+        drawHeight: height,
+        offsetX: 0,
+        offsetY: 0
+      };
     }
 
+    const tw = Math.max(1, parseInt(maxWidth.value || width, 10));
+    const th = Math.max(1, parseInt(maxHeight.value || height, 10));
+    const canUpscale = allowUpscale.checked;
+
+    if (mode === 'stretch') {
+      if (!canUpscale && (tw > width || th > height)) {
+        const scale = Math.min(1, tw / width, th / height);
+        return {
+          width: Math.max(1, Math.round(width * scale)),
+          height: Math.max(1, Math.round(height * scale)),
+          drawWidth: Math.max(1, Math.round(width * scale)),
+          drawHeight: Math.max(1, Math.round(height * scale)),
+          offsetX: 0,
+          offsetY: 0
+        };
+      }
+
+      return {
+        width: tw,
+        height: th,
+        drawWidth: tw,
+        drawHeight: th,
+        offsetX: 0,
+        offsetY: 0
+      };
+    }
+
+    if (mode === 'contain') {
+      let scale = Math.min(tw / width, th / height);
+      if (!canUpscale) scale = Math.min(1, scale);
+
+      const outW = Math.max(1, Math.round(width * scale));
+      const outH = Math.max(1, Math.round(height * scale));
+
+      return {
+        width: outW,
+        height: outH,
+        drawWidth: outW,
+        drawHeight: outH,
+        offsetX: 0,
+        offsetY: 0
+      };
+    }
+
+    // cover
+    let scale = Math.max(tw / width, th / height);
+    if (!canUpscale) scale = Math.min(1, scale);
+
+    const drawW = Math.max(1, Math.round(width * scale));
+    const drawH = Math.max(1, Math.round(height * scale));
+
+    // If upscaling is disabled and the source is smaller than the requested canvas,
+    // shrink the output canvas to what the source can actually fill without enlargement.
+    const outW = canUpscale ? tw : Math.min(tw, drawW);
+    const outH = canUpscale ? th : Math.min(th, drawH);
+
+    const pos = cropPosition.value;
+    let offsetX = Math.round((outW - drawW) / 2);
+    let offsetY = Math.round((outH - drawH) / 2);
+
+    if (pos.includes('left')) offsetX = 0;
+    if (pos.includes('right')) offsetX = outW - drawW;
+    if (pos === 'left') offsetX = 0;
+    if (pos === 'right') offsetX = outW - drawW;
+
+    if (pos.includes('top')) offsetY = 0;
+    if (pos.includes('bottom')) offsetY = outH - drawH;
+    if (pos === 'top') offsetY = 0;
+    if (pos === 'bottom') offsetY = outH - drawH;
+
     return {
-      width: Math.max(1, Math.round(width * scale)),
-      height: Math.max(1, Math.round(height * scale))
+      width: Math.max(1, outW),
+      height: Math.max(1, outH),
+      drawWidth: drawW,
+      drawHeight: drawH,
+      offsetX,
+      offsetY
     };
   }
 
   function canvasToWebPBlob(q) {
     return new Promise((resolve, reject) => {
       canvas.toBlob(blob => {
-        if (!blob) return reject(new Error('WebP non supportato dal browser'));
+        if (!blob) return reject(new Error('WebP is not supported by this browser'));
         resolve(blob);
       }, 'image/webp', q);
     });
@@ -340,7 +538,13 @@
     canvas.width = target.width;
     canvas.height = target.height;
     ctx.clearRect(0, 0, target.width, target.height);
-    ctx.drawImage(image, 0, 0, target.width, target.height);
+    ctx.drawImage(
+      image,
+      target.offsetX,
+      target.offsetY,
+      target.drawWidth,
+      target.drawHeight
+    );
 
     if (image.close) image.close();
 
@@ -470,10 +674,24 @@
     updateButtons();
   }
 
+  presetButtons.forEach(button => {
+    button.addEventListener('click', () => setPreset(button.dataset.preset));
+  });
+
+  [maxWidth, maxHeight, resizeMode, cropPosition, allowUpscale].forEach(control => {
+    control.addEventListener('change', clearPresetSelection);
+    control.addEventListener('input', clearPresetSelection);
+  });
+
+  resizeMode.addEventListener('change', updateModeUI);
+
   fileInput.addEventListener('change', () => addFiles(fileInput.files));
   processButton.addEventListener('click', processAll);
   downloadAllButton.addEventListener('click', downloadAll);
   clearButton.addEventListener('click', clearAll);
+
+  setPreset('2200');
+  updateModeUI();
 
   ['dragenter','dragover'].forEach(type => dropzone.addEventListener(type, e => {
     e.preventDefault();
