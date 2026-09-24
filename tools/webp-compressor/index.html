@@ -51,9 +51,68 @@
     canvas{display:none}
     @media(max-width:760px){.settings{grid-template-columns:1fr 1fr}.item{grid-template-columns:60px minmax(0,1fr)}.item-actions{grid-column:1/-1}.thumb{width:60px;height:45px}}
     @media(max-width:480px){body{padding:14px}.settings{grid-template-columns:1fr}.dropzone{min-height:180px}.actions button{width:100%}}
+  
+    /* MRC Tools navigation */
+    .mrc-tools-nav {
+      max-width: 920px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .mrc-tools-brand {
+      flex: 0 0 auto;
+      margin-right: 4px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .mrc-tools-nav a {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 7px 11px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      background: var(--panel);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .mrc-tools-nav a:hover {
+      border-color: var(--primary);
+    }
+
+    .mrc-tools-nav a[aria-current="page"] {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    @media (max-width: 640px) {
+      .mrc-tools-nav {
+        margin-bottom: 14px;
+      }
+    }
+
   </style>
 </head>
 <body>
+  <nav class="mrc-tools-nav" aria-label="MRC Tools">
+    <span class="mrc-tools-brand">MRC Tools</span>
+    <a href="../clean-wp-clipboard/">Clean WP Clipboard</a>
+    <a href="../webp-compressor/" aria-current="page">WebP Compressor</a>
+  </nav>
+
 <main class="app">
   <h1>WebP Compressor</h1>
   <p class="intro">Converti JPG, PNG e altre immagini in WebP, ridimensionala e comprimila direttamente nel browser. Supporta uno o più file.</p>
