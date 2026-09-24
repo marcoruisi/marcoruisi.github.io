@@ -128,13 +128,30 @@
   
     .preset-bar {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+      flex-wrap: nowrap;
+      gap: 6px;
       margin: 18px 0 14px;
     }
 
     .preset-button {
-      min-width: 92px;
+      flex: 1 1 0;
+      min-width: 0;
+      padding-left: 6px;
+      padding-right: 6px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 700px) {
+      .preset-bar {
+        overflow-x: auto;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .preset-button {
+        flex: 0 0 auto;
+        min-width: 82px;
+      }
     }
 
     .preset-button.active {
