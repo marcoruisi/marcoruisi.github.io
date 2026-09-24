@@ -116,6 +116,15 @@
       margin-right: auto;
     }
 
+  
+    .app,
+    .mrc-tools-nav {
+      width: 100%;
+      max-width: 920px !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
   </style>
 </head>
 <body>
@@ -127,24 +136,24 @@
 
 <main class="app">
   <h1>WebP Compressor</h1>
-  <p class="intro">Converti JPG, PNG e altre immagini in WebP, ridimensionala e comprimila direttamente nel browser. Supporta uno o più file.</p>
+  <p class="intro">Convert JPG, PNG and other images to WebP, resize and compress them directly in your browser. Supports single or multiple files.</p>
 
   <section class="panel">
     <label class="dropzone" id="dropzone" for="fileInput">
       <div>
-        <strong>Trascina qui le immagini</strong>
-        <span>oppure clicca per selezionare uno o più file</span>
+        <strong>Drop images here</strong>
+        <span>or click to select one or more files</span>
       </div>
     </label>
     <input id="fileInput" type="file" accept="image/*" multiple>
 
     <div class="settings">
       <div class="field">
-        <label for="maxWidth">Larghezza max (px)</label>
+        <label for="maxWidth">Max width (px)</label>
         <input id="maxWidth" type="number" min="1" step="1" value="2200">
       </div>
       <div class="field">
-        <label for="maxHeight">Altezza max (px)</label>
+        <label for="maxHeight">Max height (px)</label>
         <input id="maxHeight" type="number" min="1" step="1" value="2200">
       </div>
       <div class="field">
@@ -155,7 +164,7 @@
         <label for="resizeMode">Ridimensionamento</label>
         <select id="resizeMode">
           <option value="fit">Fit within limits</option>
-          <option value="width">Solo larghezza max</option>
+          <option value="width">Max width only</option>
           <option value="none">No resize</option>
         </select>
       </div>
@@ -172,7 +181,7 @@
     <div id="list" class="list"></div>
   </section>
 
-  <p class="footer">Tutto avviene localmente nel browser: le immagini non vengono caricate su server esterni.</p>
+  <p class="footer">Everything happens locally in your browser: images are never uploaded to external servers.</p>
 </main>
 
 <canvas id="canvas"></canvas>
@@ -227,7 +236,7 @@
   function addFiles(incoming) {
     const accepted = [...incoming].filter(file => file.type.startsWith('image/'));
     if (!accepted.length) {
-      setStatus('Nessuna immagine valida selezionata.', 'error');
+      setStatus('No valid image selected.', 'error');
       return;
     }
 
@@ -235,7 +244,7 @@
     files = accepted;
     renderSourceList();
     updateButtons();
-    setStatus(`${files.length} ${files.length === 1 ? 'immagine selezionata' : 'immagini selezionate'}.`);
+    setStatus(`${files.length} ${files.length === 1 ? 'image selected' : 'images selected'}.`);
   }
 
   function renderSourceList() {
@@ -317,8 +326,8 @@
   }
 
   function outputName(name) {
-    const base = name.replace(/\.[^.]+$/, '') || 'immagine';
-    const slug = slugifyName(base) || 'immagine';
+    const base = name.replace(/\.[^.]+$/, '') || 'image';
+    const slug = slugifyName(base) || 'image';
     return `${slug}.webp`;
   }
 
@@ -375,18 +384,18 @@
         results.push(result);
         outputTotal += result.blob.size;
         renderResult(result);
-        setStatus(`Convertite ${i + 1} di ${files.length} immagini…`);
+        setStatus(`Converted ${i + 1} of ${files.length} images…`);
       } catch (error) {
         console.error(error);
         failed += 1;
-        renderError(file, error.message || 'Errore');
+        renderError(file, error.message || 'Error');
       }
     }
 
     renderSummary(originalTotal, outputTotal, failed);
     updateButtons();
     setStatus(
-      failed ? `Conversione completata con ${failed} errore/i.` : 'Conversion completed.',
+      failed ? `Conversion completed with ${failed} error(s).` : 'Conversion completed.',
       failed ? 'error' : 'success'
     );
   }

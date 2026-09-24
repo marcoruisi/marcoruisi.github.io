@@ -347,6 +347,15 @@
       margin-right: auto;
     }
 
+  
+    .app,
+    .mrc-tools-nav {
+      width: 100%;
+      max-width: 920px !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
   </style>
 </head>
 <body>
@@ -359,8 +368,7 @@
   <main class="app">
     <h1>HTML Editor</h1>
     <p class="intro">
-      Scrivi direttamente oppure incolla da Word, Google Docs o LibreOffice. Il contenuto viene
-      ripulito e resta pronto da copiare come Clean HTML per WordPress o altri siti.
+      Write directly or paste from Word, Google Docs or LibreOffice. The content is cleaned automatically and stays ready to copy as clean HTML for WordPress or other websites.
     </p>
 
     <section class="panel">
@@ -371,8 +379,8 @@
             <div class="format-toolbar" role="toolbar" aria-label="Formattazione testo">
               <button type="button" class="format-button" data-command="bold" title="Bold"><strong>B</strong></button>
               <button type="button" class="format-button" data-command="italic" title="Italic"><em>I</em></button>
-              <button type="button" class="format-button" data-command="insertUnorderedList" title="Bulleted list">• Elenco</button>
-              <button type="button" class="format-button" data-command="insertOrderedList" title="Numbered list">1. Elenco</button>
+              <button type="button" class="format-button" data-command="insertUnorderedList" title="Bulleted list">• List</button>
+              <button type="button" class="format-button" data-command="insertOrderedList" title="Numbered list">1. List</button>
               <button type="button" class="format-button" id="linkButton" title="Insert or edit link">🔗 Link</button>
               <select id="linkTarget" class="format-select" title="Target del link" aria-label="Target del link">
                 <option value="_self">Same tab</option>
@@ -1009,7 +1017,7 @@
           } catch {
             setStatus(
               automatic
-                ? "Pulizia completata, ma il browser ha bloccato la copia automatica. Premi “Copia Clean HTML”."
+                ? "Cleaning completed, but the browser blocked automatic copying. Click “Copy clean HTML”."
                 : "Automatic copying was blocked. Select the HTML and use ⌘C.",
               "error"
             );
