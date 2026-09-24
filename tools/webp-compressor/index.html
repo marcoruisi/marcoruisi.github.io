@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +16,7 @@
     }
     *{box-sizing:border-box}
     body{margin:0;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-    .app{max-width:980px;margin:0 auto}
+    .app{max-width:920px;margin:0 auto}
     h1{margin:0 0 8px;font-size:28px}
     .intro{margin:0 0 18px;color:var(--muted);line-height:1.5}
     .panel{padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
@@ -106,6 +106,16 @@
       }
     }
 
+  
+    /* Shared MRC Tools page width */
+    .app,
+    .mrc-tools-nav {
+      width: 100%;
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
   </style>
 </head>
 <body>
@@ -138,23 +148,23 @@
         <input id="maxHeight" type="number" min="1" step="1" value="2200">
       </div>
       <div class="field">
-        <label for="quality">Qualità WebP</label>
+        <label for="quality">WebP quality</label>
         <input id="quality" type="number" min="1" max="100" step="1" value="82">
       </div>
       <div class="field">
         <label for="resizeMode">Ridimensionamento</label>
         <select id="resizeMode">
-          <option value="fit">Contieni nel limite</option>
+          <option value="fit">Fit within limits</option>
           <option value="width">Solo larghezza max</option>
-          <option value="none">Nessun resize</option>
+          <option value="none">No resize</option>
         </select>
       </div>
     </div>
 
     <div class="actions">
-      <button id="processButton" class="primary" type="button" disabled>Converti in WebP</button>
-      <button id="downloadAllButton" type="button" disabled>Scarica tutti</button>
-      <button id="clearButton" type="button" disabled>Svuota</button>
+      <button id="processButton" class="primary" type="button" disabled>Convert to WebP</button>
+      <button id="downloadAllButton" type="button" disabled>Download all</button>
+      <button id="clearButton" type="button" disabled>Clear</button>
       <div id="status" class="status" aria-live="polite"></div>
     </div>
 
@@ -350,7 +360,7 @@
     summary.classList.remove('visible');
     processButton.disabled = true;
     downloadAllButton.disabled = true;
-    setStatus('Conversione in corso…');
+    setStatus('Converting…');
 
     let originalTotal = 0;
     let outputTotal = 0;
@@ -376,7 +386,7 @@
     renderSummary(originalTotal, outputTotal, failed);
     updateButtons();
     setStatus(
-      failed ? `Conversione completata con ${failed} errore/i.` : 'Conversione completata.',
+      failed ? `Conversione completata con ${failed} errore/i.` : 'Conversion completed.',
       failed ? 'error' : 'success'
     );
   }
@@ -395,7 +405,7 @@
         </div>
       </div>
       <div class="item-actions">
-        <button type="button" class="download-one">Scarica</button>
+        <button type="button" class="download-one">Download</button>
       </div>
     `;
     row.querySelector('.name').textContent = result.name;
@@ -415,10 +425,10 @@
   function renderSummary(original, output, failed) {
     const saving = original > 0 ? Math.round((1 - output / original) * 100) : 0;
     summary.innerHTML = `
-      <span class="chip">${results.length} convertite</span>
+      <span class="chip">${results.length} converted</span>
       <span class="chip">${humanBytes(original)} → ${humanBytes(output)}</span>
-      <span class="chip">Risparmio ${saving}%</span>
-      ${failed ? `<span class="chip">${failed} errori</span>` : ''}
+      <span class="chip">Savings ${saving}%</span>
+      ${failed ? `<span class="chip">${failed} errors</span>` : ''}
     `;
     summary.classList.add('visible');
   }
@@ -437,7 +447,7 @@
       downloadResult(results[i]);
       await new Promise(resolve => setTimeout(resolve, 180));
     }
-    setStatus('Download avviato. Il browser potrebbe chiedere di consentire download multipli.', 'success');
+    setStatus('Download started. Your browser may ask you to allow multiple downloads.', 'success');
   }
 
   function clearAll() {

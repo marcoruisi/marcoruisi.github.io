@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -337,6 +337,16 @@
       }
     }
 
+  
+    /* Shared MRC Tools page width */
+    .app,
+    .mrc-tools-nav {
+      width: 100%;
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
   </style>
 </head>
 <body>
@@ -350,25 +360,25 @@
     <h1>HTML Editor</h1>
     <p class="intro">
       Scrivi direttamente oppure incolla da Word, Google Docs o LibreOffice. Il contenuto viene
-      ripulito e resta pronto da copiare come HTML pulito per WordPress o altri siti.
+      ripulito e resta pronto da copiare come Clean HTML per WordPress o altri siti.
     </p>
 
     <section class="panel">
       <div class="workspace">
         <div class="workspace-column">
           <div class="column-header">
-            <h2>Contenuto pulito</h2>
+            <h2>Clean content</h2>
             <div class="format-toolbar" role="toolbar" aria-label="Formattazione testo">
-              <button type="button" class="format-button" data-command="bold" title="Grassetto"><strong>B</strong></button>
-              <button type="button" class="format-button" data-command="italic" title="Corsivo"><em>I</em></button>
-              <button type="button" class="format-button" data-command="insertUnorderedList" title="Elenco puntato">• Elenco</button>
-              <button type="button" class="format-button" data-command="insertOrderedList" title="Elenco numerato">1. Elenco</button>
-              <button type="button" class="format-button" id="linkButton" title="Inserisci o modifica link">🔗 Link</button>
+              <button type="button" class="format-button" data-command="bold" title="Bold"><strong>B</strong></button>
+              <button type="button" class="format-button" data-command="italic" title="Italic"><em>I</em></button>
+              <button type="button" class="format-button" data-command="insertUnorderedList" title="Bulleted list">• Elenco</button>
+              <button type="button" class="format-button" data-command="insertOrderedList" title="Numbered list">1. Elenco</button>
+              <button type="button" class="format-button" id="linkButton" title="Insert or edit link">🔗 Link</button>
               <select id="linkTarget" class="format-select" title="Target del link" aria-label="Target del link">
-                <option value="_self">Stessa scheda</option>
-                <option value="_blank">Nuova scheda</option>
+                <option value="_self">Same tab</option>
+                <option value="_blank">New tab</option>
               </select>
-              <button type="button" class="format-button" id="unlinkButton" title="Rimuovi link">Rimuovi link</button>
+              <button type="button" class="format-button" id="unlinkButton" title="Remove link">Remove link</button>
             </div>
           </div>
 
@@ -377,38 +387,38 @@
             class="editor"
             contenteditable="true"
             spellcheck="true"
-            data-placeholder="Scrivi qui oppure incolla contenuto da Word, Google Docs o LibreOffice…"
+            data-placeholder="Write here or paste content from Word, Google Docs or LibreOffice…"
           ></div>
         </div>
 
         <div class="workspace-column">
           <div class="column-header">
-            <h2>HTML pulito</h2>
+            <h2>Clean HTML</h2>
           </div>
           <textarea id="htmlOutput" class="code always-visible" readonly></textarea>
         </div>
       </div>
 
       <div class="toolbar">
-        <button id="copyButton" class="primary" type="button" disabled>Copia HTML pulito</button>
-        <button id="clearButton" type="button">Svuota</button>
+        <button id="copyButton" class="primary" type="button" disabled>Copia Clean HTML</button>
+        <button id="clearButton" type="button">Clear</button>
         <div id="status" class="status" aria-live="polite"></div>
       </div>
 
       <div id="stats" class="stats" aria-live="polite"></div>
 
       <details>
-        <summary>Opzioni</summary>
+        <summary>Options</summary>
         <div class="options">
-          <label><input id="keepHeadings" type="checkbox" checked> Mantieni titoli H1–H6</label>
-          <label><input id="keepBlockquote" type="checkbox" checked> Mantieni citazioni</label>
-          <label><input id="replaceImages" type="checkbox"> Sostituisci immagini con [[IMAGE-01]]</label>
+          <label><input id="keepHeadings" type="checkbox" checked> Keep H1–H6 headings</label>
+          <label><input id="keepBlockquote" type="checkbox" checked> Keep blockquotes</label>
+          <label><input id="replaceImages" type="checkbox"> Replace images with [[IMAGE-01]]</label>
         </div>
       </details>
     </section>
 
     <p class="footer">
-      Tutto avviene localmente nel browser. Nessun contenuto viene inviato online.
+      Everything happens locally in your browser. No content is uploaded.
     </p>
   </main>
 
@@ -453,14 +463,14 @@
 
       function renderStats(stats) {
         const labels = [
-          ["removedTags", "tag rimossi"],
-          ["removedAttributes", "attributi rimossi"],
-          ["convertedTags", "tag convertiti"],
-          ["removedEmpty", "elementi vuoti eliminati"],
-          ["removedBreaks", "<br> inutili eliminati"],
-          ["simplifiedLists", "voci elenco semplificate"],
-          ["removedImages", "immagini rimosse"],
-          ["placeholderImages", "placeholder immagini creati"]
+          ["removedTags", "tags removed"],
+          ["removedAttributes", "attributes removed"],
+          ["convertedTags", "tags converted"],
+          ["removedEmpty", "empty elements removed"],
+          ["removedBreaks", "unnecessary <br> removed"],
+          ["simplifiedLists", "list items simplified"],
+          ["removedImages", "images removed"],
+          ["placeholderImages", "image placeholders created"]
         ];
 
         statsBox.innerHTML = "";
@@ -940,13 +950,13 @@
           htmlOutput.value = formatHtml(result.html);
           copyButton.disabled = !result.html;
           renderStats(result.stats);
-          setStatus("Pulizia completata automaticamente.", "success");
+          setStatus("Cleaning completed automatically.", "success");
 
           editor.classList.add("cleaned");
           setTimeout(() => editor.classList.remove("cleaned"), 600);
         } catch (error) {
           console.error(error);
-          setStatus("Non è stato possibile pulire questo contenuto.", "error");
+          setStatus("This content could not be cleaned.", "error");
         } finally {
           isCleaning = false;
         }
@@ -979,8 +989,8 @@
 
           setStatus(
             automatic
-              ? "Contenuto pulito e copiato automaticamente negli appunti."
-              : "HTML pulito copiato negli appunti.",
+              ? "Clean content e copiato automaticamente negli appunti."
+              : "Clean HTML copiato negli appunti.",
             "success"
           );
           return true;
@@ -991,16 +1001,16 @@
             await navigator.clipboard.writeText(htmlCode);
             setStatus(
               automatic
-                ? "Contenuto pulito e copiato automaticamente come codice HTML."
-                : "HTML pulito copiato come codice.",
+                ? "Clean content e copiato automaticamente come codice HTML."
+                : "Clean HTML copiato come codice.",
               "success"
             );
             return true;
           } catch {
             setStatus(
               automatic
-                ? "Pulizia completata, ma il browser ha bloccato la copia automatica. Premi “Copia HTML pulito”."
-                : "Copia automatica bloccata. Seleziona l’HTML e usa ⌘C.",
+                ? "Pulizia completata, ma il browser ha bloccato la copia automatica. Premi “Copia Clean HTML”."
+                : "Automatic copying was blocked. Select the HTML and use ⌘C.",
               "error"
             );
             return false;
@@ -1018,7 +1028,7 @@
 
         document.execCommand(command, false, null);
         syncHtmlFromEditor();
-        setStatus("Formattazione aggiornata e registrata nell’HTML pulito.", "success");
+        setStatus("Formattazione aggiornata e registrata nell’Clean HTML.", "success");
       }
 
       function getEditorSelectionRange() {
@@ -1063,12 +1073,12 @@
           ? "_blank"
           : linkTarget.value;
 
-        const rawUrl = window.prompt("URL del link:", currentHref || "https://");
+        const rawUrl = window.prompt("Link URL:", currentHref || "https://");
         if (rawUrl === null) return;
 
         const href = sanitizeUrl(rawUrl);
         if (!href) {
-          setStatus("Inserisci un URL valido.", "error");
+          setStatus("Enter a valid URL.", "error");
           return;
         }
 
@@ -1084,7 +1094,7 @@
           }
         } else {
           if (!savedRange || savedRange.collapsed) {
-            setStatus("Seleziona prima il testo da trasformare in link.", "error");
+            setStatus("Select the text you want to turn into a link first.", "error");
             return;
           }
 
@@ -1105,8 +1115,8 @@
         syncHtmlFromEditor();
         setStatus(
           target === "_blank"
-            ? "Link inserito: apertura in nuova scheda."
-            : "Link inserito: apertura nella stessa scheda.",
+            ? "Link inserted: opens in a new tab."
+            : "Link inserted: opens in the same tab.",
           "success"
         );
       }
@@ -1125,7 +1135,7 @@
 
         document.execCommand("unlink", false, null);
         syncHtmlFromEditor();
-        setStatus("Link rimosso.", "success");
+        setStatus("Link removed.", "success");
       }
 
       function clearAll() {
@@ -1140,7 +1150,7 @@
       }
 
       editor.addEventListener("paste", () => {
-        setStatus("Pulizia e copia automatica in corso…");
+        setStatus("Cleaning and copying automatically…");
 
         requestAnimationFrame(() => {
           setTimeout(async () => {
