@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebP Compressor</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg:#f4f5f7; --panel:#fff; --text:#202124; --muted:#687078;
+      --border:#d7dbe0; --primary:#2271b1; --primary-hover:#135e96;
+      --success:#198754; --danger:#b42318; --flash:#dff4e7;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{--bg:#17191c;--panel:#22252a;--text:#f2f3f5;--muted:#adb3ba;--border:#41464d;--primary:#72aee6;--primary-hover:#9ec5e8;--success:#58c98d;--danger:#ff8a80;--flash:#264a35}
+    }
+    *{box-sizing:border-box}
+    body{margin:0;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+    .app{max-width:980px;margin:0 auto}
+    h1{margin:0 0 8px;font-size:28px}
+    .intro{margin:0 0 18px;color:var(--muted);line-height:1.5}
+    .panel{padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
+    .dropzone{display:flex;align-items:center;justify-content:center;min-height:220px;padding:28px;border:2px dashed var(--border);border-radius:10px;text-align:center;cursor:pointer;transition:.2s ease}
+    .dropzone.drag{border-color:var(--primary);background:color-mix(in srgb,var(--primary) 8%,transparent)}
+    .dropzone strong{display:block;margin-bottom:6px;font-size:18px}
+    .dropzone span{color:var(--muted)}
+    #fileInput{display:none}
+    .settings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-size:13px;color:var(--muted);font-weight:600}
+    .field input,.field select{width:100%;min-height:42px;padding:8px 10px;border:1px solid var(--border);border-radius:7px;background:var(--panel);color:var(--text);font:inherit}
+    .field small{color:var(--muted)}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+    button{appearance:none;border:1px solid var(--border);border-radius:7px;padding:10px 15px;font:inherit;font-weight:600;cursor:pointer;background:var(--panel);color:var(--text)}
+    button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    button.primary:hover{background:var(--primary-hover)}
+    button:disabled{opacity:.5;cursor:default}
+    .status{flex:1 1 280px;color:var(--muted)}
+    .status.success{color:var(--success)} .status.error{color:var(--danger)}
+    .list{display:grid;gap:10px;margin-top:16px}
+    .item{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:9px;background:var(--bg)}
+    .thumb{width:72px;height:54px;object-fit:cover;border-radius:6px;background:#ddd}
+    .meta{min-width:0}
+    .name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sub{margin-top:3px;color:var(--muted);font-size:13px}
+    .saving{color:var(--success);font-weight:600}
+    .item-actions{display:flex;gap:8px}
+    .summary{display:none;flex-wrap:wrap;gap:8px;margin-top:14px}.summary.visible{display:flex}
+    .chip{padding:6px 9px;border:1px solid var(--border);border-radius:999px;background:var(--bg);color:var(--muted);font-size:13px}
+    .footer{margin-top:14px;color:var(--muted);font-size:13px}
+    canvas{display:none}
+    @media(max-width:760px){.settings{grid-template-columns:1fr 1fr}.item{grid-template-columns:60px minmax(0,1fr)}.item-actions{grid-column:1/-1}.thumb{width:60px;height:45px}}
+    @media(max-width:480px){body{padding:14px}.settings{grid-template-columns:1fr}.dropzone{min-height:180px}.actions button{width:100%}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <h1>WebP Compressor</h1>
+  <p class="intro">Converti JPG, PNG e altre immagini in WebP, ridimensionala e comprimila direttamente nel browser. Supporta uno o più file.</p>
+
+  <section class="panel">
+    <label class="dropzone" id="dropzone" for="fileInput">
+      <div>
+        <strong>Trascina qui le immagini</strong>
+        <span>oppure clicca per selezionare uno o più file</span>
+      </div>
+    </label>
+    <input id="fileInput" type="file" accept="image/*" multiple>
+
+    <div class="settings">
+      <div class="field">
+        <label for="maxWidth">Larghezza max (px)</label>
+        <input id="maxWidth" type="number" min="1" step="1" value="2200">
+      </div>
+      <div class="field">
+        <label for="maxHeight">Altezza max (px)</label>
+        <input id="maxHeight" type="number" min="1" step="1" value="2200">
+      </div>
+      <div class="field">
+        <label for="quality">Qualità WebP</label>
+        <input id="quality" type="number" min="1" max="100" step="1" value="82">
+      </div>
+      <div class="field">
+        <label for="resizeMode">Ridimensionamento</label>
+        <select id="resizeMode">
+          <option value="fit">Contieni nel limite</option>
+          <option value="width">Solo larghezza max</option>
+          <option value="none">Nessun resize</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="processButton" class="primary" type="button" disabled>Converti in WebP</button>
+      <button id="downloadAllButton" type="button" disabled>Scarica tutti</button>
+      <button id="clearButton" type="button" disabled>Svuota</button>
+      <div id="status" class="status" aria-live="polite"></div>
+    </div>
+
+    <div id="summary" class="summary"></div>
+    <div id="list" class="list"></div>
+  </section>
+
+  <p class="footer">Tutto avviene localmente nel browser: le immagini non vengono caricate su server esterni.</p>
+</main>
+
+<canvas id="canvas"></canvas>
+
+<script>
+(() => {
+  'use strict';
+
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const maxWidth = document.getElementById('maxWidth');
+  const maxHeight = document.getElementById('maxHeight');
+  const quality = document.getElementById('quality');
+  const resizeMode = document.getElementById('resizeMode');
+  const processButton = document.getElementById('processButton');
+  const downloadAllButton = document.getElementById('downloadAllButton');
+  const clearButton = document.getElementById('clearButton');
+  const status = document.getElementById('status');
+  const summary = document.getElementById('summary');
+  const list = document.getElementById('list');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d', { alpha: true });
+
+  let files = [];
+  let results = [];
+
+  const humanBytes = bytes => {
+    if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
+    const units = ['B','KB','MB','GB'];
+    const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+    return `${(bytes / Math.pow(1024, i)).toFixed(i ? 1 : 0)} ${units[i]}`;
+  };
+
+  function setStatus(message, type = '') {
+    status.textContent = message;
+    status.className = 'status' + (type ? ' ' + type : '');
+  }
+
+  function updateButtons() {
+    processButton.disabled = files.length === 0;
+    clearButton.disabled = files.length === 0 && results.length === 0;
+    downloadAllButton.disabled = results.length === 0;
+  }
+
+  function revokeResults() {
+    for (const result of results) {
+      if (result.url) URL.revokeObjectURL(result.url);
+    }
+    results = [];
+  }
+
+  function addFiles(incoming) {
+    const accepted = [...incoming].filter(file => file.type.startsWith('image/'));
+    if (!accepted.length) {
+      setStatus('Nessuna immagine valida selezionata.', 'error');
+      return;
+    }
+
+    revokeResults();
+    files = accepted;
+    renderSourceList();
+    updateButtons();
+    setStatus(`${files.length} ${files.length === 1 ? 'immagine selezionata' : 'immagini selezionate'}.`);
+  }
+
+  function renderSourceList() {
+    list.innerHTML = '';
+    summary.classList.remove('visible');
+    summary.innerHTML = '';
+
+    files.forEach(file => {
+      const row = document.createElement('div');
+      row.className = 'item';
+      const src = URL.createObjectURL(file);
+      row.innerHTML = `
+        <img class="thumb" src="${src}" alt="">
+        <div class="meta">
+          <div class="name"></div>
+          <div class="sub">${humanBytes(file.size)} · in attesa</div>
+        </div>
+        <div class="item-actions"></div>
+      `;
+      row.querySelector('.name').textContent = file.name;
+      row.querySelector('.thumb').addEventListener('load', () => URL.revokeObjectURL(src), { once:true });
+      list.appendChild(row);
+    });
+  }
+
+  async function decodeImage(file) {
+    if ('createImageBitmap' in window) {
+      try {
+        return await createImageBitmap(file, { imageOrientation: 'from-image' });
+      } catch (_) {}
+    }
+
+    return await new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Immagine non leggibile')); };
+      img.src = url;
+    });
+  }
+
+  function targetSize(width, height) {
+    const mode = resizeMode.value;
+    if (mode === 'none') return { width, height };
+
+    const mw = Math.max(1, parseInt(maxWidth.value || width, 10));
+    const mh = Math.max(1, parseInt(maxHeight.value || height, 10));
+
+    let scale = 1;
+    if (mode === 'width') {
+      scale = Math.min(1, mw / width);
+    } else {
+      scale = Math.min(1, mw / width, mh / height);
+    }
+
+    return {
+      width: Math.max(1, Math.round(width * scale)),
+      height: Math.max(1, Math.round(height * scale))
+    };
+  }
+
+  function canvasToWebPBlob(q) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        if (!blob) return reject(new Error('WebP non supportato dal browser'));
+        resolve(blob);
+      }, 'image/webp', q);
+    });
+  }
+
+  function outputName(name) {
+    const base = name.replace(/\.[^.]+$/, '') || 'immagine';
+    return `${base}.webp`;
+  }
+
+  async function convertFile(file) {
+    const image = await decodeImage(file);
+    const width = image.width || image.naturalWidth;
+    const height = image.height || image.naturalHeight;
+    const target = targetSize(width, height);
+
+    canvas.width = target.width;
+    canvas.height = target.height;
+    ctx.clearRect(0, 0, target.width, target.height);
+    ctx.drawImage(image, 0, 0, target.width, target.height);
+
+    if (image.close) image.close();
+
+    const q = Math.min(1, Math.max(0.01, Number(quality.value || 82) / 100));
+    const blob = await canvasToWebPBlob(q);
+    const url = URL.createObjectURL(blob);
+
+    return {
+      source: file,
+      blob,
+      url,
+      name: outputName(file.name),
+      width: target.width,
+      height: target.height,
+      originalWidth: width,
+      originalHeight: height
+    };
+  }
+
+  async function processAll() {
+    if (!files.length) return;
+
+    revokeResults();
+    list.innerHTML = '';
+    summary.innerHTML = '';
+    summary.classList.remove('visible');
+    processButton.disabled = true;
+    downloadAllButton.disabled = true;
+    setStatus('Conversione in corso…');
+
+    let originalTotal = 0;
+    let outputTotal = 0;
+    let failed = 0;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      originalTotal += file.size;
+
+      try {
+        const result = await convertFile(file);
+        results.push(result);
+        outputTotal += result.blob.size;
+        renderResult(result);
+        setStatus(`Convertite ${i + 1} di ${files.length} immagini…`);
+      } catch (error) {
+        console.error(error);
+        failed += 1;
+        renderError(file, error.message || 'Errore');
+      }
+    }
+
+    renderSummary(originalTotal, outputTotal, failed);
+    updateButtons();
+    setStatus(
+      failed ? `Conversione completata con ${failed} errore/i.` : 'Conversione completata.',
+      failed ? 'error' : 'success'
+    );
+  }
+
+  function renderResult(result) {
+    const saving = result.source.size > 0 ? Math.round((1 - result.blob.size / result.source.size) * 100) : 0;
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `
+      <img class="thumb" src="${result.url}" alt="">
+      <div class="meta">
+        <div class="name"></div>
+        <div class="sub">
+          ${result.width}×${result.height}px · ${humanBytes(result.source.size)} → ${humanBytes(result.blob.size)}
+          <span class="saving">${saving >= 0 ? ` · −${saving}%` : ` · +${Math.abs(saving)}%`}</span>
+        </div>
+      </div>
+      <div class="item-actions">
+        <button type="button" class="download-one">Scarica</button>
+      </div>
+    `;
+    row.querySelector('.name').textContent = result.name;
+    row.querySelector('.download-one').addEventListener('click', () => downloadResult(result));
+    list.appendChild(row);
+  }
+
+  function renderError(file, message) {
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `<div></div><div class="meta"><div class="name"></div><div class="sub" style="color:var(--danger)"></div></div><div></div>`;
+    row.querySelector('.name').textContent = file.name;
+    row.querySelector('.sub').textContent = message;
+    list.appendChild(row);
+  }
+
+  function renderSummary(original, output, failed) {
+    const saving = original > 0 ? Math.round((1 - output / original) * 100) : 0;
+    summary.innerHTML = `
+      <span class="chip">${results.length} convertite</span>
+      <span class="chip">${humanBytes(original)} → ${humanBytes(output)}</span>
+      <span class="chip">Risparmio ${saving}%</span>
+      ${failed ? `<span class="chip">${failed} errori</span>` : ''}
+    `;
+    summary.classList.add('visible');
+  }
+
+  function downloadResult(result) {
+    const a = document.createElement('a');
+    a.href = result.url;
+    a.download = result.name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  async function downloadAll() {
+    for (let i = 0; i < results.length; i++) {
+      downloadResult(results[i]);
+      await new Promise(resolve => setTimeout(resolve, 180));
+    }
+    setStatus('Download avviato. Il browser potrebbe chiedere di consentire download multipli.', 'success');
+  }
+
+  function clearAll() {
+    revokeResults();
+    files = [];
+    fileInput.value = '';
+    list.innerHTML = '';
+    summary.innerHTML = '';
+    summary.classList.remove('visible');
+    setStatus('');
+    updateButtons();
+  }
+
+  fileInput.addEventListener('change', () => addFiles(fileInput.files));
+  processButton.addEventListener('click', processAll);
+  downloadAllButton.addEventListener('click', downloadAll);
+  clearButton.addEventListener('click', clearAll);
+
+  ['dragenter','dragover'].forEach(type => dropzone.addEventListener(type, e => {
+    e.preventDefault();
+    dropzone.classList.add('drag');
+  }));
+  ['dragleave','drop'].forEach(type => dropzone.addEventListener(type, e => {
+    e.preventDefault();
+    dropzone.classList.remove('drag');
+  }));
+  dropzone.addEventListener('drop', e => addFiles(e.dataTransfer.files));
+
+  updateButtons();
+})();
+</script>
+</body>
+</html>
