@@ -15,9 +15,9 @@
 .mrc-tools-nav a:hover{border-color:var(--primary)}.mrc-tools-nav a[aria-current="page"]{border-color:var(--primary);background:var(--primary);color:#fff}
 h1{margin:0 0 8px;font-size:28px}.intro{margin:0 0 18px;color:var(--muted);line-height:1.5}
 .panel{padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}
-.dropzone{display:flex;min-height:180px;align-items:center;justify-content:center;padding:24px;border:2px dashed var(--border);border-radius:10px;cursor:pointer;text-align:center;transition:.2s}
+.dropzone{position:relative;display:flex;min-height:180px;align-items:center;justify-content:center;padding:24px;border:2px dashed var(--border);border-radius:10px;cursor:pointer;text-align:center;transition:.2s}
 .dropzone.drag{border-color:var(--primary);background:color-mix(in srgb,var(--primary) 7%,transparent)}.dropzone strong{display:block;font-size:18px;margin-bottom:6px}.dropzone span{color:var(--muted)}
-#fileInput{display:none}.settings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.field{min-width:0}
+#fileInput{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2}.settings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.field{min-width:0}
 .field label{display:block;margin-bottom:6px;font-size:13px;font-weight:600;color:var(--muted)}
 input,select{width:100%;min-height:42px;padding:8px 10px;border:1px solid var(--border);border-radius:7px;background:var(--panel);color:var(--text);font:inherit}
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px}
@@ -43,8 +43,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <p class="intro">Set a maximum final file size and let the tool automatically adjust page resolution and image quality. Everything is processed locally in your browser.</p>
 
 <section class="panel">
-<label class="dropzone" id="dropzone" for="fileInput"><div><strong>Drop a PDF here</strong><span>or click to select one file</span></div></label>
-<input id="fileInput" type="file" accept="application/pdf,.pdf">
+<label class="dropzone" id="dropzone"><div><strong>Drop a PDF here</strong><span>or click to select one file</span></div><input id="fileInput" type="file" accept="application/pdf,.pdf"></label>
 
 <div class="settings">
 <div class="field"><label for="targetSize">Max final size</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div>
@@ -74,7 +73,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <script type="module">
 import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs';
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
-const {jsPDF}=window.jspdf;
+const jsPDF=window.jspdf?.jsPDF;
 
 const dropzone=document.getElementById('dropzone');
 const fileInput=document.getElementById('fileInput');
@@ -140,6 +139,10 @@ async function renderAttempt(pdf,dpi,quality,gray,attemptIndex,attemptCount){
 
 async function compressPdf(){
   if(!sourceFile)return;
+  if(!jsPDF){
+    setStatus('PDF compression library could not be loaded. Please reload the page and try again.','error');
+    return;
+  }
   revokeResult();compressButton.disabled=true;downloadButton.disabled=true;progress.classList.add('visible');progressBar.style.width='0%';summary.classList.remove('visible');summary.innerHTML='';
   const target=targetBytes(),sourceData=await sourceFile.arrayBuffer();
   let pdf;
@@ -282,9 +285,8 @@ fileInput.addEventListener('change',()=>setFile(fileInput.files[0]));
 compressButton.addEventListener('click',compressPdf);
 downloadButton.addEventListener('click',downloadResult);
 clearButton.addEventListener('click',clearAll);
-['dragenter','dragover'].forEach(t=>dropzone.addEventListener(t,e=>{e.preventDefault();dropzone.classList.add('drag')}));
-['dragleave','drop'].forEach(t=>dropzone.addEventListener(t,e=>{e.preventDefault();dropzone.classList.remove('drag')}));
-dropzone.addEventListener('drop',e=>{const f=[...e.dataTransfer.files].find(x=>x.type==='application/pdf'||/\.pdf$/i.test(x.name));if(f)setFile(f)});
+['dragenter','dragover'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.add('drag')));
+['dragleave','drop'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.remove('drag')));
 </script>
 </body>
 </html>
