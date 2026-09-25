@@ -68,12 +68,12 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 
 <p class="footer">Your PDF is processed locally. The document is never uploaded.</p>
 </main>
-
-<script src="./vendor/jspdf.umd.min.js"></script>
 <script type="module">
-import * as pdfjsLib from './vendor/pdf.min.mjs';
-pdfjsLib.GlobalWorkerOptions.workerSrc='./vendor/pdf.worker.min.mjs';
-const jsPDF=window.jspdf?.jsPDF;
+import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs';
+import { jsPDF } from 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
 
 const dropzone=document.getElementById('dropzone');
 const fileInput=document.getElementById('fileInput');
@@ -139,10 +139,7 @@ async function renderAttempt(pdf,dpi,quality,gray,attemptIndex,attemptCount){
 
 async function compressPdf(){
   if(!sourceFile)return;
-  if(!jsPDF){
-    setStatus('PDF compression library could not be loaded. Please reload the page and try again.','error');
-    return;
-  }
+
   revokeResult();compressButton.disabled=true;downloadButton.disabled=true;progress.classList.add('visible');progressBar.style.width='0%';summary.classList.remove('visible');summary.innerHTML='';
   const target=targetBytes(),sourceData=await sourceFile.arrayBuffer();
   let pdf;
