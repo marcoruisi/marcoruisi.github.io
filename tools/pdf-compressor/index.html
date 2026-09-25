@@ -69,10 +69,10 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <p class="footer">Your PDF is processed locally. The document is never uploaded.</p>
 </main>
 
-<script data-cfasync="false" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<script src="./vendor/jspdf.umd.min.js"></script>
 <script type="module">
-import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs';
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+import * as pdfjsLib from './vendor/pdf.min.mjs';
+pdfjsLib.GlobalWorkerOptions.workerSrc='./vendor/pdf.worker.min.mjs';
 const jsPDF=window.jspdf?.jsPDF;
 
 const dropzone=document.getElementById('dropzone');
