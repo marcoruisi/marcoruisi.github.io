@@ -93,7 +93,10 @@ let sourceFile=null,resultBlob=null,resultUrl=null,resultName='';
 
 const humanBytes=bytes=>{if(!bytes)return'0 B';const u=['B','KB','MB','GB'];const i=Math.min(Math.floor(Math.log(bytes)/Math.log(1024)),u.length-1);return`${(bytes/Math.pow(1024,i)).toFixed(i?1:0)} ${u[i]}`};
 function slugifyName(v){return v.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').replace(/-{2,}/g,'-')}
-function outputName(name){const b=name.replace(/\.[^.]+$/,'')||'compressed-pdf';return`${slugifyName(b)||'compressed-pdf'}.pdf`}
+function outputName(name){
+  const b=name.replace(/\.pdf$/i,'')||'compressed-pdf';
+  return `${b}-compressed.pdf`;
+}
 function setStatus(m,t=''){status.textContent=m;status.className='status'+(t?' '+t:'')}
 function targetBytes(){const v=Math.max(.1,Number(targetSize.value||5));return targetUnit.value==='KB'?Math.round(v*1024):Math.round(v*1024*1024)}
 
