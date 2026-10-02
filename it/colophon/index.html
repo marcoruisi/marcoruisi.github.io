@@ -5,16 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Colophon · Marco Ruisi</title>
-    <meta name="description" content="Come è stato progettato questo sito e perché è stato costruito scegliendo semplicità, durata e strumenti essenziali.">
     <link rel="stylesheet" href="/assets/style.min.css">
     <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<meta name="description" content="Come è stato progettato questo sito e perché è stato costruito scegliendo semplicità, durata e strumenti essenziali.">
+<link rel="canonical" href="https://marcoruisi.pages.dev/it/colophon/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/colophon/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/colophon/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/colophon/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marco Ruisi">
+<meta property="og:title" content="Colophon · Marco Ruisi">
+<meta property="og:description" content="Come è stato progettato questo sito e perché è stato costruito scegliendo semplicità, durata e strumenti essenziali.">
+<meta property="og:url" content="https://marcoruisi.pages.dev/it/colophon/">
+<meta property="og:locale" content="it_IT">
+<meta property="og:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta property="og:image:alt" content="Marco Ruisi sullo Stromboli">
+<meta property="og:locale:alternate" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Colophon · Marco Ruisi">
+<meta name="twitter:description" content="Come è stato progettato questo sito e perché è stato costruito scegliendo semplicità, durata e strumenti essenziali.">
+<meta name="twitter:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta name="twitter:image:alt" content="Marco Ruisi sullo Stromboli">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://marcoruisi.pages.dev/it/colophon/#page",
+      "url": "https://marcoruisi.pages.dev/it/colophon/",
+      "name": "Colophon · Marco Ruisi",
+      "description": "Come è stato progettato questo sito e perché è stato costruito scegliendo semplicità, durata e strumenti essenziali.",
+      "inLanguage": "it",
+      "isPartOf": {
+        "@id": "https://marcoruisi.pages.dev/#website"
+      },
+      "author": {
+        "@id": "https://marcoruisi.pages.dev/#person"
+      }
+    }
+  ]
+}
+</script>
 </head>
 
 <body>
     <main class="site">
                     <div class="topbar">
-                <a class="logo-mark" href="/it/" aria-label="MRC home">mrc</a>
-                <button
+<a class="logo-mark" href="/it/" aria-label="MRC home">mrc</a>
+<div class="header-actions"><nav class="header-language" aria-label="Selezione lingua">
+            <a href="/colophon/">EN</a>
+            <span>/</span>
+            <a href="/it/colophon/" class="active" aria-current="page">IT</a>
+        </nav><button
     class="menu-trigger"
     type="button"
     data-popup-menu-toggle
@@ -25,8 +68,8 @@
     aria-controls="site-popup-menu"
 >
     Menu
-</button>
-            </div>
+</button></div>
+</div>
 
 <!-- MRC POPUP MENU START -->
 <div
@@ -36,11 +79,7 @@
     inert
 >
     <div class="popup-inner">
-<nav class="popup-language" aria-label="Selezione lingua">
-            <a href="/colophon/">EN</a>
-            <span>/</span>
-            <a href="/it/colophon/" class="active" aria-current="page">IT</a>
-        </nav>
+
 
         <nav class="popup-nav" aria-label="Navigazione del sito">
             <ul>
@@ -55,6 +94,7 @@
                 <li><a href="/it/contatti/">Contatti</a></li>
             </ul>
         </nav>
+<nav class="popup-shortcuts" aria-label="Scorciatoie"><a href="/it/lavoro/">Il mio lavoro</a><a href="/it/tools/">Tools</a></nav>
     </div>
 </div>
 <!-- MRC POPUP MENU END -->
@@ -62,7 +102,7 @@
 
         <header class="page-header">
             <nav class="breadcrumb" aria-label="Percorso">
-                <a href="/">Home</a> / Colophon
+                <a href="/it/">Home</a> / Colophon
             </nav>
             <h1 class="page-title">Colophon</h1>
         </header>
@@ -77,7 +117,9 @@
             <p>Aggiungere solo quando serve davvero.</p>
             <p>Preferire strumenti semplici, aperti e comprensibili.</p>
             <p>Lasciare che ogni componente svolga bene il proprio compito.</p>
-            <p>Il sito è ospitato gratuitamente su GitHub Pages.</p>
+            <p>Il codice vive su GitHub, dove posso seguirne le modifiche nel tempo. Cloudflare Pages si occupa di pubblicare e distribuire il sito.</p>
+            <p>Due strumenti, due compiti diversi. Collegati dove serve.</p>
+            <p>Anche l’hosting è volutamente semplice e gratuito: per questo progetto è sufficiente così. Aggiungere un’infrastruttura più complessa non lo renderebbe migliore.</p>
             <p>È realizzato in HTML, CSS e una quantità minima di JavaScript, senza CMS, database o framework.</p>
             <p>I contenuti sono scritti direttamente in HTML, privilegiando semplicità, leggibilità e durata nel tempo.</p>
             <p>Le immagini sono ridotte al minimo.</p>
@@ -85,6 +127,7 @@
             <p>Questo progetto è nato attraverso molte conversazioni con ChatGPT.</p>
             <p>Non per farmi scrivere un sito.</p>
             <p>Per aiutarmi a trovare le parole giuste per descrivere un modo di pensare che esisteva già, ma che non avevo mai raccontato.</p>
+<p>Anche la pubblicazione segue lo stesso principio. Uno script locale avvia la build, che rigenera la sitemap, e si ferma se questa operazione fallisce. Prepara le modifiche in Git, mi chiede un messaggio di commit e le invia al repository su GitHub. Da lì, il collegamento con Cloudflare Pages avvia il deploy automatico. La scelta di avviare lo script rimane mia.</p>
             <p><strong>Ho cercato di costruire questo sito nello stesso modo in cui mi piace progettare i sistemi: semplice, comprensibile e capace di durare nel tempo.</strong></p>
         </article>
         <nav class="page-nav">

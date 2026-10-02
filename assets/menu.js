@@ -20,6 +20,7 @@
         popup.style.left = `${siteRect.left}px`;
         popup.style.width = `${siteRect.width}px`;
         popup.style.top = `${topbarRect.bottom}px`;
+        popup.style.maxHeight = `${Math.max(0, window.innerHeight - topbarRect.bottom)}px`;
     };
 
     const setState = (open, restoreFocus = false) => {
@@ -29,6 +30,7 @@
         popup.setAttribute("aria-hidden", String(!open));
         button.setAttribute("aria-expanded", String(open));
         button.textContent = open ? closeLabel : openLabel;
+        button.setAttribute("aria-label", open ? closeLabel : openLabel);
 
         if (open) {
             popup.removeAttribute("inert");

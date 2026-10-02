@@ -1,5 +1,4 @@
 User-agent: *
-
 Allow: /
 
-Sitemap: https://marcoruisi.github.io/sitemap.xml
+Sitemap: https://marcoruisi.pages.dev/sitemap.xml

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PDF Compressor</title>
+<title>Free PDF Compressor · MRC Tools · Marco Ruisi</title>
 <style>
 :root{color-scheme:light dark;--bg:#f4f5f7;--panel:#fff;--text:#202124;--muted:#687078;--border:#d7dbe0;--primary:#2271b1;--primary-hover:#135e96;--success:#198754;--danger:#b42318}
 @media(prefers-color-scheme:dark){:root{--bg:#17191c;--panel:#22252a;--text:#f2f3f5;--muted:#adb3ba;--border:#41464d;--primary:#72aee6;--primary-hover:#9ec5e8;--success:#58c98d;--danger:#ff8a80}}
@@ -29,10 +29,48 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 .note{margin-top:14px;padding:12px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;line-height:1.5}.footer{margin-top:14px;color:var(--muted);font-size:13px}
 @media(max-width:700px){body{padding:14px}.settings{grid-template-columns:1fr}.actions{align-items:stretch}.actions button{width:100%}}
 </style>
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+<meta name="description" content="Compress a PDF in your browser to fit a target file size. A free tool by Marco Ruisi that adjusts page resolution and image quality.">
+<link rel="canonical" href="https://marcoruisi.pages.dev/tools/pdf-compressor/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marco Ruisi">
+<meta property="og:title" content="Free PDF Compressor · MRC Tools · Marco Ruisi">
+<meta property="og:description" content="Compress a PDF in your browser to fit a target file size. A free tool by Marco Ruisi that adjusts page resolution and image quality.">
+<meta property="og:url" content="https://marcoruisi.pages.dev/tools/pdf-compressor/">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta property="og:image:alt" content="Marco Ruisi on Stromboli">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free PDF Compressor · MRC Tools · Marco Ruisi">
+<meta name="twitter:description" content="Compress a PDF in your browser to fit a target file size. A free tool by Marco Ruisi that adjusts page resolution and image quality.">
+<meta name="twitter:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta name="twitter:image:alt" content="Marco Ruisi on Stromboli">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://marcoruisi.pages.dev/tools/pdf-compressor/#page",
+      "url": "https://marcoruisi.pages.dev/tools/pdf-compressor/",
+      "name": "Free PDF Compressor · MRC Tools · Marco Ruisi",
+      "description": "Compress a PDF in your browser to fit a target file size. A free tool by Marco Ruisi that adjusts page resolution and image quality.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://marcoruisi.pages.dev/#website"
+      },
+      "author": {
+        "@id": "https://marcoruisi.pages.dev/#person"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <nav class="mrc-tools-nav" aria-label="MRC Tools">
-<span class="mrc-tools-brand">MRC Tools</span>
+<a class="mrc-tools-brand" href="/tools/">MRC Tools</a>
 <a href="../clean-wp-clipboard/">HTML Editor</a>
 <a href="../webp-compressor/">WebP Compressor</a>
 <a href="../pdf-compressor/" aria-current="page">PDF Compressor</a>
@@ -68,6 +106,20 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 
 <p class="footer">Your PDF is processed locally. The document is never uploaded.</p>
 </main>
+
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Found this useful?</h2>
+        <p>This tool is free to use. If it saved you some time, you can support the project.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Support MRC →</a><span data-support-pending>Voluntary support — coming soon.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+
 <script type="module">
 import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs';
 import { jsPDF } from 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm';
@@ -288,5 +340,6 @@ clearButton.addEventListener('click',clearAll);
 ['dragenter','dragover'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.add('drag')));
 ['dragleave','drop'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.remove('drag')));
 </script>
+<script src="/assets/support.js"></script>
 </body>
 </html>

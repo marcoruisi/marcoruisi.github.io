@@ -5,16 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Colophon · Marco Ruisi</title>
-    <meta name="description" content="How this website was designed and why it was built with simplicity, longevity, and essential tools in mind.">
     <link rel="stylesheet" href="/assets/style.min.css">
     <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<meta name="description" content="How this website was designed and why it was built with simplicity, longevity, and essential tools in mind.">
+<link rel="canonical" href="https://marcoruisi.pages.dev/colophon/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/colophon/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/colophon/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/colophon/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marco Ruisi">
+<meta property="og:title" content="Colophon · Marco Ruisi">
+<meta property="og:description" content="How this website was designed and why it was built with simplicity, longevity, and essential tools in mind.">
+<meta property="og:url" content="https://marcoruisi.pages.dev/colophon/">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta property="og:image:alt" content="Marco Ruisi on Stromboli">
+<meta property="og:locale:alternate" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Colophon · Marco Ruisi">
+<meta name="twitter:description" content="How this website was designed and why it was built with simplicity, longevity, and essential tools in mind.">
+<meta name="twitter:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta name="twitter:image:alt" content="Marco Ruisi on Stromboli">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://marcoruisi.pages.dev/colophon/#page",
+      "url": "https://marcoruisi.pages.dev/colophon/",
+      "name": "Colophon · Marco Ruisi",
+      "description": "How this website was designed and why it was built with simplicity, longevity, and essential tools in mind.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://marcoruisi.pages.dev/#website"
+      },
+      "author": {
+        "@id": "https://marcoruisi.pages.dev/#person"
+      }
+    }
+  ]
+}
+</script>
 </head>
 
 <body>
     <main class="site">
             <div class="topbar">
-                <a class="logo-mark" href="/" aria-label="MRC home">mrc</a>
-                <button
+<a class="logo-mark" href="/" aria-label="MRC home">mrc</a>
+<div class="header-actions"><nav class="header-language" aria-label="Language selection">
+            <a href="/colophon/" class="active" aria-current="page">EN</a>
+            <span>/</span>
+            <a href="/it/colophon/">IT</a>
+        </nav><button
     class="menu-trigger"
     type="button"
     data-popup-menu-toggle
@@ -25,8 +68,8 @@
     aria-controls="site-popup-menu"
 >
     Menu
-</button>
-            </div>
+</button></div>
+</div>
 
 <!-- MRC POPUP MENU START -->
 <div
@@ -36,11 +79,7 @@
     inert
 >
     <div class="popup-inner">
-<nav class="popup-language" aria-label="Language selection">
-            <a href="/colophon/" class="active" aria-current="page">EN</a>
-            <span>/</span>
-            <a href="/it/colophon/">IT</a>
-        </nav>
+
 
         <nav class="popup-nav" aria-label="Site navigation">
             <ul>
@@ -55,6 +94,7 @@
                 <li><a href="/contact/">Let's Talk</a></li>
             </ul>
         </nav>
+<nav class="popup-shortcuts" aria-label="Shortcuts"><a href="/work/">My work</a><a href="/tools/">Tools</a></nav>
     </div>
 </div>
 <!-- MRC POPUP MENU END -->
@@ -77,7 +117,9 @@
             <p>Add only when it truly adds value.</p>
             <p>Prefer simple, open, and understandable tools.</p>
             <p>Let every component do its job well.</p>
-            <p>The site is hosted on GitHub Pages.</p>
+            <p>The code lives on GitHub, where I can keep track of how it changes. Cloudflare Pages publishes and serves the site.</p>
+            <p>Two tools, two different jobs. Connected where it matters.</p>
+            <p>The hosting is deliberately simple and free, too: it does what this project needs. A more complex infrastructure would not make it better.</p>
             <p>It’s built with plain HTML, CSS, and minimal JavaScript, without a CMS, database, or frontend framework.</p>
             <p>The content is written directly in HTML, prioritizing simplicity, readability, and long-term maintainability.</p>
             <p>Images are kept to a minimum.</p>
@@ -85,6 +127,7 @@
             <p>This project grew out of many conversations with ChatGPT.</p>
             <p>Not to have a website written for me.</p>
             <p>But to help me find the right words for a way of thinking that had been with me for years, yet that I had never really put into writing.</p>
+<p>Publishing follows the same principle. A local script runs the build, which regenerates the sitemap, and stops if that step fails. It stages the changes in Git, asks me for a commit message and pushes them to the GitHub repository. From there, the connection to Cloudflare Pages triggers an automatic deployment. I still choose when to run the script.</p>
             <p><strong>I tried to build this website in the same way I like to design systems:
                     simple, understandable, and built to last.</strong></p>
         </article>

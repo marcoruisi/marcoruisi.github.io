@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WebP Compressor</title>
+  <title>Free WebP Compressor · MRC Tools · Marco Ruisi</title>
   <style>
     :root {
       color-scheme: light dark;
@@ -192,10 +192,48 @@
     }
 
   </style>
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+<meta name="description" content="Convert, resize and compress JPG, PNG and other images to WebP in your browser. A free tool by Marco Ruisi for single images or batches.">
+<link rel="canonical" href="https://marcoruisi.pages.dev/tools/webp-compressor/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marco Ruisi">
+<meta property="og:title" content="Free WebP Compressor · MRC Tools · Marco Ruisi">
+<meta property="og:description" content="Convert, resize and compress JPG, PNG and other images to WebP in your browser. A free tool by Marco Ruisi for single images or batches.">
+<meta property="og:url" content="https://marcoruisi.pages.dev/tools/webp-compressor/">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta property="og:image:alt" content="Marco Ruisi on Stromboli">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free WebP Compressor · MRC Tools · Marco Ruisi">
+<meta name="twitter:description" content="Convert, resize and compress JPG, PNG and other images to WebP in your browser. A free tool by Marco Ruisi for single images or batches.">
+<meta name="twitter:image" content="https://marcoruisi.pages.dev/img/stromboli.webp">
+<meta name="twitter:image:alt" content="Marco Ruisi on Stromboli">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://marcoruisi.pages.dev/tools/webp-compressor/#page",
+      "url": "https://marcoruisi.pages.dev/tools/webp-compressor/",
+      "name": "Free WebP Compressor · MRC Tools · Marco Ruisi",
+      "description": "Convert, resize and compress JPG, PNG and other images to WebP in your browser. A free tool by Marco Ruisi for single images or batches.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://marcoruisi.pages.dev/#website"
+      },
+      "author": {
+        "@id": "https://marcoruisi.pages.dev/#person"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
   <nav class="mrc-tools-nav" aria-label="MRC Tools">
-    <span class="mrc-tools-brand">MRC Tools</span>
+    <a class="mrc-tools-brand" href="/tools/">MRC Tools</a>
     <a href="../clean-wp-clipboard/">HTML Editor</a>
     <a href="../webp-compressor/" aria-current="page">WebP Compressor</a>
     <a href="../pdf-compressor/">PDF Compressor</a>
@@ -288,6 +326,20 @@
 
   <p class="footer">Everything happens locally in your browser: images are never uploaded to external servers.</p>
 </main>
+
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Found this useful?</h2>
+        <p>This tool is free to use. If it saved you some time, you can support the project.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Support MRC →</a><span data-support-pending>Voluntary support — coming soon.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+
 
 <canvas id="canvas"></canvas>
 
@@ -724,5 +776,6 @@
   updateButtons();
 })();
 </script>
+<script src="/assets/support.js"></script>
 </body>
 </html>
