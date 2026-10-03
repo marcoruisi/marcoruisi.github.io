@@ -1,6 +1,145 @@
-[
-  {"id":"webp-compressor","name":{"en":"WebP Compressor","it":"WebP Compressor"},"url":{"en":"/tools/webp-compressor/","it":"/it/tools/webp-compressor/"},"description":{"en":"Convert, resize and compress images for the web.","it":"Converti, ridimensiona e comprimi immagini per il web."}},
-  {"id":"pdf-compressor","name":{"en":"PDF Compressor","it":"PDF Compressor"},"url":{"en":"/tools/pdf-compressor/","it":"/it/tools/pdf-compressor/"},"description":{"en":"Reduce a PDF to the file-size limit you need.","it":"Riduci le dimensioni di un PDF in base al limite che ti serve."}},
-  {"id":"clean-wp-clipboard","name":{"en":"HTML Editor / Clean WP Clipboard","it":"HTML Editor / Clean WP Clipboard"},"url":{"en":"/tools/clean-wp-clipboard/","it":"/it/tools/clean-wp-clipboard/"},"description":{"en":"Prepare and clean HTML for WordPress.","it":"Prepara e ripulisci HTML da usare in WordPress."}},
-  {"id":"images-to-pdf","name":{"en":"Images to PDF","it":"Immagini in PDF"},"url":{"en":"/tools/images-to-pdf/","it":"/it/tools/immagini-in-pdf/"},"description":{"en":"Put your photos in order and download a single PDF. Your images stay in your browser.","it":"Metti in ordine le foto e scarica un unico PDF. Le immagini restano nel tuo browser."}}
-]
+{
+  "tags": {
+    "everyday": {
+      "label": {
+        "en": "Everyday",
+        "it": "Everyday"
+      },
+      "filter": true
+    },
+    "wordpress": {
+      "label": {
+        "en": "WordPress",
+        "it": "WordPress"
+      },
+      "filter": true
+    },
+    "images": {
+      "label": {
+        "en": "Images",
+        "it": "Immagini"
+      },
+      "filter": true
+    },
+    "pdf": {
+      "label": {
+        "en": "PDF",
+        "it": "PDF"
+      },
+      "filter": true
+    },
+    "html": {
+      "label": {
+        "en": "HTML",
+        "it": "HTML"
+      },
+      "filter": true
+    },
+    "text": {
+      "label": {
+        "en": "Text",
+        "it": "Testo"
+      },
+      "filter": false
+    }
+  },
+  "tools": [
+    {
+      "id": "webp-compressor",
+      "name": {
+        "en": "WebP Compressor",
+        "it": "WebP Compressor"
+      },
+      "url": {
+        "en": "/tools/webp-compressor/",
+        "it": "/it/tools/webp-compressor/"
+      },
+      "description": {
+        "en": "Convert and compress images for the web.",
+        "it": "Converti e comprimi immagini per il web."
+      },
+      "tags": [
+        "everyday",
+        "images"
+      ]
+    },
+    {
+      "id": "pdf-compressor",
+      "name": {
+        "en": "PDF Compressor",
+        "it": "PDF Compressor"
+      },
+      "url": {
+        "en": "/tools/pdf-compressor/",
+        "it": "/it/tools/pdf-compressor/"
+      },
+      "description": {
+        "en": "Make a PDF fit a file-size limit.",
+        "it": "Riduci un PDF entro il peso richiesto."
+      },
+      "tags": [
+        "everyday",
+        "pdf"
+      ]
+    },
+    {
+      "id": "clean-wp-clipboard",
+      "name": {
+        "en": "HTML Editor / Clean WP Clipboard",
+        "it": "HTML Editor / Clean WP Clipboard"
+      },
+      "url": {
+        "en": "/tools/clean-wp-clipboard/",
+        "it": "/it/tools/clean-wp-clipboard/"
+      },
+      "description": {
+        "en": "Clean up HTML for WordPress.",
+        "it": "Ripulisci HTML da usare in WordPress."
+      },
+      "tags": [
+        "wordpress",
+        "html",
+        "text"
+      ]
+    },
+    {
+      "id": "images-to-pdf",
+      "name": {
+        "en": "Images to PDF",
+        "it": "Immagini in PDF"
+      },
+      "url": {
+        "en": "/tools/images-to-pdf/",
+        "it": "/it/tools/immagini-in-pdf/"
+      },
+      "description": {
+        "en": "Combine photos into a single PDF.",
+        "it": "Riunisci le foto in un unico PDF."
+      },
+      "tags": [
+        "everyday",
+        "images",
+        "pdf"
+      ]
+    },
+    {
+      "id": "image-to-target-size",
+      "name": {
+        "en": "Image to target file size",
+        "it": "Foto entro il peso richiesto"
+      },
+      "url": {
+        "en": "/tools/image-to-target-size/",
+        "it": "/it/tools/foto-entro-peso/"
+      },
+      "description": {
+        "en": "Make a photo fit a KB or MB limit.",
+        "it": "Riduci una foto entro un limite in KB o MB."
+      },
+      "tags": [
+        "everyday",
+        "images"
+      ]
+    }
+  ]
+}

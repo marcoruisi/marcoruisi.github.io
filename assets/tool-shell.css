@@ -10,9 +10,10 @@ body { margin:0; padding:24px; font-family:-apple-system,BlinkMacSystemFont,"Seg
 .mrc-tools-nav a { flex:0 0 auto; display:inline-flex; align-items:center; min-height:38px; padding:7px 11px; border:1px solid var(--border); border-radius:7px; color:var(--text); background:var(--panel); text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; }
 .mrc-tools-nav a:hover { border-color:var(--primary); }
 .mrc-tools-nav a[aria-current="page"] { border-color:var(--primary); background:var(--primary); color:#fff; }
-.mrc-tool-language { display:flex; gap:12px; font-size:14px; }
-.mrc-tool-language a { padding:7px 0; color:inherit; text-decoration:none; }
-.mrc-tool-language a[aria-current="page"] { font-weight:700; text-decoration:underline; text-underline-offset:4px; }
+.mrc-tool-language { display:flex; align-items:center; gap:10px; font-size:14px; line-height:20px; }
+.mrc-tool-language a,.mrc-tool-language .mrc-language-separator { display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:7px 0; line-height:20px; }
+.mrc-tool-language a { color:inherit; font-weight:600; text-decoration:none; }
+.mrc-tool-language a[aria-current="page"] { font-weight:600; text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:1px; }
 .mrc-tool-header a:focus-visible { outline:2px solid currentColor; outline-offset:3px; }
 .mrc-tool-afterword { margin-top:72px; }
 .mrc-tool-afterword .mrc-tool-specific { font-size:14px; color:var(--muted); }

@@ -59,7 +59,11 @@ def link(url, label, current=None):
 
 
 def plan_shared_ui(root=ROOT):
-    tools = json.loads((root / 'shared' / 'tools.json').read_text(encoding='utf-8'))
+    dataset = json.loads((root / 'shared' / 'tools.json').read_text(encoding='utf-8'))
+    tools, tags = dataset['tools'], dataset['tags']
+    for tool in tools:
+        if not tool.get('tags') or any(tag not in tags for tag in tool['tags']):
+            raise ValueError(f'Tag Tools mancanti o sconosciuti: {tool["id"]}')
     tool_by_url = {tool['url'][lang]: tool for tool in tools for lang in ('en', 'it')}
     if len(tool_by_url) != 2 * len(tools):
         raise ValueError('URL Tools duplicati')
@@ -83,7 +87,7 @@ def plan_shared_ui(root=ROOT):
                 'tools_index': '/it/tools/' if lang == 'it' else '/tools/',
                 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection',
                 'tool_links': '\n        '.join(link(t['url'][lang], t['name'][lang].split(' / ')[0], url) for t in tools),
-                'language_links': ' / '.join(
+                'language_links': '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(
                     f'<a href="{tool["url"][l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it')),
             }
             text = replace_block(text, 'TOOL HEADER', template(root, 'tool-header.html', context),
@@ -104,9 +108,21 @@ def plan_shared_ui(root=ROOT):
                 menu = re.sub(r'(<a\s+href="([^"]+)")', lambda m: m[1] + (' aria-current="page"' if m[2] == url else ''), menu)
                 text = replace_block(text, 'MENU', menu, r'<!-- MRC POPUP MENU START -->.*?<!-- MRC POPUP MENU END -->')
             if url in ('/tools/', '/it/tools/'):
-                open_label = 'Apri lo strumento →' if lang == 'it' else 'Open tool →'
-                cards = '\n'.join(f'<section class="story-card"><span class="story-number">{i:02d}</span><h2>{html.escape(t["name"][lang])}</h2><p>{html.escape(t["description"][lang])}</p><p>{link(t["url"][lang], open_label)}</p></section>' for i, t in enumerate(tools, 1))
-                text = replace_block(text, 'TOOLS LIST', '<div class="stories-list">\n' + cards + '\n</div>', r'<div class="stories-list">.*?</div>')
+                all_label = 'Tutti' if lang == 'it' else 'All'
+                filter_label = 'Filtra gli strumenti' if lang == 'it' else 'Filter tools'
+                count_label = 'strumenti visibili' if lang == 'it' else 'tools shown'
+                buttons = f'<button type="button" data-tool-filter="all" aria-pressed="true" aria-controls="mrc-tools-list">{all_label}</button>'
+                buttons += ''.join(f'<button type="button" data-tool-filter="{html.escape(tag, quote=True)}" aria-pressed="false" aria-controls="mrc-tools-list">{html.escape(info["label"][lang])}</button>' for tag, info in tags.items() if info.get('filter'))
+                rows = []
+                for tool in tools:
+                    pills = ''.join(f'<span class="mrc-tool-tag">{html.escape(tags[tag]["label"][lang])}</span>' for tag in tool['tags'])
+                    rows.append(f'<li class="mrc-tool-row" data-tool-tags="{html.escape(" ".join(tool["tags"]), quote=True)}"><h2>{link(tool["url"][lang], tool["name"][lang])}</h2><p>{html.escape(tool["description"][lang])}</p><div class="mrc-tool-tags">{pills}</div></li>')
+                content = f'<div class="mrc-tool-filters" role="group" aria-label="{filter_label}" hidden>{buttons}</div>\n<p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="{count_label}" hidden></p>\n<ul class="mrc-tools-list" id="mrc-tools-list">\n' + '\n'.join(rows) + '\n</ul>'
+                text = replace_block(text, 'TOOLS LIST', content, r'<div class="stories-list">.*?</div>')
+                if 'href="/assets/tools-index.css"' not in text:
+                    text = text.replace('</head>', '<link rel="stylesheet" href="/assets/tools-index.css">\n</head>')
+                if 'src="/assets/tools-index.js"' not in text:
+                    text = text.replace('</body>', '<script src="/assets/tools-index.js" defer></script>\n</body>')
         if text != original:
             planned[path] = text
     return planned

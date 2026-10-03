@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Image to target file size — fit a photo within a KB or MB limit | MRC</title>
+<meta name="description" content="Reduce a JPG, PNG or WebP photo to a maximum file size. Download a JPG within your KB or MB limit. Free, no account, processed locally in your browser.">
+<link rel="canonical" href="https://marcoruisi.pages.dev/tools/image-to-target-size/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MRC · Marco Ruisi">
+<meta property="og:title" content="Image to target file size — fit a photo within a KB or MB limit | MRC">
+<meta property="og:description" content="Reduce a JPG, PNG or WebP photo to a maximum file size. Download a JPG within your KB or MB limit. Free, no account, processed locally in your browser.">
+<meta property="og:url" content="https://marcoruisi.pages.dev/tools/image-to-target-size/">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Image to target file size — fit a photo within a KB or MB limit | MRC">
+<meta name="twitter:description" content="Reduce a JPG, PNG or WebP photo to a maximum file size. Download a JPG within your KB or MB limit. Free, no account, processed locally in your browser.">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tools/image-to-target-size/tool.css">
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Image to target file size", "url": "https://marcoruisi.pages.dev/tools/image-to-target-size/", "description": "Reduce a JPG, PNG or WebP photo to a maximum file size. Download a JPG within your KB or MB limit. Free, no account, processed locally in your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web browser", "inLanguage": "en", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<!-- MRC SHARED TOOL ALTERNATES START -->
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/image-to-target-size/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/foto-entro-peso/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/image-to-target-size/">
+<!-- MRC SHARED TOOL ALTERNATES END -->
+</head>
+<body>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/tools/">MRC Tools</a>
+        <a href="/tools/webp-compressor/">WebP Compressor</a>
+        <a href="/tools/pdf-compressor/">PDF Compressor</a>
+        <a href="/tools/clean-wp-clipboard/">HTML Editor</a>
+        <a href="/tools/images-to-pdf/">Images to PDF</a>
+        <a href="/tools/image-to-target-size/" aria-current="page">Image to target file size</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/image-to-target-size/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/foto-entro-peso/" lang="it">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app">
+<h1>Image to target file size</h1>
+<p class="intro">A form needs a smaller photo? Choose your image, enter the maximum file size and download a JPG that fits.</p>
+<p class="privacy">Your photo is processed only in your browser. It is never uploaded to a server.</p>
+<section class="panel workspace" id="workspace" aria-label="Image to target file size" aria-busy="false">
+<div class="dropzone" id="dropzone"><button type="button" id="choose" class="primary" aria-describedby="formats">Choose a photo</button><input id="file" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden><p id="formats">JPG, PNG or WebP. One photo at a time. You can also drop it here.</p></div>
+<div id="selected" hidden><p id="filename"></p><figure><img id="original-preview" alt="Selected photo"><figcaption id="original-info"></figcaption></figure></div>
+<div class="limit-row"><label for="limit">Maximum file size<input id="limit" type="number" min="0.001" step="any" value="500" inputmode="decimal" aria-describedby="units"></label><label for="unit">Unit<select id="unit"><option value="1000">KB</option><option value="1000000">MB</option></select></label></div>
+<p id="units" class="hint">1 KB = 1,000 bytes. 1 MB = 1,000 KB.</p>
+<div class="actions"><button type="button" id="create" class="primary" disabled>Prepare JPG</button><button type="button" id="clear" disabled>Start over</button></div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+<p class="warning" id="warning" role="alert" hidden></p>
+<div class="result" id="result" hidden><h2>Result</h2><figure><img id="result-preview" alt="Result"><figcaption id="summary"></figcaption></figure><a id="download" class="download">Download JPG</a></div>
+</section>
+<noscript><p>JavaScript is needed to process your photo in your browser.</p></noscript>
+<p class="explanation">The tool checks the actual file size, first adjusting JPG quality and then reducing dimensions if needed. It never enlarges, crops or stretches your photo. Transparency becomes white. A JPG already within the limit is offered unchanged. HEIC is not supported; export it as JPG first. Meeting the file-size limit does not guarantee that a form will accept the photo.</p>
+<p class="related">Preparing images for a website instead? <a href="/tools/webp-compressor/">Try WebP Compressor →</a></p>
+</main>
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Found this useful?</h2>
+        <p>This tool is free to use. If it saved you some time, you can support the project.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Support MRC →</a><span data-support-pending>Voluntary support — coming soon.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<script src="/tools/image-to-target-size/tool.js" defer></script>
+<script src="/assets/support.js" defer></script>
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+</body>
+</html>

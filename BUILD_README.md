@@ -16,7 +16,8 @@ Aprire `http://localhost:8000/`. Dopo la revisione, la pubblicazione resta manua
 - `shared/menu.en.html` e `shared/menu.it.html`: menu popup editoriale, già HTML; il build assegna `aria-current` secondo la pagina.
 - `shared/tool-header.html`: navigazione Tools e switch verso la pagina equivalente.
 - `shared/tool-afterword.en.html` e `.it.html`: supporto volontario e CTA professionale, separati.
-- `shared/tools.json`: elenco unico di strumenti, nomi, descrizioni e URL IT/EN. Genera la lista numerata nei due indici e i link nell'header Tools.
+- `shared/tools.json`: dataset unico con `tools` (nomi, brevi descrizioni, URL IT/EN e ID dei tag) e `tags` (etichette IT/EN e visibilità nella barra dei filtri). Genera la lista compatta nei due indici e i link nell'header Tools. I tag sono multidimensionali: uno strumento può averne più di uno. Nessuna numerazione pubblica.
+- `assets/tools-index.css` e `.js`: lista editoriale compatta e filtro singolo accessibile. Senza JavaScript tutti gli strumenti restano visibili, mentre i controlli inattivi sono nascosti. Nessun filtro modifica URL o canonical.
 - `assets/shared-ui.css` e `assets/tool-shell.css`: stili degli elementi comuni. Il CSS operativo dei singoli strumenti resta locale.
 
 La configurazione Stripe rimane esclusivamente in `assets/support.js`, invariata. Nessun URL Stripe nei frammenti.
@@ -31,6 +32,6 @@ La sitemap comprende i documenti HTML completi con canonical sul proprio URL e s
 
 ## Nuove pagine
 
-Copiare una pagina dello stesso tipo, modificare contenuto e metadata, mantenere i marcatori condivisi e usare canonical/hreflang corretti. Per una nuova Tool creare entrambe le pagine monolingua e aggiungere una voce a `shared/tools.json`. Il build fallisce se un target o una pagina importante non è raggiungibile; non ignora silenziosamente errori.
+Copiare una pagina dello stesso tipo, modificare contenuto e metadata, mantenere i marcatori condivisi e usare canonical/hreflang corretti. Per una nuova Tool creare entrambe le pagine monolingua e aggiungere un record in `shared/tools.json` → `tools`, con i tag presenti in `tags`. Per introdurre un tag definirne una sola volta le etichette IT/EN e se mostrarlo come filtro. Il build fallisce se un tag, target o pagina importante non è valido; non ignora silenziosamente errori.
 
 Lo switch editoriale resta specifico della pagina, perché gli slug tradotti non sono una sostituzione automatica di prefisso. Gli algoritmi dei tre strumenti originali sono conservati; le loro nuove pagine IT contengono stringhe runtime tradotte. Quando si modifica un algoritmo inline, propagare l'intervento IT/EN e testare entrambe le versioni. Images to PDF condivide già lo stesso JS operativo per entrambe le lingue.

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Foto entro il peso richiesto — riduci una foto entro un limite in KB o MB | MRC</title>
+<meta name="description" content="Riduci una foto JPG, PNG o WebP entro il peso massimo richiesto. Scarica un JPG entro il limite in KB o MB. Gratis, senza account, direttamente nel browser.">
+<link rel="canonical" href="https://marcoruisi.pages.dev/it/tools/foto-entro-peso/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MRC · Marco Ruisi">
+<meta property="og:title" content="Foto entro il peso richiesto — riduci una foto entro un limite in KB o MB | MRC">
+<meta property="og:description" content="Riduci una foto JPG, PNG o WebP entro il peso massimo richiesto. Scarica un JPG entro il limite in KB o MB. Gratis, senza account, direttamente nel browser.">
+<meta property="og:url" content="https://marcoruisi.pages.dev/it/tools/foto-entro-peso/">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Foto entro il peso richiesto — riduci una foto entro un limite in KB o MB | MRC">
+<meta name="twitter:description" content="Riduci una foto JPG, PNG o WebP entro il peso massimo richiesto. Scarica un JPG entro il limite in KB o MB. Gratis, senza account, direttamente nel browser.">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tools/image-to-target-size/tool.css">
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Foto entro il peso richiesto", "url": "https://marcoruisi.pages.dev/it/tools/foto-entro-peso/", "description": "Riduci una foto JPG, PNG o WebP entro il peso massimo richiesto. Scarica un JPG entro il limite in KB o MB. Gratis, senza account, direttamente nel browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web browser", "inLanguage": "it", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<!-- MRC SHARED TOOL ALTERNATES START -->
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/image-to-target-size/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/foto-entro-peso/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/image-to-target-size/">
+<!-- MRC SHARED TOOL ALTERNATES END -->
+</head>
+<body>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/it/tools/">MRC Tools</a>
+        <a href="/it/tools/webp-compressor/">WebP Compressor</a>
+        <a href="/it/tools/pdf-compressor/">PDF Compressor</a>
+        <a href="/it/tools/clean-wp-clipboard/">HTML Editor</a>
+        <a href="/it/tools/immagini-in-pdf/">Immagini in PDF</a>
+        <a href="/it/tools/foto-entro-peso/" aria-current="page">Foto entro il peso richiesto</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/tools/image-to-target-size/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/foto-entro-peso/" lang="it" aria-current="page">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app">
+<h1>Foto entro il peso richiesto</h1>
+<p class="intro">Un modulo ti chiede una foto più leggera? Scegli l’immagine, indica il peso massimo e scarica un JPG entro il limite.</p>
+<p class="privacy">La foto viene elaborata solo nel tuo browser. Non viene mai inviata a un server.</p>
+<section class="panel workspace" id="workspace" aria-label="Foto entro il peso richiesto" aria-busy="false">
+<div class="dropzone" id="dropzone"><button type="button" id="choose" class="primary" aria-describedby="formats">Scegli una foto</button><input id="file" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden><p id="formats">JPG, PNG o WebP. Una foto alla volta. Puoi anche trascinarla qui.</p></div>
+<div id="selected" hidden><p id="filename"></p><figure><img id="original-preview" alt="Foto selezionata"><figcaption id="original-info"></figcaption></figure></div>
+<div class="limit-row"><label for="limit">Peso massimo<input id="limit" type="number" min="0.001" step="any" value="500" inputmode="decimal" aria-describedby="units"></label><label for="unit">Unità<select id="unit"><option value="1000">KB</option><option value="1000000">MB</option></select></label></div>
+<p id="units" class="hint">1 KB = 1.000 byte. 1 MB = 1.000 KB.</p>
+<div class="actions"><button type="button" id="create" class="primary" disabled>Prepara JPG</button><button type="button" id="clear" disabled>Ricomincia</button></div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+<p class="warning" id="warning" role="alert" hidden></p>
+<div class="result" id="result" hidden><h2>Risultato</h2><figure><img id="result-preview" alt="Risultato"><figcaption id="summary"></figcaption></figure><a id="download" class="download">Scarica JPG</a></div>
+</section>
+<noscript><p>Per elaborare la foto nel browser è necessario JavaScript.</p></noscript>
+<p class="explanation">Lo strumento verifica il peso effettivo del file: prima regola la qualità JPG e poi, se serve, riduce le dimensioni. Non ingrandisce, ritaglia o deforma la foto. La trasparenza diventa bianca. Un JPG già entro il limite viene offerto senza modifiche. HEIC non è supportato: esportalo prima come JPG. Rispettare il limite di peso non garantisce che un modulo accetti la foto.</p>
+<p class="related">Stai preparando immagini per un sito web? <a href="/it/tools/webp-compressor/">Prova WebP Compressor →</a></p>
+</main>
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Ti è stato utile?</h2>
+        <p>Questo strumento è gratuito. Se ti ha fatto risparmiare un po’ di tempo, puoi sostenere il progetto.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Supporta MRC →</a><span data-support-pending>Supporto volontario — presto disponibile.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Ti serve qualcosa di più specifico?</h2>
+        <p>Questo strumento risolve un problema comune. Se il tuo lavoro richiede regole, integrazioni o automazioni diverse, posso progettare una soluzione intorno a quelle esigenze.</p>
+        <p><a href="/it/contatti/">Raccontami il tuo problema →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<script src="/tools/image-to-target-size/tool.js" defer></script>
+<script src="/assets/support.js" defer></script>
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+</body>
+</html>
