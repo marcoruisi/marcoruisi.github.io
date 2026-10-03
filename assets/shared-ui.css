@@ -1,0 +1,10 @@
+/* Static shared footer. Publish is deliberately outside all navigation. */
+footer.mrc-site-footer { max-width: 920px; margin: 110px auto 0; padding-top: 35px; border-top: 1px solid var(--line, var(--border, #ddd)); color: var(--muted, #687078); font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.6; }
+footer.mrc-site-footer p { margin: 0 0 8px; }
+footer.mrc-site-footer .footer-name { color: var(--text, #202124); font-weight: 600; }
+footer.mrc-site-footer a { color: inherit; text-decoration: none; }
+footer.mrc-site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+footer.mrc-site-footer .copyright { margin-top: 24px; font-size: 13px; }
+footer.mrc-site-footer .mrc-publish { margin-top: 16px; font-size: 12px; }
+footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+@media (max-width:700px) { footer.mrc-site-footer { margin-top: 70px; } }

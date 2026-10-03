@@ -67,14 +67,27 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
   ]
 }
 </script>
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<!-- MRC SHARED TOOL ALTERNATES START -->
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/pdf-compressor/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/pdf-compressor/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/pdf-compressor/">
+<!-- MRC SHARED TOOL ALTERNATES END -->
 </head>
 <body>
-<nav class="mrc-tools-nav" aria-label="MRC Tools">
-<a class="mrc-tools-brand" href="/tools/">MRC Tools</a>
-<a href="../clean-wp-clipboard/">HTML Editor</a>
-<a href="../webp-compressor/">WebP Compressor</a>
-<a href="../pdf-compressor/" aria-current="page">PDF Compressor</a>
-</nav>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/tools/">MRC Tools</a>
+        <a href="/tools/webp-compressor/">WebP Compressor</a>
+        <a href="/tools/pdf-compressor/" aria-current="page">PDF Compressor</a>
+        <a href="/tools/clean-wp-clipboard/">HTML Editor</a>
+        <a href="/tools/images-to-pdf/">Images to PDF</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/pdf-compressor/" lang="en" aria-current="page">EN</a> / <a href="/it/tools/pdf-compressor/" lang="it">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END -->
 
 <main class="app">
 <h1>PDF Compressor</h1>
@@ -107,6 +120,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <p class="footer">Your PDF is processed locally. The document is never uploaded.</p>
 </main>
 
+<!-- MRC SHARED TOOL AFTERWORD START -->
 <footer class="mrc-tool-afterword" aria-label="About this free tool">
     <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
         <h2 id="mrc-support-heading">Found this useful?</h2>
@@ -119,6 +133,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
         <p><a href="/contact/">Tell me about your problem →</a></p>
     </section>
 </footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
 
 <script type="module">
 import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs';
@@ -341,5 +356,14 @@ clearButton.addEventListener('click',clearAll);
 ['dragleave','drop'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.remove('drag')));
 </script>
 <script src="/assets/support.js"></script>
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
 </body>
 </html>

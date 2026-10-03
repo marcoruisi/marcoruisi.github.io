@@ -47,6 +47,7 @@
   ]
 }
 </script>
+<link rel="stylesheet" href="/assets/shared-ui.css">
 </head>
 
 <body>
@@ -69,7 +70,7 @@
 </button></div>
 </div>
 
-<!-- MRC POPUP MENU START -->
+<!-- MRC SHARED MENU START -->
 <div
     class="site-popup-menu"
     id="site-popup-menu"
@@ -92,10 +93,10 @@
                 <li><a href="/it/contatti/">Contatti</a></li>
             </ul>
         </nav>
-<nav class="popup-shortcuts" aria-label="Scorciatoie"><a href="/it/lavoro/">Il mio lavoro</a><a href="/it/tools/">Tools</a></nav>
+<nav class="popup-shortcuts" aria-label="Scorciatoie"><a href="/it/lavoro/">Il mio lavoro</a><a href="/it/tools/" aria-current="page">Tools</a></nav>
     </div>
 </div>
-<!-- MRC POPUP MENU END -->
+<!-- MRC SHARED MENU END -->
 
 
 <header class="page-header">
@@ -105,18 +106,28 @@
 <article class="content">
 <p>Piccoli strumenti nati da problemi reali.</p>
 <p>Molti sono nati per uso interno: incontravo ripetutamente lo stesso problema, costruivo una soluzione e poi iniziavo a passarla alle persone con cui lavoro.</p>
-<p>Se una cosa può essere fatta direttamente dalla persona che ne ha bisogno, non ha necessariamente senso che debba continuare a passare da me.</p><p><a href="/it/storie/autonomia/">Perché? Leggi Autonomia →</a></p><div class="stories-list"><section class="story-card"><span class="story-number">01</span><h2>WebP Compressor</h2><p>Converti, ridimensiona e comprimi immagini per il web.</p><p><a href="/tools/webp-compressor/" target="_blank" rel="noopener noreferrer">Apri lo strumento →</a></p></section><section class="story-card"><span class="story-number">02</span><h2>PDF Compressor</h2><p>Riduci le dimensioni di un PDF in base al limite che ti serve.</p><p><a href="/tools/pdf-compressor/" target="_blank" rel="noopener noreferrer">Apri lo strumento →</a></p></section><section class="story-card"><span class="story-number">03</span><h2>HTML Editor / Clean WP Clipboard</h2><p>Prepara e ripulisci HTML da usare in WordPress.</p><p><a href="/tools/clean-wp-clipboard/" target="_blank" rel="noopener noreferrer">Apri lo strumento →</a></p></section></div><section class="reading-bridges"><h2>Ti serve qualcosa di più specifico?</h2><p>Questi strumenti risolvono problemi abbastanza comuni da essere condivisi. Processi, integrazioni, dati o regole specifiche possono richiedere uno strumento progettato su misura.</p><p><a href="/it/contatti/">Parliamone →</a></p></section><aside class="support-reference" id="support"><p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Supporta MRC →</a><span data-support-pending>Supporto volontario — presto disponibile.</span></p></aside>
+<p>Se una cosa può essere fatta direttamente dalla persona che ne ha bisogno, non ha necessariamente senso che debba continuare a passare da me.</p><p><a href="/it/storie/autonomia/">Perché? Leggi Autonomia →</a></p><!-- MRC SHARED TOOLS LIST START -->
+<div class="stories-list">
+<section class="story-card"><span class="story-number">01</span><h2>WebP Compressor</h2><p>Converti, ridimensiona e comprimi immagini per il web.</p><p><a href="/it/tools/webp-compressor/">Apri lo strumento →</a></p></section>
+<section class="story-card"><span class="story-number">02</span><h2>PDF Compressor</h2><p>Riduci le dimensioni di un PDF in base al limite che ti serve.</p><p><a href="/it/tools/pdf-compressor/">Apri lo strumento →</a></p></section>
+<section class="story-card"><span class="story-number">03</span><h2>HTML Editor / Clean WP Clipboard</h2><p>Prepara e ripulisci HTML da usare in WordPress.</p><p><a href="/it/tools/clean-wp-clipboard/">Apri lo strumento →</a></p></section>
+<section class="story-card"><span class="story-number">04</span><h2>Immagini in PDF</h2><p>Metti in ordine le foto e scarica un unico PDF. Le immagini restano nel tuo browser.</p><p><a href="/it/tools/immagini-in-pdf/">Apri lo strumento →</a></p></section>
+</div>
+<!-- MRC SHARED TOOLS LIST END --><section class="reading-bridges"><h2>Ti serve qualcosa di più specifico?</h2><p>Questi strumenti risolvono problemi abbastanza comuni da essere condivisi. Processi, integrazioni, dati o regole specifiche possono richiedere uno strumento progettato su misura.</p><p><a href="/it/contatti/">Parliamone →</a></p></section><aside class="support-reference" id="support"><p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Supporta MRC →</a><span data-support-pending>Supporto volontario — presto disponibile.</span></p></aside>
 </article>
 <nav class="page-nav" aria-label="Continua la lettura">
     <a href="/it/lavoro/">← Il mio lavoro</a>
     <a href="/it/contatti/">Contatti →</a>
 </nav>
-<footer class="footer">
-            <p class="footer-name">Marco Ruisi</p>
-            <p class="footer-claim">Simple systems. Better questions.</p>
-            <p><a href="mailto:marcoruisi@gmail.com" target="_blank" rel="noopener noreferrer">marcoruisi@gmail.com</a></p>
-            <p class="copyright">© 2026</p>
-        </footer>
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
     </main>
 
 <!-- Cloudflare Web Analytics -->

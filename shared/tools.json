@@ -1,0 +1,6 @@
+[
+  {"id":"webp-compressor","name":{"en":"WebP Compressor","it":"WebP Compressor"},"url":{"en":"/tools/webp-compressor/","it":"/it/tools/webp-compressor/"},"description":{"en":"Convert, resize and compress images for the web.","it":"Converti, ridimensiona e comprimi immagini per il web."}},
+  {"id":"pdf-compressor","name":{"en":"PDF Compressor","it":"PDF Compressor"},"url":{"en":"/tools/pdf-compressor/","it":"/it/tools/pdf-compressor/"},"description":{"en":"Reduce a PDF to the file-size limit you need.","it":"Riduci le dimensioni di un PDF in base al limite che ti serve."}},
+  {"id":"clean-wp-clipboard","name":{"en":"HTML Editor / Clean WP Clipboard","it":"HTML Editor / Clean WP Clipboard"},"url":{"en":"/tools/clean-wp-clipboard/","it":"/it/tools/clean-wp-clipboard/"},"description":{"en":"Prepare and clean HTML for WordPress.","it":"Prepara e ripulisci HTML da usare in WordPress."}},
+  {"id":"images-to-pdf","name":{"en":"Images to PDF","it":"Immagini in PDF"},"url":{"en":"/tools/images-to-pdf/","it":"/it/tools/immagini-in-pdf/"},"description":{"en":"Put your photos in order and download a single PDF. Your images stay in your browser.","it":"Metti in ordine le foto e scarica un unico PDF. Le immagini restano nel tuo browser."}}
+]
