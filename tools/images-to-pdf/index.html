@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Images to PDF — combine JPG, PNG &amp; WebP photos | MRC</title>
+<meta name="description" content="Combine JPG, PNG and WebP photos into one PDF. Reorder, rotate and download. Free, no account: your images stay in your browser.">
+<link rel="canonical" href="https://marcoruisi.pages.dev/tools/images-to-pdf/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/images-to-pdf/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/immagini-in-pdf/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/images-to-pdf/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MRC · Marco Ruisi">
+<meta property="og:title" content="Images to PDF — combine JPG, PNG &amp; WebP photos | MRC">
+<meta property="og:description" content="Combine JPG, PNG and WebP photos into one PDF. Reorder, rotate and download. Free, no account: your images stay in your browser.">
+<meta property="og:url" content="https://marcoruisi.pages.dev/tools/images-to-pdf/">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Images to PDF — combine JPG, PNG &amp; WebP photos | MRC">
+<meta name="twitter:description" content="Combine JPG, PNG and WebP photos into one PDF. Reorder, rotate and download. Free, no account: your images stay in your browser.">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tools/images-to-pdf/tool.css">
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Images to PDF", "url": "https://marcoruisi.pages.dev/tools/images-to-pdf/", "description": "Combine JPG, PNG and WebP photos into one PDF. Reorder, rotate and download. Free, no account: your images stay in your browser.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web browser", "inLanguage": "en", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+</head>
+<body>
+<header class="tool-header"><a href="/tools/">← MRC Tools</a><nav aria-label="Language"><a href="/tools/images-to-pdf/" lang="en" aria-current="page">EN</a><a href="/it/tools/immagini-in-pdf/" lang="it">IT</a></nav></header>
+<main class="app">
+<h1>Turn your images into one PDF</h1>
+<p class="intro">Choose your photos, put them in order and download a single PDF. One photo per page, with nothing cropped.</p>
+<p class="privacy">Your images are processed only in your browser. They are never uploaded to a server.</p>
+<section class="workspace" id="workspace" aria-label="Create your PDF" aria-busy="false">
+<div class="dropzone" id="dropzone"><button type="button" id="choose" class="primary" aria-describedby="formats">Choose images</button><input id="files" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden><p id="formats">JPG, PNG and WebP. Select several photos or drop them here.</p></div>
+<p class="count" id="count" aria-live="polite"></p>
+<ol id="image-list" aria-label="Page order"></ol>
+<ul id="errors" class="errors" aria-live="polite"></ul>
+<div class="actions"><button type="button" id="create" class="primary" disabled>Create PDF</button><button type="button" id="clear" disabled>Start over</button></div>
+<p class="status" id="status" role="status" aria-live="polite"></p>
+<div class="result" id="result" hidden><a id="download" class="download">Download PDF</a><p id="summary"></p><p>Still too large? <a href="/tools/pdf-compressor/">Try PDF Compressor →</a></p></div>
+</section>
+<noscript><p>JavaScript is needed to process images in your browser.</p></noscript>
+<p class="explanation">The PDF uses A4 pages with automatic orientation. Very large images are resized to keep the file manageable. Text in photos stays an image: it is not recognized or made selectable. HEIC is not supported in this version; export the photo as JPG first.</p>
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+<section aria-labelledby="support-heading"><h2 id="support-heading">Found this useful?</h2><p>This tool is free to use. If it saved you some time, you can support the project.</p><p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Support MRC →</a><span data-support-pending>Voluntary support — coming soon.</span></p></section>
+<section class="mrc-tool-specific" aria-labelledby="specific-heading"><h2 id="specific-heading">Need something more specific?</h2><p>A particular process, integration or set of rules may call for a tool designed around it. <a href="/contact/">Let’s talk →</a></p><p><a href="/tools/">← All tools</a></p></section>
+</footer>
+</main>
+<script src="/tools/images-to-pdf/pdf-lib-1.17.1.min.js" defer></script>
+<script src="/tools/images-to-pdf/tool.js" defer></script>
+<script src="/assets/support.js" defer></script>
+</body>
+</html>
