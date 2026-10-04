@@ -41,6 +41,13 @@
         "it": "Testo"
       },
       "filter": false
+    },
+    "compression": {
+      "label": {
+        "en": "Compression",
+        "it": "Compressione"
+      },
+      "filter": true
     }
   },
   "tools": [
@@ -60,7 +67,8 @@
       },
       "tags": [
         "everyday",
-        "images"
+        "images",
+        "compression"
       ]
     },
     {
@@ -79,7 +87,8 @@
       },
       "tags": [
         "everyday",
-        "pdf"
+        "pdf",
+        "compression"
       ]
     },
     {
@@ -135,6 +144,26 @@
       "description": {
         "en": "Make a photo fit a KB or MB limit.",
         "it": "Riduci una foto entro un limite in KB o MB."
+      },
+      "tags": [
+        "everyday",
+        "images",
+        "compression"
+      ]
+    },
+    {
+      "id": "white-to-transparent",
+      "name": {
+        "en": "White to transparent",
+        "it": "Da bianco a trasparente"
+      },
+      "url": {
+        "en": "/tools/white-to-transparent/",
+        "it": "/it/tools/bianco-trasparente/"
+      },
+      "description": {
+        "en": "Remove a white background from a logo or image and download a transparent PNG. Local, free processing.",
+        "it": "Rimuovi lo sfondo bianco da un logo o da un’immagine e scarica un PNG trasparente. Elaborazione locale e gratuita."
       },
       "tags": [
         "everyday",

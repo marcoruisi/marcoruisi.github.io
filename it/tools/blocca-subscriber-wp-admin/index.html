@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Impedisci ai Subscriber di accedere a wp-admin — MRC Tools</title>
+<meta name="description" content="Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.">
+<link rel="canonical" href="https://marcoruisi.com/it/tools/blocca-subscriber-wp-admin/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.com/it/tools/blocca-subscriber-wp-admin/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.com/tools/block-subscriber-wp-admin/">
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<style>
+.mrc-snippet{margin:2rem 0;background:#111;color:#f4f4f4}
+.mrc-snippet__bar{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;border-bottom:1px solid #333;font-size:.8rem}
+.mrc-snippet__bar span{margin-right:auto;opacity:.7}
+.mrc-snippet button{border:0;padding:.55rem .9rem;cursor:pointer}
+.mrc-snippet pre{margin:0;padding:1.25rem;overflow:auto;white-space:pre;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+.mrc-snippet-note{border-left:2px solid currentColor;padding-left:1rem}
+</style>
+</head>
+<body>
+<header class="tool-header">
+  <a href="/it/tools/">MRC Tools</a>
+  <a href="/tools/block-subscriber-wp-admin/">EN</a>
+</header>
+<main class="tool-shell">
+  <p class="tool-kicker">WordPress · Snippet · Accesso</p>
+  <h1>Impedisci ai Subscriber di accedere a wp-admin</h1>
+  <p class="tool-lead">Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.</p>
+
+  <section>
+    <h2>Il codice</h2>
+    <p>Le richieste AJAX continuano a funzionare normalmente. Gli utenti che possono modificare contenuti non vengono bloccati, anche se possiedono anche il ruolo Subscriber.</p>
+    <div class="mrc-snippet">
+      <div class="mrc-snippet__bar"><span>PHP · WordPress · Code Snippets compatible</span><button type="button" id="copy-code">Copia</button></div>
+      <pre id="snippet-code"><code>/**
+ * Redirect WordPress Subscribers away from wp-admin.
+ */
+add_action( 'admin_init', function () {
+    if ( wp_doing_ajax() ) {
+        return;
+    }
+
+    $user = wp_get_current_user();
+
+    if ( ! $user || ! $user-&gt;exists() ) {
+        return;
+    }
+
+    $is_subscriber = in_array( 'subscriber', (array) $user-&gt;roles, true );
+    $can_edit = current_user_can( 'edit_posts' );
+
+    if ( $is_subscriber &amp;&amp; ! $can_edit ) {
+        wp_safe_redirect( home_url( '/' ) );
+        exit;
+    }
+} );</code></pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Come usarlo</h2>
+    <ol><li>Installa il plugin gratuito <strong>Code Snippets</strong> su WordPress.</li><li>Crea un nuovo snippet PHP.</li><li>Copia e incolla il codice qui sopra.</li><li>Impostalo su <strong>Run snippet everywhere</strong> e attivalo.</li></ol>
+    <p>Code Snippets è il metodo consigliato perché rende lo snippet facile da attivare e disattivare. Se sai già dove inserirlo, puoi integrare lo stesso PHP nel tuo codice WordPress.</p>
+    <p class="mrc-snippet-note"><strong>Nota.</strong> Questo snippet tiene i Subscriber fuori dall’area amministrativa, ma non sostituisce i permessi di WordPress e non protegge contenuti o file altrimenti accessibili pubblicamente.</p>
+  </section>
+
+  <section class="tool-afterword">
+    <h2>Ti è stato utile?</h2><p>Questo strumento è gratuito. Se ti ha fatto risparmiare un po’ di tempo, puoi sostenere il progetto.</p>
+    <p><a href="https://buy.stripe.com/eVq5kCaff0BE1VFdQL4sE02" target="_blank" rel="noopener noreferrer">Supporta MRC →</a></p>
+    <h2>Ti serve qualcosa di più specifico?</h2><p>Se il tuo sito richiede ruoli, permessi o flussi diversi, posso progettare una soluzione intorno a quelle esigenze.</p>
+    <p><a href="/it/lavoro/">Raccontami il tuo problema →</a></p>
+  </section>
+</main>
+<script>
+document.getElementById('copy-code').addEventListener('click', async function(){
+  const text=document.getElementById('snippet-code').innerText;
+  try{await navigator.clipboard.writeText(text);this.textContent="Copiato";setTimeout(()=>this.textContent="Copia",1500)}
+  catch(e){const r=document.createRange();r.selectNodeContents(document.getElementById('snippet-code'));const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+});
+</script>
+</body></html>
