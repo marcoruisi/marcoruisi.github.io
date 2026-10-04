@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Disabilita completamente i commenti WordPress — MRC Tools</title>
+<meta name="description" content="Rimuovi commenti e ping dal frontend e dalla dashboard senza cancellare i commenti già salvati.">
+<style>
+:root{--bg:#f4f1ea;--ink:#171717;--muted:#6c6a65;--line:#d6d1c8;--max:920px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+header{background:#171717;color:#f7f4ed}.bar,main,.foot{max-width:var(--max);margin:auto}
+.bar{padding:18px 24px;display:flex;gap:18px}.brand{font-weight:700;margin-right:auto}
+main{padding:72px 24px 90px}.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tag{border:1px solid var(--line);border-radius:99px;padding:6px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+h1{font:400 clamp(42px,7vw,76px)/.98 Georgia,serif;letter-spacing:-.04em;margin:0 0 26px;max-width:850px}
+.lead{font:22px/1.45 Georgia,serif;max-width:760px;margin:0 0 52px}
+.section{border-top:1px solid var(--line);padding-top:28px;margin-top:44px}h2{font-size:18px}p,li{line-height:1.65;max-width:760px}
+.codebox{background:#111;color:#eee;margin:22px 0}.codebar{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid #333;font-size:12px;color:#aaa}
+.codebar span{margin-right:auto}button{background:#f6f3ec;border:0;padding:8px 13px;cursor:pointer}
+pre{margin:0;padding:22px;overflow:auto;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}
+.note{border-left:2px solid;padding-left:18px;color:#45433f}footer{border-top:1px solid var(--line);padding:30px 24px}
+.foot{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+@media(max-width:700px){main{padding-top:48px}.lead{font-size:19px}pre{font-size:12px;padding:16px}}
+</style>
+</head><body>
+<header><div class="bar"><span class="brand">MRC Tools</span><span>IT / EN</span></div></header>
+<main><div class="tags"><span class="tag">WordPress</span><span class="tag">Snippet</span><span class="tag">Commenti</span></div><h1>Disabilita completamente i commenti WordPress</h1><p class="lead">Rimuovi commenti e ping dal frontend e dalla dashboard senza cancellare i commenti già salvati.</p>
+<section class="section"><h2>Cosa fa</h2><p>Chiude commenti e ping, rimuove il supporto commenti dai post type, blocca nuovi invii, nasconde i commenti esistenti e rimuove le principali voci commenti da wp-admin e REST API.</p><p class="note"><strong>Importante.</strong> Non elimina i commenti già presenti nel database.</p></section><section class="section"><h2>Come usarlo</h2><ol><li>Installa il plugin gratuito <strong>Code Snippets</strong>.</li><li>Crea un nuovo snippet PHP.</li><li>Incolla il codice e attivalo ovunque.</li></ol></section>
+
+            <div class="codebox">
+              <div class="codebar"><span>PHP · WordPress · Code Snippets</span><button type="button" data-copy="code-1">Copia</button></div>
+              <pre id="code-1"><code>/**
+ * Disable WordPress comments everywhere.
+ *
+ * Existing comments are not deleted; they are hidden from the frontend
+ * and the comment UI is removed from wp-admin.
+ */
+
+add_action( 'init', function () {
+    foreach ( get_post_types() as $post_type ) {
+        remove_post_type_support( $post_type, 'comments' );
+        remove_post_type_support( $post_type, 'trackbacks' );
+    }
+}, 100 );
+
+add_filter( 'comments_open', '__return_false', 20 );
+add_filter( 'pings_open', '__return_false', 20 );
+
+add_filter( 'comments_array', function () {
+    return array();
+}, 10, 2 );
+
+add_filter( 'get_comments_number', function () {
+    return 0;
+}, 20, 2 );
+
+add_filter( 'preprocess_comment', function ( $commentdata ) {
+    wp_die(
+        esc_html__( 'Comments are disabled on this website.', 'mrc-snippets' ),
+        '',
+        array( 'response' =&gt; 403 )
+    );
+}, 0 );
+
+add_action( 'admin_menu', function () {
+    remove_menu_page( 'edit-comments.php' );
+    remove_submenu_page( 'options-general.php', 'options-discussion.php' );
+} );
+
+add_action( 'admin_init', function () {
+    global $pagenow;
+
+    if ( in_array( $pagenow, array( 'edit-comments.php', 'options-discussion.php' ), true ) ) {
+        wp_safe_redirect( admin_url() );
+        exit;
+    }
+
+    remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
+} );
+
+add_action( 'admin_bar_menu', function ( $wp_admin_bar ) {
+    $wp_admin_bar-&gt;remove_node( 'comments' );
+}, 999 );
+
+add_filter( 'rest_endpoints', function ( $endpoints ) {
+    foreach ( $endpoints as $route =&gt; $handlers ) {
+        if ( strpos( $route, '/wp/v2/comments' ) === 0 ) {
+            unset( $endpoints[ $route ] );
+        }
+    }
+
+    return $endpoints;
+} );</code></pre>
+            </div>
+</main>
+<footer><div class="foot"><strong>Marco Ruisi</strong><span>Simple systems. Better questions.</span><span>© 2026</span></div></footer>
+<script>
+document.querySelectorAll('[data-copy]').forEach(function(btn){
+ btn.addEventListener('click',async function(){
+  const el=document.getElementById(btn.dataset.copy); const txt=el.innerText;
+  try{await navigator.clipboard.writeText(txt); const old=btn.textContent; btn.textContent="Copiato"; setTimeout(()=>btn.textContent=old,1500);}
+  catch(e){const r=document.createRange();r.selectNodeContents(el);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+ });
+});
+</script></body></html>
