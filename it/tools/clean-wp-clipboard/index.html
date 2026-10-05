@@ -963,23 +963,30 @@
 
         const lines = [];
 
+        function attrsFor(node) {
+          return [...node.attributes]
+            .map(attr => ` ${attr.name}="${attr.value.replace(/"/g, "&quot;")}"`)
+            .join("");
+        }
+
+        function inlineHtml(node) {
+          if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+          if (node.nodeType !== Node.ELEMENT_NODE) return "";
+          if (node.tagName === "BR") return "<br>";
+          return node.outerHTML;
+        }
+
         function walk(node, depth = 0) {
           if (node.nodeType === Node.TEXT_NODE) {
-            const text = node.textContent;
-            if (text.trim()) {
-              lines.push("  ".repeat(depth) + text.trim());
-            }
+            const text = node.textContent.trim();
+            if (text) lines.push("  ".repeat(depth) + text);
             return;
           }
 
           if (node.nodeType !== Node.ELEMENT_NODE) return;
 
           const tag = node.tagName.toLowerCase();
-          const attrs = [...node.attributes]
-            .map(attr => ` ${attr.name}="${attr.value.replace(/"/g, "&quot;")}"`)
-            .join("");
-
-          const isBlock = blockTags.has(node.tagName);
+          const attrs = attrsFor(node);
           const indent = "  ".repeat(depth);
 
           if (node.tagName === "BR") {
@@ -987,24 +994,26 @@
             return;
           }
 
-          if (!isBlock) {
+          if (!blockTags.has(node.tagName)) {
             lines.push(indent + node.outerHTML);
             return;
           }
 
-          lines.push(`${indent}<${tag}${attrs}>`);
-
-          for (const child of node.childNodes) {
-            walk(child, depth + 1);
+          // I blocchi con solo contenuto inline restano su una sola riga.
+          // In questo modo <strong>, <em> e <a> non spezzano i paragrafi.
+          const hasBlockChild = [...node.children].some(child => blockTags.has(child.tagName));
+          if (!hasBlockChild) {
+            const inner = [...node.childNodes].map(inlineHtml).join("").trim();
+            lines.push(`${indent}<${tag}${attrs}>${inner}</${tag}>`);
+            return;
           }
 
+          lines.push(`${indent}<${tag}${attrs}>`);
+          for (const child of node.childNodes) walk(child, depth + 1);
           lines.push(`${indent}</${tag}>`);
         }
 
-        for (const child of container.childNodes) {
-          walk(child, 0);
-        }
-
+        for (const child of container.childNodes) walk(child, 0);
         return lines.join("\n").trim();
       }
 

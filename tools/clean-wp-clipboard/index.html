@@ -960,12 +960,28 @@
 
         const lines = [];
 
+        function serializeInlineChildren(element) {
+          return [...element.childNodes]
+            .map(child => {
+              if (child.nodeType === Node.TEXT_NODE) {
+                return child.textContent;
+              }
+
+              if (child.nodeType === Node.ELEMENT_NODE) {
+                return child.outerHTML;
+              }
+
+              return "";
+            })
+            .join("")
+            .replace(/\s+/g, " ")
+            .trim();
+        }
+
         function walk(node, depth = 0) {
           if (node.nodeType === Node.TEXT_NODE) {
-            const text = node.textContent;
-            if (text.trim()) {
-              lines.push("  ".repeat(depth) + text.trim());
-            }
+            const text = node.textContent.replace(/\s+/g, " ").trim();
+            if (text) lines.push("  ".repeat(depth) + text);
             return;
           }
 
@@ -975,8 +991,6 @@
           const attrs = [...node.attributes]
             .map(attr => ` ${attr.name}="${attr.value.replace(/"/g, "&quot;")}"`)
             .join("");
-
-          const isBlock = blockTags.has(node.tagName);
           const indent = "  ".repeat(depth);
 
           if (node.tagName === "BR") {
@@ -984,8 +998,21 @@
             return;
           }
 
-          if (!isBlock) {
+          if (!blockTags.has(node.tagName)) {
             lines.push(indent + node.outerHTML);
+            return;
+          }
+
+          // Textual blocks stay on one line so inline elements such as
+          // <strong>, <em> and <a> do not introduce artificial line breaks.
+          if (["P", "BLOCKQUOTE", "H1", "H2", "H3", "H4", "H5", "H6"].includes(node.tagName)) {
+            lines.push(`${indent}<${tag}${attrs}>${serializeInlineChildren(node)}</${tag}>`);
+            return;
+          }
+
+          // Keep simple list items compact too; nested lists remain structured.
+          if (node.tagName === "LI" && !node.querySelector(":scope > ul, :scope > ol")) {
+            lines.push(`${indent}<${tag}${attrs}>${serializeInlineChildren(node)}</${tag}>`);
             return;
           }
 

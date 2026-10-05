@@ -43,6 +43,63 @@ def replace_block(text, name, content, legacy=None):
         raise ValueError('Chiusura body mancante o ambigua')
     return text.replace('</body>', marked(name, content) + '\n</body>')
 
+def replace_footer(text, content):
+    start, end = '<!-- MRC SHARED FOOTER START -->', '<!-- MRC SHARED FOOTER END -->'
+
+    if text.count(start) != text.count(end) or text.count(start) > 1:
+        raise ValueError('Marcatori ambigui: FOOTER')
+
+    if start in text:
+        pattern = re.escape(start) + r'.*?' + re.escape(end)
+        return re.sub(pattern, lambda _: marked('FOOTER', content), text, flags=re.S)
+
+    legacy = r'<footer\b[^>]*\bclass=["\'][^"\']*\bfooter\b[^"\']*["\'][^>]*>.*?</footer>'
+    matches = list(re.finditer(legacy, text, re.S | re.I))
+
+    if len(matches) == 1:
+        return re.sub(legacy, lambda _: marked('FOOTER', content), text, count=1, flags=re.S | re.I)
+
+    if len(matches) > 1:
+        raise ValueError(f'Blocco iniziale FOOTER ambiguo: trovati {len(matches)} footer compatibili')
+
+    if text.lower().count('</body>') != 1:
+        raise ValueError('FOOTER assente e chiusura body mancante o ambigua')
+
+    return re.sub(
+        r'</body>',
+        lambda _: marked('FOOTER', content) + '\n</body>',
+        text,
+        count=1,
+        flags=re.I
+    )
+
+
+
+def normalize_page_url_metadata(text, url):
+    """Force canonical and og:url to the page's actual public URL."""
+    canonical = f'<link rel="canonical" href="https://marcoruisi.pages.dev{url}">'
+    og_url = f'<meta property="og:url" content="https://marcoruisi.pages.dev{url}">'
+
+    # Remove any existing canonical/og:url regardless of attribute order.
+    text = re.sub(
+        r'<link\b(?=[^>]*\brel=["\']canonical["\'])[^>]*>\s*',
+        '',
+        text,
+        flags=re.I
+    )
+    text = re.sub(
+        r'<meta\b(?=[^>]*\bproperty=["\']og:url["\'])[^>]*>\s*',
+        '',
+        text,
+        flags=re.I
+    )
+
+    if len(re.findall(r'</head>', text, re.I)) != 1:
+        raise ValueError(f'Chiusura head mancante o ambigua per {url}')
+
+    metadata = canonical + '\n' + og_url + '\n'
+    return re.sub(r'</head>', metadata + '</head>', text, count=1, flags=re.I)
+
 
 def template(root, name, context=None):
     text = (root / 'shared' / name).read_text(encoding='utf-8').strip()
@@ -75,6 +132,7 @@ def plan_shared_ui(root=ROOT):
             raise ValueError(f'Lingua non riconosciuta: {path}')
         lang = lang_match[1]
         url = route(path, root)
+        text = normalize_page_url_metadata(text, url)
         for css in ('/assets/shared-ui.css',):
             if f'href="{css}"' not in text:
                 text = text.replace('</head>', f'<link rel="stylesheet" href="{css}">\n</head>')
@@ -94,15 +152,13 @@ def plan_shared_ui(root=ROOT):
                                  r'<nav class="mrc-tools-nav"[^>]*>.*?</nav>|<header class="tool-header"[^>]*>.*?</header>')
             text = replace_block(text, 'TOOL AFTERWORD', template(root, f'tool-afterword.{lang}.html'),
                                  r'<footer class="mrc-tool-afterword"[^>]*>.*?</footer>')
-            # Exact counterparts, not runtime language changes or mixed-language blocks.
             text = re.sub(r'<link\b[^>]*\brel="alternate"[^>]*>', '', text)
             alternates = '\n'.join(f'<link rel="alternate" hreflang="{l}" href="https://marcoruisi.pages.dev{tool["url"][l]}">' for l in ('en', 'it'))
             alternates += f'\n<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev{tool["url"]["en"]}">'
-            # Dedicated markers prevent extra whitespace accumulating across builds.
             text = replace_head_block(text, 'TOOL ALTERNATES', alternates)
-            text = replace_block(text, 'FOOTER', template(root, 'footer.html'))
+            text = replace_footer(text, template(root, 'footer.html'))
         else:
-            text = replace_block(text, 'FOOTER', template(root, 'footer.html'), r'<footer class="footer"[^>]*>.*?</footer>')
+            text = replace_footer(text, template(root, 'footer.html'))
             if '<!-- MRC POPUP MENU START -->' in text or '<!-- MRC SHARED MENU START -->' in text:
                 menu = template(root, f'menu.{lang}.html')
                 menu = re.sub(r'(<a\s+href="([^"]+)")', lambda m: m[1] + (' aria-current="page"' if m[2] == url else ''), menu)
