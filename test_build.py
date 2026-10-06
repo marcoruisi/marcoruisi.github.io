@@ -4,11 +4,40 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-from update_shared_ui import replace_footer, marked, plan_shared_ui, tool_header, ROOT
+from update_shared_ui import replace_footer, marked, plan_shared_ui, tool_header, request_mailto, request_cta, dataset_checked, index_content, HOST, ROOT
+from urllib.parse import urlparse, parse_qs
 from publish_local import align_history, publish
 
 
 class BuildTests(unittest.TestCase):
+    def test_direct_plugin_email(self):
+        for tool in dataset_checked(ROOT)['tools']:
+            if tool['availability'] != 'on-request': continue
+            for lang in ('en', 'it'):
+                parsed = urlparse(request_mailto(tool, lang))
+                self.assertEqual(parsed.scheme, 'mailto')
+                self.assertEqual(parsed.path, 'marcoruisi@gmail.com')
+                query = parse_qs(parsed.query)
+                self.assertEqual(query['subject'][0], tool['name'][lang] + (' — richiesta plugin' if lang == 'it' else ' — plugin request'))
+                self.assertIn(HOST + tool['url'][lang], query['body'][0])
+                self.assertIn(tool['name'][lang], query['body'][0])
+                content = request_cta(ROOT, tool, lang)
+                self.assertNotIn('<form', content)
+                self.assertNotIn('<script', content)
+                self.assertIn('mailto:', content)
+                self.assertIn('preventivo' if lang == 'it' else 'quote', content)
+
+    def test_catalogue_filter_dimensions(self):
+        data = dataset_checked(ROOT)
+        self.assertEqual([f['value'] for f in data['filters']], ['everyday', 'wordpress', 'plugin', 'snippet', 'free', 'on-request', 'images', 'pdf', 'html', 'compression'])
+        for field, value, count in [('type', 'plugin', 6), ('type', 'snippet', 4), ('availability', 'free', 12), ('availability', 'on-request', 4)]:
+            self.assertEqual(sum(t[field] == value for t in data['tools']), count)
+        for lang in ('en', 'it'):
+            content = index_content(ROOT, data['tools'], data['tags'], lang, False)
+            self.assertEqual(content.count('class="mrc-tool-row"'), 16)
+            self.assertEqual(content.count('data-tool-availability="on-request"'), 4)
+            self.assertIn('data-filter-field="availability"', content)
+
     def test_tool_header_returns_to_language_home(self):
         pair = {'en': '/tools/webp-compressor/', 'it': '/it/tools/webp-compressor/'}
         for lang, home in [('en', '/'), ('it', '/it/')]:

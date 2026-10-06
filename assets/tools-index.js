@@ -7,12 +7,17 @@
   if(!bar||!list||!status)return;
   const buttons=Array.from(bar.querySelectorAll('[data-tool-filter]'));
   const rows=Array.from(list.querySelectorAll('[data-tool-tags]'));
-  function filter(tag){
+  function filter(button){
+    const tag=button.dataset.toolFilter;
+    const field=button.dataset.filterField;
     let count=0;
-    for(const row of rows){row.hidden=tag!=='all'&&!row.dataset.toolTags.split(' ').includes(tag);if(!row.hidden)count++;}
+    for(const row of rows){
+      const match=field==='type'?row.dataset.toolType===tag:field==='availability'?row.dataset.toolAvailability===tag:row.dataset.toolTags.split(' ').includes(tag);
+      row.hidden=tag!=='all'&&!match;if(!row.hidden)count++;
+    }
     for(const button of buttons)button.setAttribute('aria-pressed',String(button.dataset.toolFilter===tag));
     status.textContent=`${count} ${status.dataset.countLabel}`;
   }
-  for(const button of buttons)button.addEventListener('click',()=>filter(button.dataset.toolFilter));
-  filter('all');bar.hidden=false;status.hidden=false;
+  for(const button of buttons)button.addEventListener('click',()=>filter(button));
+  filter(buttons[0]);bar.hidden=false;status.hidden=false;
 })();

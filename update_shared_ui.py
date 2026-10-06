@@ -4,6 +4,7 @@ from pathlib import Path
 import html
 import json
 import re
+from urllib.parse import quote, urlencode
 
 ROOT = Path(__file__).resolve().parent
 
@@ -122,6 +123,13 @@ INDEX_PAIRS = [('/tools/', '/it/tools/'), ('/tools/all/', '/it/tools/tutti/')]
 def dataset_checked(root):
     dataset = json.loads((root / 'shared/tools.json').read_text(encoding='utf-8'))
     tools, tags = dataset['tools'], dataset['tags']
+    filters = dataset.get('filters', [])
+    if not filters or len({f['value'] for f in filters}) != len(filters):
+        raise ValueError('Filtri Tools assenti/duplicati')
+    allowed = {'tags': set(tags), 'type': {'tool', 'snippet', 'plugin'}, 'availability': {'free', 'on-request'}}
+    for item in filters:
+        if item.get('field') not in allowed or item.get('value') not in allowed[item['field']] or set(item.get('label', {})) != {'en', 'it'}:
+            raise ValueError(f'Filtro Tools non valido: {item}')
     if len({t['id'] for t in tools}) != len(tools):
         raise ValueError('ID Tools duplicati')
     urls = set()
@@ -237,12 +245,19 @@ def related_tools(tool, tools):
     return [t for _, t in ranked[:3]]
 
 
-def request_form(root, tool, lang):
+def request_mailto(tool, lang):
+    name = tool['name'][lang]
+    subject = name + (' — richiesta plugin' if lang == 'it' else ' — plugin request')
+    body = (f'Ciao Marco, mi interessa {name}. Vorrei utilizzarlo per:' if lang == 'it' else f"Hi Marco, I'm interested in {name}. I would like to use it for:")
+    body += '\r\n\r\n\r\n' + HOST + tool['url'][lang]
+    return 'mailto:marcoruisi@gmail.com?' + urlencode({'subject': subject, 'body': body}, quote_via=quote)
+
+
+def request_cta(root, tool, lang):
     it = lang == 'it'
     pick = lambda a, b: a if it else b
     quote = pick('Verificherò se la versione esistente è adatta al tuo caso. Se sono necessarie configurazioni, integrazioni o personalizzazioni, riceverai un preventivo prima di qualsiasi intervento.', 'I’ll check whether the existing version fits your case. If configuration, integration or customisation is required, I’ll send you a quote before any work begins.')
-    prefill = pick(f'Mi interessa {tool["name"][lang]}. Vorrei utilizzarlo per…', f"I'm interested in {tool['name'][lang]}. I would like to use it for…")
-    ctx = {'heading': pick('Richiedi questo plugin', 'Request this plugin'), 'quote': quote, 'plugin_id': tool['id'], 'plugin_name': html.escape(tool['name'][lang], quote=True), 'page_url': HOST + tool['url'][lang], 'lang': lang, 'website_label': pick('Sito / URL', 'Website / URL'), 'message_label': pick('Come vorresti utilizzarlo?', 'How would you like to use it?'), 'prefill': html.escape(prefill), 'notice': pick('Il sito non invia ancora richieste online. Puoi preparare una bozza nel tuo programma email: dovrai inviarla tu.', 'The site does not send requests online yet. You can prepare a draft in your email app and send it yourself.'), 'button': pick('Prepara email', 'Prepare email'), 'open_email': pick('Apri la bozza email →', 'Open email draft →')}
+    ctx = {'heading': pick('Richiedi questo plugin →', 'Request this plugin →'), 'quote': quote, 'mailto': html.escape(request_mailto(tool, lang), quote=True)}
     return template(root, 'plugin-request.html', ctx)
 
 
@@ -257,8 +272,9 @@ def index_content(root, tools, tags, lang, everyday):
         content += '<section class="mrc-index-bridge"><h2>' + pick('Lavori con WordPress o cerchi qualcosa di più tecnico?', 'Work with WordPress or looking for something more technical?') + '</h2><p>' + pick('Ho raccolto snippet, plugin e strumenti nati da problemi reali.', 'I’ve collected snippets, plugins and tools born from real problems.') + f'</p><p><a href="{all_url}">' + pick('Esplora tutti gli strumenti →', 'Explore all tools →') + '</a></p></section>'
     else:
         buttons = f'<button type="button" data-tool-filter="all" aria-pressed="true" aria-controls="mrc-tools-list">{pick("Tutti", "All")}</button>'
-        buttons += ''.join(f'<button type="button" data-tool-filter="{tag}" aria-pressed="false" aria-controls="mrc-tools-list">{html.escape(info["label"][lang])}</button>' for tag, info in tags.items() if info.get('filter'))
-        rows = ''.join(f'<li class="mrc-tool-row" data-tool-tags="{" ".join(t["tags"])}"><h2>{link(t["url"][lang], t["name"][lang])}</h2><p>{html.escape(t["description"][lang])}</p>{status(t,tags,lang)}</li>' for t in tools)
+        filters = dataset_checked(root)['filters']
+        buttons += ''.join(f'<button type="button" data-tool-filter="{f["value"]}" data-filter-field="{f["field"]}" aria-pressed="false" aria-controls="mrc-tools-list">{html.escape(f["label"][lang])}</button>' for f in filters)
+        rows = ''.join(f'<li class="mrc-tool-row" data-tool-tags="{" ".join(t["tags"])}" data-tool-type="{t["type"]}" data-tool-availability="{t["availability"]}"><h2>{link(t["url"][lang], t["name"][lang])}</h2><p>{html.escape(t["description"][lang])}</p>{status(t,tags,lang)}</li>' for t in tools)
         content += f'<div class="mrc-tool-filters" role="group" aria-label="{pick("Filtra gli strumenti", "Filter tools")}" hidden>{buttons}</div><p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="{pick("strumenti visibili", "tools shown")}" hidden></p><ul class="mrc-tools-list" id="mrc-tools-list">{rows}</ul>'
     contact = '/it/contatti/' if it else '/contact/'
     content += '<section class="mrc-index-bridge"><h2>' + pick('Hai un problema che questi strumenti non risolvono?', 'Have a problem these tools don’t solve?') + '</h2><p>' + pick('Questi strumenti nascono spesso da un problema concreto che vale la pena semplificare.', 'These tools usually start from a concrete problem worth simplifying.') + f'</p><p><a href="{contact}">' + pick('Raccontami il tuo →', 'Tell me yours →') + '</a></p></section>'
@@ -306,12 +322,10 @@ def plan_shared_ui(root=ROOT):
                     if 'src="/assets/snippet-copy.js"' not in text: text = text.replace('</body>', '<script src="/assets/snippet-copy.js" defer></script>\n</body>')
                 if tool['availability'] == 'on-request':
                     text = remove_marked(text, 'TOOL AFTERWORD')
-                    text = replace_block(text, 'PLUGIN REQUEST', request_form(root, tool, lang))
-                    if 'src="/assets/plugin-request.js"' not in text: text = text.replace('</body>', '<script src="/assets/plugin-request.js" defer></script>\n</body>')
-                    # Request CTA inside the product, before the detailed form.
+                    text = replace_block(text, 'PLUGIN REQUEST', request_cta(root, tool, lang))
+                    text = re.sub(r'<script\b[^>]*src="/assets/plugin-request.js"[^>]*>\s*</script>\s*', '', text)
+                    # A normal email link requires no form or JavaScript.
                     text = remove_marked(text, 'REQUEST CTA')
-                    cta = f'<p><a href="#plugin-request">{"Richiedi questo plugin →" if lang == "it" else "Request this plugin →"}</a></p>'
-                    text = text.replace('</main>', marked('REQUEST CTA', cta) + '\n</main>')
                 else:
                     text = replace_block(text, 'TOOL AFTERWORD', template(root, f'tool-afterword.{lang}.html'))
                     if 'src="/assets/support.js"' not in text: text = text.replace('</body>', '<script src="/assets/support.js" defer></script>\n</body>')

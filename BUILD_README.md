@@ -17,7 +17,7 @@ Il secondo build deve riportare zero file aggiornati. La build verifica tutte le
 - `/tools/` e `/it/tools/`: Everyday, selezionati dal tag `everyday`, senza filtri.
 - `/tools/all/` e `/it/tools/tutti/`: catalogo completo filtrabile single-select; HTML completo visibile senza JavaScript.
 - `shared/tool-header.html`: navigazione breve Everyday / All Tools e switch sull'equivalente reale.
-- `shared/plugin-request.html`: form unico per i quattro plugin ON REQUEST; ID, nome, URL e lingua sono generati dal catalogo.
+- `shared/plugin-request.html`: CTA email condivisa per i quattro plugin ON REQUEST; oggetto, messaggio e URL di provenienza sono generati dal catalogo, con encoding percentuale.
 - `shared/tool-afterword.en.html` e `.it.html`: supporto volontario e CTA professionale dei contenuti FREE.
 - `shared/footer.html`, `shared/menu.en.html`, `.it.html`: footer e menu editoriali.
 - `assets/tool-shell.css`, `assets/tools-content.css`, `assets/shared-ui.css`: stili comuni; il codice operativo dei tool resta locale.
@@ -27,13 +27,19 @@ I blocchi `MRC SHARED … START/END` sono generati da `update_shared_ui.py`. Non
 
 ## Related tools
 
+### Correzioni finali Tools
+
+Richieste ON REQUEST semplificate a un solo link email statico e modificabile nel client. Filtri aggiunti: Plugin (6), Snippet (4), Free (12), On request / Su richiesta (4). Verificati 62 controlli browser a 390/1440 px in EN/IT, tutti i filtri tramite tastiera, gli otto link mailto e il fallback senza JavaScript. Build: 78 URL pubblici raggiungibili, zero orphan; seconda esecuzione zero aggiornamenti; sei test di regressione superati. Nessuna pubblicazione avviata per questa correzione.
+
 Massimo tre link, tool corrente escluso, ordine deterministico. Gravity Forms ed Elementor pesano più di CSV e Compressione, poi Immagini/PDF/HTML; Everyday e WordPress pesano meno. A parità si preferisce lo stesso tipo e infine l'ordine del catalogo. Nessun sort casuale o richiesta runtime.
 
-## Richieste plugin: nessun endpoint online
+## Richieste plugin: email diretta
 
-Il progetto dispone solo di contatto email, nessun backend affidabile di invio e nessuna chiave Turnstile. Il form non simula un invio: valida email/URL e testo, richiede di completare la frase iniziale e prepara una bozza `mailto:`. L'utente deve aprirla, controllarla e inviarla nel proprio programma email. Nessun dato viene spedito dal sito, nessun dato finisce in analytics o URL HTTP.
+La CTA apre direttamente un normale `mailto:marcoruisi@gmail.com`, indirizzo già usato nei Contatti. Oggetto e testo breve identificano il plugin e la lingua; il corpo include l'URL pubblico della pagina di provenienza. L'utente completa e invia il messaggio nel proprio programma email. Il sito non invia nulla e non richiede backend.
 
-Per abilitare un vero submit manca un endpoint HTTPS con POST JSON, ad esempio un Cloudflare Worker dedicato. Dovrà accettare email, website, message, plugin_id, plugin_name, source_url e language; validare questi ultimi rispetto a una allowlist server-side; applicare limiti di lunghezza, rate limiting/antispam; usare un servizio email configurato esclusivamente sul server; restituire errori e successo reali. Nessun endpoint, API key, secret o site key è stato inventato. L'unico comportamento corrente è definito in `assets/plugin-request.js`.
+Il precedente form e tutti i passaggi di preparazione della bozza sono rimossi. `assets/plugin-request.js` resta soltanto un file di compatibilità inerte e non è caricato dalle pagine. La nota sul preventivo resta accanto alla CTA.
+
+I filtri del catalogo sono definiti dall'array `filters` di `shared/tools.json`: ordine, etichette IT/EN e dimensione (`tags`, `type`, `availability`). Gli HTML generati riportano gli attributi corrispondenti ai dati, mai dedotti dal testo delle pill. Il comportamento resta single-select; senza JavaScript i 16 elementi sono tutti visibili.
 
 ## Analytics
 
