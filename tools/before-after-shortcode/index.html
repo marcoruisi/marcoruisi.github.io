@@ -1,42 +1,82 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="robots" content="noindex,nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Before / After Shortcode — MRC Tools</title>
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcoruisi.pages.dev/tools/before-after-shortcode/">
+<meta property="og:url" content="https://marcoruisi.pages.dev/tools/before-after-shortcode/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/before-after-shortcode/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/before-after-shortcode/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/before-after-shortcode/">
+<title>Before / After Shortcode | MRC · Marco Ruisi</title>
 <meta name="description" content="Compare two images in WordPress with a lightweight, keyboard-accessible slider.">
-<style>
-:root{--bg:#f4f1ea;--ink:#171717;--muted:#6c6a65;--line:#d6d1c8;--max:920px}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
-header{background:#171717;color:#f7f4ed}.bar,main,.foot{max-width:var(--max);margin:auto}
-.bar{padding:18px 24px;display:flex;gap:18px}.brand{font-weight:700;margin-right:auto}
-main{padding:72px 24px 90px}.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
-.tag{border:1px solid var(--line);border-radius:99px;padding:6px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
-h1{font:400 clamp(42px,7vw,76px)/.98 Georgia,serif;letter-spacing:-.04em;margin:0 0 26px;max-width:850px}
-.lead{font:22px/1.45 Georgia,serif;max-width:760px;margin:0 0 52px}
-.section{border-top:1px solid var(--line);padding-top:28px;margin-top:44px}h2{font-size:18px}p,li{line-height:1.65;max-width:760px}
-.codebox{background:#111;color:#eee;margin:22px 0}.codebar{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid #333;font-size:12px;color:#aaa}
-.codebar span{margin-right:auto}button{background:#f6f3ec;border:0;padding:8px 13px;cursor:pointer}
-pre{margin:0;padding:22px;overflow:auto;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}
-.note{border-left:2px solid;padding-left:18px;color:#45433f}footer{border-top:1px solid var(--line);padding:30px 24px}
-.foot{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
-@media(max-width:700px){main{padding-top:48px}.lead{font-size:19px}pre{font-size:12px;padding:16px}}
-</style>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Before / After Shortcode | MRC · Marco Ruisi">
+<meta property="og:description" content="Compare two images in WordPress with a lightweight, keyboard-accessible slider.">
+<meta name="twitter:title" content="Before / After Shortcode | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Compare two images in WordPress with a lightweight, keyboard-accessible slider.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Before / After Shortcode", "description": "Compare two images in WordPress with a lightweight, keyboard-accessible slider.", "url": "https://marcoruisi.pages.dev/tools/before-after-shortcode/", "inLanguage": "en", "author": {"@id": "https://marcoruisi.pages.dev/#person"}, "applicationCategory": "DeveloperApplication", "operatingSystem": "WordPress", "softwareVersion": "2.1.0", "downloadUrl": "https://marcoruisi.pages.dev/downloads/mrc-before-after-shortcode-2.1.0.zip", "isAccessibleForFree": true}</script>
+<!-- MRC SHARED METADATA END -->
 </head><body>
-<header><div class="bar"><span class="brand">MRC Tools</span><span>EN / IT</span></div></header>
-<main><div class="tags"><span class="tag">WordPress</span><span class="tag">Plugin</span><span class="tag">Images</span></div><h1>Before / After Shortcode</h1><p class="lead">Compare two images in WordPress with a lightweight, keyboard-accessible slider.</p>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/tools/">MRC Tools</a>
+        <a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/before-after-shortcode/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/before-after-shortcode/" lang="it">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app mrc-technical">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">PLUGIN · FREE</p><div class="mrc-tool-tags"><span class="mrc-tool-tag">WordPress</span><span class="mrc-tool-tag">Images</span></div>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Before / After Shortcode</h1><p class="lead">Compare two images in WordPress with a lightweight, keyboard-accessible slider.</p>
 <section class="section"><h2>What it does</h2><p>Adds a lightweight before/after image comparison through a shortcode. Works with mouse, touch and keyboard.</p><pre>[before_after before="BEFORE-URL" after="AFTER-URL"]</pre><p>Optional attributes: <code>start</code>, <code>radius</code>, <code>animate</code>, <code>class</code>, <code>alt</code>, <code>label</code>.</p></section>
 
-<section class="section"><h2>Download</h2><p><a href="/downloads/mrc-before-after-shortcode-2.1.0.zip" download>Download plugin ZIP ↓</a></p></section>
+<section class="section"><h2>Installation</h2><p>In WordPress, open Plugins → Add New → Upload Plugin, select the ZIP and activate it.</p><p>Requires WordPress and two images accessible by URL. Insert the shortcode in a page; it does not modify the original images.</p></section>
+
+<!-- MRC SHARED PLUGIN DOWNLOAD START -->
+<section class="section"><h2>Download</h2><p><a href="/downloads/mrc-before-after-shortcode-2.1.0.zip" download>Download plugin ZIP · 2.1.0 ↓</a></p></section>
+<!-- MRC SHARED PLUGIN DOWNLOAD END -->
 </main>
-<footer><div class="foot"><strong>Marco Ruisi</strong><span>Simple systems. Better questions.</span><span>© 2026</span></div></footer>
-<script>
-document.querySelectorAll('[data-copy]').forEach(function(btn){
- btn.addEventListener('click',async function(){
-  const el=document.getElementById(btn.dataset.copy); const txt=el.innerText;
-  try{await navigator.clipboard.writeText(txt); const old=btn.textContent; btn.textContent="Copied"; setTimeout(()=>btn.textContent=old,1500);}
-  catch(e){const r=document.createRange();r.selectNodeContents(el);const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
- });
-});
-</script></body></html>
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Related tools</h2><ul><li><a href="/tools/webp-compressor/">WebP Compressor</a></li><li><a href="/tools/images-to-pdf/">Images to PDF</a></li><li><a href="/tools/image-to-target-size/">Image to target file size</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Found this useful?</h2>
+        <p>This tool is free to use. If it saved you some time, you can support the project.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Support MRC →</a><span data-support-pending>Voluntary support — coming soon.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+
+</body></html>

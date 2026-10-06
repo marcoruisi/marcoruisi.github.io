@@ -48,6 +48,48 @@
         "it": "Compressione"
       },
       "filter": true
+    },
+    "snippet": {
+      "label": {
+        "en": "Snippet",
+        "it": "Snippet"
+      },
+      "filter": false
+    },
+    "plugin": {
+      "label": {
+        "en": "Plugin",
+        "it": "Plugin"
+      },
+      "filter": false
+    },
+    "access": {
+      "label": {
+        "en": "Access",
+        "it": "Accesso"
+      },
+      "filter": false
+    },
+    "gravity-forms": {
+      "label": {
+        "en": "Gravity Forms",
+        "it": "Gravity Forms"
+      },
+      "filter": false
+    },
+    "elementor": {
+      "label": {
+        "en": "Elementor",
+        "it": "Elementor"
+      },
+      "filter": false
+    },
+    "csv": {
+      "label": {
+        "en": "CSV",
+        "it": "CSV"
+      },
+      "filter": false
     }
   },
   "tools": [
@@ -69,7 +111,13 @@
         "everyday",
         "images",
         "compression"
-      ]
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Compress images to WebP",
+        "it": "Comprimi immagini in WebP"
+      }
     },
     {
       "id": "pdf-compressor",
@@ -89,7 +137,13 @@
         "everyday",
         "pdf",
         "compression"
-      ]
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Compress a PDF",
+        "it": "Comprimi un PDF"
+      }
     },
     {
       "id": "clean-wp-clipboard",
@@ -109,7 +163,9 @@
         "wordpress",
         "html",
         "text"
-      ]
+      ],
+      "type": "tool",
+      "availability": "free"
     },
     {
       "id": "images-to-pdf",
@@ -129,7 +185,13 @@
         "everyday",
         "images",
         "pdf"
-      ]
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Combine images into a PDF",
+        "it": "Riunisci immagini in un PDF"
+      }
     },
     {
       "id": "image-to-target-size",
@@ -149,7 +211,13 @@
         "everyday",
         "images",
         "compression"
-      ]
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Bring a photo under a specific size",
+        "it": "Porta una foto entro il peso richiesto"
+      }
     },
     {
       "id": "white-to-transparent",
@@ -168,7 +236,237 @@
       "tags": [
         "everyday",
         "images"
-      ]
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Make white transparent",
+        "it": "Rendi il bianco trasparente"
+      }
+    },
+    {
+      "id": "block-subscriber-wp-admin",
+      "name": {
+        "en": "Block Subscriber access to wp-admin",
+        "it": "Impedisci ai Subscriber di accedere a wp-admin"
+      },
+      "url": {
+        "en": "/tools/block-subscriber-wp-admin/",
+        "it": "/it/tools/blocca-subscriber-wp-admin/"
+      },
+      "description": {
+        "en": "Users need to log in, but not access the dashboard? This snippet redirects Subscribers to the homepage when they try to open /wp-admin/.",
+        "it": "Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/."
+      },
+      "tags": [
+        "wordpress",
+        "snippet",
+        "access"
+      ],
+      "type": "snippet",
+      "availability": "free"
+    },
+    {
+      "id": "disable-wordpress-comments",
+      "name": {
+        "en": "Disable WordPress comments completely",
+        "it": "Disabilita completamente i commenti WordPress"
+      },
+      "url": {
+        "en": "/tools/disable-wordpress-comments/",
+        "it": "/it/tools/disabilita-commenti-wordpress/"
+      },
+      "description": {
+        "en": "Remove comments and pings from the frontend and dashboard without deleting comments already stored.",
+        "it": "Rimuovi commenti e ping dal frontend e dalla dashboard senza cancellare i commenti già salvati."
+      },
+      "tags": [
+        "wordpress",
+        "snippet"
+      ],
+      "type": "snippet",
+      "availability": "free"
+    },
+    {
+      "id": "gravity-forms-source-page",
+      "name": {
+        "en": "Add the source page to Gravity Forms emails",
+        "it": "Aggiungi la pagina di provenienza alle email Gravity Forms"
+      },
+      "url": {
+        "en": "/tools/gravity-forms-source-page/",
+        "it": "/it/tools/pagina-provenienza-gravity-forms/"
+      },
+      "description": {
+        "en": "Show the page a Gravity Forms submission came from inside its notification email.",
+        "it": "Mostra nelle notifiche Gravity Forms la pagina da cui è stato inviato il modulo."
+      },
+      "tags": [
+        "wordpress",
+        "snippet",
+        "gravity-forms"
+      ],
+      "type": "snippet",
+      "availability": "free"
+    },
+    {
+      "id": "gravity-forms-autocomplete",
+      "name": {
+        "en": "City and place autocomplete for Gravity Forms",
+        "it": "Autocomplete città e località in Gravity Forms"
+      },
+      "url": {
+        "en": "/tools/gravity-forms-autocomplete/",
+        "it": "/it/tools/autocomplete-gravity-forms/"
+      },
+      "description": {
+        "en": "Add city or place suggestions to a Gravity Forms field using Google Places or Mapbox.",
+        "it": "Aggiungi suggerimenti di città o località a un campo Gravity Forms con Google Places oppure Mapbox."
+      },
+      "tags": [
+        "wordpress",
+        "snippet",
+        "gravity-forms"
+      ],
+      "type": "snippet",
+      "availability": "free"
+    },
+    {
+      "id": "mrc-gf-debug",
+      "name": {
+        "en": "MRC GF Debug",
+        "it": "MRC GF Debug"
+      },
+      "url": {
+        "en": "/tools/mrc-gf-debug/",
+        "it": "/it/tools/mrc-gf-debug/"
+      },
+      "description": {
+        "en": "Inspect Gravity Forms validation failures without enabling persistent logs.",
+        "it": "Diagnostica gli errori di validazione Gravity Forms senza attivare log permanenti."
+      },
+      "tags": [
+        "wordpress",
+        "plugin",
+        "gravity-forms"
+      ],
+      "type": "plugin",
+      "availability": "free",
+      "download": "/downloads/mrc-gf-debug-1.1.0.zip",
+      "version": "1.1.0"
+    },
+    {
+      "id": "before-after-shortcode",
+      "name": {
+        "en": "Before / After Shortcode",
+        "it": "Before / After Shortcode"
+      },
+      "url": {
+        "en": "/tools/before-after-shortcode/",
+        "it": "/it/tools/before-after-shortcode/"
+      },
+      "description": {
+        "en": "Compare two images in WordPress with a lightweight, keyboard-accessible slider.",
+        "it": "Confronta due immagini in WordPress con uno slider leggero e accessibile da tastiera."
+      },
+      "tags": [
+        "wordpress",
+        "plugin",
+        "images"
+      ],
+      "type": "plugin",
+      "availability": "free",
+      "download": "/downloads/mrc-before-after-shortcode-2.1.0.zip",
+      "version": "2.1.0"
+    },
+    {
+      "id": "mrc-gravity-forms-tools",
+      "name": {
+        "en": "MRC Gravity Forms Tools",
+        "it": "MRC Gravity Forms Tools"
+      },
+      "url": {
+        "en": "/tools/mrc-gravity-forms-tools/",
+        "it": "/it/tools/mrc-gravity-forms-tools/"
+      },
+      "description": {
+        "en": "A modular Gravity Forms toolkit for exports, form usage, tables and cards, autocomplete, frontend styles and image processing.",
+        "it": "Una suite modulare per Gravity Forms: export, analisi d’uso dei form, tabelle e card, autocomplete, stili frontend e gestione immagini."
+      },
+      "tags": [
+        "wordpress",
+        "plugin",
+        "gravity-forms"
+      ],
+      "type": "plugin",
+      "availability": "on-request"
+    },
+    {
+      "id": "mrc-dynamic-content",
+      "name": {
+        "en": "MRC Dynamic Content",
+        "it": "MRC Dynamic Content"
+      },
+      "url": {
+        "en": "/tools/mrc-dynamic-content/",
+        "it": "/it/tools/mrc-dynamic-content/"
+      },
+      "description": {
+        "en": "Use remote CSV data as dynamic Elementor content, with caching, language fallbacks and typed tags.",
+        "it": "Usa dati CSV remoti come contenuti dinamici Elementor, con cache, fallback lingua e tag tipizzati."
+      },
+      "tags": [
+        "wordpress",
+        "plugin",
+        "elementor",
+        "csv"
+      ],
+      "type": "plugin",
+      "availability": "on-request"
+    },
+    {
+      "id": "mrc-uploader",
+      "name": {
+        "en": "MRC Uploader",
+        "it": "MRC Uploader"
+      },
+      "url": {
+        "en": "/tools/mrc-uploader/",
+        "it": "/it/tools/mrc-uploader/"
+      },
+      "description": {
+        "en": "A WordPress admin utility for managing files under uploads, importing CSV data and editing source files with backups.",
+        "it": "Una utility amministrativa WordPress per gestire file sotto uploads, importare dati CSV e modificare file sorgente con backup."
+      },
+      "tags": [
+        "wordpress",
+        "plugin",
+        "csv"
+      ],
+      "type": "plugin",
+      "availability": "on-request"
+    },
+    {
+      "id": "gf-cards-directory",
+      "name": {
+        "en": "Gravity Forms Cards Directory",
+        "it": "Directory a card da Gravity Forms"
+      },
+      "url": {
+        "en": "/tools/gf-cards-directory/",
+        "it": "/it/tools/directory-card-gravity-forms/"
+      },
+      "description": {
+        "en": "Turn approved Gravity Forms entries into a searchable, filterable card directory with categories, countries and AJAX pagination.",
+        "it": "Trasforma entry approvate di Gravity Forms in una directory a card ricercabile e filtrabile, con categorie, paesi e paginazione AJAX."
+      },
+      "tags": [
+        "wordpress",
+        "plugin",
+        "gravity-forms"
+      ],
+      "type": "plugin",
+      "availability": "on-request"
     }
   ]
 }

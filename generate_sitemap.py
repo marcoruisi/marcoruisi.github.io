@@ -4,6 +4,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
+import json
 from update_shared_ui import ROOT, page_files, route, write_if_changed
 
 HOST = 'https://marcoruisi.pages.dev'
@@ -20,9 +21,23 @@ class PageParser(HTMLParser):
         self.h1 = 0
         self.alternates = []
         self.resources = []
+        self.lang = None
+        self.jsonld = []
+        self._json = None
+        self.title = ''
+        self._title = False
+        self.meta = {}
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        if tag == 'html':
+            self.lang = a.get('lang')
+        if tag == 'meta':
+            self.meta[a.get('name', a.get('property', ''))] = a.get('content', '')
+        if tag == 'title':
+            self._title = True
+        if tag == 'script' and a.get('type') == 'application/ld+json':
+            self._json = ''
         if a.get('id'):
             self.ids.append(a['id'])
         if tag == 'h1':
@@ -40,6 +55,19 @@ class PageParser(HTMLParser):
         if tag == 'link' and a.get('rel') in ('stylesheet', 'icon') and a.get('href'):
             self.resources.append(a['href'])
 
+    def handle_data(self, data):
+        if self._title:
+            self.title += data
+        if self._json is not None:
+            self._json += data
+
+    def handle_endtag(self, tag):
+        if tag == 'title':
+            self._title = False
+        if tag == 'script' and self._json is not None:
+            self.jsonld.append(json.loads(self._json))
+            self._json = None
+
 
 def inspect_pages(root=ROOT, planned=None):
     pages = {}
@@ -52,8 +80,14 @@ def inspect_pages(root=ROOT, planned=None):
             raise ValueError(f'ID HTML duplicati: {path}')
         if parser.h1 != 1:
             raise ValueError(f'H1: atteso uno in {path}')
+        if parser.lang not in ('en', 'it') or not parser.title.strip() or not parser.meta.get('description'):
+            raise ValueError(f'Lingua/title/description mancanti: {path}')
         if not parser.noindex and parser.canonicals != [url]:
             raise ValueError(f'Canonical assente/ambiguo/non self: {path}: {parser.canonicals}')
+        if not parser.noindex and parser.meta.get('og:url') != url:
+            raise ValueError(f'og:url non self: {path}')
+        if not parser.noindex and len(parser.alternates) != 3:
+            raise ValueError(f'Hreflang: attese en/it/x-default in {path}')
         pages[url] = (path, parser, text)
     return pages
 

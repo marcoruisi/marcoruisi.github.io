@@ -3,37 +3,50 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Impedisci ai Subscriber di accedere a wp-admin — MRC Tools</title>
-<meta name="description" content="Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.">
-<link rel="canonical" href="https://marcoruisi.com/it/tools/blocca-subscriber-wp-admin/">
-<link rel="alternate" hreflang="it" href="https://marcoruisi.com/it/tools/blocca-subscriber-wp-admin/">
-<link rel="alternate" hreflang="en" href="https://marcoruisi.com/tools/block-subscriber-wp-admin/">
 <link rel="stylesheet" href="/assets/shared-ui.css">
 <link rel="stylesheet" href="/assets/tool-shell.css">
-<style>
-.mrc-snippet{margin:2rem 0;background:#111;color:#f4f4f4}
-.mrc-snippet__bar{display:flex;align-items:center;gap:1rem;padding:.75rem 1rem;border-bottom:1px solid #333;font-size:.8rem}
-.mrc-snippet__bar span{margin-right:auto;opacity:.7}
-.mrc-snippet button{border:0;padding:.55rem .9rem;cursor:pointer}
-.mrc-snippet pre{margin:0;padding:1.25rem;overflow:auto;white-space:pre;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-.mrc-snippet-note{border-left:2px solid currentColor;padding-left:1rem}
-</style>
+
+<link rel="stylesheet" href="/assets/tools-content.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcoruisi.pages.dev/it/tools/blocca-subscriber-wp-admin/">
+<meta property="og:url" content="https://marcoruisi.pages.dev/it/tools/blocca-subscriber-wp-admin/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/blocca-subscriber-wp-admin/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/">
+<title>Impedisci ai Subscriber di accedere a wp-admin | MRC · Marco Ruisi</title>
+<meta name="description" content="Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Impedisci ai Subscriber di accedere a wp-admin | MRC · Marco Ruisi">
+<meta property="og:description" content="Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.">
+<meta name="twitter:title" content="Impedisci ai Subscriber di accedere a wp-admin | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "name": "Impedisci ai Subscriber di accedere a wp-admin", "description": "Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.", "url": "https://marcoruisi.pages.dev/it/tools/blocca-subscriber-wp-admin/", "inLanguage": "it", "author": {"@id": "https://marcoruisi.pages.dev/#person"}}</script>
+<!-- MRC SHARED METADATA END -->
 </head>
 <body>
-<header class="tool-header">
-  <a href="/it/tools/">MRC Tools</a>
-  <a href="/tools/block-subscriber-wp-admin/">EN</a>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/it/tools/">MRC Tools</a>
+        <a href="/it/tools/">Everyday Tools</a><a href="/it/tools/tutti/">Tutti gli strumenti</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/tools/block-subscriber-wp-admin/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/blocca-subscriber-wp-admin/" lang="it" aria-current="page">IT</a></nav>
 </header>
-<main class="tool-shell">
-  <p class="tool-kicker">WordPress · Snippet · Accesso</p>
-  <h1>Impedisci ai Subscriber di accedere a wp-admin</h1>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app mrc-technical">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">SNIPPET · GRATUITO</p><div class="mrc-tool-tags"><span class="mrc-tool-tag">WordPress</span><span class="mrc-tool-tag">Accesso</span></div>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Impedisci ai Subscriber di accedere a wp-admin</h1>
   <p class="tool-lead">Gli utenti devono accedere al sito, ma non alla dashboard? Questo snippet reindirizza i Subscriber alla home quando provano ad aprire /wp-admin/.</p>
 
   <section>
     <h2>Il codice</h2>
     <p>Le richieste AJAX continuano a funzionare normalmente. Gli utenti che possono modificare contenuti non vengono bloccati, anche se possiedono anche il ruolo Subscriber.</p>
     <div class="mrc-snippet">
-      <div class="mrc-snippet__bar"><span>PHP · WordPress · Code Snippets compatible</span><button type="button" id="copy-code">Copia</button></div>
+      <div class="mrc-snippet__bar"><span>PHP · WordPress · Code Snippets compatible</span><button type="button" data-copy="snippet-code">Copia</button></div>
       <pre id="snippet-code"><code>/**
  * Redirect WordPress Subscribers away from wp-admin.
  */
@@ -59,25 +72,47 @@ add_action( 'admin_init', function () {
     </div>
   </section>
 
-  <section>
-    <h2>Come usarlo</h2>
-    <ol><li>Installa il plugin gratuito <strong>Code Snippets</strong> su WordPress.</li><li>Crea un nuovo snippet PHP.</li><li>Copia e incolla il codice qui sopra.</li><li>Impostalo su <strong>Run snippet everywhere</strong> e attivalo.</li></ol>
-    <p>Code Snippets è il metodo consigliato perché rende lo snippet facile da attivare e disattivare. Se sai già dove inserirlo, puoi integrare lo stesso PHP nel tuo codice WordPress.</p>
-    <p class="mrc-snippet-note"><strong>Nota.</strong> Questo snippet tiene i Subscriber fuori dall’area amministrativa, ma non sostituisce i permessi di WordPress e non protegge contenuti o file altrimenti accessibili pubblicamente.</p>
-  </section>
+  
 
-  <section class="tool-afterword">
-    <h2>Ti è stato utile?</h2><p>Questo strumento è gratuito. Se ti ha fatto risparmiare un po’ di tempo, puoi sostenere il progetto.</p>
-    <p><a href="https://buy.stripe.com/eVq5kCaff0BE1VFdQL4sE02" target="_blank" rel="noopener noreferrer">Supporta MRC →</a></p>
-    <h2>Ti serve qualcosa di più specifico?</h2><p>Se il tuo sito richiede ruoli, permessi o flussi diversi, posso progettare una soluzione intorno a quelle esigenze.</p>
-    <p><a href="/it/lavoro/">Raccontami il tuo problema →</a></p>
-  </section>
+  
+<p class="note">È un redirect dell’interfaccia amministrativa, non un confine di sicurezza. Non protegge contenuti pubblici e non sostituisce le capability di WordPress.</p>
+
+<!-- MRC SHARED SNIPPET INSTALL START -->
+<section class="section"><h2>Come usarlo</h2><ol><li>Installa Code Snippets Free su WordPress.</li><li>Crea un nuovo snippet PHP.</li><li>Copia e incolla il codice.</li><li>Attivalo nell’ambito indicato.</li></ol><p>È un metodo semplice, non obbligatorio: puoi integrare il codice nel tuo plugin o nel punto appropriato. Per gli esempi Gravity Forms configura gli ID e gli eventuali provider prima di attivare.</p></section>
+<!-- MRC SHARED SNIPPET INSTALL END -->
 </main>
-<script>
-document.getElementById('copy-code').addEventListener('click', async function(){
-  const text=document.getElementById('snippet-code').innerText;
-  try{await navigator.clipboard.writeText(text);this.textContent="Copiato";setTimeout(()=>this.textContent="Copia",1500)}
-  catch(e){const r=document.createRange();r.selectNodeContents(document.getElementById('snippet-code'));const s=window.getSelection();s.removeAllRanges();s.addRange(r);}
-});
-</script>
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Strumenti correlati</h2><ul><li><a href="/it/tools/disabilita-commenti-wordpress/">Disabilita completamente i commenti WordPress</a></li><li><a href="/it/tools/pagina-provenienza-gravity-forms/">Aggiungi la pagina di provenienza alle email Gravity Forms</a></li><li><a href="/it/tools/autocomplete-gravity-forms/">Autocomplete città e località in Gravity Forms</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Ti è stato utile?</h2>
+        <p>Questo strumento è gratuito. Se ti ha fatto risparmiare un po’ di tempo, puoi sostenere il progetto.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Supporta MRC →</a><span data-support-pending>Supporto volontario — presto disponibile.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Ti serve qualcosa di più specifico?</h2>
+        <p>Questo strumento risolve un problema comune. Se il tuo lavoro richiede regole, integrazioni o automazioni diverse, posso progettare una soluzione intorno a quelle esigenze.</p>
+        <p><a href="/it/contatti/">Raccontami il tuo problema →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="/assets/snippet-copy.js" defer></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
 </body></html>

@@ -1,0 +1,22 @@
+<section class="mrc-plugin-request" id="plugin-request" aria-labelledby="plugin-request-title">
+  <h2 id="plugin-request-title">{{heading}}</h2>
+  <p>{{quote}}</p>
+  <p id="request-notice">{{notice}}</p>
+  <form data-plugin-request aria-describedby="request-notice" novalidate>
+    <input type="hidden" name="plugin_id" value="{{plugin_id}}">
+    <input type="hidden" name="plugin_name" value="{{plugin_name}}">
+    <input type="hidden" name="source_url" value="{{page_url}}">
+    <input type="hidden" name="language" value="{{lang}}">
+    <label for="request-email">Email *</label>
+    <input id="request-email" name="email" type="email" autocomplete="email" required maxlength="254">
+    <label for="request-website">{{website_label}}</label>
+    <input id="request-website" name="website" type="url" autocomplete="url" maxlength="2048" placeholder="https://">
+    <label for="request-message">{{message_label}} *</label>
+    <textarea id="request-message" name="message" rows="6" required minlength="20" maxlength="4000">{{prefill}}</textarea>
+    <p id="request-error" role="alert" hidden></p>
+    <button type="submit">{{button}}</button>
+    <p><a data-request-email hidden>{{open_email}}</a></p>
+    <p data-request-status role="status" aria-live="polite"></p>
+  </form>
+  <noscript><p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p></noscript>
+</section>

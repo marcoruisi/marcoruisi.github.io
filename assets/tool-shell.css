@@ -19,3 +19,12 @@ body { margin:0; padding:24px; font-family:-apple-system,BlinkMacSystemFont,"Seg
 .mrc-tool-afterword .mrc-tool-specific { font-size:14px; color:var(--muted); }
 .mrc-tool-afterword .mrc-tool-specific h2 { font-size:18px; }
 @media(max-width:700px) { body { padding:14px; } .mrc-tool-afterword { margin-top:48px; } }
+
+/* Catalogue navigation scales independently of tool count. */
+.mrc-tool-header .mrc-tools-nav{flex:1 1 auto;flex-wrap:wrap;gap:12px 22px;overflow:visible;width:auto}
+.mrc-tools-nav a{border:0;border-radius:0;background:transparent;padding:6px 0;color:inherit;font-weight:500}
+.mrc-tools-nav a[aria-current="page"]{background:transparent;color:inherit;text-decoration:underline;text-underline-offset:5px}
+.mrc-tool-language{flex:0 0 auto;align-items:center;gap:10px;line-height:20px}
+.mrc-tool-language a,.mrc-tool-language .mrc-language-separator{display:flex;align-items:center;padding:0;min-height:44px;line-height:20px;box-sizing:border-box}
+.mrc-tool-language a[aria-current="page"]{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+@media(max-width:600px){.mrc-tool-header{align-items:flex-start}.mrc-tool-header .mrc-tools-nav{flex-basis:100%;gap:10px 20px}.mrc-tool-language{margin-left:auto}}

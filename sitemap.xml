@@ -85,10 +85,25 @@
     <loc>https://marcoruisi.pages.dev/it/tools/</loc>
   </url>
   <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/autocomplete-gravity-forms/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/before-after-shortcode/</loc>
+  </url>
+  <url>
     <loc>https://marcoruisi.pages.dev/it/tools/bianco-trasparente/</loc>
   </url>
   <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/blocca-subscriber-wp-admin/</loc>
+  </url>
+  <url>
     <loc>https://marcoruisi.pages.dev/it/tools/clean-wp-clipboard/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/directory-card-gravity-forms/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/disabilita-commenti-wordpress/</loc>
   </url>
   <url>
     <loc>https://marcoruisi.pages.dev/it/tools/foto-entro-peso/</loc>
@@ -97,7 +112,25 @@
     <loc>https://marcoruisi.pages.dev/it/tools/immagini-in-pdf/</loc>
   </url>
   <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/mrc-dynamic-content/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/mrc-gf-debug/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/mrc-gravity-forms-tools/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/mrc-uploader/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/pagina-provenienza-gravity-forms/</loc>
+  </url>
+  <url>
     <loc>https://marcoruisi.pages.dev/it/tools/pdf-compressor/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/it/tools/tutti/</loc>
   </url>
   <url>
     <loc>https://marcoruisi.pages.dev/it/tools/webp-compressor/</loc>
@@ -145,13 +178,46 @@
     <loc>https://marcoruisi.pages.dev/tools/</loc>
   </url>
   <url>
+    <loc>https://marcoruisi.pages.dev/tools/all/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/before-after-shortcode/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/</loc>
+  </url>
+  <url>
     <loc>https://marcoruisi.pages.dev/tools/clean-wp-clipboard/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/disable-wordpress-comments/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/gf-cards-directory/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/gravity-forms-autocomplete/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/gravity-forms-source-page/</loc>
   </url>
   <url>
     <loc>https://marcoruisi.pages.dev/tools/image-to-target-size/</loc>
   </url>
   <url>
     <loc>https://marcoruisi.pages.dev/tools/images-to-pdf/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/mrc-dynamic-content/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/mrc-gf-debug/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/mrc-gravity-forms-tools/</loc>
+  </url>
+  <url>
+    <loc>https://marcoruisi.pages.dev/tools/mrc-uploader/</loc>
   </url>
   <url>
     <loc>https://marcoruisi.pages.dev/tools/pdf-compressor/</loc>
