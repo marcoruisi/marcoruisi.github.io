@@ -156,3 +156,7 @@ web/stories/autonomy/index.html
 web/stories/observation/index.html
 web/stories/measure/index.html
 ```
+
+### Correzione ritorno al sito principale
+
+L'header shared mostra ora `← MRC`: `/` in EN, `/it/` in IT, nella stessa scheda. Everyday / All Tools / switch lingua restano invariati. Modificati `shared/tool-header.html`, `update_shared_ui.py`, `test_build.py` e rigenerati i 36 indici/pagine Tools. Verificati i quattro indici e un tool per lingua a 390 e 1440 px: 12 test di click/tastiera, nessuna apertura di nuove schede e nessun overflow. Build completa OK; seconda build zero aggiornamenti; quattro test di regressione superati. La release cumulativa comprende ora 94 file modificati/creati in /mrc (il file aggiuntivo è `web/shared/tool-header.html`).

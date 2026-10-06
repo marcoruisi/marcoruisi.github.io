@@ -219,7 +219,7 @@ def tool_header(root, lang, pair, current):
     all_url = '/it/tools/tutti/' if lang == 'it' else '/tools/all/'
     links = link(everyday, 'Everyday Tools', current) + link(all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools', current)
     language = '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(f'<a href="{pair[l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it'))
-    return template(root, 'tool-header.html', {'tools_index': everyday, 'tool_links': links, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
+    return template(root, 'tool-header.html', {'site_home': '/it/' if lang == 'it' else '/', 'home_label': 'Home MRC' if lang == 'it' else 'MRC home', 'tool_links': links, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
 
 
 def status(tool, tags, lang):

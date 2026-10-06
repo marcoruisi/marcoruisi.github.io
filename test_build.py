@@ -4,11 +4,22 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-from update_shared_ui import replace_footer, marked, plan_shared_ui, ROOT
+from update_shared_ui import replace_footer, marked, plan_shared_ui, tool_header, ROOT
 from publish_local import align_history, publish
 
 
 class BuildTests(unittest.TestCase):
+    def test_tool_header_returns_to_language_home(self):
+        pair = {'en': '/tools/webp-compressor/', 'it': '/it/tools/webp-compressor/'}
+        for lang, home in [('en', '/'), ('it', '/it/')]:
+            header = tool_header(ROOT, lang, pair, pair[lang])
+            self.assertIn('class="mrc-tools-brand" href="' + home + '"', header)
+            self.assertIn('>← MRC</a>', header)
+            self.assertNotIn('target=', header)
+            self.assertIn('Everyday Tools', header)
+            self.assertIn('href="' + pair['en'] + '" lang="en"', header)
+            self.assertIn('href="' + pair['it'] + '" lang="it"', header)
+
     def test_footer_legacy_marked_new_absent(self):
         footer = '<footer class="footer mrc-site-footer">new</footer>'
         variants = ['', '<footer class="footer">old</footer>', '<footer><div class="foot">old</div></footer>', marked('FOOTER', footer)]
