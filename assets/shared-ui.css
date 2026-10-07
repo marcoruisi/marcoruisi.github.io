@@ -32,7 +32,7 @@
 .reading-paths .reading-choice:focus-visible { outline: 2px solid var(--text); outline-offset: -4px; }
 @media (max-width:700px) {
  .reading-paths { gap: 0; padding: 0; }
- .reading-paths .reading-choice { min-height: 210px; padding: 28px 12px; }
+ .reading-paths .reading-choice { min-height: 150px; padding: 28px 12px; }
  .reading-paths .reading-link { margin-top: auto; padding-top: 24px; }
  .reading-paths .reading-choice + .reading-choice { border-left: 0; border-top: 1px solid var(--line); padding-top: 28px; }
 }
