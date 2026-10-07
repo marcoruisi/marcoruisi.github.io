@@ -1,15 +1,31 @@
 """Regression tests for shared footer and publication preserving working files."""
 import hashlib
+import os
 from pathlib import Path
 import subprocess
 import tempfile
 import unittest
-from update_shared_ui import replace_footer, marked, plan_shared_ui, tool_header, request_mailto, request_cta, dataset_checked, index_content, HOST, ROOT
+from update_shared_ui import replace_footer, marked, plan_shared_ui, tool_header, editorial_header, request_mailto, request_cta, dataset_checked, index_content, HOST, ROOT
 from urllib.parse import urlparse, parse_qs
 from publish_local import align_history, publish
 
 
 class BuildTests(unittest.TestCase):
+    def test_editorial_tools_link_shared_and_unique(self):
+        for lang in ('en', 'it'):
+            language = '<nav class="header-language"><a href="/">EN</a><span>/</span><a href="/it/">IT</a></nav>'
+            menu = '<button class="menu-trigger" data-popup-menu-toggle>Menu</button>'
+            for existing in ('', '<a class="header-tools" href="/tools/">Tools</a>'):
+                source = '<div class="topbar"><a href="/">mrc</a><div class="header-actions">' + existing + language + menu + '</div></div>'
+                output = editorial_header(ROOT, source, lang)
+                self.assertEqual(output.count('class="header-tools"'), 1)
+                self.assertIn('href="' + ('/it/tools/' if lang == 'it' else '/tools/') + '">Tools</a>', output)
+                self.assertIn(language, output)
+                self.assertEqual(output.count('data-popup-menu-toggle'), 1)
+                self.assertIn('aria-controls="site-popup-menu"', output)
+                self.assertNotIn('target=', output)
+                self.assertEqual(editorial_header(ROOT, output, lang), output)
+
     def test_direct_plugin_email(self):
         for tool in dataset_checked(ROOT)['tools']:
             if tool['availability'] != 'on-request': continue
@@ -29,14 +45,30 @@ class BuildTests(unittest.TestCase):
 
     def test_catalogue_filter_dimensions(self):
         data = dataset_checked(ROOT)
-        self.assertEqual([f['value'] for f in data['filters']], ['everyday', 'wordpress', 'plugin', 'snippet', 'free', 'on-request', 'images', 'pdf', 'html', 'compression'])
+        self.assertEqual([f['value'] for f in data['views']], ['all', 'everyday'])
+        self.assertEqual([f['value'] for f in data['filters']], ['wordpress', 'images', 'pdf', 'html', 'compression'])
         for field, value, count in [('type', 'plugin', 6), ('type', 'snippet', 4), ('availability', 'free', 12), ('availability', 'on-request', 4)]:
             self.assertEqual(sum(t[field] == value for t in data['tools']), count)
         for lang in ('en', 'it'):
             content = index_content(ROOT, data['tools'], data['tags'], lang, False)
             self.assertEqual(content.count('class="mrc-tool-row"'), 16)
             self.assertEqual(content.count('data-tool-availability="on-request"'), 4)
-            self.assertIn('data-filter-field="availability"', content)
+            self.assertNotIn('data-filter-field="availability"', content)
+            self.assertNotIn('data-filter-field="type"', content)
+            self.assertNotIn('mrc-tool-tags', content)
+            self.assertIn('mrc-tool-views', content)
+            self.assertIn('mrc-tool-scopes', content)
+            self.assertEqual(content.count('class="mrc-tool-model"'), 16)
+
+    def test_complete_header_and_home_menu(self):
+        for path in [ROOT/'index.html', ROOT/'it/index.html', ROOT/'work/index.html', ROOT/'it/lavoro/index.html']:
+            text = path.read_text()
+            self.assertEqual(text.count('MRC SHARED SITE HEADER START'), 1)
+            self.assertEqual(text.count('class="header-tools"'), 1)
+            self.assertEqual(text.count('data-popup-menu-toggle'), 1)
+            self.assertEqual(text.count('id="site-popup-menu"'), 1)
+            self.assertEqual(text.count('src="/assets/menu.js"'), 1)
+            self.assertNotIn('src="/assets/menu.min.js"', text)
 
     def test_tool_header_returns_to_language_home(self):
         pair = {'en': '/tools/webp-compressor/', 'it': '/it/tools/webp-compressor/'}
@@ -63,6 +95,7 @@ class BuildTests(unittest.TestCase):
     def test_current_build_idempotent(self):
         self.assertEqual(plan_shared_ui(), {})
 
+    @unittest.skipUnless(os.environ.get('MRC_RUN_ISOLATED_GIT_TESTS') == '1', 'Opt-in only: isolated Git integration test; no Git operations in normal checks')
     def test_remote_advance_divergence_and_real_push_preserve_working_files(self):
         with tempfile.TemporaryDirectory() as temp:
             base = Path(temp); bare = base / 'remote.git'; a = base / 'a'; b = base / 'b'

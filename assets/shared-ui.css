@@ -1,4 +1,43 @@
 /* Static shared footer. Publish is deliberately outside all navigation. */
+/* Complete editorial header, distinct from the operational Tools shell. */
+.topbar { gap: 20px; }
+.topbar .header-actions { display: flex; align-items: center; gap: 14px; white-space: nowrap; }
+.topbar .header-utilities { display: flex; align-items: center; gap: 9px; font-family: "Manrope", system-ui, sans-serif; font-size: 13px; line-height: 1.5; white-space: nowrap; }
+.topbar .header-utilities .header-language { margin: 0; font: inherit; line-height: inherit; }
+.topbar .header-utilities .header-tools { font: inherit; color: var(--text); text-decoration: none; }
+.topbar .header-utility-separator,.topbar .header-menu-separator { color: var(--muted); font: 13px/1.5 "Manrope", system-ui, sans-serif; }
+.topbar .header-language { gap: 3px; }
+.topbar .header-language a { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; min-height: 44px; }
+.topbar .header-tools,.topbar .logo-mark { display: inline-flex; align-items: center; min-height: 44px; }
+.topbar .menu-trigger { min-height: 44px; }
+.topbar .menu-icon { display: none; }
+.topbar .header-tools:hover { text-decoration: underline; text-underline-offset: 4px; }
+.topbar .header-tools:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+@media (max-width:700px) {
+ .topbar { gap: 10px; }
+ .topbar .header-actions { gap: 6px; }
+ .topbar .header-utilities { gap: 6px; }
+ .topbar .menu-trigger { min-width: 44px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+ .topbar .menu-label { display: none; }
+ .topbar .menu-icon { display: inline; font: 23px/1 system-ui, sans-serif; }
+}
+
+/* The two reading paths are full editorial surfaces, not just final text links. */
+.reading-paths { gap: 0; padding: 0; align-items: stretch; }
+.reading-paths .reading-choice { padding: 28px 30px; min-height: 190px; justify-content: flex-start; cursor: pointer; }
+.reading-paths .reading-choice + .reading-choice { border-left: 1px solid var(--line); }
+.reading-paths .reading-link { margin-top: 0; padding-top: 12px; transition: transform 150ms ease, text-decoration-color 150ms ease; }
+.reading-paths .reading-choice:hover .reading-number,.reading-paths .reading-choice:focus-visible .reading-number { color: var(--text); }
+.reading-paths .reading-choice:hover .reading-link,.reading-paths .reading-choice:focus-visible .reading-link { transform: translateX(4px); text-decoration-color: currentColor; }
+.reading-paths .reading-choice:focus-visible { outline: 2px solid var(--text); outline-offset: -4px; }
+@media (max-width:700px) {
+ .reading-paths { gap: 0; padding: 0; }
+ .reading-paths .reading-choice { min-height: 210px; padding: 28px 12px; }
+ .reading-paths .reading-link { margin-top: auto; padding-top: 24px; }
+ .reading-paths .reading-choice + .reading-choice { border-left: 0; border-top: 1px solid var(--line); padding-top: 28px; }
+}
+@media (prefers-reduced-motion:reduce) { .reading-paths .reading-link { transition: none; transform: none !important; } }
+
 footer.mrc-site-footer { max-width: 920px; margin: 110px auto 0; padding-top: 35px; border-top: 1px solid var(--line, var(--border, #ddd)); color: var(--muted, #687078); font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; line-height: 1.6; }
 footer.mrc-site-footer p { margin: 0 0 8px; }
 footer.mrc-site-footer .footer-name { color: var(--text, #202124); font-weight: 600; }

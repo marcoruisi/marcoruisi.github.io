@@ -12,6 +12,9 @@
 
     const openLabel = button.dataset.openLabel || "Menu";
     const closeLabel = button.dataset.closeLabel || "Close";
+    const label = button.querySelector('[data-menu-label]');
+    const icon = button.querySelector('.menu-icon');
+    const initialAriaLabel = button.getAttribute('aria-label') || openLabel;
 
     const positionPopup = () => {
         const siteRect = site.getBoundingClientRect();
@@ -29,8 +32,9 @@
         popup.classList.toggle("is-open", open);
         popup.setAttribute("aria-hidden", String(!open));
         button.setAttribute("aria-expanded", String(open));
-        button.textContent = open ? closeLabel : openLabel;
-        button.setAttribute("aria-label", open ? closeLabel : openLabel);
+        (label || button).textContent = open ? closeLabel : openLabel;
+        if (icon) icon.textContent = open ? '×' : '☰';
+        button.setAttribute("aria-label", open ? closeLabel : initialAriaLabel);
 
         if (open) {
             popup.removeAttribute("inert");

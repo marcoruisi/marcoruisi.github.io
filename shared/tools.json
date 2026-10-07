@@ -1,11 +1,10 @@
 {
+  "views": [
+    {"field": "view", "value": "all", "label": {"en": "All", "it": "Tutti"}},
+    {"field": "tags", "value": "everyday", "label": {"en": "Everyday", "it": "Everyday"}}
+  ],
   "filters": [
-    {"field": "tags", "value": "everyday", "label": {"en": "Everyday", "it": "Everyday"}},
     {"field": "tags", "value": "wordpress", "label": {"en": "WordPress", "it": "WordPress"}},
-    {"field": "type", "value": "plugin", "label": {"en": "Plugin", "it": "Plugin"}},
-    {"field": "type", "value": "snippet", "label": {"en": "Snippet", "it": "Snippet"}},
-    {"field": "availability", "value": "free", "label": {"en": "Free", "it": "Free"}},
-    {"field": "availability", "value": "on-request", "label": {"en": "On request", "it": "Su richiesta"}},
     {"field": "tags", "value": "images", "label": {"en": "Images", "it": "Immagini"}},
     {"field": "tags", "value": "pdf", "label": {"en": "PDF", "it": "PDF"}},
     {"field": "tags", "value": "html", "label": {"en": "HTML", "it": "HTML"}},

@@ -130,6 +130,12 @@ def dataset_checked(root):
     for item in filters:
         if item.get('field') not in allowed or item.get('value') not in allowed[item['field']] or set(item.get('label', {})) != {'en', 'it'}:
             raise ValueError(f'Filtro Tools non valido: {item}')
+    views = dataset.get('views', [])
+    if [v.get('value') for v in views] != ['all', 'everyday']:
+        raise ValueError('Viste Tools mancanti/non valide')
+    for item in views:
+        if set(item.get('label', {})) != {'en', 'it'} or item.get('field') != ('view' if item['value'] == 'all' else 'tags'):
+            raise ValueError(f'Vista Tools non valida: {item}')
     if len({t['id'] for t in tools}) != len(tools):
         raise ValueError('ID Tools duplicati')
     urls = set()
@@ -222,6 +228,36 @@ def language_pairs(files, tools):
     return pairs
 
 
+def editorial_header(root, text, lang):
+    """Generate one complete header, preserving the existing language equivalents."""
+    language = re.findall(r'<nav class="header-language"[^>]*>.*?</nav>', text, re.S)
+    if len(language) != 1:
+        raise ValueError('Header editoriale: switch lingua assente/duplicato')
+    utilities = template(root, 'header-utilities.html', {
+        'tools_url': '/it/tools/' if lang == 'it' else '/tools/',
+        'language_navigation': language[0],
+    })
+    content = template(root, 'site-header.html', {
+        'home_url': '/it/' if lang == 'it' else '/',
+        'home_label': 'Home MRC' if lang == 'it' else 'MRC home',
+        'utilities': utilities,
+        'open_label': 'Apri menu' if lang == 'it' else 'Open menu',
+        'close_label': 'Chiudi menu' if lang == 'it' else 'Close menu',
+    })
+    if '<!-- MRC SHARED SITE HEADER START -->' in text:
+        return replace_block(text, 'SITE HEADER', content)
+    starts = list(re.finditer(r'<div class="topbar">', text))
+    if len(starts) != 1:
+        raise ValueError('Header editoriale: topbar assente/duplicata')
+    start = starts[0].start()
+    depth = 0
+    for tag in re.finditer(r'</?div\b[^>]*>', text[start:]):
+        depth += -1 if tag[0].startswith('</') else 1
+        if depth == 0:
+            return text[:start] + marked('SITE HEADER', content) + text[start + tag.end():]
+    raise ValueError('Header editoriale: topbar non chiusa')
+
+
 def tool_header(root, lang, pair, current):
     everyday = '/it/tools/' if lang == 'it' else '/tools/'
     all_url = '/it/tools/tutti/' if lang == 'it' else '/tools/all/'
@@ -232,9 +268,8 @@ def tool_header(root, lang, pair, current):
 
 def status(tool, tags, lang):
     words = {'tool': 'TOOL', 'snippet': 'SNIPPET', 'plugin': 'PLUGIN'}
-    availability = ('SU RICHIESTA' if lang == 'it' else 'ON REQUEST') if tool['availability'] == 'on-request' else ('GRATUITO' if lang == 'it' else 'FREE')
-    pills = ''.join(f'<span class="mrc-tool-tag">{html.escape(tags[tag]["label"][lang])}</span>' for tag in tool['tags'] if tag not in ('plugin', 'snippet'))
-    return f'<p class="mrc-tool-model">{words[tool["type"]]} · {availability}</p><div class="mrc-tool-tags">{pills}</div>'
+    availability = 'ON REQUEST' if tool['availability'] == 'on-request' else 'FREE'
+    return f'<p class="mrc-tool-model">{words[tool["type"]]} · {availability}</p>'
 
 
 def related_tools(tool, tools):
@@ -271,9 +306,11 @@ def index_content(root, tools, tags, lang, everyday):
         all_url = '/it/tools/tutti/' if it else '/tools/all/'
         content += '<section class="mrc-index-bridge"><h2>' + pick('Lavori con WordPress o cerchi qualcosa di più tecnico?', 'Work with WordPress or looking for something more technical?') + '</h2><p>' + pick('Ho raccolto snippet, plugin e strumenti nati da problemi reali.', 'I’ve collected snippets, plugins and tools born from real problems.') + f'</p><p><a href="{all_url}">' + pick('Esplora tutti gli strumenti →', 'Explore all tools →') + '</a></p></section>'
     else:
-        buttons = f'<button type="button" data-tool-filter="all" aria-pressed="true" aria-controls="mrc-tools-list">{pick("Tutti", "All")}</button>'
-        filters = dataset_checked(root)['filters']
-        buttons += ''.join(f'<button type="button" data-tool-filter="{f["value"]}" data-filter-field="{f["field"]}" aria-pressed="false" aria-controls="mrc-tools-list">{html.escape(f["label"][lang])}</button>' for f in filters)
+        dataset = dataset_checked(root)
+        def controls(items):
+            return ''.join(f'<button type="button" data-tool-filter="{f["value"]}" data-filter-field="{f["field"]}" aria-pressed="{"true" if f["value"] == "all" else "false"}" aria-controls="mrc-tools-list">{html.escape(f["label"][lang])}</button>' for f in items)
+        buttons = '<div class="mrc-tool-views" role="group" aria-label="' + pick('Vista', 'View') + '">' + controls(dataset['views']) + '</div>'
+        buttons += '<div class="mrc-tool-scopes" role="group" aria-label="' + pick('Ambito', 'Scope') + '">' + controls(dataset['filters']) + '</div>'
         rows = ''.join(f'<li class="mrc-tool-row" data-tool-tags="{" ".join(t["tags"])}" data-tool-type="{t["type"]}" data-tool-availability="{t["availability"]}"><h2>{link(t["url"][lang], t["name"][lang])}</h2><p>{html.escape(t["description"][lang])}</p>{status(t,tags,lang)}</li>' for t in tools)
         content += f'<div class="mrc-tool-filters" role="group" aria-label="{pick("Filtra gli strumenti", "Filter tools")}" hidden>{buttons}</div><p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="{pick("strumenti visibili", "tools shown")}" hidden></p><ul class="mrc-tools-list" id="mrc-tools-list">{rows}</ul>'
     contact = '/it/contatti/' if it else '/contact/'
@@ -333,10 +370,17 @@ def plan_shared_ui(root=ROOT):
                 content = '<section class="mrc-related"><h2>' + ('Strumenti correlati' if lang == 'it' else 'Related tools') + '</h2><ul>' + ''.join('<li>' + link(t['url'][lang], t['name'][lang]) + '</li>' for t in related) + '</ul></section>'
                 text = replace_block(text, 'RELATED TOOLS', content)
         else:
+            text = editorial_header(root, text, lang)
+            menu = template(root, f'menu.{lang}.html')
+            menu = re.sub(r'(<a\s+href="([^"]+)")', lambda m: m[1] + (' aria-current="page"' if m[2] == url else ''), menu)
             if '<!-- MRC POPUP MENU START -->' in text or '<!-- MRC SHARED MENU START -->' in text:
-                menu = template(root, f'menu.{lang}.html')
-                menu = re.sub(r'(<a\s+href="([^"]+)")', lambda m: m[1] + (' aria-current="page"' if m[2] == url else ''), menu)
                 text = replace_block(text, 'MENU', menu, r'<!-- MRC POPUP MENU START -->.*?<!-- MRC POPUP MENU END -->')
+            else:
+                end = '<!-- MRC SHARED SITE HEADER END -->'
+                text = text.replace(end, end + '\n' + marked('MENU', menu))
+            # One shared menu script, also on the home page.
+            text = re.sub(r'<script\b[^>]*src="/assets/menu(?:\.min)?\.js"[^>]*>\s*</script>\s*', '', text)
+            text = text.replace('</body>', '<script src="/assets/menu.js" defer></script>\n</body>')
         if 'href="/assets/shared-ui.css"' not in text: text = text.replace('</head>', '<link rel="stylesheet" href="/assets/shared-ui.css">\n</head>')
         text = replace_footer(text, template(root, 'footer.html'))
         if tool:

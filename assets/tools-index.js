@@ -16,6 +16,7 @@
       row.hidden=tag!=='all'&&!match;if(!row.hidden)count++;
     }
     for(const button of buttons)button.setAttribute('aria-pressed',String(button.dataset.toolFilter===tag));
+    // Announce the total for All and the visible count for every filtered view.
     status.textContent=`${count} ${status.dataset.countLabel}`;
   }
   for(const button of buttons)button.addEventListener('click',()=>filter(button));

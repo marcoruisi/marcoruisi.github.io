@@ -54,25 +54,26 @@
 
 <body>
     <main class="site">
-                    <div class="topbar">
-<a class="logo-mark" href="/" aria-label="MRC home">mrc</a>
-<div class="header-actions"><nav class="header-language" aria-label="Language selection">
+                    <!-- MRC SHARED SITE HEADER START -->
+<div class="topbar">
+  <a class="logo-mark" href="/" aria-label="MRC home">mrc</a>
+  <div class="header-actions">
+    <div class="header-utilities">
+  <a class="header-tools" href="/tools/">Tools</a>
+  <span class="header-utility-separator" aria-hidden="true">·</span>
+  <nav class="header-language" aria-label="Language selection">
             <a href="/principles/" class="active" aria-current="page">EN</a>
             <span>/</span>
             <a href="/it/principi/">IT</a>
-        </nav><button
-    class="menu-trigger"
-    type="button"
-    data-popup-menu-toggle
-    data-open-label="Menu"
-    data-close-label="Close"
-    aria-label="Open menu"
-    aria-expanded="false"
-    aria-controls="site-popup-menu"
->
-    Menu
-</button></div>
+        </nav>
 </div>
+    <span class="header-menu-separator" aria-hidden="true">·</span>
+    <button class="menu-trigger" type="button" data-popup-menu-toggle data-open-label="Menu" data-close-label="Close menu" aria-label="Open menu" aria-expanded="false" aria-controls="site-popup-menu">
+      <span class="menu-label" data-menu-label>Menu</span><span class="menu-icon" aria-hidden="true">☰</span>
+    </button>
+  </div>
+</div>
+<!-- MRC SHARED SITE HEADER END -->
 
 <!-- MRC SHARED MENU START -->
 <div
@@ -241,9 +242,9 @@
 <!-- End Cloudflare Web Analytics -->
 
 <!-- MRC POPUP MENU SCRIPT START -->
-<script src="/assets/menu.min.js"></script>
 <!-- MRC POPUP MENU SCRIPT END -->
 
+<script src="/assets/menu.js" defer></script>
 </body>
 
 </html>

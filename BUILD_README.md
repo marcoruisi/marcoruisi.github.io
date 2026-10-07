@@ -1,5 +1,21 @@
 # Build e pubblicazione MRC
 
+## Stato corrente — 7 ottobre 2026
+
+Header editoriale unico anche in home: MRC, Tools, lingua e menu. Template `shared/site-header.html` e `shared/header-utilities.html`; interazione in `assets/menu.js`; stili condivisi in `assets/shared-ui.css`. Il menu mantiene le voci esistenti. Su mobile il controllo menu mostra un'icona con nome accessibile e area di almeno 44 px.
+
+I due percorsi della home mantengono testi e URL: tutta la superficie è cliccabile, separatore verticale desktop e orizzontale mobile, hover/focus sull'intera scelta e rispetto di reduced-motion.
+
+All Tools: `views` (All/Everyday) separato visivamente da `filters` (WordPress, Images, PDF, HTML, Compression) in `shared/tools.json`. La selezione resta esclusiva tra tutti i controlli: scegliere un ambito sostituisce la vista Everyday, non la combina. I tag rimangono nei dati e nei Related Tools. Ogni voce mostra soltanto `TOOL / PLUGIN / SNIPPET · FREE / ON REQUEST`, senza una seconda fila di pill.
+
+Verifiche di questa revisione: 129 controlli pagina/viewport per l'header editoriale (43 pagine a 320, 390 e 1440 px), 180 controlli Tools (36 route a 320, 390, 700, 701 e 1440 px), 46 controlli filtri/mailto/fallback senza JS. Controllate tastiera, focus, Escape del menu, click sull'intera area dei percorsi, link lingua equivalenti, Copy degli snippet e download. Corretta la larghezza minima dei select nel tool White to Transparent a 320 px tramite il CSS condiviso dalle due lingue, senza modifiche al codice operativo.
+
+Build completa: 78 URL indicizzabili e raggiungibili dalla home; zero orphan; canonical/hreflang/sitemap/link/asset validati. Seconda build: zero aggiornamenti. Test Python: sette superati, uno Git intenzionalmente non eseguito. Nessun commit, push o publish in questa revisione.
+
+### Regola di consegna
+
+Il lavoro automatico termina con build, verifiche locali e salvataggio degli originali in Dropbox. Non avviare commit, push, deploy, MRC Publish o script di pubblicazione senza richiesta esplicita nello stesso incarico. La pubblicazione è manuale tramite `mrc.command`. Il test Git isolato è opt-in (`MRC_RUN_ISOLATED_GIT_TESTS=1`) e non viene eseguito nei controlli normali; i validator del sito restano attivi e invariati.
+
 La cartella Dropbox `/mrc/web` è la sorgente autorevole. Il sito rimane HTML/CSS/JavaScript statico. Il build usa solo Python 3 e la libreria standard: niente rete, CMS, pacchetti da installare o Git.
 
 ```bash
@@ -12,6 +28,8 @@ python3 test_build.py
 Il secondo build deve riportare zero file aggiornati. La build verifica tutte le pagine del sito prima di scrivere: canonical, og:url, lingua, hreflang reciproci, JSON-LD, H1, ID, link/ancore, asset, discovery dalla home, download gratuiti e assenza di ZIP nelle pagine ON REQUEST. Host unico: `https://marcoruisi.pages.dev`.
 
 ## Sorgenti condivisi
+
+- `shared/site-header.html` e `shared/header-utilities.html`: header editoriale unico. Il generatore conserva gli equivalenti lingua, rende disponibile il menu anche in home e sceglie `/tools/` o `/it/tools/`. Link funzionali statici, menu in `assets/menu.js`.
 
 - `shared/tools.json`: catalogo unico. `tags` definisce etichette e filtri; ogni tool ha `id`, `name`, `description`, coppia `url` EN/IT, `tags`, `type`, `availability`. Gli Everyday hanno anche `action` IT/EN. I plugin FREE hanno `download` e `version`. ON REQUEST non può avere download.
 - `/tools/` e `/it/tools/`: Everyday, selezionati dal tag `everyday`, senza filtri.
@@ -39,7 +57,7 @@ La CTA apre direttamente un normale `mailto:marcoruisi@gmail.com`, indirizzo gi�
 
 Il precedente form e tutti i passaggi di preparazione della bozza sono rimossi. `assets/plugin-request.js` resta soltanto un file di compatibilità inerte e non è caricato dalle pagine. La nota sul preventivo resta accanto alla CTA.
 
-I filtri del catalogo sono definiti dall'array `filters` di `shared/tools.json`: ordine, etichette IT/EN e dimensione (`tags`, `type`, `availability`). Gli HTML generati riportano gli attributi corrispondenti ai dati, mai dedotti dal testo delle pill. Il comportamento resta single-select; senza JavaScript i 16 elementi sono tutti visibili.
+Viste e ambiti del catalogo sono definiti dagli array `views` e `filters` di `shared/tools.json`: ordine ed etichette IT/EN. Tipo e disponibilità sono metadati, non filtri pubblici. Gli HTML generati riportano gli attributi corrispondenti ai dati, mai dedotti dal testo visibile. Il comportamento resta single-select; senza JavaScript i 16 elementi sono tutti visibili.
 
 ## Analytics
 
