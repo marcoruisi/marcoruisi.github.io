@@ -53,7 +53,7 @@
   $('background').addEventListener('change',()=>{$('preview').className='preview '+$('background').value;});
   $('download').addEventListener('click',()=>{
     const name=filename.replace(/\.[^.]+$/,'')+'-transparent.png';
-    $('canvas').toBlob(blob=>{if(!blob){$('status').textContent=say('Esportazione non riuscita.','Export failed.');return;}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);},'image/png');
+    $('canvas').toBlob(async blob=>{try{if(!blob)throw Error('encode');const signed=await MRCOutputMetadata.image(blob),url=URL.createObjectURL(signed),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}catch(e){$('status').textContent=say('Esportazione non riuscita.','Export failed.');}},'image/png');
   });
   $('reset').addEventListener('click',()=>{generation++;clearTimeout(timer);source=null;$('file').value='';$('preview').hidden=true;$('download').disabled=true;$('status').textContent='';$('canvas').width=1;$('canvas').height=1;});
 })();

@@ -60,6 +60,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <link rel="stylesheet" href="/assets/tool-shell.css">
 <link rel="stylesheet" href="/assets/tools-content.css">
 <link rel="stylesheet" href="/assets/tool-feedback.css">
+<link rel="stylesheet" href="/tools/pdf-compressor/ux.css">
 <!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcoruisi.pages.dev/tools/pdf-compressor/">
@@ -98,31 +99,10 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <section class="panel">
 <label class="dropzone" id="dropzone"><div><strong>Drop a PDF here</strong><span>or click to select one file</span></div><input id="fileInput" type="file" accept="application/pdf,.pdf"></label>
 
-<div class="settings">
-<div class="field"><label for="qualityPreset">Quality mode</label><select id="qualityPreset"><option value="target">Target size</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div>
-
-<div class="field"><label for="compressionMode">Method</label><select id="compressionMode"><option value="preserve" selected>Preserve PDF content</option><option value="raster">Rasterize pages</option></select></div>
-<div class="field"><label for="targetSize">Desired size (indicative)</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div>
-<div class="field"><label for="targetUnit">Unit</label><select id="targetUnit"><option value="MB" selected>MB</option><option value="KB">KB</option></select></div>
-<div class="field" id="rasterColor"><label for="colorMode">Color</label><select id="colorMode"><option value="color" selected>Color</option><option value="gray">Grayscale</option></select></div>
-<div class="field"><label for="minDpi">Minimum DPI</label><input id="minDpi" type="number" min="72" max="300" step="1" value="72"></div>
-<div class="field"><label for="minQuality">Minimum JPEG quality (%)</label><input id="minQuality" type="number" min="40" max="95" step="1" value="40"></div>
-</div>
-
-<div id="compressionAdvice" class="note" style="display:none"></div>
-
-<div class="actions">
-<button id="compressButton" class="primary" type="button" disabled>Compress PDF</button>
-<button id="downloadButton" type="button" disabled>Download</button>
-<button id="reportButton" type="button" disabled>Download report</button>
-<button id="clearButton" type="button" disabled>Clear</button>
-<div id="status" class="status" aria-live="polite"></div>
-</div>
-
-<div id="progress" class="progress"><span></span></div>
-<div id="summary" class="summary"></div>
-
-<div id="modeNote" class="note"></div>
+<div class="settings main-settings"><div class="field"><label for="qualityPreset">Compression criterion</label><select id="qualityPreset"><option value="target">Target size</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div><div class="field" id="rasterColor"><label for="colorMode">Image colour</label><select id="colorMode"><option value="color" selected>Colour</option><option value="gray">Grayscale</option></select></div><div id="targetFields" class="target-fields"><div class="field"><label for="targetSize">Desired size (indicative)</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div><div class="field"><label for="targetUnit">Unit</label><select id="targetUnit"><option value="MB" selected>MB</option><option value="KB">KB</option></select></div></div></div>
+<details id="advancedOptions" class="pdf-details"><summary>Advanced options</summary><div class="settings"><div class="field"><label for="minDpi">Minimum DPI</label><input id="minDpi" type="number" min="72" max="300" step="1" value="72"></div><div class="field"><label for="minQuality">Minimum JPEG quality (%)</label><input id="minQuality" type="number" min="40" max="95" step="1" value="40"></div><div class="field"><label for="compressionMode">Method</label><select id="compressionMode"><option value="preserve" selected>Preserve PDF content</option><option value="raster">Rasterize pages</option></select></div></div><p id="modeNote" class="note"></p><button id="clearButton" type="button" disabled>Remove file</button></details>
+<div class="actions"><button id="compressButton" class="primary" type="button" disabled>Compress PDF</button><div id="status" class="status" aria-live="polite"></div></div><div id="progress" class="progress"><span></span></div>
+<section id="resultSection" class="pdf-result" hidden aria-labelledby="resultHeading"><h2 id="resultHeading">Compression result</h2><dl id="summary" class="result-metrics"><div><dt>Original size</dt><dd id="originalSize">—</dd></div><div><dt>Final size</dt><dd id="finalSize">—</dd></div><div><dt id="reductionLabel">Reduction</dt><dd id="reduction">—</dd></div><div><dt id="imageCountLabel">Images optimised</dt><dd id="imageCount">—</dd></div></dl><p id="targetOutcome" class="result-outcome"></p><p id="compressionAdvice" class="note" hidden></p><div class="actions"><button id="downloadButton" class="primary" type="button" disabled>Download PDF</button></div><details id="compressionDetails" class="pdf-details"><summary>Compression details</summary><div id="detailContent"></div><button id="reportButton" type="button" disabled>Download technical report (JSON)</button></details></section>
 </section>
 
 <p class="footer">Your PDF is processed locally. The document is never uploaded.</p>

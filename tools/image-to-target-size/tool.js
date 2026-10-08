@@ -8,7 +8,7 @@
     reading:'Apro la foto…', working:'Cerco qualità e dimensioni entro il limite…',
     failed:'Non riesco a leggere o elaborare questa immagine. Prova un’altra foto JPG, PNG o WebP.',
     impossible:'Questo limite richiederebbe una foto troppo degradata. Aumenta il peso massimo: non ho preparato un risultato da scaricare.',
-    unchanged:'Il JPG è già entro il limite: puoi scaricare l’originale senza ricompressione.',
+    unchanged:'Il JPG è entro il limite: pixel originali conservati, attribuzione MRC aggiunta nei metadati.',
     ready:'JPG pronto: il peso effettivo è entro il limite.',
     degraded:'Per rispettare il limite è stato necessario ridurre molto qualità o dimensioni. Controlla l’anteprima: dettagli e testo potrebbero non essere leggibili. Se puoi, aumenta il peso massimo.',
     resized:'Dimensioni ridotte', kept:'Dimensioni mantenute', original:'Originale', result:'Risultato',
@@ -20,7 +20,7 @@
     reading:'Opening your photo…', working:'Finding quality and dimensions that fit…',
     failed:'This image could not be read or processed. Try another JPG, PNG or WebP photo.',
     impossible:'This limit would require an excessively degraded photo. Increase the maximum file size: no download has been prepared.',
-    unchanged:'This JPG already fits: download the original without recompression.',
+    unchanged:'The JPG fits: original pixels preserved, MRC attribution added to metadata.',
     ready:'JPG ready: its actual file size is within the limit.',
     degraded:'Meeting this limit required a large reduction in quality or dimensions. Check the preview: details and text may be hard to read. Increase the limit if you can.',
     resized:'Dimensions reduced', kept:'Dimensions unchanged', original:'Original', result:'Result',
@@ -88,7 +88,7 @@
     return new Promise((resolve,reject)=>canvas.toBlob(blob=>{
       if(token!==generation)return reject(cancelled);
       if(!blob||blob.type!=='image/jpeg')return reject(new Error('encode'));
-      resolve(blob);
+      MRCOutputMetadata.image(blob).then(signed=>{if(token!==generation)return reject(cancelled);resolve(signed);},reject);
     },'image/jpeg',quality));
   }
   async function atDimensions(canvas,target,token) {
@@ -112,8 +112,8 @@
     let canvas;
     try {
       let output,width=current.width,height=current.height,quality=null,unchanged=false;
-      if(current.type==='image/jpeg'&&current.file.size<=target){output=current.file;unchanged=true;}
-      else {
+      if(current.type==='image/jpeg'&&current.file.size<=target){const signed=await MRCOutputMetadata.image(current.file);check(token);if(signed.size<=target){output=signed;unchanged=true;}}
+      if(!output) {
         canvas=document.createElement('canvas');const ctx=canvas.getContext('2d');if(!ctx)throw new Error('canvas');
         // Bound canvas memory on phones; never upscale. Refuse excessively tiny output.
         let scale=Math.min(1,4096/Math.max(width,height),Math.sqrt(12000000/(width*height)));

@@ -208,6 +208,7 @@
                 });
                 await pause();
             }
+            MRCOutputMetadata.pdf(pdf);
             const bytes = await pdf.save();
             const blob = new Blob([bytes], {type: 'application/pdf'});
             resultUrl = URL.createObjectURL(blob);

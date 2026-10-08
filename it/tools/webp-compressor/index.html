@@ -224,6 +224,7 @@
 <link rel="stylesheet" href="/assets/tool-shell.css">
 <link rel="stylesheet" href="/assets/tools-content.css">
 <link rel="stylesheet" href="/assets/tool-feedback.css">
+<script src="/assets/output-metadata.js"></script>
 <!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcoruisi.pages.dev/it/tools/webp-compressor/">
@@ -654,7 +655,7 @@
     if (image.close) image.close();
 
     const q = Math.min(1, Math.max(0.01, Number(quality.value || 82) / 100));
-    const blob = await canvasToWebPBlob(q);
+    const blob = await MRCOutputMetadata.image(await canvasToWebPBlob(q));
     const url = URL.createObjectURL(blob);
 
     return {

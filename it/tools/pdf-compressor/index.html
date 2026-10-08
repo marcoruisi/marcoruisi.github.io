@@ -61,6 +61,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <link rel="stylesheet" href="/assets/tool-shell.css">
 <link rel="stylesheet" href="/assets/tools-content.css">
 <link rel="stylesheet" href="/assets/tool-feedback.css">
+<link rel="stylesheet" href="/tools/pdf-compressor/ux.css">
 <!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcoruisi.pages.dev/it/tools/pdf-compressor/">
@@ -99,31 +100,10 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <section class="panel">
 <label class="dropzone" id="dropzone"><div><strong>Trascina qui un PDF</strong><span>oppure seleziona un file</span></div><input id="fileInput" type="file" accept="application/pdf,.pdf"></label>
 
-<div class="settings">
-<div class="field"><label for="qualityPreset">Modalità qualità</label><select id="qualityPreset"><option value="target">Peso desiderato</option><option value="high">Alta</option><option value="medium">Media</option><option value="low">Bassa</option></select></div>
-
-<div class="field"><label for="compressionMode">Metodo</label><select id="compressionMode"><option value="preserve" selected>Compressione conservativa</option><option value="raster">Rasterizza le pagine</option></select></div>
-<div class="field"><label for="targetSize">Peso desiderato (indicativo)</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div>
-<div class="field"><label for="targetUnit">Unità</label><select id="targetUnit"><option value="MB" selected>MB</option><option value="KB">KB</option></select></div>
-<div class="field" id="rasterColor"><label for="colorMode">Colore</label><select id="colorMode"><option value="color" selected>Colore</option><option value="gray">Scala di grigi</option></select></div>
-<div class="field"><label for="minDpi">DPI minimi</label><input id="minDpi" type="number" min="72" max="300" step="1" value="72"></div>
-<div class="field"><label for="minQuality">Qualità JPEG minima (%)</label><input id="minQuality" type="number" min="40" max="95" step="1" value="40"></div>
-</div>
-
-<div id="compressionAdvice" class="note" style="display:none"></div>
-
-<div class="actions">
-<button id="compressButton" class="primary" type="button" disabled>Comprimi PDF</button>
-<button id="downloadButton" type="button" disabled>Scarica</button>
-<button id="reportButton" type="button" disabled>Scarica report</button>
-<button id="clearButton" type="button" disabled>Svuota</button>
-<div id="status" class="status" aria-live="polite"></div>
-</div>
-
-<div id="progress" class="progress"><span></span></div>
-<div id="summary" class="summary"></div>
-
-<div id="modeNote" class="note"></div>
+<div class="settings main-settings"><div class="field"><label for="qualityPreset">Criterio di compressione</label><select id="qualityPreset"><option value="target">Peso desiderato</option><option value="high">Alta</option><option value="medium">Media</option><option value="low">Bassa</option></select></div><div class="field" id="rasterColor"><label for="colorMode">Colore delle immagini</label><select id="colorMode"><option value="color" selected>Colori</option><option value="gray">Scala di grigi</option></select></div><div id="targetFields" class="target-fields"><div class="field"><label for="targetSize">Peso desiderato (indicativo)</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div><div class="field"><label for="targetUnit">Unità</label><select id="targetUnit"><option value="MB" selected>MB</option><option value="KB">KB</option></select></div></div></div>
+<details id="advancedOptions" class="pdf-details"><summary>Opzioni avanzate</summary><div class="settings"><div class="field"><label for="minDpi">DPI minimi</label><input id="minDpi" type="number" min="72" max="300" step="1" value="72"></div><div class="field"><label for="minQuality">Qualità JPEG minima (%)</label><input id="minQuality" type="number" min="40" max="95" step="1" value="40"></div><div class="field"><label for="compressionMode">Metodo</label><select id="compressionMode"><option value="preserve" selected>Compressione conservativa</option><option value="raster">Rasterizza le pagine</option></select></div></div><p id="modeNote" class="note"></p><button id="clearButton" type="button" disabled>Rimuovi file</button></details>
+<div class="actions"><button id="compressButton" class="primary" type="button" disabled>Comprimi PDF</button><div id="status" class="status" aria-live="polite"></div></div><div id="progress" class="progress"><span></span></div>
+<section id="resultSection" class="pdf-result" hidden aria-labelledby="resultHeading"><h2 id="resultHeading">Risultato della compressione</h2><dl id="summary" class="result-metrics"><div><dt>Dimensione originale</dt><dd id="originalSize">—</dd></div><div><dt>Dimensione finale</dt><dd id="finalSize">—</dd></div><div><dt id="reductionLabel">Riduzione</dt><dd id="reduction">—</dd></div><div><dt id="imageCountLabel">Immagini ottimizzate</dt><dd id="imageCount">—</dd></div></dl><p id="targetOutcome" class="result-outcome"></p><p id="compressionAdvice" class="note" hidden></p><div class="actions"><button id="downloadButton" class="primary" type="button" disabled>Scarica PDF</button></div><details id="compressionDetails" class="pdf-details"><summary>Dettagli della compressione</summary><div id="detailContent"></div><button id="reportButton" type="button" disabled>Scarica report tecnico (JSON)</button></details></section>
 </section>
 
 <p class="footer">Il PDF viene elaborato nel browser. Il documento non viene inviato a un server.</p>

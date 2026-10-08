@@ -111,6 +111,7 @@ $('export').addEventListener('click',async()=>{
   // Reload the original bytes: preview and previous exports never accumulate crop offsets.
   const doc=await PDFLib.PDFDocument.load(bytes,{updateMetadata:false,throwOnInvalidObject:true});
   const fresh=PrintPdfCore.inspect(doc);const report=PrintPdfCore.crop(doc,fresh,rects);
+  MRCOutputMetadata.pdf(doc);
   const output=await doc.save({updateFieldAppearances:false});
   downloadUrl=URL.createObjectURL(new Blob([output],{type:'application/pdf'}));$('download').href=downloadUrl;$('download').download=fileName.replace(/\.pdf$/i,'')+'-web.pdf';
   $('result-summary').textContent=tr(`${info.pages.length} pages · ${size(output.length)}. Page boxes match the final format. Links wholly outside the crop are removed.`,`${info.pages.length} pagine · ${size(output.length)}. I riquadri delle pagine corrispondono al formato finale. I link interamente esterni al ritaglio vengono rimossi.`)+(report.removedLinks?tr(` ${report.removedLinks} outside links removed.`,` ${report.removedLinks} link esterni rimossi.`):'');
