@@ -27,4 +27,13 @@ body { margin:0; padding:24px; font-family:-apple-system,BlinkMacSystemFont,"Seg
 .mrc-tool-language{flex:0 0 auto;align-items:center;gap:10px;line-height:20px}
 .mrc-tool-language a,.mrc-tool-language .mrc-language-separator{display:flex;align-items:center;padding:0;min-height:44px;line-height:20px;box-sizing:border-box}
 .mrc-tool-language a[aria-current="page"]{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
-@media(max-width:600px){.mrc-tool-header{align-items:flex-start}.mrc-tool-header .mrc-tools-nav{flex-basis:100%;gap:10px 20px}.mrc-tool-language{margin-left:auto}}
+.mrc-nav-short{display:none}
+@media(max-width:600px){
+ .mrc-tool-header{flex-wrap:nowrap;align-items:center;gap:12px}
+ .mrc-tool-header .mrc-tools-nav{flex:1 1 auto;flex-wrap:nowrap;gap:clamp(10px,3vw,18px)}
+ .mrc-tools-nav a{min-height:44px}
+ .mrc-tools-nav .mrc-nav-full{display:none}
+ .mrc-tools-nav .mrc-nav-short{display:inline}
+ .mrc-tool-language{margin-left:auto;gap:6px}
+ .mrc-tool-language a{min-width:24px}
+}

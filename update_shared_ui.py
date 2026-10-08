@@ -264,7 +264,13 @@ def editorial_header(root, text, lang):
 def tool_header(root, lang, pair, current):
     everyday = '/it/tools/' if lang == 'it' else '/tools/'
     all_url = '/it/tools/tutti/' if lang == 'it' else '/tools/all/'
-    links = link(everyday, 'Everyday Tools', current) + link(all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools', current)
+    links = ''
+    for url, full, short in ((everyday, 'Everyday Tools', 'Everyday'),
+                             (all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools', 'All')):
+        active = ' aria-current="page"' if url == current else ''
+        links += (f'<a href="{url}" aria-label="{full}"{active}>'
+                  f'<span class="mrc-nav-full">{full}</span>'
+                  f'<span class="mrc-nav-short" aria-hidden="true">{short}</span></a>')
     language = '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(f'<a href="{pair[l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it'))
     return template(root, 'tool-header.html', {'site_home': '/it/' if lang == 'it' else '/', 'home_label': 'Home MRC' if lang == 'it' else 'MRC home', 'tool_links': links, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
 
