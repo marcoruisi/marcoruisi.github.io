@@ -92,17 +92,21 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <!-- MRC SHARED TOOL STATUS START -->
 <p class="mrc-tool-model">TOOL · FREE</p>
 <!-- MRC SHARED TOOL STATUS END -->
-<h1>PDF Compressor</h1>
+<h1>PDF Compressor <span style="font-size:.55em">2.0</span></h1>
 <p class="intro">Reduce supported PDF images while preserving text, links and vectors. Processing stays in your browser; the document is never uploaded.</p>
 
 <section class="panel">
 <label class="dropzone" id="dropzone"><div><strong>Drop a PDF here</strong><span>or click to select one file</span></div><input id="fileInput" type="file" accept="application/pdf,.pdf"></label>
 
 <div class="settings">
+<div class="field"><label for="qualityPreset">Quality mode</label><select id="qualityPreset"><option value="target">Target size</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div>
+
 <div class="field"><label for="compressionMode">Method</label><select id="compressionMode"><option value="preserve" selected>Preserve PDF content</option><option value="raster">Rasterize pages</option></select></div>
 <div class="field"><label for="targetSize">Desired size (indicative)</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div>
 <div class="field"><label for="targetUnit">Unit</label><select id="targetUnit"><option value="MB" selected>MB</option><option value="KB">KB</option></select></div>
-<div class="field" id="rasterColor" hidden><label for="colorMode">Color</label><select id="colorMode"><option value="color" selected>Color</option><option value="gray">Grayscale</option></select></div>
+<div class="field" id="rasterColor"><label for="colorMode">Color</label><select id="colorMode"><option value="color" selected>Color</option><option value="gray">Grayscale</option></select></div>
+<div class="field"><label for="minDpi">Minimum DPI</label><input id="minDpi" type="number" min="72" max="300" step="1" value="72"></div>
+<div class="field"><label for="minQuality">Minimum JPEG quality (%)</label><input id="minQuality" type="number" min="40" max="95" step="1" value="40"></div>
 </div>
 
 <div id="compressionAdvice" class="note" style="display:none"></div>
@@ -110,6 +114,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <div class="actions">
 <button id="compressButton" class="primary" type="button" disabled>Compress PDF</button>
 <button id="downloadButton" type="button" disabled>Download</button>
+<button id="reportButton" type="button" disabled>Download report</button>
 <button id="clearButton" type="button" disabled>Clear</button>
 <div id="status" class="status" aria-live="polite"></div>
 </div>
@@ -157,261 +162,11 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <!-- MRC SHARED FOOTER END -->
 
 <script src="/tools/images-to-pdf/pdf-lib-1.17.1.min.js"></script>
+<script src="/tools/pdf-compressor/image-placement.js"></script>
 <script src="/tools/pdf-compressor/image-optimizer.js"></script>
 <script src="/tools/pdf-compressor/conservative-ui.js"></script>
-<script type="module">
-// The raster engine is loaded only after the explicit mode is selected.
-let pdfjsLib,jsPDF;
-async function rasterEngine(){
- if(!pdfjsLib){pdfjsLib=await import('/tools/print-pdf-to-web/vendor/pdf.min.mjs');pdfjsLib.GlobalWorkerOptions.workerSrc='/tools/print-pdf-to-web/vendor/pdf.worker.min.mjs';}
- if(!jsPDF)({jsPDF}=await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm'));
-}
-
-const dropzone=document.getElementById('dropzone');
-const fileInput=document.getElementById('fileInput');
-const targetSize=document.getElementById('targetSize');
-const targetUnit=document.getElementById('targetUnit');
-const colorMode=document.getElementById('colorMode');
-const compressButton=document.getElementById('compressButton');
-const downloadButton=document.getElementById('downloadButton');
-const clearButton=document.getElementById('clearButton');
-const compressionAdvice=document.getElementById('compressionAdvice');
-const status=document.getElementById('status');
-const summary=document.getElementById('summary');
-const progress=document.getElementById('progress');
-const progressBar=progress.querySelector('span');
-
-let sourceFile=null,resultBlob=null,resultUrl=null,resultName='';
-
-const humanBytes=bytes=>{if(!bytes)return'0 B';const u=['B','KB','MB','GB'];const i=Math.min(Math.floor(Math.log(bytes)/Math.log(1024)),u.length-1);return`${(bytes/Math.pow(1024,i)).toFixed(i?1:0)} ${u[i]}`};
-function slugifyName(v){return v.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').replace(/-{2,}/g,'-')}
-function outputName(name){
-  const b=name.replace(/\.pdf$/i,'')||'compressed-pdf';
-  return `${b}-compressed.pdf`;
-}
-function setStatus(m,t=''){status.textContent=m;status.className='status'+(t?' '+t:'')}
-function targetBytes(){const v=Math.max(.1,Number(targetSize.value||5));return targetUnit.value==='KB'?Math.round(v*1024):Math.round(v*1024*1024)}
-
-function updateCompressionAdvice(){
-  compressionAdvice.style.display='none';
-  compressionAdvice.textContent='';
-  if(!sourceFile)return;
-}
-
-function revokeResult(){if(resultUrl)URL.revokeObjectURL(resultUrl);resultUrl=null;resultBlob=null;downloadButton.disabled=true}
-function setFile(file){
-  if(!file||(!/\.pdf$/i.test(file.name)&&file.type!=='application/pdf')){setStatus('Please select a PDF file.','error');return}
-  revokeResult();sourceFile=file;compressButton.disabled=false;clearButton.disabled=false;summary.classList.remove('visible');summary.innerHTML='';
-  setStatus(`${file.name} · ${humanBytes(file.size)}`);dropzone.querySelector('strong').textContent=file.name;dropzone.querySelector('span').textContent=humanBytes(file.size);updateCompressionAdvice()
-}
-
-async function renderAttempt(pdf,dpi,quality,gray,attemptIndex,attemptCount){
-  const pageCount=pdf.numPages;let outPdf=null;
-  for(let pageNo=1;pageNo<=pageCount;pageNo++){
-    const page=await pdf.getPage(pageNo);
-    const baseViewport=page.getViewport({scale:1});
-    const viewport=page.getViewport({scale:dpi/72});
-    const canvas=document.createElement('canvas');
-    const ctx=canvas.getContext('2d',{alpha:false});
-    canvas.width=Math.max(1,Math.round(viewport.width));canvas.height=Math.max(1,Math.round(viewport.height));
-    ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
-    await page.render({canvasContext:ctx,viewport}).promise;
-    if(gray){
-      const img=ctx.getImageData(0,0,canvas.width,canvas.height),d=img.data;
-      for(let i=0;i<d.length;i+=4){const y=Math.round(.299*d[i]+.587*d[i+1]+.114*d[i+2]);d[i]=d[i+1]=d[i+2]=y}
-      ctx.putImageData(img,0,0)
-    }
-    const jpeg=canvas.toDataURL('image/jpeg',quality);
-    const pageW=baseViewport.width,pageH=baseViewport.height,orientation=pageW>pageH?'landscape':'portrait';
-    if(!outPdf){outPdf=new jsPDF({orientation,unit:'pt',format:[pageW,pageH],compress:true})}
-    else{outPdf.addPage([pageW,pageH],orientation)}
-    outPdf.addImage(jpeg,'JPEG',0,0,pageW,pageH,undefined,'FAST');
-    progressBar.style.width=`${Math.min(100,((attemptIndex+(pageNo/pageCount))/attemptCount)*100)}%`;
-    canvas.width=canvas.height=1;
-  }
-  return outPdf.output('blob');
-}
-
-async function compressPdf(){
-  if(!sourceFile)return;
-  await rasterEngine();
-
-  revokeResult();compressButton.disabled=true;downloadButton.disabled=true;progress.classList.add('visible');progressBar.style.width='0%';summary.classList.remove('visible');summary.innerHTML='';
-  const target=targetBytes(),sourceData=await sourceFile.arrayBuffer();
-  let pdf;
-  try{pdf=await pdfjsLib.getDocument({data:sourceData}).promise}
-  catch(e){console.error(e);setStatus('The PDF could not be opened.','error');compressButton.disabled=false;return}
-
-  setStatus('Analyzing PDF…');
-
-  async function estimatePageAtMinimumQuality(pageNo){
-    const page=await pdf.getPage(pageNo);
-    const baseViewport=page.getViewport({scale:1});
-
-    // This represents the lowest quality the normal compressor is willing to use.
-    const sampleDpi=48;
-    const sampleQuality=.38;
-    const viewport=page.getViewport({scale:sampleDpi/72});
-
-    const canvas=document.createElement('canvas');
-    const ctx=canvas.getContext('2d',{alpha:false});
-    canvas.width=Math.max(1,Math.round(viewport.width));
-    canvas.height=Math.max(1,Math.round(viewport.height));
-
-    ctx.fillStyle='#fff';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    await page.render({canvasContext:ctx,viewport}).promise;
-
-    if(colorMode.value==='gray'){
-      const img=ctx.getImageData(0,0,canvas.width,canvas.height),d=img.data;
-      for(let i=0;i<d.length;i+=4){
-        const y=Math.round(.299*d[i]+.587*d[i+1]+.114*d[i+2]);
-        d[i]=d[i+1]=d[i+2]=y;
-      }
-      ctx.putImageData(img,0,0);
-    }
-
-    const blob=await new Promise((resolve,reject)=>{
-      canvas.toBlob(b=>b?resolve(b):reject(new Error('Could not analyze PDF page.')),'image/jpeg',sampleQuality);
-    });
-
-    canvas.width=canvas.height=1;
-    return blob.size;
-  }
-
-  function samplePages(pageCount){
-    if(pageCount<=3)return Array.from({length:pageCount},(_,i)=>i+1);
-    const middle=Math.ceil(pageCount/2);
-    return [...new Set([1,middle,pageCount])];
-  }
-
-  const samples=samplePages(pdf.numPages);
-  let sampleBytes=0;
-
-  try{
-    for(let i=0;i<samples.length;i++){
-      setStatus(`Analyzing PDF… sample ${i+1}/${samples.length}`);
-      sampleBytes+=await estimatePageAtMinimumQuality(samples[i]);
-    }
-  }catch(e){
-    console.error(e);
-    setStatus('Automatic quality analysis failed. Compression was not started.','error');
-    compressButton.disabled=false;
-    progress.classList.remove('visible');
-    return;
-  }
-
-  const averageMinimumPage=sampleBytes/samples.length;
-
-  // JPEG/PDF container overhead is small but non-zero. Add a conservative margin.
-  const estimatedMinimum=Math.round((averageMinimumPage*pdf.numPages)+Math.max(4096,pdf.numPages*700));
-  const targetRatio=target/estimatedMinimum;
-
-  // The estimate is based on representative pages at the lowest quality/resolution
-  // that this tool considers acceptable. Refuse targets materially below it.
-  if(targetRatio<0.90){
-    progress.classList.remove('visible');
-    progressBar.style.width='0%';
-    compressButton.disabled=false;
-
-    compressionAdvice.style.display='block';
-    compressionAdvice.textContent=
-      `Automatic preflight estimate: about ${humanBytes(estimatedMinimum)} is the smallest sensible output for this document. `+
-      `Increase the target to avoid an unreadable result.`;
-
-    setStatus(
-      `Compression refused: the ${humanBytes(target)} target is below the estimated acceptable minimum for this PDF.`,
-      'error'
-    );
-    return;
-  }
-
-  // Near the estimated floor: continue automatically, but tell the user that
-  // the requested target is demanding. No confirmation or extra interaction.
-  if(targetRatio<1.25){
-    compressionAdvice.style.display='block';
-    compressionAdvice.textContent=
-      `Aggressive target. Automatic preflight estimates a practical minimum of about ${humanBytes(estimatedMinimum)}. `+
-      `Compression will continue automatically.`;
-  }else{
-    compressionAdvice.style.display='none';
-    compressionAdvice.textContent='';
-  }
-
-  let dpi=150,quality=.84;const minDpi=48,minQuality=.38,maxAttempts=6,gray=colorMode.value==='gray';
-  let bestBlob=null,bestDelta=Infinity,successBlob=null,usedDpi=dpi,usedQuality=quality;
-
-  for(let attempt=0;attempt<maxAttempts;attempt++){
-    setStatus(`Optimizing… attempt ${attempt+1}/${maxAttempts} · ${Math.round(dpi)} dpi · quality ${Math.round(quality*100)}`);
-    const blob=await renderAttempt(pdf,dpi,quality,gray,attempt,maxAttempts);
-    const delta=Math.abs(blob.size-target);
-    if(delta<bestDelta){bestDelta=delta;bestBlob=blob;usedDpi=dpi;usedQuality=quality}
-    if(blob.size<=target){successBlob=blob;usedDpi=dpi;usedQuality=quality;break}
-    const ratio=target/blob.size;
-    let nextDpi=dpi*Math.sqrt(Math.max(.05,ratio))*.96;
-    nextDpi=Math.max(minDpi,Math.min(dpi-4,nextDpi));
-    let nextQuality=quality;
-    if(ratio<.80)nextQuality-=.07;
-    if(ratio<.50)nextQuality-=.06;
-    nextQuality=Math.max(minQuality,nextQuality);
-    if(Math.round(nextDpi)<=minDpi+1&&blob.size>target)nextQuality=Math.max(minQuality,quality-.09);
-    dpi=nextDpi;quality=nextQuality;
-  }
-
-  resultBlob=successBlob||bestBlob;resultName=outputName(sourceFile.name);
-  if(!resultBlob){setStatus('Compression failed.','error');compressButton.disabled=false;return}
-  if(resultBlob.size>=sourceFile.size){
-    resultBlob=new Blob([await sourceFile.arrayBuffer()],{type:'application/pdf'});resultName=sourceFile.name;
-    resultUrl=URL.createObjectURL(resultBlob);downloadButton.disabled=false;compressButton.disabled=false;
-    summary.textContent=tr(`Original: ${humanBytes(sourceFile.size)} · Final: ${humanBytes(sourceFile.size)} · Reduction: 0%.`,`Originale: ${humanBytes(sourceFile.size)} · Finale: ${humanBytes(sourceFile.size)} · Riduzione: 0%.`);summary.classList.add('visible');
-    setStatus(tr('Rasterisation did not reduce the file size. The original PDF has been kept.','La rasterizzazione non ha ridotto il peso. È stato conservato il PDF originale.'));return;
-  }
-  resultUrl=URL.createObjectURL(resultBlob);downloadButton.disabled=false;compressButton.disabled=false;progressBar.style.width='100%';
-  const saving=Math.round((1-resultBlob.size/sourceFile.size)*100),hitTarget=resultBlob.size<=target;
-  summary.innerHTML=`<span class="chip">${humanBytes(sourceFile.size)} → ${humanBytes(resultBlob.size)}</span><span class="chip">${saving>=0?`Savings ${saving}%`:`+${Math.abs(saving)}%`}</span><span class="chip">${Math.round(usedDpi)} dpi</span><span class="chip">Quality ${Math.round(usedQuality*100)}</span>`;
-  summary.classList.add('visible');
-  setStatus(hitTarget?`Done. Final size is under the ${humanBytes(target)} limit.`:`Best result: ${humanBytes(resultBlob.size)}. The requested ${humanBytes(target)} target could not be reached without going below the minimum quality.`,hitTarget?'success':'error')
-}
-
-function downloadResult(){if(!resultUrl||!resultBlob)return;const a=document.createElement('a');a.href=resultUrl;a.download=resultName;document.body.appendChild(a);a.click();a.remove()}
-function clearAll(){revokeResult();sourceFile=null;fileInput.value='';compressButton.disabled=true;clearButton.disabled=true;summary.classList.remove('visible');summary.innerHTML='';progress.classList.remove('visible');progressBar.style.width='0%';compressionAdvice.style.display='none';compressionAdvice.textContent='';setStatus('');dropzone.querySelector('strong').textContent='Drop a PDF here';dropzone.querySelector('span').textContent='or click to select one file'}
-
-fileInput.addEventListener('change',()=>setFile(fileInput.files[0]));
-[targetSize,targetUnit].forEach(el=>{
-  el.addEventListener('input',updateCompressionAdvice);
-  el.addEventListener('change',updateCompressionAdvice);
-});
-
-const it=document.documentElement.lang==='it',tr=(en,italian)=>it?italian:en;
-const compressionMode=document.getElementById('compressionMode');
-function showMode(){
- const raster=compressionMode.value==='raster';document.getElementById('rasterColor').hidden=!raster;
- document.getElementById('modeNote').textContent=raster?tr('This mode converts pages into images. Selectable text, links and vector graphics are not preserved. Colours may change. File size may also increase.','Questa modalità trasforma le pagine in immagini. Testo selezionabile, link e grafica vettoriale non vengono conservati. I colori potrebbero cambiare. Il peso potrebbe anche aumentare.'):tr('Preserve PDF content · Beta. Only supported raster images are optimised. Other images remain unchanged to preserve document integrity. Standard document metadata may be removed; this is not guaranteed anonymisation.','Compressione conservativa · Beta. Sono ottimizzate soltanto le immagini raster supportate. Le altre restano inalterate per preservare l’integrità del documento. Possono essere rimossi metadati standard: non è un’anonimizzazione garantita.');
- revokeResult();summary.textContent='';summary.classList.remove('visible');compressionAdvice.style.display='none';setStatus('');
-}
-compressionMode.addEventListener('change',showMode);showMode();
-async function runSelected(){
- if(!sourceFile)return;
- if(!Number.isFinite(Number(targetSize.value))||Number(targetSize.value)<=0){setStatus(tr('Enter a positive desired size.','Inserisci un peso desiderato positivo.'),'error');return;}
- const controls=[fileInput,clearButton,targetSize,targetUnit,colorMode,compressionMode];controls.forEach(el=>el.disabled=true);compressButton.disabled=true;
- try{
-  const data=await sourceFile.arrayBuffer();
-  if(compressionMode.value==='raster'){await MRCPDFConservative.check(data);await compressPdf();return;}
-  revokeResult();summary.textContent='';summary.classList.remove('visible');compressionAdvice.style.display='none';progress.classList.add('visible');progressBar.style.width='15%';setStatus(tr('Reading PDF…','Lettura del PDF…'));
-  const result=await MRCPDFConservative.optimize(data,targetBytes(),message=>setStatus(message));
-  resultBlob=new Blob([result.bytes],{type:'application/pdf'});resultName=result.bytes.length<sourceFile.size?outputName(sourceFile.name):sourceFile.name;
-  resultUrl=URL.createObjectURL(resultBlob);downloadButton.disabled=false;
-  summary.textContent=result.summary;summary.classList.add('visible');compressionAdvice.textContent=result.note;compressionAdvice.style.display='block';progressBar.style.width='100%';setStatus(result.status,result.bytes.length<sourceFile.size?'success':'');
- }catch(e){revokeResult();setStatus(MRCPDFConservative.message(e),'error');}
- finally{controls.forEach(el=>el.disabled=false);compressButton.disabled=!sourceFile;clearButton.disabled=!sourceFile;progress.classList.remove('visible');}
-}
-
-compressButton.addEventListener('click',runSelected);
-downloadButton.addEventListener('click',downloadResult);
-clearButton.addEventListener('click',clearAll);
-['dragenter','dragover'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.add('drag')));
-['dragleave','drop'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.remove('drag')));
-</script>
+<script src="/tools/pdf-compressor/raster-optimizer.js"></script>
+<script src="/tools/pdf-compressor/tool-ui.js"></script>
 <script src="/assets/support.js"></script>
 
 <script type="module"
