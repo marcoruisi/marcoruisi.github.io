@@ -1,14 +1,63 @@
 {
   "views": [
-    {"field": "view", "value": "all", "label": {"en": "All", "it": "Tutti"}},
-    {"field": "tags", "value": "everyday", "label": {"en": "Everyday", "it": "Everyday"}}
+    {
+      "field": "view",
+      "value": "all",
+      "label": {
+        "en": "All",
+        "it": "Tutti"
+      }
+    },
+    {
+      "field": "tags",
+      "value": "everyday",
+      "label": {
+        "en": "Everyday",
+        "it": "Everyday"
+      }
+    }
   ],
   "filters": [
-    {"field": "tags", "value": "wordpress", "label": {"en": "WordPress", "it": "WordPress"}},
-    {"field": "tags", "value": "images", "label": {"en": "Images", "it": "Immagini"}},
-    {"field": "tags", "value": "pdf", "label": {"en": "PDF", "it": "PDF"}},
-    {"field": "tags", "value": "html", "label": {"en": "HTML", "it": "HTML"}},
-    {"field": "tags", "value": "compression", "label": {"en": "Compression", "it": "Compressione"}}
+    {
+      "field": "tags",
+      "value": "wordpress",
+      "label": {
+        "en": "WordPress",
+        "it": "WordPress"
+      }
+    },
+    {
+      "field": "tags",
+      "value": "images",
+      "label": {
+        "en": "Images",
+        "it": "Immagini"
+      }
+    },
+    {
+      "field": "tags",
+      "value": "pdf",
+      "label": {
+        "en": "PDF",
+        "it": "PDF"
+      }
+    },
+    {
+      "field": "tags",
+      "value": "html",
+      "label": {
+        "en": "HTML",
+        "it": "HTML"
+      }
+    },
+    {
+      "field": "tags",
+      "value": "compression",
+      "label": {
+        "en": "Compression",
+        "it": "Compressione"
+      }
+    }
   ],
   "tags": {
     "everyday": {
@@ -141,8 +190,8 @@
         "it": "/it/tools/pdf-compressor/"
       },
       "description": {
-        "en": "Make a PDF fit a file-size limit.",
-        "it": "Riduci un PDF entro il peso richiesto."
+        "en": "Reduce supported PDF images while preserving text, links and vectors. Optional page rasterisation. Local processing.",
+        "it": "Riduci le immagini supportate del PDF conservando testo, link e vettori. Rasterizzazione facoltativa. Elaborazione locale."
       },
       "tags": [
         "everyday",
@@ -229,6 +278,32 @@
         "en": "Bring a photo under a specific size",
         "it": "Porta una foto entro il peso richiesto"
       }
+    },
+    {
+      "id": "print-pdf-to-web",
+      "name": {
+        "en": "Print PDF to Web",
+        "it": "Da PDF stampa a PDF web"
+      },
+      "url": {
+        "en": "/tools/print-pdf-to-web/",
+        "it": "/it/tools/da-pdf-stampa-a-web/"
+      },
+      "description": {
+        "en": "Crop a print PDF to its final page size, preserving selectable text, vectors and links. Processed locally in your browser.",
+        "it": "Ritaglia un PDF da stampa al formato finale, conservando testo selezionabile, vettori e link. Elaborazione locale nel browser."
+      },
+      "action": {
+        "en": "Remove bleed and crop marks from a PDF",
+        "it": "Rimuovi abbondanze e segni di taglio da un PDF"
+      },
+      "tags": [
+        "everyday",
+        "pdf"
+      ],
+      "type": "tool",
+      "availability": "free",
+      "everyday": true
     },
     {
       "id": "white-to-transparent",

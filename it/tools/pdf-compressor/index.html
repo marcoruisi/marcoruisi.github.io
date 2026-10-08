@@ -44,7 +44,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
       "@id": "https://marcoruisi.pages.dev/it/tools/pdf-compressor/#page",
       "url": "https://marcoruisi.pages.dev/it/tools/pdf-compressor/",
       "name": "Compressore PDF gratuito · MRC Tools · Marco Ruisi",
-      "description": "Comprimi un PDF nel browser entro il peso desiderato. Uno strumento gratuito di Marco Ruisi che regola risoluzione e qualità delle pagine.",
+      "description": "Riduci le immagini supportate del PDF conservando testo, link e vettori. L’elaborazione avviene nel browser, senza caricare il documento.",
       "inLanguage": "it",
       "isPartOf": {
         "@id": "https://marcoruisi.pages.dev/#website"
@@ -60,6 +60,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <link rel="stylesheet" href="/assets/shared-ui.css">
 <link rel="stylesheet" href="/assets/tool-shell.css">
 <link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
 <!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcoruisi.pages.dev/it/tools/pdf-compressor/">
@@ -68,13 +69,13 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/pdf-compressor/">
 <link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/pdf-compressor/">
 <title>PDF Compressor | MRC · Marco Ruisi</title>
-<meta name="description" content="Riduci un PDF entro il peso richiesto.">
+<meta name="description" content="Riduci le immagini supportate del PDF conservando testo, link e vettori. Rasterizzazione facoltativa. Elaborazione locale.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="it_IT">
 <meta property="og:title" content="PDF Compressor | MRC · Marco Ruisi">
-<meta property="og:description" content="Riduci un PDF entro il peso richiesto.">
+<meta property="og:description" content="Riduci le immagini supportate del PDF conservando testo, link e vettori. Rasterizzazione facoltativa. Elaborazione locale.">
 <meta name="twitter:title" content="PDF Compressor | MRC · Marco Ruisi">
-<meta name="twitter:description" content="Riduci un PDF entro il peso richiesto.">
+<meta name="twitter:description" content="Riduci le immagini supportate del PDF conservando testo, link e vettori. Rasterizzazione facoltativa. Elaborazione locale.">
 <!-- MRC SHARED METADATA END -->
 </head>
 <body>
@@ -93,15 +94,16 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <p class="mrc-tool-model">TOOL · FREE</p>
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>Compressore PDF</h1>
-<p class="intro">Indica il peso massimo del file finale: lo strumento regola automaticamente risoluzione e qualità delle pagine. L’elaborazione avviene nel browser.</p>
+<p class="intro">Riduci le immagini supportate del PDF conservando testo, link e vettori. L’elaborazione avviene nel browser, senza caricare il documento.</p>
 
 <section class="panel">
 <label class="dropzone" id="dropzone"><div><strong>Trascina qui un PDF</strong><span>oppure seleziona un file</span></div><input id="fileInput" type="file" accept="application/pdf,.pdf"></label>
 
 <div class="settings">
-<div class="field"><label for="targetSize">Peso massimo finale</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div>
+<div class="field"><label for="compressionMode">Metodo</label><select id="compressionMode"><option value="preserve" selected>Compressione conservativa</option><option value="raster">Rasterizza le pagine</option></select></div>
+<div class="field"><label for="targetSize">Peso desiderato (indicativo)</label><input id="targetSize" type="number" min="0.1" step="0.1" value="5"></div>
 <div class="field"><label for="targetUnit">Unità</label><select id="targetUnit"><option value="MB" selected>MB</option><option value="KB">KB</option></select></div>
-<div class="field"><label for="colorMode">Colore</label><select id="colorMode"><option value="color" selected>Colore</option><option value="gray">Scala di grigi</option></select></div>
+<div class="field" id="rasterColor" hidden><label for="colorMode">Colore</label><select id="colorMode"><option value="color" selected>Colore</option><option value="gray">Scala di grigi</option></select></div>
 </div>
 
 <div id="compressionAdvice" class="note" style="display:none"></div>
@@ -116,7 +118,7 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <div id="progress" class="progress"><span></span></div>
 <div id="summary" class="summary"></div>
 
-<div class="note">Per raggiungere il peso desiderato nel browser, le pagine vengono trasformate in immagini e ricomposte in un PDF. Il testo selezionabile, i link e gli elementi vettoriali non vengono conservati.</div>
+<div id="modeNote" class="note"></div>
 </section>
 
 <p class="footer">Il PDF viene elaborato nel browser. Il documento non viene inviato a un server.</p>
@@ -124,6 +126,13 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 <!-- MRC SHARED RELATED TOOLS START -->
 <section class="mrc-related"><h2>Strumenti correlati</h2><ul><li><a href="/it/tools/webp-compressor/">WebP Compressor</a></li><li><a href="/it/tools/foto-entro-peso/">Foto entro il peso richiesto</a></li><li><a href="/it/tools/immagini-in-pdf/">Immagini in PDF</a></li></ul></section>
 <!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Qualcosa non funziona?</h2>
+    <p>Hai trovato un problema o hai un suggerimento per migliorare questo strumento?</p>
+    <p><a href="mailto:marcoruisi@gmail.com?subject=MRC%20%E2%80%94%20PDF%20Compressor%20%E2%80%94%20Feedback&amp;body=Tool%3A%20PDF%20Compressor%0D%0APagina%3A%20https%3A%2F%2Fmarcoruisi.pages.dev%2Fit%2Ftools%2Fpdf-compressor%2F%0D%0A%0D%0ATipo%20di%20segnalazione%3A%20problema%20%2F%20suggerimento%20%2F%20altro%0D%0A%0D%0ADescrizione%3A%0D%0A%0D%0A%0D%0ABrowser%20e%20dispositivo%20%28facoltativo%29%3A">Invia una segnalazione →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
 <!-- MRC SHARED TOOL AFTERWORD START -->
 <footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
     <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
@@ -148,12 +157,16 @@ button.primary{background:var(--primary);border-color:var(--primary);color:#fff}
 </footer>
 <!-- MRC SHARED FOOTER END -->
 
+<script src="/tools/images-to-pdf/pdf-lib-1.17.1.min.js"></script>
+<script src="/tools/pdf-compressor/image-optimizer.js"></script>
+<script src="/tools/pdf-compressor/conservative-ui.js"></script>
 <script type="module">
-import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs';
-import { jsPDF } from 'https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs';
+// The raster engine is loaded only after the explicit mode is selected.
+let pdfjsLib,jsPDF;
+async function rasterEngine(){
+ if(!pdfjsLib){pdfjsLib=await import('/tools/print-pdf-to-web/vendor/pdf.min.mjs');pdfjsLib.GlobalWorkerOptions.workerSrc='/tools/print-pdf-to-web/vendor/pdf.worker.min.mjs';}
+ if(!jsPDF)({jsPDF}=await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm'));
+}
 
 const dropzone=document.getElementById('dropzone');
 const fileInput=document.getElementById('fileInput');
@@ -222,6 +235,7 @@ async function renderAttempt(pdf,dpi,quality,gray,attemptIndex,attemptCount){
 
 async function compressPdf(){
   if(!sourceFile)return;
+  await rasterEngine();
 
   revokeResult();compressButton.disabled=true;downloadButton.disabled=true;progress.classList.add('visible');progressBar.style.width='0%';summary.classList.remove('visible');summary.innerHTML='';
   const target=targetBytes(),sourceData=await sourceFile.arrayBuffer();
@@ -347,6 +361,12 @@ async function compressPdf(){
 
   resultBlob=successBlob||bestBlob;resultName=outputName(sourceFile.name);
   if(!resultBlob){setStatus('La compressione non è riuscita.','error');compressButton.disabled=false;return}
+  if(resultBlob.size>=sourceFile.size){
+    resultBlob=new Blob([await sourceFile.arrayBuffer()],{type:'application/pdf'});resultName=sourceFile.name;
+    resultUrl=URL.createObjectURL(resultBlob);downloadButton.disabled=false;compressButton.disabled=false;
+    summary.textContent=tr(`Original: ${humanBytes(sourceFile.size)} · Final: ${humanBytes(sourceFile.size)} · Reduction: 0%.`,`Originale: ${humanBytes(sourceFile.size)} · Finale: ${humanBytes(sourceFile.size)} · Riduzione: 0%.`);summary.classList.add('visible');
+    setStatus(tr('Rasterisation did not reduce the file size. The original PDF has been kept.','La rasterizzazione non ha ridotto il peso. È stato conservato il PDF originale.'));return;
+  }
   resultUrl=URL.createObjectURL(resultBlob);downloadButton.disabled=false;compressButton.disabled=false;progressBar.style.width='100%';
   const saving=Math.round((1-resultBlob.size/sourceFile.size)*100),hitTarget=resultBlob.size<=target;
   summary.innerHTML=`<span class="chip">${humanBytes(sourceFile.size)} → ${humanBytes(resultBlob.size)}</span><span class="chip">${saving>=0?`Riduzione ${saving}%`:`+${Math.abs(saving)}%`}</span><span class="chip">${Math.round(usedDpi)} dpi</span><span class="chip">Qualità ${Math.round(usedQuality*100)}</span>`;
@@ -362,7 +382,32 @@ fileInput.addEventListener('change',()=>setFile(fileInput.files[0]));
   el.addEventListener('input',updateCompressionAdvice);
   el.addEventListener('change',updateCompressionAdvice);
 });
-compressButton.addEventListener('click',compressPdf);
+
+const it=document.documentElement.lang==='it',tr=(en,italian)=>it?italian:en;
+const compressionMode=document.getElementById('compressionMode');
+function showMode(){
+ const raster=compressionMode.value==='raster';document.getElementById('rasterColor').hidden=!raster;
+ document.getElementById('modeNote').textContent=raster?tr('This mode converts pages into images. Selectable text, links and vector graphics are not preserved. Colours may change. File size may also increase.','Questa modalità trasforma le pagine in immagini. Testo selezionabile, link e grafica vettoriale non vengono conservati. I colori potrebbero cambiare. Il peso potrebbe anche aumentare.'):tr('Preserve PDF content · Beta. Only supported raster images are optimised. Other images remain unchanged to preserve document integrity. Standard document metadata may be removed; this is not guaranteed anonymisation.','Compressione conservativa · Beta. Sono ottimizzate soltanto le immagini raster supportate. Le altre restano inalterate per preservare l’integrità del documento. Possono essere rimossi metadati standard: non è un’anonimizzazione garantita.');
+ revokeResult();summary.textContent='';summary.classList.remove('visible');compressionAdvice.style.display='none';setStatus('');
+}
+compressionMode.addEventListener('change',showMode);showMode();
+async function runSelected(){
+ if(!sourceFile)return;
+ if(!Number.isFinite(Number(targetSize.value))||Number(targetSize.value)<=0){setStatus(tr('Enter a positive desired size.','Inserisci un peso desiderato positivo.'),'error');return;}
+ const controls=[fileInput,clearButton,targetSize,targetUnit,colorMode,compressionMode];controls.forEach(el=>el.disabled=true);compressButton.disabled=true;
+ try{
+  const data=await sourceFile.arrayBuffer();
+  if(compressionMode.value==='raster'){await MRCPDFConservative.check(data);await compressPdf();return;}
+  revokeResult();summary.textContent='';summary.classList.remove('visible');compressionAdvice.style.display='none';progress.classList.add('visible');progressBar.style.width='15%';setStatus(tr('Reading PDF…','Lettura del PDF…'));
+  const result=await MRCPDFConservative.optimize(data,targetBytes(),message=>setStatus(message));
+  resultBlob=new Blob([result.bytes],{type:'application/pdf'});resultName=result.bytes.length<sourceFile.size?outputName(sourceFile.name):sourceFile.name;
+  resultUrl=URL.createObjectURL(resultBlob);downloadButton.disabled=false;
+  summary.textContent=result.summary;summary.classList.add('visible');compressionAdvice.textContent=result.note;compressionAdvice.style.display='block';progressBar.style.width='100%';setStatus(result.status,result.bytes.length<sourceFile.size?'success':'');
+ }catch(e){revokeResult();setStatus(MRCPDFConservative.message(e),'error');}
+ finally{controls.forEach(el=>el.disabled=false);compressButton.disabled=!sourceFile;clearButton.disabled=!sourceFile;progress.classList.remove('visible');}
+}
+
+compressButton.addEventListener('click',runSelected);
 downloadButton.addEventListener('click',downloadResult);
 clearButton.addEventListener('click',clearAll);
 ['dragenter','dragover'].forEach(t=>dropzone.addEventListener(t,()=>dropzone.classList.add('drag')));
@@ -373,5 +418,6 @@ clearButton.addEventListener('click',clearAll);
 <script type="module"
         src="https://static.cloudflareinsights.com/beacon.min.js"
         data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+
 </body>
 </html>

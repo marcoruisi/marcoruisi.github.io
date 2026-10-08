@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tools/print-pdf-to-web/tool.css">
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Print PDF to Web", "url": "https://marcoruisi.pages.dev/tools/print-pdf-to-web/", "description": "Crop a print PDF to its final size. Keep selectable text, original images, vectors and links.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web browser", "inLanguage": "en", "isAccessibleForFree": true}</script>
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcoruisi.pages.dev/tools/print-pdf-to-web/">
+<meta property="og:url" content="https://marcoruisi.pages.dev/tools/print-pdf-to-web/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/print-pdf-to-web/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/da-pdf-stampa-a-web/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/print-pdf-to-web/">
+<title>Print PDF to Web | MRC · Marco Ruisi</title>
+<meta name="description" content="Crop a print PDF to its final page size, preserving selectable text, vectors and links. Processed locally in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Print PDF to Web | MRC · Marco Ruisi">
+<meta property="og:description" content="Crop a print PDF to its final page size, preserving selectable text, vectors and links. Processed locally in your browser.">
+<meta name="twitter:title" content="Print PDF to Web | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Crop a print PDF to its final page size, preserving selectable text, vectors and links. Processed locally in your browser.">
+<!-- MRC SHARED METADATA END -->
+</head>
+<body>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/" aria-label="MRC home">← MRC</a>
+        <a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/print-pdf-to-web/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/da-pdf-stampa-a-web/" lang="it">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Print PDF to Web</h1><p class="intro">Crop a print PDF to its final size. Keep selectable text, original images, vectors and links.</p><p class="privacy">Your PDF stays in your browser. No upload and no page rasterisation.</p>
+<section class="workspace" id="workspace" aria-busy="false">
+<button id="choose" type="button">Choose PDF</button><input id="file" type="file" accept="application/pdf,.pdf" hidden>
+<p class="help">PDF · Up to 100 MB and 500 pages.</p>
+<p id="error" class="error" role="alert"></p><p id="status" class="status" role="status" aria-live="polite"></p>
+<dl id="metadata" class="metadata" hidden></dl>
+<div id="controls" hidden>
+<fieldset><legend>Crop method</legend>
+<label class="mode"><input id="mode-trim" type="radio" name="mode" value="trim">Use the PDF’s final page size</label>
+<p id="trim-help" class="help"></p>
+<label class="mode"><input id="mode-manual" type="radio" name="mode" value="manual">Set margins manually</label>
+<div id="manual" hidden><p id="margin-help" class="help">Starting box: the full MediaBox. Margins follow the page as shown in the preview and apply to every page.</p>
+<label class="equal"><input id="equal" type="checkbox" checked>Same value on all sides</label><div class="margins"><label>Top (mm)<input id="top" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Bottom (mm)<input id="bottom" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Left (mm)<input id="left" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Right (mm)<input id="right" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label></div></div>
+</fieldset>
+<section class="preview" aria-label="Preview">
+<div class="preview-nav"><button id="prev" type="button">← Previous</button><p id="page-position"></p><button id="next" type="button">Next →</button></div>
+<p id="dimensions" class="dimensions" aria-live="polite"></p>
+<div id="preview-stage" class="preview-stage"><canvas id="canvas" aria-label="Preview"></canvas><div id="crop-area" class="crop-area" aria-hidden="true"></div></div>
+<p class="preview-note">The blue outline is the area to keep. Shaded areas will be hidden. Preview resolution does not affect the exported PDF.</p>
+<details id="all-sizes"><summary>Page sizes</summary><ol id="page-sizes" class="page-sizes"></ol></details>
+</section>
+<div class="actions"><button id="export" class="primary" type="button" disabled>Create web PDF</button></div>
+</div>
+<div id="result" class="result" hidden><h2>PDF ready for the web.</h2><p><a id="download" class="download">Download PDF →</a></p><p id="result-summary"></p><p>Want to reduce the file size too?<br><a href="/tools/pdf-compressor/">Open PDF Compressor →</a></p></div>
+</section>
+<noscript><p>JavaScript is required to process the PDF locally.</p></noscript>
+<p class="limit-note">Cropping hides material outside the final page: it does not securely remove that material from the file. This is not a redaction tool. Images and colour profiles are preserved; it does not convert print colours to RGB. Password-protected PDFs, forms, signatures, tagged PDFs, non-link annotations and specialised page coordinate systems are not supported in this version.</p>
+</main>
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Related tools</h2><ul><li><a href="/tools/pdf-compressor/">PDF Compressor</a></li><li><a href="/tools/images-to-pdf/">Images to PDF</a></li><li><a href="/tools/webp-compressor/">WebP Compressor</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Something not working?</h2>
+    <p>Found a problem or have an idea to improve this tool?</p>
+    <p><a href="mailto:marcoruisi@gmail.com?subject=MRC%20%E2%80%94%20Print%20PDF%20to%20Web%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Print%20PDF%20to%20Web%0D%0APage%3A%20https%3A%2F%2Fmarcoruisi.pages.dev%2Ftools%2Fprint-pdf-to-web%2F%0D%0A%0D%0AFeedback%20type%3A%20bug%20%2F%20suggestion%20%2F%20other%0D%0A%0D%0ADescription%3A%0D%0A%0D%0A%0D%0ABrowser%20and%20device%20%28optional%29%3A">Send feedback →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Found this useful?</h2>
+        <p>This tool is free to use. If it saved you some time, you can support the project.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Support MRC →</a><span data-support-pending>Voluntary support — coming soon.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="/tools/images-to-pdf/pdf-lib-1.17.1.min.js" defer></script>
+<script src="/tools/print-pdf-to-web/crop-core.js" defer></script>
+<script type="module" src="/tools/print-pdf-to-web/tool.mjs"></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+
+</body></html>

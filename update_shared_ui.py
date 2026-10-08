@@ -14,6 +14,9 @@ def page_files(root=ROOT):
         rel = path.relative_to(root)
         if any(part.startswith('.') for part in rel.parts) or rel.parts[0] == 'shared':
             continue
+        # Dropbox sync conflict copies are preserved for review, not public pages.
+        if re.search(r' \(Copia in conflitto di .+ \d{4}-\d{2}-\d{2}\)\.html$', path.name):
+            continue
         text = path.read_text(encoding='utf-8')
         if re.search(r'<!doctype\s+html', text, re.I):
             yield path, text
@@ -288,6 +291,20 @@ def request_mailto(tool, lang):
     return 'mailto:marcoruisi@gmail.com?' + urlencode({'subject': subject, 'body': body}, quote_via=quote)
 
 
+def feedback_cta(root, tool, lang):
+    footer = (root / 'shared/footer.html').read_text(encoding='utf-8')
+    emails = re.findall(r'href="mailto:([^"?]+)"', footer)
+    if not emails or not re.fullmatch(r'[^\s@]+@[^\s@]+', emails[0]):
+        raise ValueError('Email di contatto condivisa assente/non valida')
+    name = tool['name'][lang]
+    page = HOST + tool['url'][lang]
+    body = (f'Tool: {name}\r\nPagina: {page}\r\n\r\nTipo di segnalazione: problema / suggerimento / altro\r\n\r\nDescrizione:\r\n\r\n\r\nBrowser e dispositivo (facoltativo):'
+            if lang == 'it' else
+            f'Tool: {name}\r\nPage: {page}\r\n\r\nFeedback type: bug / suggestion / other\r\n\r\nDescription:\r\n\r\n\r\nBrowser and device (optional):')
+    mailto = 'mailto:' + emails[0] + '?' + urlencode({'subject': f'MRC — {name} — Feedback', 'body': body}, quote_via=quote)
+    return template(root, f'tool-feedback.{lang}.html', {'feedback_mailto': html.escape(mailto, quote=True)})
+
+
 def request_cta(root, tool, lang):
     it = lang == 'it'
     pick = lambda a, b: a if it else b
@@ -345,6 +362,8 @@ def plan_shared_ui(root=ROOT):
                 if 'href="/assets/tools-index.css"' not in text: text = text.replace('</head>', '<link rel="stylesheet" href="/assets/tools-index.css">\n</head>')
                 if url in INDEX_PAIRS[1] and 'src="/assets/tools-index.js"' not in text: text = text.replace('</body>', '<script src="/assets/tools-index.js" defer></script>\n</body>')
             else:
+                if 'href="/assets/tool-feedback.css"' not in text: text = text.replace('</head>', '<link rel="stylesheet" href="/assets/tool-feedback.css">\n</head>')
+                text = replace_block(text, 'TOOL FEEDBACK', feedback_cta(root, tool, lang))
                 text = replace_block(text, 'TOOL STATUS', status(tool, tags, lang))
                 # All standalone pages get one generated status immediately below the main opening.
                 block = re.search(r'<!-- MRC SHARED TOOL STATUS START -->.*?<!-- MRC SHARED TOOL STATUS END -->', text, re.S)[0]
@@ -386,7 +405,7 @@ def plan_shared_ui(root=ROOT):
         if tool:
             # Order generated content independent of each page's legacy envelope.
             tail = []
-            for name in ('PLUGIN DOWNLOAD', 'SNIPPET INSTALL', 'PLUGIN REQUEST', 'RELATED TOOLS', 'TOOL AFTERWORD', 'FOOTER'):
+            for name in ('PLUGIN DOWNLOAD', 'SNIPPET INSTALL', 'PLUGIN REQUEST', 'RELATED TOOLS', 'TOOL FEEDBACK', 'TOOL AFTERWORD', 'FOOTER'):
                 match = re.search(re.escape(f'<!-- MRC SHARED {name} START -->') + r'.*?' + re.escape(f'<!-- MRC SHARED {name} END -->'), text, re.S)
                 if match:
                     block = match[0]

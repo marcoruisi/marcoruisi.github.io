@@ -1,0 +1,13 @@
+/* Optional Node checks using only the bundled pdf-lib; no new project dependency. */
+const assert=require('node:assert/strict');global.PDFLib=require('./tools/images-to-pdf/pdf-lib-1.17.1.min.js');global.window=global;require('./tools/pdf-compressor/image-optimizer.js');const P=PDFLib,N=P.PDFName.of;
+(async()=>{
+ const doc=await P.PDFDocument.create();const page=doc.addPage([600,800]);page.drawText('Preserved text');doc.setTitle('Remove title');doc.setAuthor('Remove author');doc.setKeywords(['Remove keywords']);
+ const info=doc.context.lookup(doc.context.trailerInfo.Info);info.set(N('CustomCategory'),P.PDFString.of('Keep unknown metadata'));
+ const xmp=doc.context.register(doc.context.stream(new TextEncoder().encode('<x:xmpmeta xmlns:x="adobe:ns:meta/">'+'metadata '.repeat(4000)+'</x:xmpmeta>'),{Type:'Metadata',Subtype:'XML'}));doc.catalog.set(N('Metadata'),xmp);
+ const link=doc.context.register(doc.context.obj({Type:'Annot',Subtype:'Link',Rect:[40,40,100,60],A:{S:'URI',URI:P.PDFString.of('https://marcoruisi.pages.dev/')}}));page.node.set(N('Annots'),doc.context.obj([link]));
+ const input=await doc.save({updateFieldAppearances:false}),result=await MRCPDFOptimizer.compress(input);assert(result.bytes.length<input.length);assert(result.report.metadata.documentXMPRemoved);assert(result.report.metadata.fields.includes('Author'));const check=await P.PDFDocument.load(result.bytes,{updateMetadata:false});assert.equal(check.getTitle(),undefined);assert.equal(check.getAuthor(),undefined);assert.equal(check.context.lookup(check.context.trailerInfo.Info).get(N('CustomCategory')).decodeText(),'Keep unknown metadata');assert(!check.catalog.has(N('Metadata')));assert.deepEqual(check.getPage(0).getMediaBox(),page.getMediaBox());assert.equal(check.getPage(0).node.Annots().size(),1);assert(result.report.invariants.nonImageObjectsUnchanged);
+ for(const kind of ['forms','tagged','signature','annotations']){
+  const d=await P.PDFDocument.load(input,{updateMetadata:false});if(kind==='forms')d.catalog.set(N('AcroForm'),d.context.obj({Fields:[]}));if(kind==='tagged')d.catalog.set(N('StructTreeRoot'),d.context.obj({Type:'StructTreeRoot'}));if(kind==='signature')d.context.register(d.context.obj({Type:'Sig',ByteRange:[0,20,40,30]}));if(kind==='annotations')d.context.lookup(d.getPage(0).node.Annots().get(0)).set(N('Subtype'),N('Text'));assert.throws(()=>MRCPDFOptimizer.guard(d));
+ }
+ console.log('PDF optimiser: standard Info/XMP cleanup, unknown metadata, page boxes, links, non-target invariants and unsafe-document guards PASS');
+})().catch(e=>{console.error(e);process.exitCode=1});

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tools/print-pdf-to-web/tool.css">
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Da PDF stampa a PDF web", "url": "https://marcoruisi.pages.dev/it/tools/da-pdf-stampa-a-web/", "description": "Ritaglia un PDF da stampa al formato finale. Conserva testo selezionabile, immagini originali, vettori e link.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web browser", "inLanguage": "it", "isAccessibleForFree": true}</script>
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcoruisi.pages.dev/it/tools/da-pdf-stampa-a-web/">
+<meta property="og:url" content="https://marcoruisi.pages.dev/it/tools/da-pdf-stampa-a-web/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/print-pdf-to-web/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/da-pdf-stampa-a-web/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/print-pdf-to-web/">
+<title>Da PDF stampa a PDF web | MRC · Marco Ruisi</title>
+<meta name="description" content="Ritaglia un PDF da stampa al formato finale, conservando testo selezionabile, vettori e link. Elaborazione locale nel browser.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Da PDF stampa a PDF web | MRC · Marco Ruisi">
+<meta property="og:description" content="Ritaglia un PDF da stampa al formato finale, conservando testo selezionabile, vettori e link. Elaborazione locale nel browser.">
+<meta name="twitter:title" content="Da PDF stampa a PDF web | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Ritaglia un PDF da stampa al formato finale, conservando testo selezionabile, vettori e link. Elaborazione locale nel browser.">
+<!-- MRC SHARED METADATA END -->
+</head>
+<body>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/it/" aria-label="Home MRC">← MRC</a>
+        <a href="/it/tools/">Everyday Tools</a><a href="/it/tools/tutti/">Tutti gli strumenti</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/tools/print-pdf-to-web/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/da-pdf-stampa-a-web/" lang="it" aria-current="page">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Da PDF stampa a PDF web</h1><p class="intro">Ritaglia un PDF da stampa al formato finale. Conserva testo selezionabile, immagini originali, vettori e link.</p><p class="privacy">Il PDF rimane nel tuo browser. Nessun caricamento e nessuna rasterizzazione delle pagine.</p>
+<section class="workspace" id="workspace" aria-busy="false">
+<button id="choose" type="button">Scegli PDF</button><input id="file" type="file" accept="application/pdf,.pdf" hidden>
+<p class="help">PDF · Fino a 100 MB e 500 pagine.</p>
+<p id="error" class="error" role="alert"></p><p id="status" class="status" role="status" aria-live="polite"></p>
+<dl id="metadata" class="metadata" hidden></dl>
+<div id="controls" hidden>
+<fieldset><legend>Metodo di ritaglio</legend>
+<label class="mode"><input id="mode-trim" type="radio" name="mode" value="trim">Usa il formato finale del PDF</label>
+<p id="trim-help" class="help"></p>
+<label class="mode"><input id="mode-manual" type="radio" name="mode" value="manual">Imposta i margini manualmente</label>
+<div id="manual" hidden><p id="margin-help" class="help">Riquadro di partenza: la MediaBox completa. I margini seguono la pagina visualizzata nell’anteprima e si applicano a tutte le pagine.</p>
+<label class="equal"><input id="equal" type="checkbox" checked>Stesso valore su tutti i lati</label><div class="margins"><label>Alto (mm)<input id="top" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Basso (mm)<input id="bottom" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Sinistra (mm)<input id="left" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Destra (mm)<input id="right" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label></div></div>
+</fieldset>
+<section class="preview" aria-label="Anteprima">
+<div class="preview-nav"><button id="prev" type="button">← Precedente</button><p id="page-position"></p><button id="next" type="button">Successiva →</button></div>
+<p id="dimensions" class="dimensions" aria-live="polite"></p>
+<div id="preview-stage" class="preview-stage"><canvas id="canvas" aria-label="Anteprima"></canvas><div id="crop-area" class="crop-area" aria-hidden="true"></div></div>
+<p class="preview-note">Il contorno blu indica l’area da conservare. Le zone ombreggiate saranno nascoste. La risoluzione dell’anteprima non influisce sul PDF esportato.</p>
+<details id="all-sizes"><summary>Dimensioni delle pagine</summary><ol id="page-sizes" class="page-sizes"></ol></details>
+</section>
+<div class="actions"><button id="export" class="primary" type="button" disabled>Crea PDF web</button></div>
+</div>
+<div id="result" class="result" hidden><h2>PDF pronto per il web.</h2><p><a id="download" class="download">Scarica PDF →</a></p><p id="result-summary"></p><p>Vuoi ridurre anche il peso?<br><a href="/it/tools/pdf-compressor/">Apri PDF Compressor →</a></p></div>
+</section>
+<noscript><p>JavaScript è necessario per elaborare il PDF localmente.</p></noscript>
+<p class="limit-note">Il ritaglio nasconde il materiale esterno alla pagina finale: non lo rimuove in modo sicuro dal file. Non è uno strumento di oscuramento. Immagini e profili colore vengono conservati; non converte i colori di stampa in RGB. In questa versione non sono supportati PDF protetti, moduli, firme, PDF con tag, annotazioni diverse dai link e sistemi di coordinate speciali.</p>
+</main>
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Strumenti correlati</h2><ul><li><a href="/it/tools/pdf-compressor/">PDF Compressor</a></li><li><a href="/it/tools/immagini-in-pdf/">Immagini in PDF</a></li><li><a href="/it/tools/webp-compressor/">WebP Compressor</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Qualcosa non funziona?</h2>
+    <p>Hai trovato un problema o hai un suggerimento per migliorare questo strumento?</p>
+    <p><a href="mailto:marcoruisi@gmail.com?subject=MRC%20%E2%80%94%20Da%20PDF%20stampa%20a%20PDF%20web%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Da%20PDF%20stampa%20a%20PDF%20web%0D%0APagina%3A%20https%3A%2F%2Fmarcoruisi.pages.dev%2Fit%2Ftools%2Fda-pdf-stampa-a-web%2F%0D%0A%0D%0ATipo%20di%20segnalazione%3A%20problema%20%2F%20suggerimento%20%2F%20altro%0D%0A%0D%0ADescrizione%3A%0D%0A%0D%0A%0D%0ABrowser%20e%20dispositivo%20%28facoltativo%29%3A">Invia una segnalazione →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Ti è stato utile?</h2>
+        <p>Questo strumento è gratuito. Se ti ha fatto risparmiare un po’ di tempo, puoi sostenere il progetto.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Supporta MRC →</a><span data-support-pending>Supporto volontario — presto disponibile.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Ti serve qualcosa di più specifico?</h2>
+        <p>Questo strumento risolve un problema comune. Se il tuo lavoro richiede regole, integrazioni o automazioni diverse, posso progettare una soluzione intorno a quelle esigenze.</p>
+        <p><a href="/it/contatti/">Raccontami il tuo problema →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="/tools/images-to-pdf/pdf-lib-1.17.1.min.js" defer></script>
+<script src="/tools/print-pdf-to-web/crop-core.js" defer></script>
+<script type="module" src="/tools/print-pdf-to-web/tool.mjs"></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+
+</body></html>

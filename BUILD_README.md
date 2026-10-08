@@ -57,7 +57,7 @@ La CTA apre direttamente un normale `mailto:marcoruisi@gmail.com`, indirizzo gi�
 
 Il precedente form e tutti i passaggi di preparazione della bozza sono rimossi. `assets/plugin-request.js` resta soltanto un file di compatibilità inerte e non è caricato dalle pagine. La nota sul preventivo resta accanto alla CTA.
 
-Viste e ambiti del catalogo sono definiti dagli array `views` e `filters` di `shared/tools.json`: ordine ed etichette IT/EN. Tipo e disponibilità sono metadati, non filtri pubblici. Gli HTML generati riportano gli attributi corrispondenti ai dati, mai dedotti dal testo visibile. Il comportamento resta single-select; senza JavaScript i 16 elementi sono tutti visibili.
+Viste e ambiti del catalogo sono definiti dagli array `views` e `filters` di `shared/tools.json`: ordine ed etichette IT/EN. Tipo e disponibilità sono metadati, non filtri pubblici. Gli HTML generati riportano gli attributi corrispondenti ai dati, mai dedotti dal testo visibile. Il comportamento resta single-select; senza JavaScript tutti gli elementi del catalogo sono visibili.
 
 ## Analytics
 
@@ -184,3 +184,36 @@ web/stories/measure/index.html
 ### Correzione ritorno al sito principale
 
 L'header shared mostra ora `← MRC`: `/` in EN, `/it/` in IT, nella stessa scheda. Everyday / All Tools / switch lingua restano invariati. Modificati `shared/tool-header.html`, `update_shared_ui.py`, `test_build.py` e rigenerati i 36 indici/pagine Tools. Verificati i quattro indici e un tool per lingua a 390 e 1440 px: 12 test di click/tastiera, nessuna apertura di nuove schede e nessun overflow. Build completa OK; seconda build zero aggiornamenti; quattro test di regressione superati. La release cumulativa comprende ora 94 file modificati/creati in /mrc (il file aggiuntivo è `web/shared/tool-header.html`).
+
+
+## Print PDF to Web — 8 ottobre 2026
+
+Nuova utility EN `/tools/print-pdf-to-web/`, IT `/it/tools/da-pdf-stampa-a-web/`. Catalogo corrente: **17 strumenti, 6 Everyday, 4 snippet, 2 plugin FREE e 4 plugin ON REQUEST** (7 utility). Nessuna modifica operativa agli altri tool o a PDF Compressor.
+
+Il tool legge i metadati reali e distingue un TrimBox esplicito da quello assente/non utilizzabile. Usa automaticamente il TrimBox solo se valido su tutte le pagine; il ritaglio manuale parte dalla MediaBox completa, segue l'orientamento visibile e viene calcolato per ogni pagina. Con pagine diverse, l'anteprima e l'elenco dimensioni mostrano il risultato singolarmente.
+
+L'esportazione modifica il documento originale con pdf-lib 1.17.1 già condiviso: trasla i contenuti, normalizza MediaBox/CropBox/TrimBox/BleedBox/ArtBox, conserva la rotazione e riposiziona link/destinazioni interne. I link totalmente esterni vengono rimossi dalle annotazioni di pagina; quelli parzialmente esterni sono limitati al formato finale. Testo, vettori e stream immagine non vengono rasterizzati o ricompressi. Il materiale nascosto può restare nel file: non è una redazione sicura. Non viene effettuata conversione CMYK/RGB.
+
+Anteprima con PDF.js 4.10.38, stessa versione già usata dal compressore, ora vendorizzata solo per questo tool per non dipendere dalla CDN. Worker e libreria sono locali, licenza Apache 2.0 inclusa. Nessun framework o secondo motore di compressione. SHA-256:
+- `pdf.min.mjs`: `27fc2a057a00f92a4334ad06e17dbd7259912954e9fb7f76400bcca5fd190a9c`
+- `pdf.worker.min.mjs`: `1baa1844c89c80a5b2797c916e75ab29254be46d8e9cb53cb6364d7aad84be36`
+
+Limiti espliciti: massimo 100 MB / 500 pagine; PDF cifrati, moduli/firme, PDF con tag di accessibilità, annotazioni non Link o con appearance complessa, riferimenti annotazione condivisi, UserUnit non standard, riquadri invalidi, article beads e viewport specializzati non vengono esportati. È una scelta conservativa: la UI segnala il limite anziché degradare o produrre silenziosamente coordinate scorrette. Per PDF senza TrimBox non si ipotizza alcuna abbondanza: i margini manuali partono da zero.
+
+Test ripetibile senza nuove dipendenze di produzione: `node test_print_pdf.cjs` (se Node è disponibile), 12 fixture sintetici generati in una directory temporanea e poi rimossi. Verifica dimensioni, riquadri, rotazioni 90/180/270, origine non zero, destinazioni interne, immagini/stream originali e blocco di casi non supportati. Non esegue rete, Git o publish. `python3 -m unittest test_build.py` mantiene il test Git opt-in disattivato.
+
+Verifiche indipendenti: rendering di tutte le pagine, testo estraibile, URI/destinazioni, conteggio vettori/immagini, stream originali identici, dimensioni MediaBox, ritagli simmetrici/asimmetrici e CropBox diversa dalla MediaBox. Testato anche un PDF InDesign 21.6 reale di 20 pagine con abbondanza di 5 mm e segni di stampa: risultato 297 × 210 mm, testo nell'area finale preservato, 53 stream originali invariati. L'originale non è modificato e non è incluso nel sito.
+
+Verifiche UI: EN/IT a 320/390/768/1440 px senza overflow; anteprima, cambio pagina, validazione, export/download e switch lingua. Regression del sistema Tools: 190 controlli route/viewport (34 pagine tool + 4 indici su 5 larghezze), Copy snippet, download e mailto; 36 controlli catalogo/filtri da tastiera/fallback senza JavaScript. Tutti i JS/CSS operativi preesistenti sono identici alla sorgente Dropbox iniziale. Analytics condiviso preservato una sola volta; nei test offline l'unica richiesta esterna è il beacon preesistente, nessun contenuto PDF viene inviato.
+
+Build corrente: 80 URL indicizzabili e raggiungibili, zero orphan; canonical/hreflang/link/asset/sitemap verificati. Due build consecutive finali: zero aggiornamenti. Nessuna modifica a `mrc.command`, pubblicazione, Git o Worker; la pubblicazione resta manuale.
+
+## PDF Compressor beta and tool feedback
+
+The default PDF mode preserves page content and replaces only simple 8-bit DeviceRGB DCT/Flate image streams from the validated whitelist. Images with alpha/masks, ICC/CMYK/Indexed/Gray colour spaces, extra decoding parameters or unsupported attributes are left intact. Shared image references are replaced once. Normal mode does not load the raster engine or use its minimum-size estimate; three measured image profiles provide an indicative target search, not a claimed technical floor. A larger result is discarded and the original is retained; tiny lossy savings are also discarded.
+
+Only conventional unshared document Info fields and a uniquely referenced catalog XML Metadata stream are cleaned. Other metadata, proprietary editing data, thumbnails and arbitrary unused objects are preserved. This is not anonymisation or a promise of PDF/A compliance. Encrypted/signed PDFs, forms, tagged accessibility structures and unsupported annotations are blocked before either mode rewrites a document. Page rasterisation remains an explicit lossy alternative.
+
+Optional regression checks with Node and the existing local pdf-lib: `node test_pdf_optimizer.cjs` and `node test_print_pdf.cjs`. The Python shared-component checks are `python3 test_build.py`; Git tests remain opt-in and are not part of the normal build.
+
+Tool feedback is generated from shared/tools.json and the contact address in shared/footer.html using shared/tool-feedback.en.html / .it.html. It appears only on standalone tool pages, before support. The mailto body contains tool name, public page URL and editable prompts, with no device detection, uploads, endpoint or automatic sending.
