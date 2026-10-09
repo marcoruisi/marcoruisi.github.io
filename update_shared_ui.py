@@ -242,7 +242,7 @@ def editorial_header(root, text, lang):
     })
     content = template(root, 'site-header.html', {
         'home_url': '/it/' if lang == 'it' else '/',
-        'home_label': 'Home MRC' if lang == 'it' else 'MRC home',
+        'home_label': 'marcorui.si home',
         'utilities': utilities,
         'open_label': 'Apri menu' if lang == 'it' else 'Open menu',
         'close_label': 'Chiudi menu' if lang == 'it' else 'Close menu',
@@ -272,7 +272,7 @@ def tool_header(root, lang, pair, current):
                   f'<span class="mrc-nav-full">{full}</span>'
                   f'<span class="mrc-nav-short" aria-hidden="true">{short}</span></a>')
     language = '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(f'<a href="{pair[l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it'))
-    return template(root, 'tool-header.html', {'site_home': '/it/' if lang == 'it' else '/', 'home_label': 'Home MRC' if lang == 'it' else 'MRC home', 'tool_links': links, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
+    return template(root, 'tool-header.html', {'site_home': '/it/' if lang == 'it' else '/', 'home_label': 'marcorui.si home', 'tool_links': links, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
 
 
 def status(tool, tags, lang):
@@ -294,7 +294,7 @@ def request_mailto(tool, lang):
     subject = name + (' — richiesta plugin' if lang == 'it' else ' — plugin request')
     body = (f'Ciao Marco, mi interessa {name}. Vorrei utilizzarlo per:' if lang == 'it' else f"Hi Marco, I'm interested in {name}. I would like to use it for:")
     body += '\r\n\r\n\r\n' + HOST + tool['url'][lang]
-    return 'mailto:marcoruisi@gmail.com?' + urlencode({'subject': subject, 'body': body}, quote_via=quote)
+    return 'mailto:ciao@marcorui.si?' + urlencode({'subject': subject, 'body': body}, quote_via=quote)
 
 
 def feedback_cta(root, tool, lang):

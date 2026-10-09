@@ -1,0 +1,16 @@
+MRC / SWITCH 1-2 (header + email) — 09/10/2026
+
+Questo ZIP contiene SOLO i file modificati, con percorsi relativi a /mrc/web.
+Copia i file nella cartella web locale, sovrascrivendo i corrispondenti dopo un backup.
+NON include redirect: quello e` il punto 3, da attivare dopo verifica sito.
+NON cambia canonical, hreflang, sitemap o altri riferimenti pages.dev.
+Il file condiviso shared/site-header.html e update_shared_ui.py sono aggiornati,
+cosi` una rigenerazione non ripristina il vecchio menu.
+Header editoriale: SVG a due tratti su desktop/mobile, font Georgia Bold.
+Sotto 390px Tools e` accessibile dal menu (non visibile nella topbar).
+Email: sostituzione SOLO dell'indirizzo personale esatto marcoruisi@gmail.com,
+anche nei file dei Tools e nel generatore; indirizzi di terzi invariati.
+
+VERIFICHE: testare a 320px, 375px, 768px e desktop; aprire/chiudere menu;
+verificare mailto e le pagine IT/EN; usare build locale prima del publish.
+Nessun commit, push o deploy eseguito.

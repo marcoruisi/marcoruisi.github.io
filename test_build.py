@@ -59,7 +59,7 @@ class BuildTests(unittest.TestCase):
             for lang in ('en', 'it'):
                 parsed = urlparse(request_mailto(tool, lang))
                 self.assertEqual(parsed.scheme, 'mailto')
-                self.assertEqual(parsed.path, 'marcoruisi@gmail.com')
+                self.assertEqual(parsed.path, 'ciao@marcorui.si')
                 query = parse_qs(parsed.query)
                 self.assertEqual(query['subject'][0], tool['name'][lang] + (' — richiesta plugin' if lang == 'it' else ' — plugin request'))
                 self.assertIn(HOST + tool['url'][lang], query['body'][0])

@@ -47,3 +47,72 @@ footer.mrc-site-footer .copyright { margin-top: 24px; font-size: 13px; }
 footer.mrc-site-footer .mrc-publish { margin-top: 16px; font-size: 12px; }
 footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 @media (max-width:700px) { footer.mrc-site-footer { margin-top: 70px; } }
+
+/* MRC identity 2026: one editorial header across desktop and mobile */
+.topbar { gap: 12px; flex-wrap: nowrap; }
+.topbar .logo-mark { font-family: Georgia,"Times New Roman",serif; font-weight: 700; font-size: clamp(20px,2.3vw,26px); line-height: 1; letter-spacing: -.025em; white-space: nowrap; flex-shrink: 0; }
+.topbar .header-actions { gap: 14px; flex-shrink: 0; }
+.topbar .header-utilities { gap: 8px; }
+.topbar .menu-trigger { width: 44px; min-width: 44px; min-height: 44px; display: inline-flex; justify-content: center; align-items: center; padding: 0; }
+.topbar .menu-trigger .menu-label { display: none; }
+.topbar .menu-trigger .menu-icon { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; }
+.topbar .menu-trigger .menu-icon svg { display: block; width: 26px; height: 26px; }
+.topbar .menu-trigger:hover { text-decoration: none; }
+.topbar .menu-trigger:hover .menu-icon { opacity: .65; }
+@media (max-width:700px) {
+ .topbar { padding-left: 16px; padding-right: 16px; gap: 6px; }
+ .topbar .logo-mark { font-size: clamp(18px,4.5vw,22px); letter-spacing: -.035em; }
+ .topbar .header-actions { gap: 4px; }
+ .topbar .header-utilities { gap: 5px; font-size: 12px; }
+ .topbar .header-utility-separator,.topbar .header-menu-separator { display: none; }
+ .topbar .header-language { gap: 0; }
+ .topbar .header-language a { min-width: 23px; }
+ .topbar .menu-trigger { width: 36px; min-width: 36px; }
+}
+@media (max-width:390px) {
+ .topbar { padding-left: 12px; padding-right: 12px; gap: 4px; }
+ .topbar .logo-mark { font-size: 18px; }
+ .topbar .header-utilities { gap: 2px; }
+ .topbar .header-tools { display: none; }
+ .topbar .header-language a { min-width: 22px; }
+}
+
+/* MRC header refinement 2026-10-09: CSS-drawn two-stroke icon, independent of old glyph/SVG. */
+.topbar .logo-mark { font-size: clamp(26px, 2.55vw, 31px); letter-spacing: -.025em; }
+.topbar .menu-trigger {
+  position: relative;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  flex: 0 0 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-decoration: none;
+}
+.topbar .menu-trigger .menu-icon,
+.topbar .menu-trigger .menu-label { display: none !important; }
+.topbar .menu-trigger::before,
+.topbar .menu-trigger::after {
+  content: "";
+  position: absolute;
+  right: 9px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 0;
+  pointer-events: none;
+  transition: width .16s ease, transform .16s ease;
+}
+.topbar .menu-trigger::before { top: 17px; width: 24px; }
+.topbar .menu-trigger::after { top: 25px; width: 15px; }
+.topbar .menu-trigger:hover::after { width: 20px; }
+@media (max-width: 700px) {
+  .topbar .logo-mark { font-size: clamp(22px, 4.7vw, 26px); letter-spacing: -.025em; }
+  .topbar .menu-trigger { width: 40px; min-width: 40px; flex-basis: 40px; }
+  .topbar .menu-trigger::before,.topbar .menu-trigger::after { right: 7px; }
+}
+@media (max-width: 390px) {
+  .topbar .logo-mark { font-size: 21px; }
+  .topbar .menu-trigger { width: 38px; min-width: 38px; flex-basis: 38px; }
+}
