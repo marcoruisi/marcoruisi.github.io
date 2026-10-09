@@ -1,0 +1,20 @@
+.app{line-height:1.6}
+.app h2{font-size:20px;font-weight:500;margin:0 0 14px}
+.app section{margin-top:30px}
+.app label:not(.check){display:block}
+.app textarea{display:block;width:100%;min-width:0;resize:vertical;margin-top:6px;padding:12px;border:1px solid var(--border);border-radius:3px;background:var(--panel);color:var(--text);font:16px/1.5 inherit;font-family:inherit;font-size:16px;line-height:1.5}
+.app button,.app input[type=file]{font:inherit}
+.app button{min-height:44px;padding:9px 16px;border:1px solid var(--border);border-radius:3px;background:var(--panel);color:var(--text);cursor:pointer}
+.app button:hover{border-color:var(--primary)}
+.app .primary{background:var(--text);color:var(--bg);border-color:var(--text);min-width:140px}
+.app .hint,.app .privacy{color:var(--muted);font-size:14px}
+.rule{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:14px;align-items:end;margin-bottom:16px}
+.rule button{margin-bottom:0}
+.app .check{display:flex;align-items:baseline;gap:10px;margin:12px 0}
+.app .check input{flex:none}
+.app details{margin-top:24px;border-top:1px solid var(--border);padding-top:16px}
+.app summary{cursor:pointer;min-height:44px}
+.app input[type=file]{max-width:100%;margin:8px 0 16px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+#status,#csv-status,#copy-status{overflow-wrap:anywhere}
+@media(max-width:600px){.rule{grid-template-columns:minmax(0,1fr);gap:8px;border-bottom:1px solid var(--border);padding-bottom:18px}.rule button{justify-self:start}.app h1{font-size:26px}}

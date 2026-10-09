@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tools/multiple-find-replace/tool.css">
+<link rel="stylesheet" href="/assets/tool-afterword.css">
+
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcoruisi.pages.dev/it/tools/multiple-find-replace/">
+<meta property="og:url" content="https://marcoruisi.pages.dev/it/tools/multiple-find-replace/">
+<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/multiple-find-replace/">
+<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/multiple-find-replace/">
+<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/multiple-find-replace/">
+<title>Trova e sostituisci multiplo | MRC · Marco Ruisi</title>
+<meta name="description" content="Sostituisci più stringhe simultaneamente e ripulisci il testo. Elaborazione locale, regole CSV e download TXT.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Trova e sostituisci multiplo | MRC · Marco Ruisi">
+<meta property="og:description" content="Sostituisci più stringhe simultaneamente e ripulisci il testo. Elaborazione locale, regole CSV e download TXT.">
+<meta name="twitter:title" content="Trova e sostituisci multiplo | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Sostituisci più stringhe simultaneamente e ripulisci il testo. Elaborazione locale, regole CSV e download TXT.">
+<!-- MRC SHARED METADATA END -->
+</head>
+<body>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/it/" aria-label="Home MRC">← MRC</a>
+        <a href="/it/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/it/tools/tutti/" aria-label="Tutti gli strumenti"><span class="mrc-nav-full">Tutti gli strumenti</span><span class="mrc-nav-short" aria-hidden="true">All</span></a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/tools/multiple-find-replace/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/multiple-find-replace/" lang="it" aria-current="page">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Trova e sostituisci multiplo</h1><p class="intro">Sostituisci più stringhe insieme e ripulisci il testo, direttamente nel browser.</p>
+<p class="privacy">Il testo resta nel browser: non viene inviato a server esterni.</p>
+<label for="source">Testo originale</label><textarea id="source" rows="9" spellcheck="false"></textarea>
+<section aria-labelledby="rules-title"><h2 id="rules-title">Coppie trova / sostituisci</h2>
+<p class="hint">Le stringhe sono letterali. Le sostituzioni si applicano al testo originale: prevale la stringa più lunga, poi la prima coppia inserita. Lascia «Sostituisci con» vuoto per eliminare una stringa.</p>
+<div id="rules"></div><button id="add-rule" type="button">Aggiungi coppia</button>
+<label class="check"><input id="case-sensitive" type="checkbox">Distingui maiuscole e minuscole</label>
+<details><summary>Importa / esporta le coppie</summary>
+<p class="hint">CSV UTF-8 con due colonne: find e replace. L’importazione sostituisce le coppie attuali, ma non elabora il testo.</p>
+<label for="import">Importa CSV</label><input id="import" type="file" accept=".csv,text/csv"><br>
+<button id="export" type="button">Esporta CSV</button><p id="csv-status" role="status"></p></details></section>
+<section aria-labelledby="cleanup-title"><h2 id="cleanup-title">Pulizia del testo</h2>
+<label class="check"><input id="clean-spaces" type="checkbox" checked>Elimina spazi consecutivi</label>
+<label class="check"><input id="clean-trim" type="checkbox">Elimina spazi a inizio e fine riga</label>
+<label class="check"><input id="clean-lines" type="checkbox">Elimina righe vuote consecutive</label>
+<p class="hint">La pulizia avviene dopo le sostituzioni e funziona anche senza coppie. Le tabulazioni restano invariate; viene mantenuta una riga vuota tra i paragrafi.</p></section>
+<div class="actions"><button id="apply" class="primary" type="button">Applica</button></div><p id="status" role="status"></p>
+<section id="result-section" aria-labelledby="result-title" hidden><h2 id="result-title">Risultato</h2><p id="count" role="status"></p>
+<label for="result">Testo elaborato</label><textarea id="result" rows="9" readonly spellcheck="false"></textarea>
+<div class="actions"><button id="copy" type="button">Copia risultato</button><button id="download" type="button">Scarica TXT</button></div><p id="copy-status" role="status"></p></section>
+<noscript>Attiva JavaScript per utilizzare questo strumento.</noscript></main>
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Strumenti correlati</h2><ul><li><a href="/it/tools/clean-wp-clipboard/">HTML Editor / Clean WP Clipboard</a></li><li><a href="/it/tools/webp-compressor/">WebP Compressor</a></li><li><a href="/it/tools/pdf-compressor/">PDF Compressor</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Qualcosa non funziona?</h2>
+    <p>Hai trovato un problema o hai un suggerimento per migliorare questo strumento?</p>
+    <p><a href="mailto:marcoruisi@gmail.com?subject=MRC%20%E2%80%94%20Trova%20e%20sostituisci%20multiplo%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Trova%20e%20sostituisci%20multiplo%0D%0APagina%3A%20https%3A%2F%2Fmarcoruisi.pages.dev%2Fit%2Ftools%2Fmultiple-find-replace%2F%0D%0A%0D%0ATipo%20di%20segnalazione%3A%20problema%20%2F%20suggerimento%20%2F%20altro%0D%0A%0D%0ADescrizione%3A%0D%0A%0D%0A%0D%0ABrowser%20e%20dispositivo%20%28facoltativo%29%3A">Invia una segnalazione →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
+    <section class="mrc-tool-support" aria-labelledby="mrc-support-heading">
+        <h2 id="mrc-support-heading">Ti è stato utile?</h2>
+        <p>Questo strumento è gratuito. Se ti ha fatto risparmiare un po’ di tempo, puoi sostenere il progetto.</p>
+        <p><a data-support-link hidden target="_blank" rel="noopener noreferrer">Supporta MRC →</a><span data-support-pending>Supporto volontario — presto disponibile.</span></p>
+    </section>
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Ti serve qualcosa di più specifico?</h2>
+        <p>Questo strumento risolve un problema comune. Se il tuo lavoro richiede regole, integrazioni o automazioni diverse, posso progettare una soluzione intorno a quelle esigenze.</p>
+        <p><a href="/it/contatti/">Raccontami il tuo problema →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:marcoruisi@gmail.com">marcoruisi@gmail.com</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script type="module" src="/tools/multiple-find-replace/tool.mjs"></script>
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+
+</body>
+</html>

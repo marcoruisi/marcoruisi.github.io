@@ -331,6 +331,31 @@
       }
     },
     {
+      "id": "multiple-find-replace",
+      "name": {
+        "it": "Trova e sostituisci multiplo",
+        "en": "Multiple Find & Replace"
+      },
+      "url": {
+        "it": "/it/tools/multiple-find-replace/",
+        "en": "/tools/multiple-find-replace/"
+      },
+      "description": {
+        "it": "Sostituisci più stringhe simultaneamente e ripulisci il testo. Elaborazione locale, regole CSV e download TXT.",
+        "en": "Replace multiple strings simultaneously and clean up text. Local processing, CSV rules and TXT download."
+      },
+      "action": {
+        "it": "Trova, sostituisci e ripulisci il testo",
+        "en": "Find, replace and clean up text"
+      },
+      "tags": [
+        "everyday",
+        "text"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
       "id": "block-subscriber-wp-admin",
       "name": {
         "en": "Block Subscriber access to wp-admin",
