@@ -108,7 +108,7 @@ body {
 }
 .language-switch .active {
     color: var(--text);
-    font-weight: 900;
+    font-weight: 800;
 }
 .author {
     margin: 0;
@@ -173,7 +173,7 @@ body {
     margin: 0 auto;
     font-size: 16px;
     line-height: 1.78;
-    font-weight: 300;
+    font-weight: 400;
 }
 .content p {
     margin: 0 0 1.6em;
@@ -259,7 +259,7 @@ body {
     margin-top: 0;
 }
 .content strong {
-    font-weight: 900;
+    font-weight: 800;
 }
 @media(max-width:700px) {
     body {
