@@ -23,9 +23,15 @@
     if (valid(STRIPE_LINKS.other)) el.hidden = true;
   });
   const it = document.documentElement.lang.toLowerCase().startsWith("it") || location.pathname.startsWith("/it/");
-  const outputTools = new Set(["pdf-compressor", "webp-compressor", "image-to-target-size", "white-to-transparent", "images-to-pdf", "print-pdf-to-web", "clean-wp-clipboard", "multiple-find-replace"]);
+  // Only tools that actually produce a file or processed text; request pages excluded.
+  const outputTools = new Set([
+    "pdf-compressor", "webp-compressor", "image-to-target-size", "foto-entro-peso",
+    "white-to-transparent", "bianco-trasparente", "images-to-pdf", "immagini-in-pdf",
+    "print-pdf-to-web", "da-pdf-stampa-a-web", "clean-wp-clipboard", "multiple-find-replace"
+  ]);
   const slug = location.pathname.split("/").filter(Boolean).at(-1);
   if (!outputTools.has(slug)) return;
+  // Use a single block. It starts before feedback and moves to the successful result.
   const section = document.createElement("section");
   section.className = "mrc-donation";
   section.setAttribute("aria-label", it ? "Donazione volontaria" : "Voluntary donation");
@@ -33,7 +39,7 @@
     <p>${it ? "I Tools MRC sono gratuiti e disponibili per tutti. Se questo strumento ti ha aiutato, puoi sostenere lo sviluppo dei prossimi con una donazione libera." : "MRC Tools are free and available to everyone. If this tool helped you, you can support future development with a voluntary donation."}</p>
     <p class="mrc-donation-caption">${it ? "Scegli un importo oppure personalizzalo. Anche 1 € è benvenuto." : "Choose an amount or set your own. Even €1 helps."}</p>
     <div class="mrc-donation-options"></div>
-    <p class="mrc-donation-footnote">${it ? "Donazione facoltativa. Il risultato resta gratuito." : "Optional donation. Your result remains free."}</p>`;
+    <p class="mrc-donation-footnote">${it ? "Donazione facoltativa. Nessuna funzionalità a pagamento." : "Optional donation. No paid features."}</p>`;
   const options = section.querySelector(".mrc-donation-options");
   for (const [key, label] of [["1","1 €"],["3","3 €"],["5","5 €"],["other",it ? "Altro importo" : "Other amount"]]) {
     const url = valid(STRIPE_LINKS[key]);
@@ -41,25 +47,50 @@
     a.className = "mrc-donation-choice";
     a.textContent = label;
     if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer"; }
-    else { a.classList.add("is-unconfigured"); a.setAttribute("aria-disabled", "true"); a.title = it ? "Link Stripe da configurare in assets/support.js" : "Configure Stripe link in assets/support.js"; }
+    else { a.classList.add("is-unconfigured"); a.setAttribute("aria-disabled", "true"); }
     options.appendChild(a);
   }
   const style = document.createElement("style");
-  style.textContent = `.mrc-donation{margin:24px 0;padding:22px;border:1px solid currentColor;border-radius:12px;max-width:720px}.mrc-donation h2{margin:0 0 10px;font-size:1.15rem}.mrc-donation p{margin:8px 0 12px}.mrc-donation-caption{font-weight:600}.mrc-donation-options{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}.mrc-donation-choice{display:inline-flex;align-items:center;justify-content:center;min-height:42px;min-width:65px;padding:8px 15px;border:1px solid currentColor;border-radius:8px;text-decoration:none;color:inherit;font-weight:650}.mrc-donation-choice:hover:not(.is-unconfigured){background:rgba(128,128,128,.12)}.mrc-donation-choice.is-unconfigured{opacity:.4;cursor:not-allowed}.mrc-donation-footnote{font-size:.82rem;opacity:.72}`;
+  style.textContent = `
+    .mrc-donation{box-sizing:border-box;margin:24px auto;padding:22px;border:1px solid currentColor;border-radius:12px;width:calc(100% - 32px);max-width:720px}
+    .mrc-donation h2{margin:0 0 10px;font-size:1.2rem}.mrc-donation p{margin:8px 0 12px}
+    .mrc-donation-caption{font-weight:600}.mrc-donation-options{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}
+    .mrc-donation-choice{display:inline-flex;align-items:center;justify-content:center;min-height:42px;min-width:65px;padding:8px 15px;border:1px solid currentColor;border-radius:8px;text-decoration:none;color:inherit;font-weight:650}
+    .mrc-donation-choice:hover:not(.is-unconfigured){background:rgba(128,128,128,.12)}
+    .mrc-donation-choice.is-unconfigured{opacity:.4;pointer-events:none}
+    .mrc-donation-footnote{font-size:.82rem;opacity:.72}
+    .mrc-tool-afterword{opacity:.72;font-size:.86rem}
+    .mrc-tool-afterword .mrc-tool-specific{border:0!important;padding-top:0!important;padding-bottom:0!important}
+    .mrc-tool-afterword .mrc-tool-specific h2{font-size:1rem!important;margin-bottom:.3em!important}
+    .mrc-tool-afterword .mrc-tool-specific p{margin:.3em 0!important}
+    .mrc-tool-afterword .mrc-tool-specific p:last-child a{font-weight:400!important}
+  `;
   document.head.appendChild(style);
-  const result = document.getElementById("resultSection");
-  const mount = () => {
-    if (section.isConnected) return;
-    if (result && !result.hidden && getComputedStyle(result).display !== "none") result.appendChild(section);
+  const feedback = document.querySelector(".mrc-tool-feedback");
+  const fallback = document.querySelector(".mrc-related") || document.querySelector("main");
+  if (feedback) feedback.before(section);
+  else if (fallback) fallback.after(section);
+  else document.body.appendChild(section);
+
+  const result = document.getElementById("resultSection") ||
+    (slug !== "multiple-find-replace" ? document.getElementById("result") : null);
+  const visible = (el) => !!el && !el.hidden && getComputedStyle(el).display !== "none" && getComputedStyle(el).visibility !== "hidden";
+  const moveAfterResult = () => {
+    if (visible(result) && section.previousElementSibling !== result) result.after(section);
   };
-  if (result) { new MutationObserver(mount).observe(result, {attributes:true,attributeFilter:["hidden","style","class"]}); mount(); }
-  // For other output tools, show the invitation only after a successful download/copy action.
+  if (result) {
+    new MutationObserver(moveAfterResult).observe(result, {attributes:true,attributeFilter:["hidden","style","class"]});
+    moveAfterResult();
+  }
+  // Some tools use a canvas or text output without a hidden result container.
+  // Only reposition on an explicit completed download/copy action.
   if (!result) document.addEventListener("click", (ev) => {
-    const target = ev.target.closest("button,a");
-    if (!target || section.isConnected || target.disabled) return;
+    const target = ev.target instanceof Element ? ev.target.closest("button,a") : null;
+    if (!target || target.disabled || target.getAttribute("aria-disabled") === "true") return;
+    if (target.closest(".mrc-donation")) return;
     const hint = `${target.id} ${target.className} ${target.textContent}`.toLowerCase();
     if (!/(download|scarica|esporta|export|copy|copia|save|salva)/.test(hint)) return;
     const host = target.closest(".result,.results,.output,.panel,section") || target.parentElement;
-    if (host) host.appendChild(section);
+    if (host && host !== section && host.nextElementSibling !== section) host.after(section);
   });
 })();
