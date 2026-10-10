@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "pages": {
+    "en": "/tool-flows/",
+    "it": "/it/tool-flows/"
+  },
+  "examples": [
+    {
+      "id": "word-html",
+      "title": {
+        "it": "Da Word a HTML personalizzato",
+        "en": "From Word to custom HTML"
+      },
+      "description": {
+        "it": "Pulisci un documento formattato, poi modifica il codice con sostituzioni multiple.",
+        "en": "Clean up a formatted document, then edit the HTML with multiple replacements."
+      },
+      "note": {
+        "it": "Per mantenere titoli, grassetti ed elenchi, trasferisci il codice HTML, non il testo visualizzato.",
+        "en": "To keep headings, bold text and lists, transfer the HTML code, not the rendered text."
+      },
+      "steps": [
+        {
+          "kind": "input",
+          "label": {
+            "it": "Documento Word",
+            "en": "Word document"
+          },
+          "detail": {
+            "it": "Titoli, grassetti, elenchi",
+            "en": "Headings, bold text, lists"
+          }
+        },
+        {
+          "kind": "tool",
+          "tool": "clean-wp-clipboard",
+          "label": {
+            "it": "HTML Editor",
+            "en": "HTML Editor"
+          },
+          "detail": {
+            "it": "Pulisci e copia il codice",
+            "en": "Clean and copy the code"
+          }
+        },
+        {
+          "kind": "tool",
+          "tool": "multiple-find-replace",
+          "label": {
+            "it": "Trova e sostituisci",
+            "en": "Multiple Find & Replace"
+          },
+          "detail": {
+            "it": "Applica modifiche in serie",
+            "en": "Apply changes in bulk"
+          }
+        },
+        {
+          "kind": "output",
+          "label": {
+            "it": "HTML personalizzato",
+            "en": "Custom HTML"
+          },
+          "detail": {
+            "it": "Pronto da riutilizzare",
+            "en": "Ready to reuse"
+          }
+        }
+      ]
+    },
+    {
+      "id": "images-pdf",
+      "title": {
+        "it": "Da immagini a PDF leggero",
+        "en": "From images to a lighter PDF"
+      },
+      "description": {
+        "it": "Riduci il peso delle immagini prima di raccoglierle in un unico documento.",
+        "en": "Reduce image file sizes before bringing them together in one document."
+      },
+      "steps": [
+        {
+          "kind": "input",
+          "label": {
+            "it": "Immagini",
+            "en": "Images"
+          },
+          "detail": {
+            "it": "Foto e scansioni",
+            "en": "Photos and scans"
+          }
+        },
+        {
+          "kind": "tool",
+          "tool": "image-to-target-size",
+          "label": {
+            "it": "Foto entro il peso",
+            "en": "Image to Target Size"
+          },
+          "detail": {
+            "it": "Alleggerisci i file",
+            "en": "Make the files smaller"
+          }
+        },
+        {
+          "kind": "tool",
+          "tool": "images-to-pdf",
+          "label": {
+            "it": "Immagini in PDF",
+            "en": "Images to PDF"
+          },
+          "detail": {
+            "it": "Riunisci le immagini",
+            "en": "Bring the images together"
+          }
+        },
+        {
+          "kind": "output",
+          "label": {
+            "it": "PDF più leggero",
+            "en": "Lighter PDF"
+          },
+          "detail": {
+            "it": "Pronto da condividere",
+            "en": "Ready to share"
+          }
+        }
+      ]
+    },
+    {
+      "id": "print-web",
+      "title": {
+        "it": "Da PDF per la stampa a PDF per il web",
+        "en": "From a print PDF to a web-ready PDF"
+      },
+      "description": {
+        "it": "Rimuovi abbondanze e segni di taglio, poi riduci il peso del documento.",
+        "en": "Remove bleed and crop marks, then reduce the document’s file size."
+      },
+      "steps": [
+        {
+          "kind": "input",
+          "label": {
+            "it": "PDF da stampa",
+            "en": "Print PDF"
+          },
+          "detail": {
+            "it": "Con abbondanze e segni",
+            "en": "With bleed and crop marks"
+          }
+        },
+        {
+          "kind": "tool",
+          "tool": "print-pdf-to-web",
+          "label": {
+            "it": "Da stampa a web",
+            "en": "Print PDF to Web"
+          },
+          "detail": {
+            "it": "Ritaglia la pagina",
+            "en": "Crop the page"
+          }
+        },
+        {
+          "kind": "tool",
+          "tool": "pdf-compressor",
+          "label": {
+            "it": "PDF Compressor",
+            "en": "PDF Compressor"
+          },
+          "detail": {
+            "it": "Alleggerisci il documento",
+            "en": "Reduce the file size"
+          }
+        },
+        {
+          "kind": "output",
+          "label": {
+            "it": "PDF per il web",
+            "en": "Web-ready PDF"
+          },
+          "detail": {
+            "it": "Pronto da inviare",
+            "en": "Ready to send"
+          }
+        }
+      ]
+    }
+  ]
+}

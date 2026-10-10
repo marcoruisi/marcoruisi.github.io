@@ -29,8 +29,9 @@ body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSyste
 .mrc-tool-language a[aria-current="page"]{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
 .mrc-nav-short{display:none}
 @media(max-width:600px){
- .mrc-tool-header{flex-wrap:nowrap;align-items:center;gap:12px}
- .mrc-tool-header .mrc-tools-nav{flex:1 1 auto;flex-wrap:nowrap;gap:clamp(10px,3vw,18px)}
+ /* Keep Tool Flows visible: wrap links rather than crowd the language switcher. */
+ .mrc-tool-header{flex-wrap:nowrap;align-items:flex-start;gap:12px}
+ .mrc-tool-header .mrc-tools-nav{flex:1 1 auto;flex-wrap:wrap;gap:8px clamp(10px,3vw,18px)}
  .mrc-tools-nav a{min-height:44px}
  .mrc-tools-nav .mrc-nav-full{display:none}
  .mrc-tools-nav .mrc-nav-short{display:inline}

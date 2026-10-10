@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://marcoruisi.pages.dev/sitemap.xml
+Sitemap: https://marcorui.si/sitemap.xml

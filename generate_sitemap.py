@@ -5,9 +5,8 @@ from pathlib import Path
 from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 import json
-from update_shared_ui import ROOT, page_files, route, write_if_changed
+from update_shared_ui import ROOT, HOST, page_files, route, write_if_changed
 
-HOST = 'https://marcoruisi.pages.dev'
 NS = 'http://www.sitemaps.org/schemas/sitemap/0.9'
 
 
@@ -99,7 +98,7 @@ def sitemap_text(root=ROOT, planned=None):
     for url, (_, parser, _) in sorted(pages.items()):
         if parser.noindex:
             continue
-        if urlparse(url).netloc != 'marcoruisi.pages.dev':
+        if urlparse(url).netloc != urlparse(HOST).netloc:
             raise ValueError(f'Host sitemap non valido: {url}')
         entry = ET.SubElement(tree, f'{{{NS}}}url')
         ET.SubElement(entry, f'{{{NS}}}loc').text = url

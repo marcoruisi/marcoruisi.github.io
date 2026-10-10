@@ -5,6 +5,7 @@ import html
 import json
 import re
 from urllib.parse import quote, urlencode
+from render_tool_flows import FLOW_URLS, flow_page_content
 
 ROOT = Path(__file__).resolve().parent
 
@@ -81,8 +82,8 @@ def replace_footer(text, content):
 
 def normalize_page_url_metadata(text, url):
     """Force canonical and og:url to the page's actual public URL."""
-    canonical = f'<link rel="canonical" href="https://marcoruisi.pages.dev{url}">'
-    og_url = f'<meta property="og:url" content="https://marcoruisi.pages.dev{url}">'
+    canonical = f'<link rel="canonical" href="{HOST}{url}">'
+    og_url = f'<meta property="og:url" content="{HOST}{url}">'
 
     # Remove any existing canonical/og:url regardless of attribute order.
     text = re.sub(
@@ -119,7 +120,7 @@ def link(url, label, current=None):
     return f'<a href="{html.escape(url, quote=True)}"{active}>{html.escape(label)}</a>'
 
 
-HOST = 'https://marcoruisi.pages.dev'
+HOST = 'https://marcorui.si'
 INDEX_PAIRS = [('/tools/', '/it/tools/'), ('/tools/all/', '/it/tools/tutti/')]
 
 
@@ -176,7 +177,7 @@ def remove_marked(text, name):
 
 def metadata(text, url, pair, lang, tool=None, index=False):
     # Normalize stale domains only for this site's own URLs, including JSON-LD.
-    text = re.sub(r'https?://(?:www\.)?(?:marcoruisi\.com|marcoruisi\.github\.io)(?=[/"\s])', HOST, text)
+    text = re.sub(r'https?://(?:www\.)?(?:marcoruisi\.com|marcoruisi\.github\.io|marcoruisi\.pages\.dev)(?=[/"\s])', HOST, text)
     text = remove_marked(text, 'METADATA')
     text = remove_marked(text, 'TOOL ALTERNATES')
     text = re.sub(r'<link\b(?=[^>]*\brel=["\'](?:canonical|alternate)["\'])[^>]*>\s*', '', text, flags=re.I)
@@ -218,6 +219,7 @@ def language_pairs(files, tools):
                 raise ValueError(f'Coppie lingua discordanti: {url}')
             pairs[url] = pair
     for en, it in INDEX_PAIRS: put({'en': en, 'it': it})
+    put(FLOW_URLS)
     for tool in tools: put(tool['url'])
     for path, text in files:
         url = route(path)
@@ -266,13 +268,41 @@ def tool_header(root, lang, pair, current):
     all_url = '/it/tools/tutti/' if lang == 'it' else '/tools/all/'
     links = ''
     for url, full, short in ((everyday, 'Everyday Tools', 'Everyday'),
-                             (all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools', 'All')):
+                             (all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools', 'All'),
+                             (FLOW_URLS[lang], 'Tool Flows', 'Tool Flows')):
         active = ' aria-current="page"' if url == current else ''
         links += (f'<a href="{url}" aria-label="{full}"{active}>'
                   f'<span class="mrc-nav-full">{full}</span>'
                   f'<span class="mrc-nav-short" aria-hidden="true">{short}</span></a>')
     language = '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(f'<a href="{pair[l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it'))
     return template(root, 'tool-header.html', {'site_home': '/it/' if lang == 'it' else '/', 'home_label': 'marcorui.si home', 'tool_links': links, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
+
+
+def tool_flows_shell(root, text, lang, pair, current):
+    """Use the existing technical shell without adding a tool, status or donation UI."""
+    styles = ('/assets/shared-ui.css', '/assets/tool-shell.css',
+              '/assets/tools-content.css', '/assets/tool-flows-fonts.css',
+              '/assets/tool-flows.css')
+    for css in ('/assets/style.css', '/assets/style.min.css') + styles:
+        text = re.sub(r'<link\b[^>]*href="' + re.escape(css) + r'"[^>]*>\s*', '', text)
+    text = text.replace('</head>', '\n'.join(
+        f'<link rel="stylesheet" href="{css}">' for css in styles) + '\n</head>')
+    for name in ('SITE HEADER', 'MENU', 'TOOL HEADER'):
+        text = remove_marked(text, name)
+    text = re.sub(r'<script\b[^>]*src="/assets/menu(?:\.min)?\.js"[^>]*>\s*</script>\s*', '', text)
+    mains = list(re.finditer(r'<main\b[^>]*>', text))
+    if len(mains) != 1 or text.count('</main>') != 1:
+        raise ValueError('Tool Flows requires exactly one main element')
+    main = mains[0]
+    text = (text[:main.start()] + marked('TOOL HEADER', tool_header(root, lang, pair, current))
+            + '\n<main class="app mrc-flows">' + text[main.end():])
+    # Match the other Tools: footer follows main instead of sitting inside an editorial sheet.
+    footer = re.search(r'<!-- MRC SHARED FOOTER START -->.*?<!-- MRC SHARED FOOTER END -->', text, re.S)
+    if footer:
+        block = footer[0]
+        text = remove_marked(text, 'FOOTER')
+        text = text.replace('</main>', '</main>\n' + block)
+    return text
 
 
 def status(tool, tags, lang):
@@ -323,6 +353,7 @@ def index_content(root, tools, tags, lang, everyday):
     it = lang == 'it'; pick = lambda a, b: a if it else b
     title = 'Everyday Tools' if everyday else pick('Tutti gli strumenti', 'All Tools')
     content = f'<h1>{title}</h1><p class="intro">' + (pick('Piccoli strumenti gratuiti. Scegli cosa vuoi fare.', 'Small, free tools. Choose what you need to do.') if everyday else pick('Strumenti, snippet e plugin nati da problemi reali. Gratuiti o su richiesta.', 'Tools, snippets and plugins born from real problems. Free or on request.')) + '</p>'
+    content += template(root, f'tool-flow-index.{lang}.html')
     if everyday:
         rows = ''.join(f'<li><a href="{t["url"][lang]}"><h2>{html.escape(t["action"][lang])}</h2><p>{html.escape(t["name"][lang])}</p><span aria-hidden="true">→</span></a></li>' for t in tools if 'everyday' in t['tags'])
         content += '<ul class="mrc-everyday-grid">' + rows + '</ul>'
@@ -358,7 +389,14 @@ def plan_shared_ui(root=ROOT):
         lang = lang_match[1]; tool = tool_by_url.get(url); index = url in [v for p in INDEX_PAIRS for v in p]
         pair = pairs.get(url)
         text = metadata(text, url, pair, lang, tool, index)
-        if tool or index:
+        if url in FLOW_URLS.values():
+            text = replace_block(text, 'TOOL FLOWS CONTENT', flow_page_content(root, lang))
+        if tool or index or url in FLOW_URLS.values():
+            if 'href="/assets/tool-flows.css"' not in text:
+                text = text.replace('</head>', '<link rel="stylesheet" href="/assets/tool-flows.css">\n</head>')
+        if url in FLOW_URLS.values():
+            text = tool_flows_shell(root, text, lang, pair, url)
+        elif tool or index:
             for css in ('/assets/tool-shell.css', '/assets/tools-content.css'):
                 if f'href="{css}"' not in text: text = text.replace('</head>', f'<link rel="stylesheet" href="{css}">\n</head>')
             text = replace_block(text, 'TOOL HEADER', tool_header(root, lang, pair, url), r'<header class="tool-header"[^>]*>.*?</header>')
@@ -391,6 +429,7 @@ def plan_shared_ui(root=ROOT):
                 else:
                     text = replace_block(text, 'TOOL AFTERWORD', template(root, f'tool-afterword.{lang}.html'))
                     if 'src="/assets/support.js"' not in text: text = text.replace('</body>', '<script src="/assets/support.js" defer></script>\n</body>')
+                text = replace_block(text, 'TOOL FLOWS', template(root, f'tool-flow-prompt.{lang}.html'))
                 related = related_tools(tool, tools)
                 content = '<section class="mrc-related"><h2>' + ('Strumenti correlati' if lang == 'it' else 'Related tools') + '</h2><ul>' + ''.join('<li>' + link(t['url'][lang], t['name'][lang]) + '</li>' for t in related) + '</ul></section>'
                 text = replace_block(text, 'RELATED TOOLS', content)
@@ -411,7 +450,7 @@ def plan_shared_ui(root=ROOT):
         if tool:
             # Order generated content independent of each page's legacy envelope.
             tail = []
-            for name in ('PLUGIN DOWNLOAD', 'SNIPPET INSTALL', 'PLUGIN REQUEST', 'RELATED TOOLS', 'TOOL FEEDBACK', 'TOOL AFTERWORD', 'FOOTER'):
+            for name in ('PLUGIN DOWNLOAD', 'SNIPPET INSTALL', 'PLUGIN REQUEST', 'TOOL FLOWS', 'RELATED TOOLS', 'TOOL FEEDBACK', 'TOOL AFTERWORD', 'FOOTER'):
                 match = re.search(re.escape(f'<!-- MRC SHARED {name} START -->') + r'.*?' + re.escape(f'<!-- MRC SHARED {name} END -->'), text, re.S)
                 if match:
                     block = match[0]
@@ -429,7 +468,7 @@ def plan_shared_ui(root=ROOT):
                 data = json.loads(match[1])
                 def visit(node):
                     if isinstance(node, dict):
-                        if node.get('@type') == 'WebSite': node.update(name='Marco Ruisi', alternateName=['MRC', 'marcoruisi.pages.dev'], url=HOST + '/')
+                        if node.get('@type') == 'WebSite': node.update(name='Marco Ruisi', alternateName=['MRC', 'marcorui.si'], url=HOST + '/')
                         for child in node.values(): visit(child)
                     elif isinstance(node, list):
                         for child in node: visit(child)

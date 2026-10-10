@@ -8,13 +8,14 @@
 
 <link rel="stylesheet" href="/assets/tools-content.css">
 <link rel="stylesheet" href="/assets/tool-feedback.css">
+<link rel="stylesheet" href="/assets/tool-flows.css">
 <!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
-<link rel="canonical" href="https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/">
-<meta property="og:url" content="https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/">
-<link rel="alternate" hreflang="en" href="https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/">
-<link rel="alternate" hreflang="it" href="https://marcoruisi.pages.dev/it/tools/blocca-subscriber-wp-admin/">
-<link rel="alternate" hreflang="x-default" href="https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/">
+<link rel="canonical" href="https://marcorui.si/tools/block-subscriber-wp-admin/">
+<meta property="og:url" content="https://marcorui.si/tools/block-subscriber-wp-admin/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/block-subscriber-wp-admin/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/blocca-subscriber-wp-admin/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/block-subscriber-wp-admin/">
 <title>Block Subscriber access to wp-admin | MRC · Marco Ruisi</title>
 <meta name="description" content="Users need to log in, but not access the dashboard? This snippet redirects Subscribers to the homepage when they try to open /wp-admin/.">
 <meta property="og:type" content="website">
@@ -23,7 +24,7 @@
 <meta property="og:description" content="Users need to log in, but not access the dashboard? This snippet redirects Subscribers to the homepage when they try to open /wp-admin/.">
 <meta name="twitter:title" content="Block Subscriber access to wp-admin | MRC · Marco Ruisi">
 <meta name="twitter:description" content="Users need to log in, but not access the dashboard? This snippet redirects Subscribers to the homepage when they try to open /wp-admin/.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "name": "Block Subscriber access to wp-admin", "description": "Users need to log in, but not access the dashboard? This snippet redirects Subscribers to the homepage when they try to open /wp-admin/.", "url": "https://marcoruisi.pages.dev/tools/block-subscriber-wp-admin/", "inLanguage": "en", "author": {"@id": "https://marcoruisi.pages.dev/#person"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "name": "Block Subscriber access to wp-admin", "description": "Users need to log in, but not access the dashboard? This snippet redirects Subscribers to the homepage when they try to open /wp-admin/.", "url": "https://marcorui.si/tools/block-subscriber-wp-admin/", "inLanguage": "en", "author": {"@id": "https://marcorui.si/#person"}}</script>
 <!-- MRC SHARED METADATA END -->
 </head>
 <body>
@@ -31,7 +32,7 @@
 <header class="mrc-tool-header">
     <nav class="mrc-tools-nav" aria-label="MRC Tools">
         <a class="mrc-tools-brand" href="/" aria-label="marcorui.si home">← MRC</a>
-        <a href="/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/tools/all/" aria-label="All Tools"><span class="mrc-nav-full">All Tools</span><span class="mrc-nav-short" aria-hidden="true">All</span></a>
+        <a href="/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/tools/all/" aria-label="All Tools"><span class="mrc-nav-full">All Tools</span><span class="mrc-nav-short" aria-hidden="true">All</span></a><a href="/tool-flows/" aria-label="Tool Flows"><span class="mrc-nav-full">Tool Flows</span><span class="mrc-nav-short" aria-hidden="true">Tool Flows</span></a>
     </nav>
     <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/block-subscriber-wp-admin/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/blocca-subscriber-wp-admin/" lang="it">IT</a></nav>
 </header>
@@ -82,6 +83,12 @@ add_action( 'admin_init', function () {
 <section class="section"><h2>How to use it</h2><ol><li>Install Code Snippets Free in WordPress.</li><li>Create a new PHP snippet.</li><li>Copy and paste the code.</li><li>Activate it in the required scope.</li></ol><p>This is a simple option, not a requirement: experienced users can put the code in their own plugin or the appropriate location. Configure form IDs and any required providers before enabling Gravity Forms examples.</p></section>
 <!-- MRC SHARED SNIPPET INSTALL END -->
 </main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">What if this were just the first step?</h2><p>The result of one tool can be the starting point for another. The connections are yours to find.</p></div>
+    <a class="mrc-flow-prompt-link" href="/tool-flows/">Explore Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
 <!-- MRC SHARED RELATED TOOLS START -->
 <section class="mrc-related"><h2>Related tools</h2><ul><li><a href="/tools/disable-wordpress-comments/">Disable WordPress comments completely</a></li><li><a href="/tools/gravity-forms-source-page/">Add the source page to Gravity Forms emails</a></li><li><a href="/tools/gravity-forms-autocomplete/">City and place autocomplete for Gravity Forms</a></li></ul></section>
 <!-- MRC SHARED RELATED TOOLS END -->
@@ -89,7 +96,7 @@ add_action( 'admin_init', function () {
 <section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
     <h2 id="mrc-feedback-heading">Something not working?</h2>
     <p>Found a problem or have an idea to improve this tool?</p>
-    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20Block%20Subscriber%20access%20to%20wp-admin%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Block%20Subscriber%20access%20to%20wp-admin%0D%0APage%3A%20https%3A%2F%2Fmarcoruisi.pages.dev%2Ftools%2Fblock-subscriber-wp-admin%2F%0D%0A%0D%0AFeedback%20type%3A%20bug%20%2F%20suggestion%20%2F%20other%0D%0A%0D%0ADescription%3A%0D%0A%0D%0A%0D%0ABrowser%20and%20device%20%28optional%29%3A">Send feedback →</a></p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20Block%20Subscriber%20access%20to%20wp-admin%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Block%20Subscriber%20access%20to%20wp-admin%0D%0APage%3A%20https%3A%2F%2Fmarcorui.si%2Ftools%2Fblock-subscriber-wp-admin%2F%0D%0A%0D%0AFeedback%20type%3A%20bug%20%2F%20suggestion%20%2F%20other%0D%0A%0D%0ADescription%3A%0D%0A%0D%0A%0D%0ABrowser%20and%20device%20%28optional%29%3A">Send feedback →</a></p>
 </section>
 <!-- MRC SHARED TOOL FEEDBACK END -->
 <!-- MRC SHARED TOOL AFTERWORD START -->

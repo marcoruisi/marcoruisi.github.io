@@ -15,7 +15,7 @@ def check_discovery(pages):
         for href, rel in parser.links:
             target = urljoin(url, href)
             parsed = urlparse(target)
-            if parsed.netloc != 'marcoruisi.pages.dev':
+            if parsed.netloc != urlparse(HOST).netloc:
                 continue
             file = ROOT / unquote(parsed.path).lstrip('/')
             if file.is_dir():
@@ -29,7 +29,7 @@ def check_discovery(pages):
                 raise ValueError(f'Ancora interna mancante: {path} -> {href}')
         for source in parser.resources:
             parsed = urlparse(urljoin(url, source))
-            if parsed.netloc == 'marcoruisi.pages.dev' and not (ROOT / unquote(parsed.path).lstrip('/')).is_file():
+            if parsed.netloc == urlparse(HOST).netloc and not (ROOT / unquote(parsed.path).lstrip('/')).is_file():
                 raise ValueError(f'Asset mancante: {path} -> {source}')
         for lang, target in parser.alternates:
             if target not in pages:
