@@ -1,4 +1,12 @@
 
+@font-face {
+    font-family: "Manrope";
+    src: url("../fonts/Manrope-ExtraBold.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 @font-face {
     font-family: "Manrope";
@@ -674,3 +682,8 @@ body {
 }
 
 .mrc-wordmark{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-style:normal;letter-spacing:-.035em;line-height:.95}
+
+/* MRC typography patch: UI in Manrope; brand and editorial accents retain Georgia. */
+body{font-family:"Manrope",system-ui,sans-serif;font-weight:400}
+.author,.page-title,.content h1,.content h2,.story-card h2,.idea h2,.note-body h3{font-family:"Manrope",system-ui,sans-serif;font-weight:800}
+.claim,.reading-question,.mrc-wordmark,.logo-mark,.topbar .logo-mark{font-family:Georgia,"Times New Roman",serif}
