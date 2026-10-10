@@ -40,7 +40,7 @@
   section.setAttribute("aria-label", it ? "Donazione volontaria" : "Voluntary donation");
   section.innerHTML = `<h2>${it ? "Ti è stato utile?" : "Found this useful?"}</h2>
     <p>${it ? "I Tools MRC sono gratuiti e disponibili per tutti. Se questo strumento ti ha aiutato, puoi sostenere lo sviluppo dei prossimi con una donazione libera." : "MRC Tools are free and available to everyone. If this tool helped you, you can support future development with a voluntary donation."}</p>
-    <p class="mrc-donation-caption">${it ? "Scegli un importo oppure personalizzalo. Anche 1 € è benvenuto." : "Choose an amount or set your own. Even €1 helps."}</p>
+    <p class="mrc-donation-caption">${it ? "Scegli un importo oppure personalizzalo. Anche un piccolo contributo è un modo per sostenere questo progetto." : "Choose an amount or set your own. Even a small contribution is a way to support this project."}</p>
     <div class="mrc-donation-options"></div>
     <p class="mrc-donation-footnote">${it ? "Donazione facoltativa. Nessuna funzionalità a pagamento." : "Optional donation. No paid features."}</p>`;
   const options = section.querySelector(".mrc-donation-options");
