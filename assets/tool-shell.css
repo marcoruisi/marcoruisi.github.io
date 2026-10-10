@@ -42,4 +42,4 @@ body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSyste
 .mrc-related,.mrc-tool-feedback,.mrc-tool-afterword,.mrc-donation{font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* Keep support cards aligned with the content column, including before a result. */
-.mrc-donation{margin-left:0!important;margin-right:0!important;max-width:620px!important;width:100%!important}
+.mrc-donation{margin-left:max(0px, calc((100% - 920px)/2))!important;margin-right:0!important;max-width:620px!important;width:100%!important}

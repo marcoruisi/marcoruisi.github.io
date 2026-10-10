@@ -55,7 +55,7 @@
   }
   const style = document.createElement("style");
   style.textContent = `
-    .mrc-donation{box-sizing:border-box;margin:24px 0;padding:20px;border:1px solid currentColor;border-radius:12px;width:100%;max-width:620px}
+    .mrc-donation{box-sizing:border-box;margin:24px 0 24px max(0px, calc((100% - 920px)/2));padding:20px;border:1px solid currentColor;border-radius:12px;width:100%;max-width:620px}
     .mrc-donation h2{margin:0 0 10px;font-size:1.1rem}.mrc-donation p{margin:8px 0 12px}
     .mrc-donation-caption{font-weight:600}.mrc-donation-options{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}
     .mrc-donation-choice{display:inline-flex;align-items:center;justify-content:center;min-height:42px;min-width:65px;padding:8px 15px;border:1px solid currentColor;border-radius:8px;text-decoration:none;color:inherit;font-weight:650}
