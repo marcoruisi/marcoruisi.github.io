@@ -30,7 +30,10 @@
     "print-pdf-to-web", "da-pdf-stampa-a-web", "clean-wp-clipboard", "multiple-find-replace"
   ]);
   const slug = location.pathname.split("/").filter(Boolean).at(-1);
-  if (!outputTools.has(slug)) return;
+  // Snippet pages produce a usable result when the visitor copies code.
+  // Exclude request-only pages (which have no copyable snippet).
+  const isSnippet = !!document.querySelector('[data-copy]');
+  if (!outputTools.has(slug) && !isSnippet) return;
   // Use a single block. It starts before feedback and moves to the successful result.
   const section = document.createElement("section");
   section.className = "mrc-donation";
@@ -59,11 +62,10 @@
     .mrc-donation-choice:hover:not(.is-unconfigured){background:rgba(128,128,128,.12)}
     .mrc-donation-choice.is-unconfigured{opacity:.4;pointer-events:none}
     .mrc-donation-footnote{font-size:.82rem;opacity:.72}
-    .mrc-tool-afterword{opacity:.72;font-size:.86rem}
-    .mrc-tool-afterword .mrc-tool-specific{border:0!important;padding-top:0!important;padding-bottom:0!important}
-    .mrc-tool-afterword .mrc-tool-specific h2{font-size:1rem!important;margin-bottom:.3em!important}
-    .mrc-tool-afterword .mrc-tool-specific p{margin:.3em 0!important}
-    .mrc-tool-afterword .mrc-tool-specific p:last-child a{font-weight:400!important}
+    /* Keep the same typography and text colors; reduce emphasis by spacing only. */
+    .mrc-tool-afterword .mrc-tool-specific{padding-top:18px!important;padding-bottom:14px!important;margin-top:8px!important}
+    .mrc-tool-afterword .mrc-tool-specific h2{font-size:1.05rem!important;margin-bottom:8px!important}
+    .mrc-tool-afterword .mrc-tool-specific p{margin:0 0 9px!important}
   `;
   document.head.appendChild(style);
   const feedback = document.querySelector(".mrc-tool-feedback");
@@ -73,6 +75,7 @@
   else document.body.appendChild(section);
 
   const result = document.getElementById("resultSection") ||
+    document.getElementById("result-section") ||
     (slug !== "multiple-find-replace" ? document.getElementById("result") : null);
   const visible = (el) => !!el && !el.hidden && getComputedStyle(el).display !== "none" && getComputedStyle(el).visibility !== "hidden";
   const moveAfterResult = () => {
@@ -84,13 +87,18 @@
   }
   // Some tools use a canvas or text output without a hidden result container.
   // Only reposition on an explicit completed download/copy action.
-  if (!result) document.addEventListener("click", (ev) => {
+  document.addEventListener("click", (ev) => {
     const target = ev.target instanceof Element ? ev.target.closest("button,a") : null;
     if (!target || target.disabled || target.getAttribute("aria-disabled") === "true") return;
     if (target.closest(".mrc-donation")) return;
     const hint = `${target.id} ${target.className} ${target.textContent}`.toLowerCase();
-    if (!/(download|scarica|esporta|export|copy|copia|save|salva)/.test(hint)) return;
-    const host = target.closest(".result,.results,.output,.panel,section") || target.parentElement;
+    const isCopySnippet = !!target.matches('[data-copy]');
+    if (!isCopySnippet && !/(download|scarica|esporta|export|copy|copia|save|salva)/.test(hint)) return;
+    // Do not move away from a visible result container.
+    if (visible(result)) { moveAfterResult(); return; }
+    const host = isCopySnippet
+      ? (target.closest('.mrc-snippet,.codebox,.section') || target.parentElement)
+      : (target.closest(".result,.results,.output,.panel,section") || target.parentElement);
     if (host && host !== section && host.nextElementSibling !== section) host.after(section);
   });
 })();
