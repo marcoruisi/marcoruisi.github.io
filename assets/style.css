@@ -688,3 +688,6 @@ body {
 /* MRC typography correction: editorial headings stay in Georgia, with stronger weight. */
 body{font-family:"Manrope",system-ui,sans-serif;font-weight:400}
 .author,.page-title,.content h1,.content h2,.story-card h2,.idea h2,.note-body h3,.claim,.reading-question,.mrc-wordmark,.logo-mark,.topbar .logo-mark{font-family:Georgia,"Times New Roman",serif;font-weight:700}
+
+/* Home author: Georgia regular, distinct from bold editorial headings. */
+h1.author{font-family:Georgia,"Times New Roman",serif;font-weight:400}
