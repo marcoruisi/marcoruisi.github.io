@@ -24,5 +24,7 @@
 .codebar [data-copy],.mrc-snippet__bar [data-copy]{margin-left:auto;min-width:88px;text-align:center;white-space:nowrap}
 .codebar .mrc-copy-status,.mrc-snippet__bar .mrc-copy-status{display:none!important}
 
-/* MRC typography: primary headings use Manrope ExtraBold (800). */
-.mrc-technical h1,.mrc-everyday-grid h2{font-family:"Manrope",system-ui,sans-serif;font-weight:800}
+
+
+/* Editorial headings: Georgia bold; UI remains Manrope. */
+.mrc-technical h1,.mrc-everyday-grid h2{font-family:Georgia,"Times New Roman",serif;font-weight:700}
