@@ -2,6 +2,13 @@
   'use strict';
   const it = document.documentElement.lang === 'it';
   document.querySelectorAll('[data-copy]').forEach(button => {
+    const box = button.closest('.codebox, .mrc-snippet');
+    if (box && !box.querySelector('[role="status"]')) {
+      const status = document.createElement('span');
+      status.setAttribute('role', 'status');
+      status.className = 'mrc-copy-status';
+      button.after(status);
+    }
     button.addEventListener('click', async () => {
       const code = document.getElementById(button.dataset.copy);
       if (!code) return;

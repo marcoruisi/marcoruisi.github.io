@@ -11,3 +11,8 @@
 @media(max-width:600px){.mrc-everyday-grid{grid-template-columns:1fr;gap:12px;margin-top:28px}.mrc-everyday-grid a{padding:22px}.mrc-everyday-grid h2{font-size:24px}.mrc-plugin-request,.mrc-related{margin-top:44px}.mrc-technical h1{overflow-wrap:anywhere}}
 .mrc-technical pre{max-width:100%;overflow-x:auto;white-space:pre;font:13px/1.6 ui-monospace,monospace}.mrc-technical p,.mrc-technical li{overflow-wrap:anywhere}
 *,*::before,*::after{box-sizing:border-box}.mrc-plugin-request p,.mrc-related li{overflow-wrap:anywhere}
+
+/* Reserve a stable feedback slot: Copy and Copied keep the same position. */
+.codebar .mrc-copy-status,.mrc-snippet__bar .mrc-copy-status{display:inline-block;flex:0 0 112px;width:112px;min-width:112px;margin-right:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.codebar [data-copy],.mrc-snippet__bar [data-copy]{flex:0 0 auto}
+@media(max-width:520px){.codebar .mrc-copy-status,.mrc-snippet__bar .mrc-copy-status{flex-basis:72px;width:72px;min-width:72px}}

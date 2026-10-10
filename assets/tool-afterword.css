@@ -2,7 +2,7 @@
 .mrc-tool-afterword { max-width: 1120px; margin: 72px auto 32px; color: inherit; line-height: 1.7; }
 .mrc-tool-afterword section { padding: 32px 0; border-top: 1px solid #ddd; }
 .mrc-tool-afterword h2 { margin: 0 0 16px; font-size: 22px; line-height: 1.25; font-weight: 500; letter-spacing: -.02em; }
-.mrc-tool-afterword p { max-width: 660px; margin: 0 0 16px; }
+.mrc-tool-afterword p { margin: 0 0 16px; }
 .mrc-tool-afterword a { color: inherit; text-decoration: underline; text-decoration-color: #bbb; text-underline-offset: 4px; }
 .mrc-tool-afterword a:hover { text-decoration-color: currentColor; }
 .mrc-tool-afterword a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
