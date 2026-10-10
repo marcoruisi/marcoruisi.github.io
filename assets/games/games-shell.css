@@ -1,0 +1,145 @@
+/* MRC Games — same envelope as Tools; only a subtle playful background. */
+:root{--mrc-game-bg:#f4f1fc;--mrc-game-edge:#d8d0eb}
+body{background:var(--mrc-game-bg);padding:24px;font-family:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body>header.mrc-tool-header,body>main,body>footer{max-width:920px;margin-left:auto;margin-right:auto}
+body>header.mrc-tool-header{display:flex;gap:12px 20px;padding:0 0 16px;margin-bottom:22px;border-bottom:1px solid var(--border)}
+body>main{padding:0}body>footer{padding:22px 0}
+body>main>h1{font-size:28px;line-height:1.2;letter-spacing:0;font-weight:650;margin:0 0 8px}
+body>main>.muted{margin:0 0 18px;line-height:1.5}
+body>main>.eyebrow{display:none}
+body .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:30px 0;border-top:1px solid var(--border)}
+body .card{min-height:145px;padding:24px 12px 20px 0;background:transparent;border:0;border-bottom:1px solid var(--border);border-radius:0;transition:none}
+body .card:hover{border-bottom-color:var(--text)}body .card strong{font-size:21px;font-weight:650}body .card p{font-size:14px}
+body .card .arrow{margin-right:16px}
+body .games-support{font-size:14px;color:var(--muted);padding:12px 0;margin:12px 0}
+body .mrc-tool-header nav{font-size:14px}body .mrc-tool-header .mrc-tools-nav{border:0}
+.mrc-crossword-bridge{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:14px 0;margin:0 0 22px;border-bottom:1px solid var(--border);font-size:14px}
+.mrc-crossword-bridge a{text-underline-offset:4px}
+@media(max-width:700px){body{padding:14px}body .cards{grid-template-columns:1fr}body .card{min-height:110px;padding:18px 0}}
+@media(prefers-color-scheme:dark){:root{--mrc-game-bg:#24212e;--mrc-game-edge:#484352}body .card{background:transparent;color:var(--text)}}
+/* Crossword retains the same existing interaction engine; the header is now site navigation. */
+body:has(.board-holder)>header.mrc-tool-header{max-width:1100px}body:has(.board-holder)>main{max-width:1100px}
+
+/* Index: a game is presented as a bounded card, like Everyday Tools. */
+body .cards{gap:14px;border-top:0;margin-top:22px}
+body .cards .card{display:flex;flex-direction:column;min-height:190px;padding:22px;border:1px solid var(--mrc-game-edge);border-radius:2px;background:var(--panel,#fff);text-decoration:none;color:var(--text,#222)}
+body .cards .card:hover{border-color:var(--text,#222)}
+body .cards .card .arrow{margin-top:auto;margin-right:0;align-self:flex-end}
+@media(max-width:700px){body .cards{gap:10px}body .cards .card{min-height:135px;padding:18px}}
+@media(prefers-color-scheme:dark){body .cards .card{background:#2e2a38;color:#f3f0f7}}
+/* Crossword game: the chooser is an in-page game launcher, never the Tool wizard. */
+body.mrc-crossword-game #startScreen{position:static;inset:auto;display:block;width:100%;background:transparent;padding:16px 0 24px;overflow:visible;z-index:auto}
+body.mrc-crossword-game #startScreen .start-inner{width:100%;max-width:780px}
+body.mrc-crossword-game #startScreen .start-actions{gap:10px;margin:16px 0}
+body.mrc-crossword-game #startScreen .start-actions button{border:1px solid var(--mrc-game-edge);padding:15px 18px;min-height:58px;background:var(--panel,#fff)}
+body.mrc-crossword-game:not(.game-ready) main > .toolbar,
+body.mrc-crossword-game:not(.game-ready) main > #dimensions,
+body.mrc-crossword-game:not(.game-ready) main > #photoControls,
+body.mrc-crossword-game:not(.game-ready) main > #guideBanner,
+body.mrc-crossword-game:not(.game-ready) main > .layout,
+body.mrc-crossword-game:not(.game-ready) main > section{display:none!important}
+body.mrc-crossword-game main > .toolbar:has([data-mode]),
+body.mrc-crossword-game #dimensions,
+body.mrc-crossword-game #photoControls,
+body.mrc-crossword-game #guideBanner,
+body.mrc-crossword-game #guideEdit,
+body.mrc-crossword-game #buildHelp,
+body.mrc-crossword-game #buildPanel,
+body.mrc-crossword-game #bulkBox,
+body.mrc-crossword-game #clueEdit,
+body.mrc-crossword-game #reset{display:none!important}
+body.mrc-crossword-game #startScreen.hidden{display:none!important}
+
+
+/* 2048: focused game layer; keep timer and controls in view. */
+body.mrc-2048{height:auto!important;min-height:100vh!important;overflow:auto!important;display:block!important}
+body.mrc-2048>main{display:block!important;overflow:visible!important;min-height:unset!important}
+body.mrc-2048 .mrc-2048-launch{margin:18px 0;background:var(--text,#222);color:white;border-color:var(--text,#222)}
+.mrc-2048-focus[hidden]{display:none!important}
+.mrc-2048-focus{position:fixed;inset:0;z-index:9900;background:rgba(14,12,20,.94);display:flex;align-items:center;justify-content:center;padding:clamp(10px,2vw,26px);overflow:hidden}
+.mrc-2048-stage{width:min(100%,960px);max-height:calc(100dvh - 22px);display:flex;flex-direction:column;min-height:0;gap:8px;padding:clamp(12px,2vw,22px);border-radius:10px;background:var(--mrc-game-bg,#f4f1fc);color:var(--text,#222);overflow:hidden}
+.mrc-2048-stage-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex:none}
+.mrc-2048-stage-head strong{font-size:1.1rem}
+.mrc-2048-stage-head button{min-height:38px;padding:7px 12px}
+.mrc-2048-stage .mrc-playtime{flex:none;margin:0!important;padding:7px 0!important;position:static!important;width:100%}
+.mrc-2048-stage .game-area{flex:1 1 auto;min-height:0;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(190px,.75fr);grid-template-rows:auto minmax(0,1fr);gap:12px 26px;max-width:none!important;width:100%;align-items:center;justify-items:center;overflow:hidden}
+.mrc-2048-stage .metric{grid-column:1/-1;display:flex;width:100%;margin:0;gap:8px}
+.mrc-2048-stage .metric .tools{margin:0;gap:8px}
+.mrc-2048-stage .board2048{grid-column:1;grid-row:2;width:min(100%, 390px, calc(100dvh - 190px));height:auto;aspect-ratio:1;align-self:center;justify-self:center;grid-template-rows:repeat(4,minmax(0,1fr));min-width:0}
+.mrc-2048-stage .arrows{grid-column:2;grid-row:2;justify-self:center;align-self:center;margin:0;gap:8px;grid-template-columns:repeat(3,48px)}
+.mrc-2048-stage .arrows button{min-height:44px}
+.mrc-2048-stage .status{grid-column:1/-1;min-height:0;margin:0;font-size:.83rem;text-align:center}
+body.mrc-2048-playing{overflow:hidden!important;overscroll-behavior:none}
+@media(max-width:620px),(max-height:610px){
+ .mrc-2048-stage{padding:10px;gap:5px}
+ .mrc-2048-stage .game-area{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;gap:5px}
+ .mrc-2048-stage .metric{grid-column:1;grid-row:1}
+ .mrc-2048-stage .metric button{min-height:34px;padding:5px 9px}
+ .mrc-2048-stage .board2048{grid-column:1;grid-row:2;width:min(100%, 340px, calc(100dvh - 245px), calc(100vw - 50px))}
+ .mrc-2048-stage .arrows{grid-column:1;grid-row:3;grid-template-columns:repeat(3,40px);gap:2px}
+ .mrc-2048-stage .arrows button{min-height:32px}
+ .mrc-2048-stage .status{grid-column:1;grid-row:4}
+}
+/* A single, substantial support section on the Games index. */
+.games-support-feature{margin:42px 0 20px;padding:clamp(25px,4vw,46px) 0 24px;border-top:1px solid var(--border);max-width:740px}
+.games-support-feature .games-support-overline{display:block;font-size:12px;letter-spacing:.08em;color:var(--muted);margin-bottom:22px}
+.games-support-feature h2{font-size:clamp(23px,3vw,34px);font-weight:650;line-height:1.2;margin:0 0 18px}
+.games-support-feature>p{font-size:16px;max-width:590px;line-height:1.65}
+.games-support-feature .games-support-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:11px 20px;margin:16px 0;border:1px solid var(--text);background:var(--text);color:var(--mrc-game-bg);text-decoration:none;font-weight:600}
+.games-support-feature .games-support-fine{font-size:13px;color:var(--muted);margin:0}
+
+/* Games: the same four Stripe options offered by the MRC Tools. */
+.games-support-choices{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 18px}
+.games-support-choice{display:inline-flex;min-width:74px;min-height:44px;align-items:center;justify-content:center;border:1px solid var(--text,#222);padding:10px 16px;text-decoration:none;color:var(--text,#222);border-radius:6px;font-weight:600}
+.games-support-choice:hover{background:rgba(125,125,125,.12)}
+.games-support-choice:focus-visible{outline:3px solid #507ca8;outline-offset:2px}
+/* Crosswords must use the shared game surface, not the Tool's ivory page background. */
+body.mrc-crossword-game{background:var(--mrc-game-bg,#f4f1fc);color:var(--text,#222)}
+body.mrc-crossword-game #startScreen{background:transparent!important}
+body.mrc-crossword-game #startScreen .start-actions button{color:var(--text,#222);cursor:pointer}
+body.mrc-crossword-game #startScreen .start-actions button:focus-visible{outline:3px solid #507ca8}
+
+/* 2048: real page first, focused game only after an explicit choice. */
+.mrc-2048-entry{margin:22px 0 30px;max-width:580px}
+.mrc-2048-entry-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.mrc-2048-entry-actions [hidden]{display:none!important}
+.mrc-2048-save-note{font-size:.88rem;margin:12px 0}
+body.mrc-2048:not(.mrc-2048-playing) main>.game-area{display:none!important}
+body.mrc-2048-playing{overflow:hidden!important}
+@media(max-width:520px){.mrc-2048-stage{max-height:calc(100dvh - 12px)}.mrc-2048-stage .board2048{width:min(100%,calc(100dvh - 270px),calc(100vw - 36px))}}
+
+/* 2048: keyboard guidance, save action, and unmissable end-of-game. */
+.mrc-2048-stage-head .mrc-2048-save-leave{margin-left:auto;min-height:38px;padding:7px 12px}
+.mrc-2048-controls-note{grid-column:2;grid-row:2;align-self:start;justify-self:center;max-width:210px;font-size:.84rem;line-height:1.45;margin:0 0 8px;text-align:center}
+.mrc-2048-stage .arrows{align-self:center}
+.mrc-2048-gameover[hidden]{display:none!important}
+.mrc-2048-gameover{grid-column:1/-1;width:100%;padding:13px 18px;border:2px solid currentColor;border-radius:6px;text-align:center;background:var(--panel,#fff)}
+.mrc-2048-gameover h2{font-size:1.25rem;margin:0 0 5px}
+.mrc-2048-gameover p{margin:0 0 10px}
+.mrc-2048-gameover button{min-height:40px}
+@media(max-width:620px),(max-height:610px){
+ .mrc-2048-controls-note{grid-column:1;grid-row:3;max-width:none;font-size:.75rem;margin:0}
+ .mrc-2048-stage .arrows{grid-row:4}
+ .mrc-2048-stage .status{grid-row:5}
+ .mrc-2048-gameover{grid-row:6}
+ .mrc-2048-stage .board2048{width:min(100%,310px,calc(100dvh - 295px),calc(100vw - 50px))}
+ .mrc-2048-stage-head .mrc-2048-save-leave{font-size:.8rem;padding:5px 8px}
+}
+/* Keep the losing message centered above the board without changing grid size. */
+.mrc-2048-stage{position:relative}
+.mrc-2048-stage .mrc-2048-gameover:not([hidden]){position:absolute;z-index:5;left:50%;top:53%;transform:translate(-50%,-50%);width:min(90%,390px);box-shadow:0 12px 40px rgba(0,0,0,.15)}
+
+/* 2048 control panel: instructions next to large, clearly grouped buttons. */
+.mrc-2048-stage .mrc-2048-control-panel{grid-column:2;grid-row:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,4vh,38px);min-width:0;width:100%;align-self:center}
+.mrc-2048-stage .mrc-2048-control-panel .mrc-2048-controls-note{grid-column:auto;grid-row:auto;align-self:auto;justify-self:auto;max-width:300px;font-size:clamp(.92rem,1.3vw,1.08rem);line-height:1.55;margin:0;text-align:center}
+.mrc-2048-stage .mrc-2048-control-panel .arrows{grid-column:auto;grid-row:auto;align-self:auto;justify-self:auto;display:grid;grid-template-columns:repeat(3,clamp(56px,5.7vw,80px));gap:9px;margin:0}
+.mrc-2048-stage .mrc-2048-control-panel .arrows button{width:100%;aspect-ratio:1;min-height:56px;font-size:clamp(1.5rem,2.5vw,2rem);padding:4px;touch-action:manipulation}
+.mrc-game-input-hint{max-width:650px;line-height:1.5;font-size:.95rem;margin:15px 0 9px;color:var(--muted,#666)}
+@media(max-width:620px),(max-height:610px){
+ .mrc-2048-stage .mrc-2048-control-panel{grid-column:1;grid-row:3;gap:8px;flex-direction:column}
+ .mrc-2048-stage .mrc-2048-control-panel .mrc-2048-controls-note{max-width:100%;font-size:.77rem;line-height:1.3}
+ .mrc-2048-stage .mrc-2048-control-panel .arrows{grid-template-columns:repeat(3,46px);gap:3px}
+ .mrc-2048-stage .mrc-2048-control-panel .arrows button{min-height:44px;font-size:1.25rem}
+ .mrc-2048-stage .status{grid-row:4}
+ .mrc-2048-stage .board2048{width:min(100%,310px,calc(100dvh - 295px),calc(100vw - 50px))}
+}

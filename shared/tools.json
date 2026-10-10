@@ -57,6 +57,14 @@
         "en": "Compression",
         "it": "Compressione"
       }
+    },
+    {
+      "field": "tags",
+      "value": "game",
+      "label": {
+        "en": "Game",
+        "it": "Giochi"
+      }
     }
   ],
   "tags": {
@@ -150,6 +158,13 @@
         "it": "CSV"
       },
       "filter": false
+    },
+    "game": {
+      "label": {
+        "en": "Game",
+        "it": "Giochi"
+      },
+      "filter": true
     }
   },
   "tools": [
@@ -578,6 +593,51 @@
       ],
       "type": "plugin",
       "availability": "on-request"
+    },
+    {
+      "id": "digital-crossword",
+      "name": {
+        "en": "Digital crossword",
+        "it": "Cruciverba digitale"
+      },
+      "url": {
+        "en": "/tools/crossword/",
+        "it": "/it/tools/cruciverba/"
+      },
+      "description": {
+        "en": "Create, digitize and save your own crossword locally.",
+        "it": "Crea, digitalizza e salva i tuoi cruciverba nel browser."
+      },
+      "tags": [
+        "game",
+        "text"
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Create a crossword",
+        "it": "Crea un cruciverba"
+      }
+    },
+    {
+      "id": "puzzle-maker",
+      "name": {
+        "en": "Make a puzzle",
+        "it": "Crea una sfida"
+      },
+      "url": {
+        "en": "/tools/puzzle-maker/",
+        "it": "/it/tools/crea-sfida/"
+      },
+      "description": {
+        "en": "Create Sudoku, sequences, secret codes and word searches to share.",
+        "it": "Crea Sudoku, sequenze, codici segreti e trova le parole da condividere."
+      },
+      "tags": [
+        "game"
+      ],
+      "type": "tool",
+      "availability": "free"
     }
   ]
 }

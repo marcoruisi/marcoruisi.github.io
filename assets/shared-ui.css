@@ -116,3 +116,9 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
   .topbar .logo-mark { font-size: 21px; }
   .topbar .menu-trigger { width: 38px; min-width: 38px; flex-basis: 38px; }
 }
+
+/* Games navigation follows Tools across editorial pages. */
+.topbar .header-games {font:inherit;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.topbar .header-games:hover {text-decoration:underline;text-underline-offset:4px}
+.topbar .header-games:focus-visible {outline:2px solid currentColor;outline-offset:4px}
+@media(max-width:390px){.topbar .header-games{font-size:12px}}

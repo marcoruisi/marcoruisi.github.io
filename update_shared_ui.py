@@ -240,6 +240,8 @@ def editorial_header(root, text, lang):
         raise ValueError('Header editoriale: switch lingua assente/duplicato')
     utilities = template(root, 'header-utilities.html', {
         'tools_url': '/it/tools/' if lang == 'it' else '/tools/',
+        'games_url': '/it/giochi/' if lang == 'it' else '/games/',
+        'games_label': 'Giochi' if lang == 'it' else 'Games',
         'language_navigation': language[0],
     })
     content = template(root, 'site-header.html', {
@@ -269,7 +271,8 @@ def tool_header(root, lang, pair, current):
     links = ''
     for url, full, short in ((everyday, 'Everyday Tools', 'Everyday'),
                              (all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools', 'All'),
-                             (FLOW_URLS[lang], 'Tool Flows', 'Tool Flows')):
+                             (FLOW_URLS[lang], 'Tool Flows', 'Tool Flows'),
+                             ('/it/giochi/' if lang == 'it' else '/games/', 'Giochi' if lang == 'it' else 'Games', 'Giochi' if lang == 'it' else 'Games')):
         active = ' aria-current="page"' if url == current else ''
         links += (f'<a href="{url}" aria-label="{full}"{active}>'
                   f'<span class="mrc-nav-full">{full}</span>'
@@ -356,6 +359,7 @@ def index_content(root, tools, tags, lang, everyday):
     content += template(root, f'tool-flow-index.{lang}.html')
     if everyday:
         rows = ''.join(f'<li><a href="{t["url"][lang]}"><h2>{html.escape(t["action"][lang])}</h2><p>{html.escape(t["name"][lang])}</p><span aria-hidden="true">→</span></a></li>' for t in tools if 'everyday' in t['tags'])
+
         content += '<ul class="mrc-everyday-grid">' + rows + '</ul>'
         all_url = '/it/tools/tutti/' if it else '/tools/all/'
         content += '<section class="mrc-index-bridge"><h2>' + pick('Lavori con WordPress o cerchi qualcosa di più tecnico?', 'Work with WordPress or looking for something more technical?') + '</h2><p>' + pick('Ho raccolto snippet, plugin e strumenti nati da problemi reali.', 'I’ve collected snippets, plugins and tools born from real problems.') + f'</p><p><a href="{all_url}">' + pick('Esplora tutti gli strumenti →', 'Explore all tools →') + '</a></p></section>'
@@ -366,7 +370,7 @@ def index_content(root, tools, tags, lang, everyday):
         buttons = '<div class="mrc-tool-views" role="group" aria-label="' + pick('Vista', 'View') + '">' + controls(dataset['views']) + '</div>'
         buttons += '<div class="mrc-tool-scopes" role="group" aria-label="' + pick('Ambito', 'Scope') + '">' + controls(dataset['filters']) + '</div>'
         rows = ''.join(f'<li class="mrc-tool-row" data-tool-tags="{" ".join(t["tags"])}" data-tool-type="{t["type"]}" data-tool-availability="{t["availability"]}"><h2>{link(t["url"][lang], t["name"][lang])}</h2><p>{html.escape(t["description"][lang])}</p>{status(t,tags,lang)}</li>' for t in tools)
-        content += f'<div class="mrc-tool-filters" role="group" aria-label="{pick("Filtra gli strumenti", "Filter tools")}" hidden>{buttons}</div><p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="{pick("strumenti visibili", "tools shown")}" hidden></p><ul class="mrc-tools-list" id="mrc-tools-list">{rows}</ul>'
+        content += f'<div class="mrc-tool-filters"  role="group" aria-label="{pick("Filtra gli strumenti", "Filter tools")}" hidden>{buttons}</div><p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="{pick("strumenti visibili", "tools shown")}" hidden></p><ul class="mrc-tools-list" id="mrc-tools-list">{rows}</ul>'
     contact = '/it/contatti/' if it else '/contact/'
     content += '<section class="mrc-index-bridge"><h2>' + pick('Hai un problema che questi strumenti non risolvono?', 'Have a problem these tools don’t solve?') + '</h2><p>' + pick('Questi strumenti nascono spesso da un problema concreto che vale la pena semplificare.', 'These tools usually start from a concrete problem worth simplifying.') + f'</p><p><a href="{contact}">' + pick('Raccontami il tuo →', 'Tell me yours →') + '</a></p></section>'
     return content
@@ -384,6 +388,8 @@ def plan_shared_ui(root=ROOT):
     planned = {}
     for path, original in files:
         text = original; url = route(path, root)
+        if url.startswith(('/games/', '/it/giochi/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/'):
+            continue  # Standalone game engines have their own light HTML shell.
         lang_match = re.search(r'<html\b[^>]*\blang=["\'](en|it)["\']', text, re.I)
         if not lang_match: raise ValueError(f'Lingua non riconosciuta: {path}')
         lang = lang_match[1]; tool = tool_by_url.get(url); index = url in [v for p in INDEX_PAIRS for v in p]

@@ -1,0 +1,48 @@
+/* Simple logic games and their maker: no external UI framework. */
+.mrc-puzzle-panel{margin:22px 0 35px;max-width:760px}
+.mrc-puzzle-panel input,.mrc-puzzle-panel select,.mrc-puzzle-panel textarea{font:inherit;border:1px solid var(--border,#999);background:var(--panel,#fff);color:var(--text,#222);padding:10px;min-height:42px;max-width:100%}
+.mrc-puzzle-panel textarea{width:100%}.mrc-puzzle-panel button{font:inherit;padding:9px 15px;border:1px solid var(--border,#aaa);background:var(--panel,#fff);color:var(--text,#222);cursor:pointer;min-height:44px}.mrc-puzzle-panel button:hover{border-color:var(--text,#222)}
+.puzzle-input-row,.mrc-puzzle-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:12px 0}.puzzle-input-row input{width:210px}.puzzle-status{font-weight:600;min-height:1.5em;margin:12px 0}.mrc-puzzle-panel ol{padding-left:24px;line-height:2}.sequence-display{font-size:clamp(19px,4vw,32px);font-weight:650;letter-spacing:.04em;line-height:1.9}
+.wordsearch-grid{display:grid;gap:2px;width:min(100%,560px);aspect-ratio:1;margin:18px 0}.wordsearch-grid button{padding:0!important;min-width:0;min-height:0!important;font-size:clamp(10px,2.2vw,20px);display:flex;align-items:center;justify-content:center;aspect-ratio:1;touch-action:manipulation}.wordsearch-grid button.selected{outline:3px solid #888;outline-offset:-2px}.wordsearch-grid button.found{background:#cddfcf;color:#162617}
+.mrc-puzzle-panel .maker-fields{display:grid;gap:10px;margin:14px 0}.mrc-puzzle-panel .maker-fields>input{max-width:320px}.mrc-puzzle-panel .maker-fields>textarea{max-width:650px}.mrc-puzzle-panel .share-services{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}.mrc-puzzle-panel .share-services[hidden]{display:none!important}.mrc-puzzle-panel .maker-link{width:100%;margin-top:12px}
+@media(max-width:450px){.mrc-puzzle-panel .mrc-puzzle-actions button{width:100%}.wordsearch-grid{gap:1px}}
+
+.maker-sudoku-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));width:min(100%,450px);border:2px solid var(--text,#222);gap:0}.maker-sudoku-grid input{width:100%;min-width:0;min-height:0;height:auto;aspect-ratio:1;max-width:none;padding:0;text-align:center;border-radius:0;border:1px solid var(--border,#aaa);font-size:clamp(16px,2.5vw,21px)}.maker-sudoku-grid input:nth-child(3n){border-right:2px solid var(--text,#222)}.maker-sudoku-grid input:nth-child(9n){border-right:1px solid var(--border,#aaa)}.maker-sudoku-grid input:nth-child(n+19):nth-child(-n+27),.maker-sudoku-grid input:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid var(--text,#222)}
+
+/* Gameplay instructions stay close to their respective controls. */
+.wordsearch-instructions,.codebreaker-instructions{margin:14px 0;padding:12px 15px;border:1px solid var(--border,#aaa);line-height:1.55}
+.codebreaker-instructions p{margin:6px 0}.codebreaker-example{font-size:.92em;color:var(--muted,#666)}
+.codebreaker-history{max-width:650px}.codebreaker-history li{padding:6px 0;border-bottom:1px solid var(--border,#ddd);line-height:1.5}.codebreaker-history li strong{display:inline-block;letter-spacing:.12em;min-width:5.5em}.codebreaker-history li span{display:inline-block}
+
+/* Cross out discovered words without removing them from the list. */
+.wordsearch-word-list{line-height:1.85;overflow-wrap:anywhere}.wordsearch-word-list span.is-found{text-decoration:line-through;text-decoration-thickness:2px;opacity:.55}
+
+/* Word search: an explicit grid format choice, with square stable cells. */
+.wordsearch-layout{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0 6px}
+.wordsearch-layout>span{margin-right:4px;font-weight:600}
+.wordsearch-layout-option{min-height:42px;padding:8px 13px}
+.wordsearch-layout-option[aria-pressed="true"]{background:var(--text,#242424);color:var(--bg,#fff);border-color:var(--text,#242424)}
+.wordsearch-layout-note{font-size:.88rem;opacity:.8;margin:0 0 10px}
+.wordsearch-grid.wordsearch-mobile{width:min(100%,400px)}
+.wordsearch-grid.wordsearch-desktop{width:min(100%,560px)}
+.wordsearch-grid button{font-size:clamp(12px,2.3vw,21px)}
+@media(max-width:640px){.wordsearch-grid.wordsearch-mobile{width:min(100%,400px)}.wordsearch-grid.wordsearch-desktop button{font-size:clamp(9px,2.7vw,15px)}}
+
+/* One rectangular word search, shown landscape or transposed to portrait. */
+.wordsearch-grid.wordsearch-rect{aspect-ratio:auto;gap:2px;margin:16px 0;max-width:100%}
+.wordsearch-grid.wordsearch-landscape{width:min(100%,600px)}
+.wordsearch-grid.wordsearch-portrait{width:min(100%,410px)}
+.wordsearch-grid.wordsearch-rect button{width:100%;height:auto;aspect-ratio:1;font-size:clamp(11px,2.3vw,20px)}
+@media(max-width:450px){.wordsearch-grid.wordsearch-rect{gap:1px}.wordsearch-grid.wordsearch-rect button{font-size:clamp(10px,2.8vw,16px)}}
+
+/* Kids mode: larger targets, compact 8x8 grid. */
+.wordsearch-grid.wordsearch-kids{width:min(100%,390px);gap:3px}
+.wordsearch-grid.wordsearch-kids button{font-size:clamp(16px,3.8vw,26px);font-weight:650}
+.wordsearch-level{margin-top:8px}
+.wordsearch-layout[hidden]{display:none!important}
+
+/* Word-search orientation follows the viewport; no manual orientation controls. */
+.wordsearch-grid.wordsearch-rect{max-width:100%;}
+.wordsearch-grid.wordsearch-rect.wordsearch-kids{width:min(100%,460px);gap:3px}
+.wordsearch-grid.wordsearch-rect.wordsearch-kids button{font-size:clamp(17px,3.5vw,27px);font-weight:650}
+@media (max-width:640px){.wordsearch-grid.wordsearch-rect.wordsearch-kids{width:min(100%,390px)}}

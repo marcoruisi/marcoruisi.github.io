@@ -1,0 +1,13 @@
+MRC Giochi — correzione navigazione e duplicazioni, 10 ottobre 2026
+
+Sovrapponi i file dello ZIP a /mrc/web, mantenendo i percorsi. Applica dopo MRC_Giochi_revisione_2026-10-10.zip.
+
+Correzioni:
+1. Supporto duplicato rimosso da Games/Giochi (rimane un solo messaggio).
+2. Games/Giochi allineato alla grafica dell'indice Tools, con colore di sfondo tenue.
+3. Navigazione uniforme: MRC, Everyday, All Tools, Tool Flows, Games, EN/IT. Gli header Tools includono Games.
+4. Collegamenti contestuali solo dentro le pagine Tool Cruciverba e Gioco Cruciverba.
+5. Eliminata la generazione di una seconda voce Cruciverba in update_shared_ui.py: rimane la voce unica definita in shared/tools.json.
+6. Gli switch EN/IT dei giochi mantengono la sottopagina equivalente.
+
+Verifiche: build locale superata, 94 URL indicizzabili e raggiungibili. Ricontrollare resa desktop/mobile e dark mode nel browser. Nessuna operazione Git/rete.

@@ -1,0 +1,68 @@
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#232323;background:#faf9f7;color-scheme:light}*{box-sizing:border-box}body{margin:0}a{color:inherit;text-underline-offset:3px}header,main,footer{max-width:1050px;margin:auto;padding:22px}header{border-bottom:1px solid #d9d8d4;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}header nav{display:flex;gap:15px;flex-wrap:wrap;font-size:.9rem}.eyebrow{font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:#666}h1{font-size:clamp(1.7rem,4vw,3rem);font-weight:550;letter-spacing:-.04em;margin:.45rem 0}h2{font-size:1.15rem}p{line-height:1.55}.muted{color:#656565}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0}.card{border:1px solid #d4d2ce;background:white;padding:22px;text-decoration:none;display:flex;flex-direction:column;min-height:200px;transition:border-color .15s}.card:hover{border-color:#222}.card strong{font-size:1.3rem}.card p{font-size:.94rem}.card .arrow{margin-top:auto;align-self:flex-end;font-size:1.4rem}button,select{font:inherit}button{cursor:pointer;padding:.7rem 1rem;border:1px solid #aaa;background:#fff;color:#222;border-radius:5px;min-height:44px}button.primary{background:#242424;color:white;border-color:#242424}button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid #507ca8;outline-offset:3px}button:disabled{opacity:.5;cursor:not-allowed}.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0}.game-area{max-width:580px;margin:auto}.metric{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}.board2048{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;padding:9px;background:#b4ada4;border-radius:7px;aspect-ratio:1;touch-action:none;user-select:none}.tile{display:flex;justify-content:center;align-items:center;background:#d6cec4;border-radius:4px;font-size:clamp(1.5rem,6vw,2.8rem);font-weight:700;color:#333}.tile[data-value="2"]{background:#eee4da}.tile[data-value="4"]{background:#ede0c8}.tile[data-value="8"]{background:#f2b179}.tile[data-value="16"]{background:#f59563}.tile[data-value="32"]{background:#f67c5f}.tile[data-value="64"]{background:#f65e3b}.tile[data-value="128"],.tile[data-value="256"],.tile[data-value="512"],.tile[data-value="1024"],.tile[data-value="2048"]{background:#edcf72;font-size:clamp(1.1rem,4vw,2rem)}.arrows{display:grid;grid-template-columns:repeat(3,52px);justify-content:center;gap:5px;margin:14px}.arrows button{padding:6px}.sudoku{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));border:2px solid #333;max-width:540px;margin:20px auto;aspect-ratio:1}.sudoku button{padding:0;min-height:0;border:0;border-right:1px solid #aaa;border-bottom:1px solid #aaa;border-radius:0;font-size:clamp(14px,3.5vw,25px);font-weight:500;background:#fff}.sudoku button:nth-child(3n){border-right:2px solid #333}.sudoku button:nth-child(n+19):nth-child(-n+27),.sudoku button:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid #333}.sudoku button.given{background:#f2f0eb;font-weight:750}.sudoku button.selected{background:#c8ddee}.sudoku button.peer{background:#edf2f7}.sudoku button.conflict{color:#b12d2d;background:#ffe3df}.numberpad{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}.numberpad button{padding:0;min-height:44px}.status{min-height:1.8em;font-size:.92rem;color:#4d4d4d}footer{border-top:1px solid #ddd;color:#666;font-size:.85rem}select{padding:11px;border:1px solid #aaa;background:white;border-radius:4px}@media(max-width:700px){header,main,footer{padding:15px}.cards{grid-template-columns:1fr}.card{min-height:135px;padding:18px}.arrows{margin:8px}.board2048{gap:5px;padding:5px}.numberpad{grid-template-columns:repeat(5,1fr)}}
+
+/* Playtime: games only; never loaded by the crossword creation Tool. */
+.mrc-playtime{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:16px 0;padding:10px 0;border-block:1px solid #ddd;font-size:.87rem;color:#555;font-variant-numeric:tabular-nums}.mrc-playtime-support{color:inherit;text-decoration:underline;text-underline-offset:3px}.mrc-break-overlay[hidden]{display:none!important}.mrc-break-overlay{position:fixed;z-index:100000;inset:0;background:rgba(0,0,0,.58);display:flex;align-items:center;justify-content:center;padding:20px}.mrc-break-dialog{box-sizing:border-box;width:min(100%,510px);max-height:calc(100vh - 40px);overflow:auto;padding:clamp(20px,5vw,34px);background:#faf9f7;color:#222;border-radius:12px;box-shadow:0 12px 45px #0002}.mrc-break-dialog h2{font-size:clamp(1.5rem,4vw,2rem);line-height:1.2;margin:8px 0 18px}.mrc-break-dialog p{line-height:1.55}.mrc-break-eyebrow{font-size:.85rem;color:#666}.mrc-break-message{font-size:1.07rem}.mrc-break-support-copy{font-size:.85rem;color:#666}.mrc-break-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:24px}.mrc-break-actions button,.mrc-break-actions a{font:inherit;padding:10px 14px;min-height:44px;border-radius:6px;border:1px solid #888;text-decoration:none;color:inherit;background:transparent;display:inline-flex;align-items:center}.mrc-break-actions .mrc-break-continue{background:#222;color:#fff;border-color:#222}.mrc-break-actions .mrc-break-donate{font-weight:600}.mrc-break-actions :focus-visible{outline:3px solid #517ba6;outline-offset:3px}
+
+/* Games inherit the restrained Tool language, with a light playful tint. */
+:root{--mrc-game-bg:#f4f1fc;--mrc-game-edge:#d8d0eb}
+body{background:var(--mrc-game-bg)}
+.card{border-color:var(--mrc-game-edge);border-radius:2px}
+.card:hover{border-color:#504575}
+@media(prefers-color-scheme:dark){:root{--mrc-game-bg:#211f2a;--mrc-game-edge:#484352}body{background:var(--mrc-game-bg);color:#f3f0f7}.card{background:#2e2a38;color:#f3f0f7}.muted,.eyebrow{color:#c2bbc9}.mrc-playtime{color:#ded6e6}}
+/* 2048: stable square tiles, no directional page scroll, timer in sight. */
+body.mrc-2048{height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;overscroll-behavior:none}
+body.mrc-2048>header{flex:0 0 auto;width:100%;padding-block:9px}
+body.mrc-2048>main{flex:1 1 auto;min-height:0;width:100%;overflow:hidden;display:flex;flex-direction:column;padding-top:8px;padding-bottom:4px}
+body.mrc-2048>main>h1{font-size:clamp(1.3rem,3vh,2rem);margin:2px 0}
+body.mrc-2048>main>.muted{margin:3px 0;font-size:.85rem}
+body.mrc-2048>main>.eyebrow{display:none}
+body.mrc-2048>main>.mrc-playtime{flex:none;margin:5px 0;padding:6px 0;position:relative;z-index:4}
+body.mrc-2048 .game-area{flex:1 1 auto;min-height:0;width:100%;max-width:450px;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start}
+body.mrc-2048 .board2048{width:min(100%, 390px, calc(100dvh - 285px));height:auto;aspect-ratio:1;flex:none;align-self:center;grid-template-rows:repeat(4,minmax(0,1fr));overflow:hidden}
+body.mrc-2048 .tile{min-width:0;min-height:0;font-size:clamp(17px,4vmin,31px);line-height:1;overflow:hidden}
+body.mrc-2048 .tile[data-value="128"],body.mrc-2048 .tile[data-value="256"],body.mrc-2048 .tile[data-value="512"],body.mrc-2048 .tile[data-value="1024"],body.mrc-2048 .tile[data-value="2048"]{font-size:clamp(14px,3.1vmin,23px)}
+body.mrc-2048 .arrows{margin:5px 0;grid-template-columns:repeat(3,42px);gap:3px}
+body.mrc-2048 .arrows button{min-height:35px;padding:1px}
+body.mrc-2048 .game-area .tools{margin:2px 0}
+body.mrc-2048 .status{font-size:.75rem;line-height:1.2;min-height:0;margin:3px 0}
+body.mrc-2048>main>p:last-child{font-size:.67rem!important;margin:3px 0}
+body.mrc-2048>footer{flex:none;width:100%;padding:5px 15px;font-size:.7rem}
+@media(max-height:620px){body.mrc-2048>main>.muted,body.mrc-2048>main>p:last-child,body.mrc-2048>footer{display:none}body.mrc-2048 .board2048{width:min(100%,340px,calc(100dvh - 205px))}}
+
+/* Games inherit the restrained Tool language, with a light playful tint. */
+:root{--mrc-game-bg:#f4f1fc;--mrc-game-edge:#d8d0eb}
+body{background:var(--mrc-game-bg)}
+.card{border-color:var(--mrc-game-edge);border-radius:2px}
+.card:hover{border-color:#504575}
+@media(prefers-color-scheme:dark){:root{--mrc-game-bg:#211f2a;--mrc-game-edge:#484352}body{background:var(--mrc-game-bg);color:#f3f0f7}.card{background:#2e2a38;color:#f3f0f7}.muted,.eyebrow{color:#c2bbc9}.mrc-playtime{color:#ded6e6}}
+/* 2048: stable square tiles, no directional page scroll, timer in sight. */
+body.mrc-2048{height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;overscroll-behavior:none}
+body.mrc-2048>header{flex:0 0 auto;width:100%;padding-block:9px}
+body.mrc-2048>main{flex:1 1 auto;min-height:0;width:100%;overflow:hidden;display:flex;flex-direction:column;padding-top:8px;padding-bottom:4px}
+body.mrc-2048>main>h1{font-size:clamp(1.3rem,3vh,2rem);margin:2px 0}
+body.mrc-2048>main>.muted{margin:3px 0;font-size:.85rem}
+body.mrc-2048>main>.eyebrow{display:none}
+body.mrc-2048>main>.mrc-playtime{flex:none;margin:5px 0;padding:6px 0;position:relative;z-index:4}
+body.mrc-2048 .game-area{flex:1 1 auto;min-height:0;width:100%;max-width:450px;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start}
+body.mrc-2048 .board2048{width:min(100%, 390px, calc(100dvh - 285px));height:auto;aspect-ratio:1;flex:none;align-self:center;grid-template-rows:repeat(4,minmax(0,1fr));overflow:hidden}
+body.mrc-2048 .tile{min-width:0;min-height:0;font-size:clamp(17px,4vmin,31px);line-height:1;overflow:hidden}
+body.mrc-2048 .tile[data-value="128"],body.mrc-2048 .tile[data-value="256"],body.mrc-2048 .tile[data-value="512"],body.mrc-2048 .tile[data-value="1024"],body.mrc-2048 .tile[data-value="2048"]{font-size:clamp(14px,3.1vmin,23px)}
+body.mrc-2048 .arrows{margin:5px 0;grid-template-columns:repeat(3,42px);gap:3px}
+body.mrc-2048 .arrows button{min-height:35px;padding:1px}
+body.mrc-2048 .game-area .tools{margin:2px 0}
+body.mrc-2048 .status{font-size:.75rem;line-height:1.2;min-height:0;margin:3px 0}
+body.mrc-2048>main>p:last-child{font-size:.67rem!important;margin:3px 0}
+body.mrc-2048>footer{flex:none;width:100%;padding:5px 15px;font-size:.7rem}
+@media(max-height:620px){body.mrc-2048>main>.muted,body.mrc-2048>main>p:last-child,body.mrc-2048>footer{display:none}body.mrc-2048 .board2048{width:min(100%,340px,calc(100dvh - 205px))}}
+
+/* Break reminder: direct and optional amounts, matching the Games support section. */
+.mrc-break-amounts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0 6px}
+.mrc-break-amounts .mrc-break-amount{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 9px;border:1px solid #777;border-radius:6px;color:#222;background:transparent;text-decoration:none;font-weight:600;white-space:nowrap}
+.mrc-break-amounts .mrc-break-amount:hover{background:#eceae6}
+.mrc-break-amounts .mrc-break-amount:focus-visible{outline:3px solid #517ba6;outline-offset:3px}
+.mrc-break-actions{margin-top:22px}
+@media(max-width:420px){.mrc-break-amounts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Kids mode does not display fundraising prompts, including the shared timer. */
+body.mrc-kids-mode .mrc-playtime-support,body.mrc-kids-mode .mrc-break-support-copy,body.mrc-kids-mode .mrc-break-amounts,body.mrc-kids-mode [data-support-link],body.mrc-kids-mode a[href*="buy.stripe.com"],body.mrc-kids-mode .mrc-game-support,body.mrc-kids-mode .game-support{display:none!important}
+.mrc-break-amounts[hidden],.mrc-break-support-copy[hidden]{display:none!important}

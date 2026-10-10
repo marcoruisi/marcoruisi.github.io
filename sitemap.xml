@@ -16,6 +16,27 @@
     <loc>https://marcorui.si/field-notes/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/games/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/games/2048/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/games/codebreaker/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/games/crossword/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/games/sequences/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/games/sudoku/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/games/wordsearch/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/ideas/</loc>
   </url>
   <url>
@@ -29,6 +50,27 @@
   </url>
   <url>
     <loc>https://marcorui.si/it/contatti/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/2048/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/codice-segreto/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/cruciverba/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/sequenze/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/sudoku/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/trova-parole/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/it/idee/</loc>
@@ -101,6 +143,12 @@
   </url>
   <url>
     <loc>https://marcorui.si/it/tools/clean-wp-clipboard/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/tools/crea-sfida/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/tools/cruciverba/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/it/tools/da-pdf-stampa-a-web/</loc>
@@ -202,6 +250,9 @@
     <loc>https://marcorui.si/tools/clean-wp-clipboard/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/tools/crossword/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/tools/disable-wordpress-comments/</loc>
   </url>
   <url>
@@ -239,6 +290,9 @@
   </url>
   <url>
     <loc>https://marcorui.si/tools/print-pdf-to-web/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/tools/puzzle-maker/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/tools/webp-compressor/</loc>

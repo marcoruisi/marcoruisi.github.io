@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MRC — Digital crossword</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#202020;background:#faf9f7}*{box-sizing:border-box}body{margin:0}header,main,footer{max-width:1100px;margin:auto;padding:20px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd}h1{font-size:clamp(1.4rem,3vw,2.2rem);margin:.3rem 0}p{line-height:1.5}button,input,textarea{font:inherit}button{cursor:pointer;min-height:42px;background:white;color:inherit;border:1px solid #aaa;border-radius:5px;padding:.45rem .75rem}button:hover{border-color:#222}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #517ba6;outline-offset:2px}button[aria-pressed=true],.primary{background:#222;color:white;border-color:#222}button:disabled{opacity:.45;cursor:not-allowed}.toolbar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.7rem 0 1rem}label{display:inline-flex;align-items:center;gap:.4rem}input[type=number]{width:4.5rem;padding:.45rem;border:1px solid #aaa;border-radius:4px}input[type=text],textarea{border:1px solid #aaa;border-radius:4px;padding:.6rem;width:100%}.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(250px,1fr);gap:1.5rem;align-items:start}.board-wrap{overflow:auto;padding:2px;max-width:100%}.board-holder{position:relative;width:min(100%,650px);line-height:0}.board-holder .board{width:100%;line-height:normal}.photo-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}.photo-controls{padding:.7rem 0;border-bottom:1px solid #ddd;margin-bottom:.6rem}.photo-controls input[type=range]{width:140px}.photo-scroll{max-width:100%;overflow:auto;overscroll-behavior:contain}.photo-source{position:relative;width:min(100%,850px);margin:.7rem 0;touch-action:none;user-select:none;border:1px solid #bbb}.photo-source img{display:block;width:100%;pointer-events:none}.photo-point{position:absolute;width:25px;height:25px;min-height:25px;padding:0;transform:translate(-50%,-50%);border:2px solid #fff;border-radius:50%;background:#1765ad;color:#fff;font-size:11px;touch-action:none;cursor:grab;z-index:5;box-shadow:0 0 0 2px #1765ad}.photo-point:active{cursor:grabbing}.photo-measure{position:absolute;z-index:4;width:12px;height:12px;border-radius:50%;background:#e34617;box-shadow:0 0 0 2px white;transform:translate(-50%,-50%);pointer-events:none}.photo-source.measuring{cursor:crosshair}.photo-lens{position:absolute;z-index:9;width:152px;height:152px;border:3px solid #1765ad;border-radius:50%;background:white;box-shadow:0 3px 15px #0007;pointer-events:none;display:none}.photo-source.dragging .photo-lens,.photo-source.measuring .photo-lens.is-active{display:block}@media(max-width:500px){.photo-lens{width:120px;height:120px}}.photo-tip{font-size:.85rem;color:#555}.board{display:grid;width:min(100%,650px);border:2px solid #222;touch-action:manipulation}.cell{position:relative;aspect-ratio:1;min-width:0;border:1px solid #999;border-radius:0;padding:0;background:#fff;display:grid;place-items:center;font-weight:600;font-size:clamp(10px,2.3vw,21px);min-height:0}.cell.black{background:#222;border-color:#222}.cell.active{background:#f8d8a2}.cell.current{background:#e9a950}.cell .num{position:absolute;left:2px;top:1px;font-size:clamp(6px,1vw,11px);font-weight:500;line-height:1}.cell .mark{position:absolute;right:1px;top:1px;width:5px;height:5px;border-radius:50%;background:#26875b}.cell .char{padding-top:4px}.panel{background:#fff;border:1px solid #ddd;border-radius:6px;padding:1rem;min-width:0}.panel h2{font-size:1.05rem;margin:0 0 .75rem}.muted{color:#666;font-size:.9rem}.status{margin:.65rem 0;color:#555}.direction{display:flex;gap:.4rem;flex-wrap:wrap}textarea{min-height:105px;resize:vertical}.hidden{display:none!important}.field{display:block;margin:.7rem 0}.field span{display:block;font-weight:600;margin-bottom:.3rem}.hint{font-size:.9rem;color:#666}.message{min-height:1.5em;font-size:.9rem}footer{font-size:.85rem;color:#666}.bulkbox{margin-top:1rem;padding-top:1rem;border-top:1px solid #ddd}.bulkbox textarea{min-height:145px}.bulkbox .toolbar{margin:.4rem 0}.bulkpreview{font-size:.86rem;white-space:pre-wrap;max-height:180px;overflow:auto;background:#f6f6f6;padding:.6rem;border-radius:4px}.wordlist{max-height:200px;overflow:auto;display:grid;gap:.2rem}.wordlist button{text-align:left;min-height:34px;border:0;border-bottom:1px solid #eee;border-radius:0;font-size:.9rem}.kbd{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px;margin-top:.7rem}.kbd button{padding:0;min-height:37px;font-weight:600}#file{display:none}@media(max-width:730px){header,main,footer{padding:14px}.layout{grid-template-columns:1fr}.panel{padding:.8rem}.cell .num{left:1px;top:0}.cell .mark{width:3px;height:3px}.kbd button{min-height:42px}}
+ .dimension-stepper{display:inline-flex;align-items:center;gap:.35rem;margin-right:.7rem}.dimension-stepper>span{margin-right:.3rem}.dimension-stepper button{min-width:44px;padding:.3rem .6rem;font-size:1.3rem}.dimension-stepper input{width:3.5rem;text-align:center;appearance:textfield}.dimension-stepper input::-webkit-inner-spin-button,.dimension-stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.guide-dot{position:absolute;width:13px;height:13px;border:2px solid white;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:4;box-shadow:0 0 0 1px #555}.guide-dot.red{background:#d92323}.guide-dot.blue{background:#1765ad}.guide-selection{position:absolute;border:2px solid #1765ad;background:#1765ad25;pointer-events:none;z-index:3}.guide-selection.d{border-color:#ad4e0a;background:#ad4e0a25}.photo-source{cursor:crosshair}.photo-lens.visible{display:block}.photo-source:has(.photo-lens.visible){cursor:none}.board-wrap>#guideEdit{position:relative;margin-top:8px;z-index:3}.photo-overlay{pointer-events:none}#guideTitle{font-size:1.05rem}#guideNext{min-width:120px}#photoScroll{max-height:650px}#photoSource{touch-action:none}
+/* Guided photo flow: full-screen focus, without covering the working board after alignment. */
+body.guide-modal{overflow:hidden}
+body.guide-modal #photoEditor{position:fixed;inset:clamp(10px,3vw,32px);z-index:1000;background:#fff;border:1px solid #aaa;border-radius:12px;box-shadow:0 0 0 100vmax #0009,0 12px 35px #0003;display:flex;flex-direction:column;padding:clamp(12px,2.5vw,28px);overflow:auto;max-width:1050px;margin:auto}
+body.guide-modal #photoEditor #photoScroll{flex:1;min-height:180px;max-height:none;overscroll-behavior:contain}
+body.guide-modal #photoEditor #photoSource{margin:8px auto}
+body.guide-modal #guideTitle{font-size:clamp(1.4rem,3vw,2.4rem);margin:0}
+body.guide-modal #guideHint{font-size:1.05rem;max-width:850px}
+#guideBanner{position:sticky;top:8px;z-index:8;background:#fff;border:2px solid #222;border-radius:8px;padding:12px 16px;margin:10px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+#guideBanner button{background:#222;color:#fff}
+#startScreen{position:fixed;inset:0;z-index:1100;background:#faf9f7;display:grid;place-items:center;padding:24px;overflow:auto}
+#startScreen .start-inner{width:min(100%,690px)}
+#startScreen .start-actions{display:grid;gap:12px;margin:24px 0}
+#startScreen .start-actions button{text-align:left;padding:18px;font-size:1.04rem;border:1px solid #aaa;background:white}
+#startScreen .start-actions button:hover{border-color:#222}
+#startScreen h2{font-size:clamp(1.5rem,4vw,2.4rem)}
+#startScreen .start-actions small{display:block;color:#666;margin-top:5px}
+#boardHolder #photoOverlay{top:0;left:0;width:100%;height:100%;display:block;object-fit:fill}#boardHolder #photoOverlay.hidden{display:none}
+@media(max-width:730px){body.guide-modal #photoEditor{padding:12px;inset:8px;border-radius:8px}}
+/* Step 4: a large image workspace; controls must not squeeze the photograph. */
+body.guide-modal.guide-areas #photoEditor{max-width:none;width:auto;inset:10px;padding:clamp(10px,1.5vw,20px);overflow:hidden}
+body.guide-modal.guide-areas #photoEditor #photoScroll{flex:1 1 auto;min-height:0;max-height:none;overflow:auto;border:1px solid #ddd;background:#fafafa}
+body.guide-modal.guide-areas #photoEditor #photoSource{margin:0 auto}
+body.guide-modal.guide-areas #photoEditor #guideTitle{font-size:clamp(1.25rem,2.5vw,2rem)}
+body.guide-modal.guide-areas #photoEditor #guideHint{font-size:.95rem;margin:.4rem 0}
+body.guide-modal.guide-areas #photoEditor .toolbar{margin:.35rem 0;gap:.45rem}
+body.guide-modal.guide-areas #photoEditor .photo-tip,body.guide-modal.guide-areas #photoEditor .hint{margin:.4rem 0}
+@media(max-width:730px){body.guide-modal.guide-areas #photoEditor{inset:4px;padding:8px}}
+
+/* The desktop grid owns keyboard focus; touch devices use an invisible input bridge. */
+.touch-typing{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;padding:0!important;border:0!important}
+#board .cell:focus-visible{outline:3px solid #1765ad;outline-offset:-3px;z-index:2}
+#guideAreas .toolbar{margin:8px 0}
+</style>
+<link rel="stylesheet" href="/assets/tool-shell.css">
+<style id="mrc-crossword-shell-fix">
+/* Contenitore editoriale MRC: nessuna modifica al motore del cruciverba. */
+body{padding:24px!important;background:var(--bg,#f4f5f7)!important;color:var(--text,#202124)!important;font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+body>.mrc-tool-header{width:100%;max-width:920px;margin:0 auto 22px!important;padding:0 0 16px!important;border-bottom:1px solid var(--border,#ddd)!important}
+body>main.mrc-crossword-page{max-width:920px;width:100%;margin:0 auto;padding:0!important;display:block}
+.mrc-crossword-intro{display:block!important;margin:0 0 20px;padding:0 0 14px;border:0;border-bottom:1px solid var(--border,#ddd);max-width:none!important}
+.mrc-crossword-intro h1{font-size:28px;line-height:1.2;margin:0 0 8px;font-weight:700}
+.mrc-crossword-intro .muted{color:var(--muted,#687078)}
+.mrc-crossword-intro #lang{display:none!important}
+#startScreen{position:static!important;inset:auto!important;z-index:auto!important;display:block!important;place-items:normal!important;background:transparent!important;padding:0!important;margin:0 0 24px!important;overflow:visible!important;min-height:0!important}
+#startScreen.hidden{display:none!important}
+#startScreen .start-inner{width:100%!important;max-width:920px!important;margin:0!important;padding:0!important}
+#startScreen h2{font-size:22px!important;margin:8px 0 12px!important}
+#startScreen .start-actions{max-width:680px;margin:20px 0!important}
+#startScreen .start-actions button{border-radius:4px}
+.mrc-crossword-page .mrc-crossword-bridge{margin:0 0 20px!important}
+.mrc-crossword-page .layout{grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr)}
+body>footer{max-width:920px;margin:40px auto 0!important;padding:20px 0!important}
+@media(max-width:700px){body{padding:14px!important}.mrc-crossword-page .layout{grid-template-columns:minmax(0,1fr)}}
+</style>
+<link rel="canonical" href="https://marcorui.si/tools/crossword/"><link rel="alternate" hreflang="en" href="https://marcorui.si/tools/crossword/"><link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/cruciverba/"><link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/crossword/"><meta property="og:url" content="https://marcorui.si/tools/crossword/"><meta name="description" content="Create, save and play crosswords entirely in your browser."></head><body>
+<header class="mrc-tool-header"><nav class="mrc-tools-nav" aria-label="Tools and games navigation"><a class="mrc-tools-brand" href="/">← MRC</a><a href="/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/tools/all/" aria-label="All Tools"><span class="mrc-nav-full">All Tools</span><span class="mrc-nav-short" aria-hidden="true">All</span></a><a href="/tool-flows/" aria-label="Tool Flows"><span class="mrc-nav-full">Tool Flows</span><span class="mrc-nav-short" aria-hidden="true">Tool Flows</span></a><a href="/games/" aria-label="Games"><span class="mrc-nav-full">Games</span><span class="mrc-nav-short" aria-hidden="true">Games</span></a></nav><nav class="mrc-tool-language" aria-label="Language"><a href="/tools/puzzle-maker/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/crea-sfida/" lang="it">IT</a></nav></header>
+<main class="app mrc-crossword-page">
+
+<section class="mrc-crossword-intro"><div><small>MRC / TOOLS</small><h1>Cruciverba digitale</h1><div class="muted">Costruisci, compila, conserva.</div></div><div><button id="lang" type="button">EN</button></div></section>
+<div id="startScreen" aria-labelledby="startTitle"><div class="start-inner"><small>MRC / TOOLS</small><h2 id="startTitle">Da dove vuoi iniziare?</h2><p class="muted">Il cruciverba resta sul tuo dispositivo.</p><div class="start-actions"><button type="button" id="startBlank"><strong>1 · Crea uno schema da zero</strong><small>Imposta righe e colonne e annerisci le caselle.</small></button><button type="button" id="startPhoto"><strong>2 · Copia uno schema da una foto</strong><small>Procedura guidata: misura, sovrapponi, inserisci le definizioni.</small></button><button type="button" id="startProject"><strong>3 · Apri un progetto salvato</strong><small>Riprendi schema, definizioni e avanzamenti da un file JSON.</small></button><button type="button" id="startLocal" class="hidden"><strong>Continua il progetto su questo browser</strong><small>Riprendi il lavoro salvato automaticamente.</small></button></div></div></div>
+<div class="mrc-crossword-bridge" style="margin:0 0 20px;padding:13px 0;border-bottom:1px solid #ccc"><span>Just want to play?</span> <a href="/games/crossword/">Play a ready-made crossword →</a></div>
+<div class="toolbar" role="group" aria-label="Modalità"><button type="button" data-mode="build" aria-pressed="true" data-i="build">Schema</button><button type="button" data-mode="clues" aria-pressed="false" data-i="clues">Definizioni</button><button type="button" data-mode="play" aria-pressed="false" data-i="play">Gioca</button></div>
+<div class="toolbar" id="dimensions"><div class="dimension-stepper"><span data-i="rows">Righe</span><button type="button" data-step="rows:-1" aria-label="Diminuisci righe">−</button><input id="rows" type="number" min="3" max="30" value="10" aria-label="Numero righe"><button type="button" data-step="rows:1" aria-label="Aumenta righe">+</button></div><div class="dimension-stepper"><span data-i="cols">Colonne</span><button type="button" data-step="cols:-1" aria-label="Diminuisci colonne">−</button><input id="cols" type="number" min="3" max="30" value="10" aria-label="Numero colonne"><button type="button" data-step="cols:1" aria-label="Aumenta colonne">+</button></div></div>
+<div class="photo-controls" id="photoControls">
+ <div class="toolbar"><label><span data-i="photoLabel">Foto di riferimento</span> <input id="photoFile" type="file" accept="image/*" style="max-width:210px;font-size:.85rem"></label><button id="photoClear" type="button" class="hidden">Rimuovi foto</button></div>
+ <section id="photoEditor" class="hidden">
+  <h2 id="guideTitle">1 · Misura una casella nera</h2><p id="guideHint" class="photo-tip">Indica i quattro angoli della stessa casella, in ordine: alto sinistra, alto destra, basso destra, basso sinistra.</p>
+  <div class="toolbar"><button id="guideBack" type="button">← Modifica</button><button id="guideUndo" type="button">Annulla ultimo punto</button><button id="guideNext" class="primary hidden" type="button">Continua →</button><label id="zoomWrap">Zoom <input type="range" id="photoZoom" min="100" max="400" step="25" value="100"></label><output id="zoomValue">100% · adatta</output></div>
+  <div id="photoScroll" class="photo-scroll"><div id="photoSource" class="photo-source"><img id="photoPreview" alt="Foto del cruciverba"><canvas class="photo-lens" id="photoLens" width="240" height="240" aria-hidden="true"></canvas></div></div>
+  <p id="detectResult" class="hint" role="status"></p>
+  <details id="geometryDetails" class="hidden"><summary>Diagnostica misure e sovrapposizione</summary><pre id="geometryLog" style="white-space:pre-wrap;font:12px/1.5 ui-monospace,monospace;max-height:270px;overflow:auto;background:#f2f2f2;padding:12px"></pre><button type="button" id="geometryCopy">Copia il log</button></details>
+  <div id="guideAreas" class="hidden"><div class="toolbar"><button type="button" id="areaAcross">→ Orizzontali</button><button type="button" id="areaDown">↓ Verticali</button><button type="button" id="areaUndo">Rimuovi ultimo riquadro</button></div><p class="hint">Seleziona le aree e premi «Leggi testo (OCR)», oppure vai direttamente a «Controlla definizioni» per incollare il testo del Mac.</p><div class="toolbar"><button type="button" id="ocrRun" class="primary">Leggi testo (OCR)</button><button type="button" id="areaSave">Scarica immagine senza schema</button></div><p class="hint">L'OCR è facoltativo, scaricato solo quando richiesto. Puoi sempre copiare il testo con Testo attivo del Mac e incollarlo nelle definizioni.</p><p class="hint" id="ocrStatus" role="status"></p></div>
+ </section>
+</div>
+<div id="guideBanner" class="hidden" role="status"><span id="guideBannerText">3/6 · Controlla la sovrapposizione. Tocca le caselle nere e regola righe e colonne.</span><button type="button" id="bannerNext">4 · Seleziona definizioni →</button></div>
+<div class="layout"><section><div class="board-wrap"><div class="board-holder" id="boardHolder"><div class="board" id="board" aria-label="Griglia cruciverba"></div><canvas class="photo-overlay hidden" id="photoOverlay" aria-hidden="true"></canvas></div><button id="guideEdit" class="hidden" type="button">Modifica allineamento foto</button></div><p id="status" class="status" aria-live="polite"></p><p id="buildHelp" class="hint">Tocca le caselle per annerirle. Le parole vengono numerate automaticamente.</p></section>
+<aside class="panel"><h2 id="selectionTitle">Seleziona una casella</h2><div class="direction" role="group" aria-label="Direzione"><button id="across" type="button" aria-pressed="true" data-i="across">→ Orizzontale</button><button id="down" type="button" aria-pressed="false" data-i="down">↓ Verticale</button></div><p id="selectionInfo" class="muted"></p>
+<div id="clueEdit" class="hidden"><label class="field"><span data-i="clue">Definizione</span><textarea id="clueText" spellcheck="true" placeholder="Scrivi la definizione..."></textarea></label><button class="primary" id="saveClue" type="button" data-i="saveclue">Salva definizione</button><button id="nextClue" type="button" data-i="next">Successiva mancante</button></div>
+<div id="playArea" class="hidden"><div id="currentClue" style="min-height:2.4em"></div><input id="letter" class="touch-typing" aria-label="Scrivi nel cruciverba" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="characters" maxlength="2"><div class="toolbar"><button id="erase" type="button" data-i="erase">Cancella casella</button><button id="back" type="button" data-i="back">← Indietro</button></div><div class="kbd" id="kbd"></div><p class="hint" data-i="keyhelp">Puoi usare anche la tastiera fisica.</p></div>
+<div id="buildPanel"><p class="hint" data-i="buildpanel">La numerazione si aggiorna quando modifichi le caselle nere. Schema e definizioni si possono salvare anche incompleti.</p></div>
+<section id="bulkBox" class="bulkbox hidden"><h2 data-i="bulkTitle">Incolla tutte le definizioni</h2><p class="hint" data-i="bulkHelp">Copia il testo riconosciuto dal Mac, incluse le intestazioni ORIZZONTALI e VERTICALI. Controlla l'anteprima prima di applicare.</p><textarea id="bulkText" placeholder="ORIZZONTALI: 1. ... - 4. ...&#10;VERTICALI: 1. ... - 2. ..."></textarea><div class="toolbar"><button id="bulkCheck" type="button" data-i="bulkCheck">Controlla testo</button><button id="bulkApply" class="primary" type="button" data-i="bulkApply" disabled>Importa definizioni</button></div><div id="bulkResult" class="hint" role="status"></div><div id="bulkPreview" class="bulkpreview hidden"></div></section><h2 data-i="words">Parole nello schema</h2><div id="wordList" class="wordlist"></div></aside></div>
+<section style="margin-top:1.5rem;border-top:1px solid #ddd;padding-top:1rem"><div class="toolbar"><button class="primary" id="export" type="button" data-i="export">Salva progetto (.json)</button><button id="import" type="button" data-i="import">Apri progetto</button><input type="file" id="file" accept=".json,application/json"><button id="fresh" type="button" data-i="fresh">Nuova partita</button><button id="reset" type="button" data-i="reset">Nuovo schema</button></div><p class="hint" data-i="storage">Salvataggio automatico su questo browser. Esporta il file JSON per riprendere su un altro dispositivo. Nessun dato viene inviato a MRC.</p><p id="message" class="message" role="status"></p></section>
+</main><footer>MRC — Il progetto e i progressi appartengono a te.</footer>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);const T={it:{build:'Schema',clues:'Definizioni',play:'Gioca',rows:'Righe',cols:'Colonne',apply:'Applica dimensioni',across:'→ Orizzontale',down:'↓ Verticale',clue:'Definizione',saveclue:'Salva definizione',next:'Successiva mancante',letter:'Inserisci lettera',erase:'Cancella casella',back:'← Indietro',keyhelp:'Puoi usare anche la tastiera fisica.',buildpanel:'La numerazione si aggiorna quando modifichi le caselle nere. Schema e definizioni si possono salvare anche incompleti.',bulkTitle:'Incolla tutte le definizioni',bulkHelp:'Incolla il testo riconosciuto dal Mac, con ORIZZONTALI e VERTICALI. Verifica le associazioni prima di importare.',bulkCheck:'Controlla testo',bulkApply:'Importa definizioni',bulkReady:'Definizioni riconosciute',bulkMissing:'Da inserire',bulkUnknown:'Numeri non presenti nello schema',bulkDuplicate:'Numeri ripetuti',bulkOverwrite:'definizioni esistenti che saranno sostituite',bulkNone:'Nessuna definizione identificata. Controlla intestazioni e numeri.',bulkDone:'Definizioni importate',words:'Parole nello schema',export:'Salva progetto (.json)',import:'Apri progetto',fresh:'Nuova partita',reset:'Nuovo schema',storage:'Salvataggio automatico su questo browser. Esporta il file JSON per riprendere su un altro dispositivo. Nessun dato viene inviato a MRC.',select:'Seleziona una casella',blank:'Definizione mancante',missing:'definizioni mancanti',filled:'caselle compilate',helpbuild:'Tocca le caselle per annerirle. Le parole vengono numerate automaticamente.',helpclues:'Tocca un numero per scrivere la definizione. Usa le frecce per cambiare direzione.',helpplay:'Tocca una casella e scrivi. Un secondo tocco cambia direzione.',sure:'Creare un nuovo schema? I dati non esportati andranno persi.',surefresh:'Cancellare le lettere inserite? Schema e definizioni resteranno intatti.',no:'Nessuna parola disponibile',saved:'Definizione salvata.',imported:'Progetto aperto.',invalid:'File non valido.',size:'Dimensioni da 3 a 30.',subtitle:'Costruisci, compila, conserva.',title:'Cruciverba digitale',footer:'MRC — Il progetto e i progressi appartengono a te.',cluePlaceholder:'Scrivi la definizione...',confirmresize:'Cambiare dimensioni? Le celle esterne alla nuova griglia andranno perse.',photoLabel:'Foto di riferimento',photoOpacity:'Visibilità foto',photoHide:'Nascondi foto',photoShow:'Mostra foto',photoRemove:'Rimuovi foto',photoHelp:'Sposta i quattro punti sugli angoli esterni della griglia nella foto. Verrà raddrizzata e sovrapposta alle caselle.',photoError:'Immagine non valida o troppo grande (max 15 MB).',photoTransient:'La foto è temporanea: il progetto JSON salva schema e progressi, non la fotografia.',photoDetect:'Conta righe e colonne',photoUse:'Usa dimensioni rilevate',photoResult:'Rilevate',photoUncertain:'Non riesco a contare le linee con sicurezza. Regola i quattro angoli e premi «Conta righe e colonne», oppure imposta le dimensioni manualmente.',photoCheck:'Verifica le dimensioni proposte prima di applicarle.',measureCell:'Misura una casella',measureCancel:'Annulla misura',measureHelp:'Tocca due angoli opposti della stessa casella (meglio se nera) sulla fotografia: primo angolo in alto a sinistra, secondo in basso a destra. Usa gli angoli della griglia blu per allineare prima la foto.',measureRetry:'Seleziona di nuovo una casella ben visibile, oppure correggi i quattro angoli della griglia.',measureInvalid:'La misura non è attendibile. ',measureDone:'Dimensioni stimate da una casella'},en:{build:'Grid',clues:'Clues',play:'Play',rows:'Rows',cols:'Columns',apply:'Apply size',across:'→ Across',down:'↓ Down',clue:'Clue',saveclue:'Save clue',next:'Next missing',letter:'Enter letter',erase:'Erase cell',back:'← Back',keyhelp:'You can also use a physical keyboard.',buildpanel:'Numbering updates when you change black squares. You can save unfinished puzzles.',bulkTitle:'Paste all clues',bulkHelp:'Paste text from your Mac, including ACROSS and DOWN headings. Check matches before importing.',bulkCheck:'Check text',bulkApply:'Import clues',bulkReady:'Recognized clues',bulkMissing:'Still missing',bulkUnknown:'Numbers absent from grid',bulkDuplicate:'Duplicate numbers',bulkOverwrite:'existing clues to be replaced',bulkNone:'No clues found. Check headings and numbers.',bulkDone:'Clues imported',words:'Entries in grid',export:'Save project (.json)',import:'Open project',fresh:'New attempt',reset:'New grid',storage:'Autosaved in this browser. Export the JSON file to continue on another device. No data is sent to MRC.',select:'Select a cell',blank:'Missing clue',missing:'missing clues',filled:'filled cells',helpbuild:'Tap cells to make them black. Entries are numbered automatically.',helpclues:'Tap a numbered cell to enter a clue. Use the arrows to switch direction.',helpplay:'Tap a cell and type. Tap it again to switch direction.',sure:'Create a new grid? Unsaved data will be lost.',surefresh:'Clear entered letters? Grid and clues remain.',no:'No entries available',saved:'Clue saved.',imported:'Project opened.',invalid:'Invalid project file.',size:'Dimensions must be 3–30.',subtitle:'Build, solve, keep.',title:'Digital crossword',footer:'MRC — Your puzzle and progress belong to you.',cluePlaceholder:'Write the clue...',confirmresize:'Change size? Cells outside the new grid will be lost.',photoLabel:'Reference photo',photoOpacity:'Photo visibility',photoHide:'Hide photo',photoShow:'Show photo',photoRemove:'Remove photo',photoHelp:'Move the four points onto the outer corners of the crossword grid in the photo. It will be straightened and laid over the cells.',photoError:'Invalid or oversized image (15 MB max).',photoTransient:'Photo is temporary: project JSON saves grid and progress, not the image.',photoDetect:'Count rows and columns',photoUse:'Use detected dimensions',photoResult:'Detected',photoUncertain:'Could not count grid lines reliably. Adjust the four corners and select Count rows and columns, or enter the size manually.',photoCheck:'Check suggested dimensions before applying.',measureCell:'Measure one cell',measureCancel:'Cancel measurement',measureHelp:'Tap opposite corners of the same square (preferably black) in the photo: upper left, then lower right. Align the four blue grid corners first.',measureRetry:'Select a clearer cell or adjust the four grid corners.',measureInvalid:'Measurement is unreliable. ',measureDone:'Estimated from one square'}};
+const fresh=(rows=10,cols=10)=>({version:1,rows,cols,blacks:Array(rows*cols).fill(false),letters:Array(rows*cols).fill(''),clues:{},ui:{mode:'build',dir:'a',selected:0,lang:'en'}});
+let state;try{state=validate(JSON.parse(localStorage.getItem('mrc-crossword-v1')||'null'));}catch{}if(!state)state=fresh();let entries=[],entryByCell=[];
+function tx(k){return T[state.ui.lang][k]}function index(r,c){return r*state.cols+c}function validCell(i){return Number.isInteger(i)&&i>=0&&i<state.rows*state.cols&&!state.blacks[i]}
+function validate(x){if(!x||x.version!==1||!Number.isInteger(x.rows)||!Number.isInteger(x.cols)||x.rows<3||x.rows>30||x.cols<3||x.cols>30||!Array.isArray(x.blacks)||x.blacks.length!==x.rows*x.cols||!x.blacks.every(v=>typeof v==='boolean')||!Array.isArray(x.letters)||x.letters.length!==x.rows*x.cols||!x.letters.every(v=>typeof v==='string'&&v.length<=2)||!x.clues||typeof x.clues!=='object'||Array.isArray(x.clues))return null;const s=fresh(x.rows,x.cols);s.blacks=x.blacks;s.letters=x.letters.map(v=>v.toLocaleUpperCase().slice(0,1));s.clues=Object.fromEntries(Object.entries(x.clues).filter(([k,v])=>/^[ad]:\d+$/.test(k)&&typeof v==='string'&&v.length<=1000));if(x.ui&&typeof x.ui==='object'){s.ui.mode=['build','clues','play'].includes(x.ui.mode)?x.ui.mode:'build';s.ui.dir=['a','d'].includes(x.ui.dir)?x.ui.dir:'a';s.ui.selected=Number.isInteger(x.ui.selected)?x.ui.selected:0;s.ui.lang=x.ui.lang==='en'?'en':'it'}return s}
+function compute(){entries=[];entryByCell=Array.from({length:state.rows*state.cols},()=>({}));let number=0;for(let r=0;r<state.rows;r++)for(let c=0;c<state.cols;c++){let i=index(r,c);if(state.blacks[i])continue;let a=(c===0||state.blacks[i-1])&&c+1<state.cols&&!state.blacks[i+1],d=(r===0||state.blacks[i-state.cols])&&r+1<state.rows&&!state.blacks[i+state.cols];if(!a&&!d)continue;number++;for(let dir of ['a','d']){if(!(dir==='a'?a:d))continue;let cells=[];for(let rr=r,cc=c;rr<state.rows&&cc<state.cols&&!state.blacks[index(rr,cc)];dir==='a'?cc++:rr++)cells.push(index(rr,cc));let e={key:dir+':'+i,num:number,dir,start:i,cells};entries.push(e);for(let j of cells)entryByCell[j][dir]=e}}}
+let touchGameTyping=false;function focusGameCell(){if(state.ui.mode!=='play')return;if(touchGameTyping){$('letter').focus({preventScroll:true});return;}const cell=$('board').querySelector(`[data-index="${state.ui.selected}"]`);if(cell)cell.focus({preventScroll:true})}
+function focusGameFromTap(ev){if(state.ui.mode!=='play')return;if(ev?.pointerType==='touch'||ev?.pointerType==='pen'){$('letter').focus({preventScroll:true})}else focusGameCell()}
+function getEntry(){return entryByCell[state.ui.selected]?.[state.ui.dir]||null}function select(i,dir){if(!validCell(i))return;let map=entryByCell[i];if(dir&&map[dir])state.ui.dir=dir;else if(!map[state.ui.dir])state.ui.dir=map.a?'a':map.d?'d':state.ui.dir;state.ui.selected=i;render();save();focusGameCell()}
+// In play mode a word selection starts at its first empty cell.
+// A fully filled entry remains selectable for explicit corrections.
+function selectWordForTyping(i,dir){
+ if(!validCell(i))return;
+ const map=entryByCell[i];
+ const chosen=dir&&map[dir]?dir:map[state.ui.dir]?state.ui.dir:map.a?'a':map.d?'d':null;
+ const entry=chosen?map[chosen]:null;
+ const firstEmpty=entry?.cells.find(cell=>!state.letters[cell]);
+ select(state.ui.mode==='play'&&firstEmpty!==undefined?firstEmpty:i,chosen||undefined);
+}
+function save(){try{localStorage.setItem('mrc-crossword-v1',JSON.stringify(state))}catch(e){$('message').textContent='Local storage unavailable. Export your project.'}}
+function setMsg(x){$('message').textContent=x}function labelEntry(e){return e.num+' '+(e.dir==='a'?'→':'↓')+' · '+e.cells.length}
+function render(){compute();document.documentElement.lang=state.ui.lang;document.querySelector('h1').textContent=tx('title');document.querySelector('.mrc-crossword-intro .muted').textContent=tx('subtitle');document.querySelector('footer').textContent=tx('footer');document.querySelectorAll('[data-i]').forEach(el=>el.textContent=tx(el.dataset.i));$('lang').textContent=state.ui.lang==='it'?'EN':'IT';$('rows').value=state.rows;$('cols').value=state.cols;$('dimensions').classList.toggle('hidden',state.ui.mode!=='build');$('buildHelp').textContent=tx('help'+state.ui.mode);document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.ui.mode)));$('buildPanel').classList.toggle('hidden',state.ui.mode!=='build');$('clueEdit').classList.toggle('hidden',state.ui.mode!=='clues');$('bulkBox').classList.toggle('hidden',state.ui.mode!=='clues');$('playArea').classList.toggle('hidden',state.ui.mode!=='play');const e=getEntry();$('across').disabled=!entryByCell[state.ui.selected]?.a;$('down').disabled=!entryByCell[state.ui.selected]?.d;$('across').setAttribute('aria-pressed',String(state.ui.dir==='a'));$('down').setAttribute('aria-pressed',String(state.ui.dir==='d'));$('selectionTitle').textContent=e?labelEntry(e):tx('select');$('selectionInfo').textContent=e?state.clues[e.key]||tx('blank'):tx('no');if(state.ui.mode==='clues')$('clueText').value=e?state.clues[e.key]||'':'';$('clueText').disabled=!e;$('saveClue').disabled=!e;$('clueText').placeholder=tx('cluePlaceholder');$('currentClue').textContent=e?state.clues[e.key]||tx('blank'):tx('no');let active=new Set(e?.cells||[]);let frag=document.createDocumentFragment();for(let i=0;i<state.blacks.length;i++){let b=document.createElement('button');b.type='button';b.className='cell'+(state.blacks[i]?' black':'')+(state.ui.mode!=='build'&&active.has(i)?' active':'')+(state.ui.mode!=='build'&&state.ui.selected===i?' current':'');b.dataset.index=i;b.setAttribute('aria-label',`${Math.floor(i/state.cols)+1}, ${i%state.cols+1}`);if(!state.blacks[i]){const starts=entries.filter(e=>e.start===i);if(starts.length){let n=document.createElement('span');n.className='num';n.textContent=starts[0].num;b.appendChild(n);if(state.ui.mode==='clues'&&starts.every(e=>!!(state.clues[e.key]||'').trim())){let m=document.createElement('span');m.className='mark';b.appendChild(m)}}let ch=document.createElement('span');ch.className='char';ch.textContent=state.ui.mode==='play'?state.letters[i]:'';b.appendChild(ch)}frag.appendChild(b)}$('board').replaceChildren(frag);$('board').style.gridTemplateColumns=`repeat(${state.cols},minmax(0,1fr))`;schedulePhotoDraw();let missing=entries.filter(e=>!String(state.clues[e.key]||'').trim()).length;let filled=state.letters.filter((v,i)=>v&&!state.blacks[i]).length;let whites=state.blacks.filter(v=>!v).length;$('status').textContent=state.ui.mode==='play'?`${filled}/${whites} ${tx('filled')}`:`${entries.length-missing}/${entries.length} · ${missing} ${tx('missing')}`;let list=document.createDocumentFragment();for(let entry of entries){let b=document.createElement('button');b.type='button';b.dataset.entry=entry.key;b.textContent=`${labelEntry(entry)} — ${state.clues[entry.key]||tx('blank')}`;list.appendChild(b)}$('wordList').replaceChildren(list)}
+function makeSelected(e){if(state.ui.mode==='play'){selectWordForTyping(e.start,e.dir);return}state.ui.selected=e.start;state.ui.dir=e.dir;render();save()}
+function advance(n){let e=getEntry();if(!e)return;let p=e.cells.indexOf(state.ui.selected);let next=e.cells[Math.max(0,Math.min(e.cells.length-1,p+n))];select(next)}
+function letter(v){if(state.ui.mode!=='play'||!validCell(state.ui.selected))return;let value=[...String(v).normalize('NFC').toLocaleUpperCase()][0]||'';if(!value||!/[\p{L}\p{N}]/u.test(value))return;const e=getEntry();const current=state.ui.selected;state.letters[current]=value;if(e){const pos=e.cells.indexOf(current);const next=e.cells.slice(pos+1).find(i=>!state.letters[i]);if(next!==undefined){select(next);return}}render();save();focusGameCell()}
+function clearCell(){if(!validCell(state.ui.selected))return;state.letters[state.ui.selected]='';render();save();focusGameCell()}
+let lastClickedBoardIndex=null;let lastBoardPointer='mouse';$('board').addEventListener('pointerdown',ev=>{lastBoardPointer=ev.pointerType||'mouse';touchGameTyping=lastBoardPointer==='touch'||lastBoardPointer==='pen'});$('board').addEventListener('click',ev=>{let b=ev.target.closest('button[data-index]');if(!b)return;let i=+b.dataset.index;if(state.ui.mode==='build'){state.blacks[i]=!state.blacks[i];state.letters[i]='';render();save();return}if(!validCell(i))return;if(state.ui.mode==='play'&&lastClickedBoardIndex===i){
+  // Second click on the same tile: edit exactly this tile, not the next blank.
+  select(i);
+ }else if(i===state.ui.selected&&entryByCell[i].a&&entryByCell[i].d){
+  selectWordForTyping(i,state.ui.dir==='a'?'d':'a');
+ }else selectWordForTyping(i);
+ if(state.ui.mode==='play')lastClickedBoardIndex=i;if(state.ui.mode==='play'){touchGameTyping=lastBoardPointer==='touch'||lastBoardPointer==='pen';focusGameCell()}});
+$('wordList').addEventListener('click',ev=>{let b=ev.target.closest('[data-entry]');let e=entries.find(x=>x.key===b?.dataset.entry);if(e)makeSelected(e)});
+$('across').addEventListener('click',()=>{if(entryByCell[state.ui.selected]?.a)selectWordForTyping(state.ui.selected,'a')});$('down').addEventListener('click',()=>{if(entryByCell[state.ui.selected]?.d)selectWordForTyping(state.ui.selected,'d')});document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{state.ui.mode=b.dataset.mode;render();save()}));
+$('saveClue').addEventListener('click',()=>{let e=getEntry();if(!e)return;state.clues[e.key]=$('clueText').value.trim();setMsg(tx('saved'));render();save()});$('nextClue').addEventListener('click',()=>{let e=entries.find(x=>!String(state.clues[x.key]||'').trim());if(e)makeSelected(e)});
+$('clueText').addEventListener('input',()=>{let e=getEntry();if(e){state.clues[e.key]=$('clueText').value;save();$('status').textContent='• '+(entries.filter(x=>!String(state.clues[x.key]||'').trim()).length)+' '+tx('missing')}});
+let bulkPlan=null;
+function parseClueText(raw){
+ // Normalize Mac Live Text / OCR output, without changing the user's source text.
+ let t=raw.replace(/\r/g,'').replace(/[‐‑‒–—−]/g,'-').replace(/\u00a0/g,' ')
+ .replace(/([\p{L}])-\s*\n\s*([\p{Ll}])/gu,'$1$2')
+ .replace(/\n+/g,' ');
+ const heading=/\b(ORIZZONTALI|VERTICALI|ACROSS|DOWN)\s*:/gi;
+ let sections=[],m;
+ while((m=heading.exec(t))!==null)sections.push({dir:/^(ORIZZONTALI|ACROSS)$/i.test(m[1])?'a':'d',start:heading.lastIndex,head:m.index});
+ let found=[],invalid=[],duplicates=[],seen=new Set();
+ for(let j=0;j<sections.length;j++){
+  let part=t.slice(sections[j].start,sections[j+1]?.head??t.length);
+  // Number separators are '.' followed by space, or a dash/bullet followed by a number.
+  const re=/(?:^|\s[-•]\s*|\s)(\d{1,3})\s*[.]\s*/g;
+  let matches=[...part.matchAll(re)];
+  for(let k=0;k<matches.length;k++){
+   let num=Number(matches[k][1]);
+   let clue=part.slice(matches[k].index+matches[k][0].length,matches[k+1]?.index??part.length).trim().replace(/\s*[-•]\s*$/,'').trim();
+   if(!clue)continue;
+   let e=entries.find(x=>x.num===num&&x.dir===sections[j].dir);
+   let tag=(sections[j].dir==='a'?'→':'↓')+' '+num;
+   if(!e){invalid.push(tag);continue}
+   if(seen.has(e.key)){duplicates.push(tag);continue}
+   seen.add(e.key);found.push({key:e.key,tag,clue:clue.slice(0,1000)});
+  }
+ }
+ return {found,invalid,duplicates};
+}
+function previewBulk(){compute();bulkPlan=parseClueText($('bulkText').value);const {found,invalid,duplicates}=bulkPlan;
+ let overwritten=found.filter(x=>String(state.clues[x.key]||'').trim()).length;
+ const imported=new Set(found.map(x=>x.key));
+ const missing=entries.filter(e=>!imported.has(e.key)&&!String(state.clues[e.key]||'').trim()).map(e=>labelEntry(e));
+ $('bulkApply').disabled=!found.length;
+ $('bulkResult').textContent=found.length?`${tx('bulkReady')}: ${found.length} / ${entries.length}. ${tx('bulkUnknown')}: ${invalid.length}. ${tx('bulkDuplicate')}: ${duplicates.length}. ${overwritten} ${tx('bulkOverwrite')}. ${tx('bulkMissing')}: ${missing.length ? missing.join(', ') : '—'}.`:tx('bulkNone');
+ let preview=found.map(x=>`${x.tag} — ${x.clue}`).join('\n');
+ if(missing.length)preview+='\n\n⚠ '+tx('bulkMissing')+': '+missing.join(', ');
+ if(invalid.length)preview+='\n\n⚠ '+tx('bulkUnknown')+': '+invalid.join(', ');
+ if(duplicates.length)preview+='\n\n⚠ '+tx('bulkDuplicate')+': '+duplicates.join(', ');
+ $('bulkPreview').textContent=preview;$('bulkPreview').classList.toggle('hidden',!found.length&&!invalid.length&&!duplicates.length);
+}
+$('bulkCheck').addEventListener('click',previewBulk);
+$('bulkText').addEventListener('input',()=>{bulkPlan=null;$('bulkApply').disabled=true;$('bulkResult').textContent='';$('bulkPreview').classList.add('hidden')});
+$('bulkApply').addEventListener('click',()=>{if(!bulkPlan||!bulkPlan.found.length)return;for(const item of bulkPlan.found)state.clues[item.key]=item.clue;let total=bulkPlan.found.length;render();save();setMsg(`${tx('bulkDone')}: ${total}.`);previewBulk()});
+$('letter').addEventListener('input',()=>{const v=$('letter').value;if(v)letter(v.slice(-1));$('letter').value=''});$('letter').addEventListener('beforeinput',ev=>{if(ev.data){ev.preventDefault();letter(ev.data)}});$('letter').addEventListener('keydown',ev=>{if(ev.key==='Backspace'||ev.key==='Delete'){ev.preventDefault();clearCell()}else if(ev.key==='Tab'&&entryByCell[state.ui.selected]?.a&&entryByCell[state.ui.selected]?.d){ev.preventDefault();select(state.ui.selected,state.ui.dir==='a'?'d':'a')}});$('erase').addEventListener('click',clearCell);$('back').addEventListener('click',()=>advance(-1));$('kbd').addEventListener('click',ev=>{let b=ev.target.closest('button[data-letter]');if(b)letter(b.dataset.letter)});for(let c of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'){let b=document.createElement('button');b.type='button';b.dataset.letter=c;b.textContent=c;$('kbd').appendChild(b)}
+$('board').addEventListener('keydown',ev=>{if(state.ui.mode!=='play')return;if(ev.key==='Tab'&&entryByCell[state.ui.selected]?.a&&entryByCell[state.ui.selected]?.d){ev.preventDefault();select(state.ui.selected,state.ui.dir==='a'?'d':'a')}else if(ev.key==='Backspace'||ev.key==='Delete'){ev.preventDefault();clearCell()}else if(ev.key.length===1&&/[\p{L}\p{N}]/u.test(ev.key)){ev.preventDefault();letter(ev.key)}else if(ev.key==='ArrowRight'||ev.key==='ArrowDown'){ev.preventDefault();advance(1)}else if(ev.key==='ArrowLeft'||ev.key==='ArrowUp'){ev.preventDefault();advance(-1)}});
+function setDimensions(nr,nc){
+ if(!Number.isInteger(nr)||!Number.isInteger(nc)||nr<3||nr>30||nc<3||nc>30)return false;
+ if(nr===state.rows&&nc===state.cols)return true;
+ const old=state, oldEntries=entries.slice();
+ const oldClues=new Map(oldEntries.map(e=>[`${e.dir}:${Math.floor(e.start/old.cols)}:${e.start%old.cols}:${e.cells.length}`,old.clues[e.key]]));
+ state=fresh(nr,nc);state.ui={...old.ui,selected:0};
+ for(let r=0;r<Math.min(nr,old.rows);r++)for(let c=0;c<Math.min(nc,old.cols);c++){
+  state.blacks[index(r,c)]=old.blacks[r*old.cols+c];state.letters[index(r,c)]=old.letters[r*old.cols+c];
+ }
+ compute();for(let e of entries){let key=`${e.dir}:${Math.floor(e.start/nc)}:${e.start%nc}:${e.cells.length}`;if(oldClues.has(key)&&oldClues.get(key))state.clues[e.key]=oldClues.get(key)}
+ render();save();return true;
+}
+function applyDimensionInputs(){let nr=Number($('rows').value),nc=Number($('cols').value);if(!setDimensions(nr,nc)){setMsg(tx('size'));$('rows').value=state.rows;$('cols').value=state.cols}}
+$('dimensions').addEventListener('click',ev=>{let btn=ev.target.closest('[data-step]');if(!btn)return;let [id,delta]=btn.dataset.step.split(':');setDimensions(state.rows+(id==='rows'?Number(delta):0),state.cols+(id==='cols'?Number(delta):0))});
+for(const id of ['rows','cols'])$(id).addEventListener('change',applyDimensionInputs);
+$('export').addEventListener('click',()=>{let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download='mrc-cruciverba.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)});$('import').addEventListener('click',()=>$('file').click());$('file').addEventListener('change',async()=>{let f=$('file').files[0];if(!f)return;try{if(f.size>2*1024*1024)throw Error('large');let parsed=validate(JSON.parse(await f.text()));if(!parsed)throw Error('invalid');state=parsed;render();save();setMsg(tx('imported'))}catch{setMsg(tx('invalid'))}$('file').value=''});
+// Guided image workflow. All original image processing stays in the browser.
+let photoImg=null,photoURL=null,photoCorners=[],cellCorners=[],guideStep='idle';
+let geometryEstimate=null;
+let drawnAreas={a:[],d:[]},areaDir='a',drawingArea=null,drawStart=null,photoPending=false;
+const guideNames={it:{cell:'1 · Misura una casella nera',grid:'2 · Delimita lo schema',aligned:'3 · Controlla la sovrapposizione',areas:'4 · Seleziona le definizioni',ocr:'5 · Riconosci il testo',review:'6 · Correggi e controlla'},en:{cell:'1 · Measure a black square',grid:'2 · Mark the grid',aligned:'3 · Check the overlay',areas:'4 · Select clue regions',ocr:'5 · Recognize text',review:'6 · Review and correct'}};
+const guideInstructions={it:{cell:'Quattro clic sulla stessa casella: alto sinistra, alto destra, basso destra, basso sinistra. Ogni clic aggiunge un punto rosso.',grid:'Quattro clic sugli angoli esterni dello schema, nell’ordine che preferisci. Ogni clic aggiunge un punto blu.',aligned:'La griglia fotografica è sovrapposta a quella digitale. Regola righe e colonne con +/− e tocca le caselle nere. «Modifica» riapre la foto.',areas:'Trascina per selezionare uno o più riquadri di definizioni orizzontali, poi verticali.',ocr:'Avvia il riconoscimento dei riquadri, oppure usa Testo attivo del Mac.',review:'Controlla testo e definizioni mancanti e correggi ciò che serve.'},en:{cell:'Click four corners of one black square, clockwise from top-left. Each click places a red dot.',grid:'Click the four outer corners of the puzzle in any order. Each click places a blue dot.',aligned:'The photograph is overlaid on the digital grid. Fine-tune rows and columns, then mark black cells. Edit reopens the photo.',areas:'Drag over one or more across clue regions, then down clue regions.',ocr:'Recognize the selected regions or use Mac Live Text.',review:'Review the recognized clues and fix missing ones.'}};
+function updateGuide(){
+ const lang=state.ui.lang, names=guideNames[lang]||guideNames.it, hints=guideInstructions[lang]||guideInstructions.it;
+ $('guideTitle').textContent=names[guideStep]||names.cell;$('guideHint').textContent=hints[guideStep]||hints.cell;
+ $('guideAreas').classList.toggle('hidden',guideStep!=='areas'&&guideStep!=='ocr');
+ $('guideNext').classList.toggle('hidden',guideStep!=='aligned'&&guideStep!=='areas'&&guideStep!=='ocr');
+ $('guideNext').textContent=guideStep==='aligned'?(lang==='it'?'Seleziona definizioni →':'Select clues →'):(lang==='it'?'Controlla definizioni →':'Review clues →');
+ $('guideEdit').classList.toggle('hidden',!photoImg||guideStep!=='aligned');
+ $('photoScroll').classList.toggle('hidden',guideStep==='aligned'||guideStep==='review');
+ document.body.classList.toggle('guide-modal',!!photoImg&&['cell','grid','areas','ocr'].includes(guideStep));
+ document.body.classList.toggle('guide-areas',!!photoImg&&['areas','ocr'].includes(guideStep));
+ $('guideBanner').classList.toggle('hidden',guideStep!=='aligned'||state.ui.mode!=='build');
+ $('guideBannerText').textContent=lang==='it'?'3 · Tocca le caselle nere sulla foto, poi passa alle definizioni.':'3 · Mark black cells over the photo, then move to clues.';
+ $('zoomWrap').classList.toggle('hidden',guideStep==='aligned'||guideStep==='review');
+ $('zoomValue').classList.toggle('hidden',guideStep==='aligned'||guideStep==='review');
+ $('guideBack').disabled=guideStep==='cell';$('guideUndo').classList.toggle('hidden',guideStep==='aligned'||guideStep==='review'||guideStep==='areas'||guideStep==='ocr');
+ $('areaAcross').setAttribute('aria-pressed',String(areaDir==='a'));$('areaDown').setAttribute('aria-pressed',String(areaDir==='d'));
+ $('detectResult').textContent=guideStep==='cell'?`${cellCorners.length}/4 punti rossi`:guideStep==='grid'?`${photoCorners.length}/4 punti blu`:guideStep==='aligned'?`${state.rows} righe × ${state.cols} colonne`:guideStep==='areas'?`${drawnAreas.a.length} riquadri orizzontali · ${drawnAreas.d.length} verticali`:'';
+ drawGuidePoints();schedulePhotoDraw();updateGeometryLog();
+ if(['areas','ocr'].includes(guideStep))requestAnimationFrame(setPhotoZoom);
+}
+function setPhotoZoom(){
+ const zoom=Number($('photoZoom').value)||100;
+ $('zoomValue').textContent=zoom+'%'+(zoom===100?' · adatta':'');
+ const scroll=$('photoScroll');
+ if(!photoImg)return;
+ // Fit the WHOLE image, in every step. Zoom is relative to this fit size.
+ const ratio=photoImg.naturalWidth/Math.max(1,photoImg.naturalHeight);
+ const availableW=Math.max(100,(scroll.clientWidth||650)-12);
+ const availableH=Math.max(100,(scroll.clientHeight||500)-12);
+ const fitWidth=Math.min(availableW,availableH*ratio);
+ $('photoSource').style.width=Math.round(fitWidth*zoom/100)+'px';
+}
+$('photoZoom').addEventListener('input',setPhotoZoom);
+function schedulePhotoDraw(){if(photoPending)return;photoPending=true;requestAnimationFrame(()=>{photoPending=false;drawPhoto()})}
+// Projective mapping: both the grid measurement and the photo overlay share this geometry.
+// Normalize four clicked corners; users may click clockwise or counterclockwise.
+// The result is always TL, TR, BR, BL, which perspectiveMap requires.
+function orderedCorners(points){
+ if(points.length!==4)return points;
+ const center=points.reduce((a,p)=>[a[0]+p[0]/4,a[1]+p[1]/4],[0,0]);
+ const around=[...points].sort((a,b)=>Math.atan2(a[1]-center[1],a[0]-center[0])-Math.atan2(b[1]-center[1],b[0]-center[0]));
+ const first=around.reduce((best,p,i)=>p[0]+p[1]<around[best][0]+around[best][1]?i:best,0);
+ const cycle=Array.from({length:4},(_,i)=>around[(first+i)%4]);
+ // From TL the next vertex is either TR or BL. Prefer the rightmost point.
+ return cycle[1][0]>=cycle[3][0]?cycle:[cycle[0],cycle[3],cycle[2],cycle[1]];
+}
+function perspectiveMap(points){
+ const [a,b,c,d]=points;
+ const dx1=b[0]-c[0],dy1=b[1]-c[1],dx2=d[0]-c[0],dy2=d[1]-c[1];
+ const dx3=a[0]-b[0]+c[0]-d[0],dy3=a[1]-b[1]+c[1]-d[1];
+ const det=dx1*dy2-dx2*dy1;
+ let g=0,h=0;
+ if(Math.abs(det)>1e-12){g=(dx3*dy2-dx2*dy3)/det;h=(dx1*dy3-dx3*dy1)/det}
+ const A=b[0]-a[0]+g*b[0],B=d[0]-a[0]+h*d[0],C=a[0];
+ const D=b[1]-a[1]+g*b[1],E=d[1]-a[1]+h*d[1],F=a[1];
+ return {forward(u,v){let z=g*u+h*v+1;return [(A*u+B*v+C)/z,(D*u+E*v+F)/z]},
+ inverse(x,y){let X=x-C,Y=y-F,aa=A-x*g,bb=B-x*h,cc=D-y*g,dd=E-y*h,k=aa*dd-bb*cc;if(Math.abs(k)<1e-12)return null;return [(X*dd-bb*Y)/k,(aa*Y-X*cc)/k]}};
+}
+// Source pixels are read once; each destination pixel is mapped back into the
+// original photo. This avoids seams and scaling artifacts from affine triangles.
+let photoPixelsCache=null;
+function drawPhoto(){
+ const overlay=$('photoOverlay');
+ if(!photoImg||photoCorners.length!==4||!['aligned','areas','ocr','review'].includes(guideStep)||state.ui.mode!=='build'){
+  overlay.classList.add('hidden');return;
+ }
+ const board=$('board'),rect=board.getBoundingClientRect();
+ if(!rect.width||!rect.height)return;
+ overlay.classList.remove('hidden');
+ const ratio=Math.min(2,window.devicePixelRatio||1);
+ const W=Math.max(1,Math.round(rect.width*ratio)),H=Math.max(1,Math.round(rect.height*ratio));
+ if(overlay.width!==W)overlay.width=W;
+ if(overlay.height!==H)overlay.height=H;
+ // The overlay occupies the board, never the control button below it.
+ overlay.style.width=rect.width+'px';overlay.style.height=rect.height+'px';
+ const sw=photoImg.naturalWidth,sh=photoImg.naturalHeight;
+ if(!photoPixelsCache||photoPixelsCache.img!==photoImg){
+  const c=document.createElement('canvas');c.width=sw;c.height=sh;
+  const sourceCtx=c.getContext('2d',{willReadFrequently:true});sourceCtx.drawImage(photoImg,0,0);
+  photoPixelsCache={img:photoImg,pixels:sourceCtx.getImageData(0,0,sw,sh).data};
+ }
+ const src=photoPixelsCache.pixels;
+ const points=photoCorners.map(p=>[p[0]*sw,p[1]*sh]);
+ const map=perspectiveMap(points);
+ const ctx=overlay.getContext('2d');
+ const result=ctx.createImageData(W,H),data=result.data;
+ // Inverse sampling: one photo location for every output pixel, with
+ // bilinear interpolation to keep narrow printed grid lines readable.
+ for(let y=0;y<H;y++){
+  const v=(y+.5)/H;
+  for(let x=0;x<W;x++){
+   const u=(x+.5)/W;
+   const [sx,sy]=map.forward(u,v);
+   if(sx<0||sy<0||sx>=sw-1||sy>=sh-1)continue;
+   const ix=Math.floor(sx),iy=Math.floor(sy),fx=sx-ix,fy=sy-iy;
+   const i=(iy*sw+ix)*4,j=(y*W+x)*4;
+   for(let k=0;k<3;k++){
+    const top=src[i+k]*(1-fx)+src[i+4+k]*fx;
+    const bottom=src[i+sw*4+k]*(1-fx)+src[i+sw*4+4+k]*fx;
+    data[j+k]=Math.round(top*(1-fy)+bottom*fy);
+   }
+   data[j+3]=110;
+  }
+ }
+ ctx.putImageData(result,0,0);
+ updateGeometryLog();
+}
+
+function updateGeometryLog(){
+ const box=$('geometryDetails');
+ if(!box)return;
+ const ready=!!photoImg&&photoCorners.length===4;
+ box.classList.toggle('hidden',!ready);
+ if(!ready)return;
+ const board=$('board'),holder=$('boardHolder'),canvas=$('photoOverlay');
+ const br=board.getBoundingClientRect(),hr=holder.getBoundingClientRect(),cr=canvas.getBoundingClientRect();
+ const fmt=n=>Number.isFinite(n)?n.toFixed(3):'n/d';
+ const pixels=p=>`(${fmt(p[0]*photoImg.naturalWidth)}, ${fmt(p[1]*photoImg.naturalHeight)})`;
+ const L=[
+  'MRC CRUCIVERBA — DIAGNOSTICA GEOMETRIA',
+  `Foto originale: ${photoImg.naturalWidth} × ${photoImg.naturalHeight} px`,
+  `Dimensioni applicate: ${state.rows} righe × ${state.cols} colonne`,
+  geometryEstimate?`Misura grezza: ${fmt(geometryEstimate.exactRows)} righe × ${fmt(geometryEstimate.exactCols)} colonne`:'Misura grezza: non disponibile',
+  geometryEstimate?`Arrotondamento Math.round: ${geometryEstimate.rows} × ${geometryEstimate.cols}`:'',
+  geometryEstimate?`Casella rettificata: larghezza ${fmt(geometryEstimate.rectCellWidth*100)}% · altezza ${fmt(geometryEstimate.rectCellHeight*100)}%`:'',
+  `Griglia CSS: ${fmt(br.width)} × ${fmt(br.height)} px`,
+  `Contenitore: ${fmt(hr.width)} × ${fmt(hr.height)} px`,
+  `Canvas CSS: ${fmt(cr.width)} × ${fmt(cr.height)} px`,
+  `Canvas bitmap: ${canvas.width} × ${canvas.height} px`,
+  `Cella teorica: ${fmt(br.width/state.cols)} × ${fmt(br.height/state.rows)} px`,
+  'Angoli schema TL / TR / BR / BL (pixel foto):',
+  ...photoCorners.map((p,i)=>`  ${i+1}: ${pixels(p)}`),
+  'Angoli casella TL / TR / BR / BL (pixel foto):',
+  ...cellCorners.map((p,i)=>`  ${i+1}: ${pixels(p)}`),
+  `Scarto canvas/griglia: X=${fmt(cr.left-br.left)}, Y=${fmt(cr.top-br.top)} px`,
+  'Nota: uno scarto nullo del canvas non garantisce che i 4 punti coincidano con i veri angoli stampati.'
+ ];
+ $('geometryLog').textContent=L.filter(Boolean).join('\n');
+}
+$('geometryCopy').addEventListener('click',()=>{
+ const data=$('geometryLog').textContent;
+ if(navigator.clipboard?.writeText){navigator.clipboard.writeText(data).catch(()=>window.prompt('Copia il log:',data))}
+ else window.prompt('Copia il log:',data);
+});
+function drawGuidePoints(){let src=$('photoSource');src.querySelectorAll('.guide-dot,.guide-selection').forEach(x=>x.remove());let addDot=(p,col,n)=>{let d=document.createElement('span');d.className='guide-dot '+col;d.style.left=p[0]*100+'%';d.style.top=p[1]*100+'%';d.title=`${n}`;src.append(d)};
+ if(['cell','grid'].includes(guideStep))cellCorners.forEach((p,i)=>addDot(p,'red',i+1));
+ if(guideStep==='grid')photoCorners.forEach((p,i)=>addDot(p,'blue',i+1));
+ if(['areas','ocr'].includes(guideStep)){for(let dir of ['a','d'])for(let rect of drawnAreas[dir])addAreaRect(rect,dir)}
+}
+function addAreaRect(r,dir){let e=document.createElement('div');e.className='guide-selection '+dir;e.style.left=Math.min(r[0],r[2])*100+'%';e.style.top=Math.min(r[1],r[3])*100+'%';e.style.width=Math.abs(r[2]-r[0])*100+'%';e.style.height=Math.abs(r[3]-r[1])*100+'%';$('photoSource').append(e);return e}
+function point(ev){let b=$('photoPreview').getBoundingClientRect();return[Math.max(0,Math.min(1,(ev.clientX-b.left)/b.width)),Math.max(0,Math.min(1,(ev.clientY-b.top)/b.height))]}
+function drawLens(ev){
+ if(!photoImg||!['cell','grid'].includes(guideStep))return;
+ const lens=$('photoLens'),r=$('photoSource').getBoundingClientRect(),p=point(ev),ctx=lens.getContext('2d');
+ const sample=Math.max(6,50*photoImg.naturalWidth/500);
+ ctx.clearRect(0,0,240,240);
+ ctx.drawImage(photoImg,p[0]*photoImg.naturalWidth-sample/2,p[1]*photoImg.naturalHeight-sample/2,sample,sample,0,0,240,240);
+ ctx.strokeStyle=guideStep==='cell'?'#d92323':'#1765ad';ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(120,0);ctx.lineTo(120,240);ctx.moveTo(0,120);ctx.lineTo(240,120);ctx.stroke();
+ // Draw already selected points AFTER zooming the photo: fixed 5px radius,
+ // independently of the photo magnification. Keep their original selection order.
+ const pins=guideStep==='cell'?cellCorners.map(p=>({p,color:'#d92323'})):[...cellCorners.map(p=>({p,color:'#d92323'})),...photoCorners.map(p=>({p,color:'#1765ad'}))];
+ const radius=5;
+ pins.forEach(({p:pin,color})=>{
+  const px=120+(pin[0]-p[0])*photoImg.naturalWidth*240/sample;
+  const py=120+(pin[1]-p[1])*photoImg.naturalHeight*240/sample;
+  if(px<radius||py<radius||px>240-radius||py>240-radius)return;
+  ctx.beginPath();ctx.arc(px,py,radius,0,Math.PI*2);
+  ctx.fillStyle=color;ctx.fill();
+  ctx.lineWidth=2;ctx.strokeStyle='#fff';ctx.stroke();
+ });
+ // Mouse/stylus: centre the magnifier precisely on the pointer.
+ // Touch: raise it above the finger while retaining the same sampling point.
+ const size=lens.getBoundingClientRect().width||152;
+ const touch=ev.pointerType==='touch';
+ lens.style.left=(ev.clientX-r.left-size/2)+'px';
+ lens.style.top=(ev.clientY-r.top-size/2-(touch?size*.85:0))+'px';
+ lens.classList.add('visible');
+}
+$('photoSource').addEventListener('pointermove',ev=>{drawLens(ev);if(drawingArea){let p=point(ev);drawingArea[2]=p[0];drawingArea[3]=p[1];drawGuidePoints();addAreaRect(drawingArea,areaDir)}});
+$('photoSource').addEventListener('pointerleave',()=>$('photoLens').classList.remove('visible'));
+$('photoSource').addEventListener('pointerdown',ev=>{if(guideStep!=='areas')return;ev.preventDefault();$('photoSource').setPointerCapture(ev.pointerId);const p=point(ev);drawingArea=[p[0],p[1],p[0],p[1]];drawStart=p});
+$('photoSource').addEventListener('pointerup',ev=>{if(guideStep!=='areas'||!drawingArea)return;let p=point(ev);drawingArea[2]=p[0];drawingArea[3]=p[1];if(Math.abs(p[0]-drawStart[0])>.015&&Math.abs(p[1]-drawStart[1])>.015)drawnAreas[areaDir].push(drawingArea);drawingArea=null;updateGuide()});
+$('photoSource').addEventListener('click',ev=>{if(!['cell','grid'].includes(guideStep)||!photoImg)return;let p=point(ev);if(guideStep==='cell'){cellCorners.push(p);if(cellCorners.length===4){cellCorners=orderedCorners(cellCorners);guideStep='grid';$('photoZoom').value=100;setPhotoZoom();}}else{photoCorners.push(p);if(photoCorners.length===4){photoCorners=orderedCorners(photoCorners);measureGrid();guideStep='aligned'}}updateGuide()});
+// Compute the square dimensions by averaging top/bottom and left/right side lengths in normalized image coordinates.
+function measureGrid(){if(cellCorners.length!==4||photoCorners.length!==4)return;
+ const width=photoImg.naturalWidth,height=photoImg.naturalHeight;
+ const quadrilateral=photoCorners.map(p=>[p[0]*width,p[1]*height]);
+ const map=perspectiveMap(quadrilateral);
+ const points=cellCorners.map(p=>map.inverse(p[0]*width,p[1]*height));
+ if(points.some(p=>!p))return;
+ // Measure the selected square in RECTIFIED grid coordinates, not raw photograph pixels.
+ // Opposite edges are averaged to minimize inaccurate clicks.
+ const w=(Math.abs(points[1][0]-points[0][0])+Math.abs(points[2][0]-points[3][0]))/2;
+ const h=(Math.abs(points[3][1]-points[0][1])+Math.abs(points[2][1]-points[1][1]))/2;
+ if(w<=0||h<=0)return;
+ const exactCols=1/w,exactRows=1/h;
+ const cols=Math.round(exactCols),rows=Math.round(exactRows);
+ if(rows>=3&&rows<=30&&cols>=3&&cols<=30){
+   setDimensions(rows,cols);
+   $('detectResult').dataset.measure=`${exactRows.toFixed(2)} × ${exactCols.toFixed(2)}`;
+   geometryEstimate={exactRows,exactCols,rows,cols,rectCellWidth:w,rectCellHeight:h};
+ }else setMsg('Misura non affidabile: regola righe e colonne con +/−.');
+}
+function startGuided(){geometryEstimate=null;cellCorners=[];photoCorners=[];drawnAreas={a:[],d:[]};guideStep='cell';$('photoEditor').classList.remove('hidden');$('photoZoom').value=100;requestAnimationFrame(setPhotoZoom);updateGuide()}
+$('photoFile').addEventListener('change',()=>{let file=$('photoFile').files[0];if(!file)return;if(!file.type.startsWith('image/')||file.size>15*1024*1024){setMsg(tx('photoError'));return}let url=URL.createObjectURL(file),img=new Image();img.onload=()=>{if(photoURL)URL.revokeObjectURL(photoURL);photoURL=url;photoImg=img;$('photoPreview').src=url;$('photoClear').classList.remove('hidden');startGuided()};img.onerror=()=>URL.revokeObjectURL(url);img.src=url});
+$('photoClear').addEventListener('click',()=>{photoImg=null;photoCorners=[];cellCorners=[];guideStep='idle';if(photoURL)URL.revokeObjectURL(photoURL);photoURL=null;$('photoEditor').classList.add('hidden');$('photoClear').classList.add('hidden');$('guideEdit').classList.add('hidden');$('photoFile').value='';schedulePhotoDraw()});
+$('guideBack').addEventListener('click',()=>{if(guideStep==='grid'){guideStep='cell';photoCorners=[]}else if(guideStep==='aligned'){guideStep='grid';photoCorners=[]}else if(guideStep==='areas'){guideStep='aligned'}else if(guideStep==='ocr'){guideStep='areas'}else if(guideStep==='review'){guideStep='ocr'}updateGuide()});
+$('guideUndo').addEventListener('click',()=>{if(guideStep==='cell')cellCorners.pop();else if(guideStep==='grid')photoCorners.pop();else if(guideStep==='areas')drawnAreas[areaDir].pop();updateGuide()});
+$('bannerNext').addEventListener('click',()=>{guideStep='areas';setPhotoZoom();updateGuide()});
+$('guideNext').addEventListener('click',()=>{if(guideStep==='aligned'){guideStep='areas';$('photoScroll').classList.remove('hidden');setPhotoZoom()}else if(guideStep==='areas'||guideStep==='ocr'){guideStep='review';state.ui.mode='clues';render();$('bulkBox').scrollIntoView({behavior:'smooth',block:'start'})}updateGuide()});
+$('guideEdit').addEventListener('click',()=>{guideStep='grid';photoCorners=[];updateGuide();$('photoEditor').scrollIntoView({behavior:'smooth',block:'start'})});
+$('areaAcross').addEventListener('click',()=>{areaDir='a';updateGuide()});$('areaDown').addEventListener('click',()=>{areaDir='d';updateGuide()});$('areaUndo').addEventListener('click',()=>{drawnAreas[areaDir].pop();updateGuide()});
+function cropRegions(dir){const arr=drawnAreas[dir],out=[];for(let r of arr){let c=document.createElement('canvas'),w=photoImg.naturalWidth,h=photoImg.naturalHeight,x=Math.round(Math.min(r[0],r[2])*w),y=Math.round(Math.min(r[1],r[3])*h),cw=Math.round(Math.abs(r[2]-r[0])*w),ch=Math.round(Math.abs(r[3]-r[1])*h);if(cw<5||ch<5)continue;c.width=cw;c.height=ch;c.getContext('2d').drawImage(photoImg,x,y,cw,ch,0,0,cw,ch);out.push(c)}return out}
+$('areaSave').addEventListener('click',()=>{if(!photoImg)return;let c=document.createElement('canvas');c.width=photoImg.naturalWidth;c.height=photoImg.naturalHeight;let ctx=c.getContext('2d');ctx.drawImage(photoImg,0,0);ctx.fillStyle='white';ctx.beginPath();photoCorners.forEach((p,i)=>i?ctx.lineTo(p[0]*c.width,p[1]*c.height):ctx.moveTo(p[0]*c.width,p[1]*c.height));ctx.closePath();ctx.fill();c.toBlob(b=>{let url=URL.createObjectURL(b),a=document.createElement('a');a.href=url;a.download='mrc-definizioni.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000)})});
+$('ocrRun').addEventListener('click',async()=>{const status=$('ocrStatus');if(!drawnAreas.a.length&&!drawnAreas.d.length){status.textContent='Seleziona almeno un riquadro.';return}let btn=$('ocrRun');btn.disabled=true;try{
+ status.textContent='Caricamento OCR (solo su richiesta)…';if(!window.Tesseract){await new Promise((res,rej)=>{let script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';script.onload=res;script.onerror=()=>rej(Error('Download OCR non riuscito'));document.head.append(script)})}
+ let texts=[];for(let dir of ['a','d']){let imgs=cropRegions(dir);if(!imgs.length)continue;let parts=[];for(let i=0;i<imgs.length;i++){status.textContent=`OCR ${dir==='a'?'orizzontali':'verticali'} ${i+1}/${imgs.length}…`;let worker=await Tesseract.createWorker(state.ui.lang==='it'?'ita':'eng');try{let r=await worker.recognize(imgs[i]);parts.push(r.data.text.trim())}finally{await worker.terminate()}}texts.push((dir==='a'?'ORIZZONTALI:':'VERTICALI:')+'\n'+parts.join('\n'))}
+ $('bulkText').value=texts.join('\n\n');status.textContent='Testo pronto. Controlla il riconoscimento e le definizioni mancanti.';guideStep='review';state.ui.mode='clues';render();previewBulk();updateGuide();$('bulkBox').scrollIntoView({behavior:'smooth',block:'start'});
+ }catch(e){status.textContent='OCR non disponibile: '+e.message+'. Puoi usare il testo copiato dal Mac.'}finally{btn.disabled=false}});
+window.addEventListener('resize',()=>{if(photoImg)setPhotoZoom();schedulePhotoDraw()});if('ResizeObserver'in window)new ResizeObserver(schedulePhotoDraw).observe($('board'));
+$('fresh').addEventListener('click',()=>{if(!confirm(tx('surefresh')))return;state.letters.fill('');render();save()});$('reset').addEventListener('click',()=>{if(!confirm(tx('sure')))return;let lang=state.ui.lang;state=fresh();state.ui.lang=lang;render();save()});$('lang').addEventListener('click',()=>{state.ui.lang=state.ui.lang==='it'?'en':'it';render();save()});
+ const start=$('startScreen');const closeStart=()=>{start.classList.add('hidden');document.body.classList.remove('guide-modal')};
+ const existing=localStorage.getItem('mrc-crossword-v1');if(existing){try{const old=validate(JSON.parse(existing));if(old && (old.blacks.some(Boolean)||Object.keys(old.clues).length||old.letters.some(Boolean)))$('startLocal').classList.remove('hidden')}catch{}}
+ $('startBlank').addEventListener('click',()=>{const lang=state.ui.lang;state=fresh();state.ui.lang=lang;closeStart();render();save()});
+ $('startPhoto').addEventListener('click',()=>{closeStart();state.ui.mode='build';render();$('photoFile').click()});
+ $('startProject').addEventListener('click',()=>$('file').click());
+ $('startLocal').addEventListener('click',()=>{closeStart();render()});
+ $('file').addEventListener('change',()=>{setTimeout(()=>{if($('file').files.length===0 && document.querySelector('#message').textContent===tx('imported'))closeStart()},60)});
+ // File import is async, so close the chooser after a valid project is rendered.
+ const fileObserve=new MutationObserver(()=>{if($('message').textContent===tx('imported'))closeStart()});fileObserve.observe($('message'),{childList:true,characterData:true,subtree:true});
+ render();save();
+})();
+</script></body></html>
