@@ -22,6 +22,9 @@
     <loc>https://marcorui.si/games/2048/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/games/aphorisms/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/games/codebreaker/</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>https://marcorui.si/it/giochi/2048/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/giochi/aforismi/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/it/giochi/codice-segreto/</loc>
@@ -145,6 +151,9 @@
     <loc>https://marcorui.si/it/tools/clean-wp-clipboard/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/it/tools/convertitore-coordinate/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/it/tools/crea-sfida/</loc>
   </url>
   <url>
@@ -158,6 +167,12 @@
   </url>
   <url>
     <loc>https://marcorui.si/it/tools/disabilita-commenti-wordpress/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/tools/estrazione-dati-punti/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/tools/formati-coordinate/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/it/tools/foto-entro-peso/</loc>
@@ -185,6 +200,9 @@
   </url>
   <url>
     <loc>https://marcorui.si/it/tools/pdf-compressor/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/tools/punti-su-mappa/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/it/tools/tutti/</loc>
@@ -250,6 +268,12 @@
     <loc>https://marcorui.si/tools/clean-wp-clipboard/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/tools/coordinate-converter/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/tools/coordinate-formats/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/tools/crossword/</loc>
   </url>
   <url>
@@ -271,6 +295,9 @@
     <loc>https://marcorui.si/tools/images-to-pdf/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/tools/map-coordinates/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/tools/mrc-dynamic-content/</loc>
   </url>
   <url>
@@ -287,6 +314,9 @@
   </url>
   <url>
     <loc>https://marcorui.si/tools/pdf-compressor/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/tools/point-extractor/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/tools/print-pdf-to-web/</loc>

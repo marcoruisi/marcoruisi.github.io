@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/gis/gis.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcorui.si/tools/point-extractor/">
+<meta property="og:url" content="https://marcorui.si/tools/point-extractor/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/point-extractor/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/estrazione-dati-punti/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/point-extractor/">
+<title>GIS data at points | MRC · Marco Ruisi</title>
+<meta name="description" content="Extract vector attributes, GeoTIFF samples and WMS feature information for points.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="GIS data at points | MRC · Marco Ruisi">
+<meta property="og:description" content="Extract vector attributes, GeoTIFF samples and WMS feature information for points.">
+<meta name="twitter:title" content="GIS data at points | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Extract vector attributes, GeoTIFF samples and WMS feature information for points.">
+<!-- MRC SHARED METADATA END -->
+</head><body><!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/" aria-label="marcorui.si home">← MRC</a>
+        <a href="/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/tools/all/" aria-label="All Tools"><span class="mrc-nav-full">All Tools</span><span class="mrc-nav-short" aria-hidden="true">All</span></a><a href="/tool-flows/" aria-label="Tool Flows"><span class="mrc-nav-full">Tool Flows</span><span class="mrc-nav-short" aria-hidden="true">Tool Flows</span></a><a href="/games/" aria-label="Games"><span class="mrc-nav-full">Games</span><span class="mrc-nav-short" aria-hidden="true">Games</span></a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/point-extractor/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/estrazione-dati-punti/" lang="it">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END --><main class="mrc-gis">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>GIS data at points</h1><p class="gis-intro">Sample vector attributes, GeoTIFF bands and WMS feature information at a list of points.</p><nav class="gis-links" aria-label="GIS Tools"><a href="/tools/coordinate-converter/">Coordinate converter</a> · <a href="/tools/map-coordinates/">Points on a map</a> · <a href="/tools/point-extractor/">GIS data at points</a></nav><p class="gis-note">Click the map or import points. Up to 500 points per session.</p><div class="gis-layout"><div id="map" class="gis-map" aria-label="Map"></div><section class="gis-panel"><h2>Points (<span id="pointCount">0</span>)</h2><div class="gis-grid"><label class="gis-field">CRS <select id="pointsCrs"></select></label><label class="gis-field">Name<input id="pointName" placeholder="P1"></label><label class="gis-field">X<input id="pointX" inputmode="decimal"></label><label class="gis-field">Y<input id="pointY" inputmode="decimal"></label></div><div class="gis-actions"><button id="pointAdd">Add</button><label class="gis-button">Import CSV, TXT or point GeoJSON<input id="pointFile" type="file" accept=".txt,.csv,.json,.geojson" hidden></label><button id="pointClear">Clear</button></div><ol id="pointsList" class="gis-note"></ol></section></div><section class="gis-panel"><h2>GIS data sources</h2><details class="gis-source" open><summary>Vector · GeoJSON or zipped shapefile</summary><label class="gis-field">Upload one or more files<input id="vectorFile" type="file" multiple accept=".json,.geojson,.zip"></label><div id="vectorSources" class="gis-source-list" aria-live="polite"></div><p id="vectorInfo" class="gis-note">Point-in-polygon matching. If multiple geometries overlap, first matching attributes are used.</p><p class="gis-note">GeoJSON in WGS84; shapefile ZIP requires a .prj for reprojection.</p></details><details class="gis-source"><summary>Raster · local GeoTIFF</summary><label class="gis-field">One or more GeoTIFFs<input id="rasterFile" type="file" multiple accept=".tif,.tiff"></label><label class="gis-field">Raster CRS (confirm manually)<select id="rasterCrs"></select></label><div id="rasterSources" class="gis-source-list" aria-live="polite"></div><p id="rasterInfo" class="gis-note">Nearest pixel by band; standard affine georeferencing only.</p></details><details class="gis-source"><summary>WMS · GetFeatureInfo</summary><label class="gis-field">WMS HTTPS endpoint<input id="wmsUrl" type="url" placeholder="https://…/wms"></label><label class="gis-field">WMS layer name (technical)<input id="wmsName" placeholder="layer_name"></label><div class="gis-actions"><button id="wmsAdd">Show layer on map</button></div><div id="wmsSources" class="gis-source-list" aria-live="polite"></div><label><input id="wmsQuery" type="checkbox" checked> Query GetFeatureInfo for each point</label><p class="gis-note">Requires CORS, queryable layer and EPSG:4326 / WMS 1.1.1 support. WMS does not automatically provide source raster pixel values.</p></details><div class="gis-actions"><button id="sample" class="primary">Extract data for all points</button></div><p id="status" class="gis-status" role="status"></p></section><section class="gis-panel"><h2>Results (<span id="resultCount">0</span>)</h2><div class="gis-table-wrap"><table class="gis-table"><thead><tr id="resultHead"></tr></thead><tbody id="resultRows"></tbody></table></div><div class="gis-actions"><button id="csv">CSV ↓</button><button id="geojson">GeoJSON ↓</button><button id="shp">Shapefile ZIP ↓</button></div><p class="gis-note">Exported shapefiles are WGS84 point geometries (EPSG:4326); DBF field names are limited to 10 characters.</p></section></main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">What if this were just the first step?</h2><p>The result of one tool can be the starting point for another. The connections are yours to find.</p></div>
+    <a class="mrc-flow-prompt-link" href="/tool-flows/">Explore Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Related tools</h2><ul><li><a href="/tools/coordinate-converter/">Coordinate converter</a></li><li><a href="/tools/map-coordinates/">Points on a map</a></li><li><a href="/tools/coordinate-formats/">Coordinate formats (DD / DMM / DMS)</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Something not working?</h2>
+    <p>Found a problem or have an idea to improve this tool?</p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20GIS%20data%20at%20points%20%E2%80%94%20Feedback&amp;body=Tool%3A%20GIS%20data%20at%20points%0D%0APage%3A%20https%3A%2F%2Fmarcorui.si%2Ftools%2Fpoint-extractor%2F%0D%0A%0D%0AFeedback%20type%3A%20bug%20%2F%20suggestion%20%2F%20other%0D%0A%0D%0ADescription%3A%0D%0A%0D%0A%0D%0ABrowser%20and%20device%20%28optional%29%3A">Send feedback →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="https://cdn.jsdelivr.net/npm/proj4@2.12.1/dist/proj4.js"></script><script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script><script src="/assets/gis/core.js"></script><script src="/assets/gis/point-precision.js"></script><script src="/assets/gis/extract.js"></script><script src="/assets/language-preference.js" defer></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+</body></html>

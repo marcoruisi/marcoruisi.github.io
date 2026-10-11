@@ -1,0 +1,89 @@
+/* MRC Crossword: touch play workspace, intentionally scoped to game pages. */
+@media (max-width:800px) and (pointer:coarse){
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play{overflow:hidden!important}
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout{
+    position:fixed!important;top:var(--mrc-cw-top,0px)!important;left:0!important;
+    width:100%!important;height:var(--mrc-cw-vh,100dvh)!important;max-height:none!important;
+    z-index:900!important;display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-rows:minmax(0,2fr) minmax(145px,1fr)!important;
+    align-items:stretch!important;gap:0!important;overflow:hidden!important;
+    background:var(--mrc-game-bg,#f4f1fc);margin:0!important;padding:0!important;
+    overscroll-behavior:contain;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>section{
+    min-width:0!important;min-height:0!important;display:flex!important;flex-direction:column!important;
+    overflow:hidden!important;padding:env(safe-area-inset-top) 8px 5px!important;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:7px;
+    padding:4px 3px 8px;flex:none;min-height:42px;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar a,
+  body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar button{
+    min-height:37px;min-width:37px;padding:5px 9px;font-size:14px;
+    border:1px solid #777;border-radius:7px;background:var(--panel,#fff);color:var(--text,#222);
+    text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar .mrc-cw-zoom-buttons{display:flex;gap:5px}
+  body.mrc-crossword-game.mrc-cw-touch-play .board-wrap{
+    flex:1 1 auto!important;min-height:0!important;min-width:0!important;
+    overflow:auto!important;overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;touch-action:pan-x pan-y!important;
+    background:var(--panel,#fff);border:1px solid var(--mrc-game-edge,#aaa);border-radius:8px;
+    padding:6px!important;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play .board-holder{
+    width:max-content!important;max-width:none!important;height:max-content!important;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play #board{
+    width:var(--mrc-cw-board-width,630px)!important;
+    max-width:none!important;min-width:0!important;
+    touch-action:pan-x pan-y!important;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play #board .cell{
+    font-size:clamp(17px,calc(var(--mrc-cw-cell,42px) * .46),25px)!important;
+    min-width:0!important;min-height:0!important;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play #board .cell .num{font-size:10px!important}
+  body.mrc-crossword-game.mrc-cw-touch-play #status{font-size:12px;margin:4px 2px 0;flex:none}
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside.panel{
+    display:flex!important;flex-direction:column!important;gap:5px;
+    height:100%!important;max-height:none!important;min-height:0!important;min-width:0!important;
+    margin:0!important;padding:11px 14px max(10px,env(safe-area-inset-bottom))!important;
+    border:0!important;border-top:2px solid var(--mrc-game-edge,#777)!important;
+    border-radius:12px 12px 0 0!important;background:var(--panel,#fff)!important;
+    color:var(--text,#222)!important;overflow-y:auto!important;overscroll-behavior:contain;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #selectionTitle{
+    margin:0!important;font-size:clamp(15px,4vw,19px)!important;line-height:1.25;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #selectionInfo{
+    display:none!important;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #currentClue{
+    font-size:clamp(17px,4.6vw,22px)!important;font-weight:600;line-height:1.35;
+    min-height:0!important;overflow-wrap:anywhere;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #playArea{
+    display:flex;flex-direction:column;gap:4px;min-height:0;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside .direction{gap:7px;flex:none}
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside .direction button{
+    flex:1 1 0;min-width:0;min-height:38px;padding:4px 5px;font-size:13px;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #playArea .toolbar{
+    margin:5px 0 0!important;gap:7px;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #playArea .toolbar button{
+    flex:1;min-height:38px;font-size:13px;padding:5px;
+  }
+  body.mrc-crossword-game.mrc-cw-touch-play #kbd,
+  body.mrc-crossword-game.mrc-cw-touch-play #playArea [data-i="keyhelp"],
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #wordList,
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside [data-i="words"],
+  body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #buildPanel{display:none!important}
+  body.mrc-crossword-game.mrc-cw-touch-play #letter{font-size:16px!important}
+}
+@media (max-width:800px) and (pointer:fine){.mrc-cw-board-bar{display:none!important}}
+@media (min-width:801px){.mrc-cw-board-bar{display:none!important}}

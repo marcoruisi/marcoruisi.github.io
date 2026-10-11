@@ -66,3 +66,10 @@ body.mrc-2048>footer{flex:none;width:100%;padding:5px 15px;font-size:.7rem}
 /* Kids mode does not display fundraising prompts, including the shared timer. */
 body.mrc-kids-mode .mrc-playtime-support,body.mrc-kids-mode .mrc-break-support-copy,body.mrc-kids-mode .mrc-break-amounts,body.mrc-kids-mode [data-support-link],body.mrc-kids-mode a[href*="buy.stripe.com"],body.mrc-kids-mode .mrc-game-support,body.mrc-kids-mode .game-support{display:none!important}
 .mrc-break-amounts[hidden],.mrc-break-support-copy[hidden]{display:none!important}
+
+/* Authored break reminders: leaving is the primary action. */
+.mrc-break-signature{margin:.65rem 0 0;text-align:right;font-size:.91rem;color:#666;font-style:italic}
+.mrc-break-actions .mrc-break-dismiss{background:#222;color:#fff;border-color:#222;font-weight:650}
+.mrc-break-actions .mrc-break-continue{background:transparent;color:inherit;border-color:#888;font-weight:400}
+.mrc-break-actions .mrc-break-continue:hover{background:#eee}
+@media(max-width:430px){.mrc-break-actions{display:grid;grid-template-columns:1fr}.mrc-break-actions button{width:100%;justify-content:center}.mrc-break-dialog{max-height:calc(100dvh - 32px)}}

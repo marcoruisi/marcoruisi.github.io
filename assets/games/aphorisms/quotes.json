@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "editorialNote": "Original works by authors deceased more than 70 years ago; modern translations not copied. Renderings in the other language were drafted for MRC. Links point to source works.",
+  "items": [
+    {
+      "id": "dante1",
+      "author": "Dante Alighieri",
+      "work": "Divina Commedia, Inferno XXVI",
+      "source": "https://it.wikisource.org/wiki/Divina_Commedia/Inferno/Canto_XXVI",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "Considerate la vostra semenza: fatti non foste a viver come bruti, ma per seguir virtute e canoscenza.",
+        "lead": "Considerate la vostra semenza: fatti non foste a viver come bruti,",
+        "ending": "ma per seguir virtute e canoscenza."
+      },
+      "en": {
+        "text": "Consider your origin: you were not made to live like brutes, but to pursue virtue and knowledge.",
+        "lead": "Consider your origin: you were not made to live like brutes,",
+        "ending": "but to pursue virtue and knowledge."
+      },
+      "original": "it"
+    },
+    {
+      "id": "dante2",
+      "author": "Dante Alighieri",
+      "work": "Divina Commedia, Inferno III",
+      "source": "https://it.wikisource.org/wiki/Divina_Commedia/Inferno/Canto_III",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "Lasciate ogne speranza, voi ch’intrate.",
+        "lead": "Lasciate ogne speranza,",
+        "ending": "voi ch’intrate."
+      },
+      "en": {
+        "text": "Abandon all hope, you who enter.",
+        "lead": "Abandon all hope,",
+        "ending": "you who enter."
+      },
+      "original": "it"
+    },
+    {
+      "id": "leopardi1",
+      "author": "Giacomo Leopardi",
+      "work": "L’infinito",
+      "source": "https://it.wikisource.org/wiki/Canti_(Leopardi_-_Donati)/XII._L%27infinito",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "Sempre caro mi fu quest’ermo colle.",
+        "lead": "Sempre caro mi fu",
+        "ending": "quest’ermo colle."
+      },
+      "en": {
+        "text": "This solitary hill has always been dear to me.",
+        "lead": "This solitary hill has always been",
+        "ending": "dear to me."
+      },
+      "original": "it"
+    },
+    {
+      "id": "leopardi2",
+      "author": "Giacomo Leopardi",
+      "work": "L’infinito",
+      "source": "https://it.wikisource.org/wiki/Canti_(Leopardi_-_Donati)/XII._L%27infinito",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "E il naufragar m’è dolce in questo mare.",
+        "lead": "E il naufragar m’è dolce",
+        "ending": "in questo mare."
+      },
+      "en": {
+        "text": "And to be shipwrecked is sweet to me in this sea.",
+        "lead": "And to be shipwrecked is sweet to me",
+        "ending": "in this sea."
+      },
+      "original": "it"
+    },
+    {
+      "id": "shakespeare1",
+      "author": "William Shakespeare",
+      "work": "Hamlet, Act II, Scene II",
+      "source": "https://www.gutenberg.org/files/1524/1524-h/1524-h.htm",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "La brevità è l’anima dell’arguzia.",
+        "lead": "La brevità è l’anima",
+        "ending": "dell’arguzia."
+      },
+      "en": {
+        "text": "Brevity is the soul of wit.",
+        "lead": "Brevity is the soul",
+        "ending": "of wit."
+      },
+      "original": "en"
+    },
+    {
+      "id": "shakespeare2",
+      "author": "William Shakespeare",
+      "work": "As You Like It, Act II, Scene VII",
+      "source": "https://www.gutenberg.org/cache/epub/1786/pg1786-images.html",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "Tutto il mondo è un palcoscenico, e gli uomini e le donne sono soltanto attori.",
+        "lead": "Tutto il mondo è un palcoscenico, e gli uomini e le donne sono",
+        "ending": "soltanto attori."
+      },
+      "en": {
+        "text": "All the world’s a stage, and all the men and women merely players.",
+        "lead": "All the world’s a stage, and all the men and women",
+        "ending": "merely players."
+      },
+      "original": "en"
+    },
+    {
+      "id": "wilde1",
+      "author": "Oscar Wilde",
+      "work": "Lady Windermere’s Fan, Act III",
+      "source": "https://www.gutenberg.org/files/790/790-h/790-h",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "Siamo tutti nella fogna, ma alcuni di noi guardano le stelle.",
+        "lead": "Siamo tutti nella fogna, ma alcuni di noi",
+        "ending": "guardano le stelle."
+      },
+      "en": {
+        "text": "We are all in the gutter, but some of us are looking at the stars.",
+        "lead": "We are all in the gutter, but some of us are",
+        "ending": "looking at the stars."
+      },
+      "original": "en"
+    },
+    {
+      "id": "wilde2",
+      "author": "Oscar Wilde",
+      "work": "Lady Windermere’s Fan, Act III",
+      "source": "https://www.gutenberg.org/files/790/790-h/790-h",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "Esperienza è il nome che tutti danno ai propri errori.",
+        "lead": "Esperienza è il nome che tutti danno",
+        "ending": "ai propri errori."
+      },
+      "en": {
+        "text": "Experience is the name every one gives to their mistakes.",
+        "lead": "Experience is the name every one gives",
+        "ending": "to their mistakes."
+      },
+      "original": "en"
+    },
+    {
+      "id": "austen1",
+      "author": "Jane Austen",
+      "work": "Pride and Prejudice, Chapter I",
+      "source": "https://www.gutenberg.org/files/1342/1342-h/1342-h",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "È una verità universalmente riconosciuta che uno scapolo con una buona fortuna debba aver bisogno di una moglie.",
+        "lead": "È una verità universalmente riconosciuta che uno scapolo con una buona fortuna debba aver bisogno",
+        "ending": "di una moglie."
+      },
+      "en": {
+        "text": "It is a truth universally acknowledged, that a single man in possession of a good fortune must be in want of a wife.",
+        "lead": "It is a truth universally acknowledged, that a single man in possession of a good fortune must be in want",
+        "ending": "of a wife."
+      },
+      "original": "en"
+    },
+    {
+      "id": "machiavelli1",
+      "author": "Niccolò Machiavelli",
+      "work": "Il Principe, Capitolo XVII",
+      "source": "https://it.wikisource.org/wiki/Il_Principe/Capitolo_XVII",
+      "rights": "Public-domain original; IT/EN editorial rendering where translated.",
+      "it": {
+        "text": "È molto più sicuro l’esser temuto che amato.",
+        "lead": "È molto più sicuro l’esser",
+        "ending": "temuto che amato."
+      },
+      "en": {
+        "text": "It is much safer to be feared than loved.",
+        "lead": "It is much safer to be",
+        "ending": "feared than loved."
+      },
+      "original": "it"
+    }
+  ]
+}

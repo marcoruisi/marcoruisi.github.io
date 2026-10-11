@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/gis/gis.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcorui.si/tools/coordinate-converter/">
+<meta property="og:url" content="https://marcorui.si/tools/coordinate-converter/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/coordinate-converter/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/convertitore-coordinate/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/coordinate-converter/">
+<title>Coordinate converter | MRC · Marco Ruisi</title>
+<meta name="description" content="Convert coordinates between WGS84, Web Mercator and UTM systems.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Coordinate converter | MRC · Marco Ruisi">
+<meta property="og:description" content="Convert coordinates between WGS84, Web Mercator and UTM systems.">
+<meta name="twitter:title" content="Coordinate converter | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Convert coordinates between WGS84, Web Mercator and UTM systems.">
+<!-- MRC SHARED METADATA END -->
+</head><body><!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/" aria-label="marcorui.si home">← MRC</a>
+        <a href="/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/tools/all/" aria-label="All Tools"><span class="mrc-nav-full">All Tools</span><span class="mrc-nav-short" aria-hidden="true">All</span></a><a href="/tool-flows/" aria-label="Tool Flows"><span class="mrc-nav-full">Tool Flows</span><span class="mrc-nav-short" aria-hidden="true">Tool Flows</span></a><a href="/games/" aria-label="Games"><span class="mrc-nav-full">Games</span><span class="mrc-nav-short" aria-hidden="true">Games</span></a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/coordinate-converter/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/convertitore-coordinate/" lang="it">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END --><main class="mrc-gis">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Coordinate converter</h1><p class="gis-intro">Convert coordinates between common CRS: WGS84, Web Mercator, ETRS89 and UTM.</p><nav class="gis-links" aria-label="GIS Tools"><a href="/tools/coordinate-converter/">Coordinate converter</a> · <a href="/tools/map-coordinates/">Points on a map</a> · <a href="/tools/point-extractor/">GIS data at points</a> · <a href="/tools/coordinate-formats/">Coordinate formats DD/DMS</a></nav><section class="gis-panel"><div class="gis-grid"><label class="gis-field">Source CRS<select id="from"></select></label><label class="gis-field">Target CRS<select id="to"></select></label><label class="gis-field">X (longitude / easting)<input id="x" inputmode="decimal"></label><label class="gis-field">Y (latitude / northing)<input id="y" inputmode="decimal"></label></div><div class="gis-actions"><button class="primary" id="convert">Convert</button><button id="swap">Swap CRS</button></div><p class="gis-status" id="status" role="status"></p><pre id="result" class="gis-output" aria-live="polite"></pre><div class="gis-actions"><button id="copy">Copy coordinates</button><button id="save">CSV ↓</button><a id="maps" target="_blank" rel="noopener noreferrer" hidden>Google Maps ↗</a></div><p class="gis-note">Coordinates use X / Y order. Advanced datum transformations may require external transformation grids.</p></section></main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">What if this were just the first step?</h2><p>The result of one tool can be the starting point for another. The connections are yours to find.</p></div>
+    <a class="mrc-flow-prompt-link" href="/tool-flows/">Explore Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Related tools</h2><ul><li><a href="/tools/map-coordinates/">Points on a map</a></li><li><a href="/tools/point-extractor/">GIS data at points</a></li><li><a href="/tools/coordinate-formats/">Coordinate formats (DD / DMM / DMS)</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Something not working?</h2>
+    <p>Found a problem or have an idea to improve this tool?</p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20Coordinate%20converter%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Coordinate%20converter%0D%0APage%3A%20https%3A%2F%2Fmarcorui.si%2Ftools%2Fcoordinate-converter%2F%0D%0A%0D%0AFeedback%20type%3A%20bug%20%2F%20suggestion%20%2F%20other%0D%0A%0D%0ADescription%3A%0D%0A%0D%0A%0D%0ABrowser%20and%20device%20%28optional%29%3A">Send feedback →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="https://cdn.jsdelivr.net/npm/proj4@2.12.1/dist/proj4.js"></script><script src="/assets/gis/core.js"></script><script src="/assets/gis/coordinate.js"></script><script src="/assets/language-preference.js" defer></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+</body></html>

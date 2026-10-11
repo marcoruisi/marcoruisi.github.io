@@ -46,3 +46,72 @@
 .wordsearch-grid.wordsearch-rect.wordsearch-kids{width:min(100%,460px);gap:3px}
 .wordsearch-grid.wordsearch-rect.wordsearch-kids button{font-size:clamp(17px,3.5vw,27px);font-weight:650}
 @media (max-width:640px){.wordsearch-grid.wordsearch-rect.wordsearch-kids{width:min(100%,390px)}}
+
+/* Word-search grid sizes: medium matches the historical classic grid. */
+.wordsearch-size{margin-top:5px;margin-bottom:8px}
+.wordsearch-grid.wordsearch-rect[data-size="small"]{width:min(100%,450px)}
+.wordsearch-grid.wordsearch-rect[data-size="medium"]{width:min(100%,600px)}
+.wordsearch-grid.wordsearch-rect[data-size="large"]{width:min(100%,720px)}
+.wordsearch-grid.wordsearch-rect[data-size="small"] button{font-size:clamp(16px,3.6vw,26px)}
+.wordsearch-grid.wordsearch-rect[data-size="large"] button{font-size:clamp(9px,2vw,18px)}
+@media(max-width:600px){.wordsearch-grid.wordsearch-rect[data-size="large"] button{font-size:clamp(8px,2.3vw,13px)}}
+/* Size choice must also override the compact default when Kids is active. */
+.wordsearch-grid.wordsearch-rect.wordsearch-kids[data-size="small"]{width:min(100%,450px)}
+.wordsearch-grid.wordsearch-rect.wordsearch-kids[data-size="medium"]{width:min(100%,600px)}
+.wordsearch-grid.wordsearch-rect.wordsearch-kids[data-size="large"]{width:min(100%,720px)}
+.wordsearch-grid.wordsearch-rect.wordsearch-kids[data-size="large"] button{font-size:clamp(9px,2vw,18px)}
+
+/* Keep the final Sudoku column's outside stroke visible regardless of cell borders. */
+.maker-sudoku-grid{box-sizing:border-box;overflow:hidden;border:3px solid var(--text,#222);border-radius:0;isolation:isolate}
+.maker-sudoku-grid input:nth-child(9n){border-right:0}
+.maker-sudoku-grid input:nth-child(9n+1){border-left:0}
+.maker-sudoku-grid input:nth-child(-n+9){border-top:0}
+.maker-sudoku-grid input:nth-child(n+73){border-bottom:0}
+.mrc-maker-specific-game{margin:12px 0 18px;line-height:1.5}
+.mrc-game-share{margin:14px 0 20px;padding:13px 15px;border:1px solid var(--border,#aaa);max-width:760px;min-width:0}
+.mrc-game-share p{margin:0 0 10px;line-height:1.5}
+.mrc-game-share-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mrc-game-share-actions button{min-height:44px;padding:8px 14px;border:1px solid var(--border,#aaa);background:var(--panel,#fff);color:var(--text,#222);cursor:pointer}
+.mrc-game-share-url{display:block;width:100%;margin-top:9px;box-sizing:border-box;min-width:0;padding:10px;font:inherit}
+.mrc-game-share-status{margin:8px 0 0!important;overflow-wrap:anywhere}
+.mrc-game-share[hidden],.mrc-game-share-url[hidden]{display:none!important}
+
+/* Puzzle Maker: cross-links follow the understated editorial links used by MRC Tools.
+   Keep the anchors as links rather than turning them into extra button styles. */
+.mrc-puzzle-maker-page .mrc-maker-crosslink{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;
+  padding:14px 0;margin:2px 0 22px;
+  border-bottom:1px solid var(--border,#d7dbe0);
+  font-size:14px;line-height:1.55;
+}
+.mrc-puzzle-maker-page .mrc-maker-specific-game{
+  margin:12px 0 18px;
+  padding:0;
+  font-size:14px;line-height:1.55;
+}
+.mrc-puzzle-maker-page .mrc-maker-crosslink a,
+.mrc-puzzle-maker-page .mrc-maker-specific-game a,
+.mrc-puzzle-maker-page .share-services a{
+  color:var(--text,#202124);
+  font-family:inherit;
+  font-size:inherit;
+  font-weight:500;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:4px;
+  background:none;
+  border:0;
+  border-radius:0;
+  padding:0;
+}
+.mrc-puzzle-maker-page .mrc-maker-crosslink a:hover,
+.mrc-puzzle-maker-page .mrc-maker-specific-game a:hover,
+.mrc-puzzle-maker-page .share-services a:hover{
+  text-decoration-thickness:2px;
+}
+.mrc-puzzle-maker-page .mrc-maker-crosslink a:focus-visible,
+.mrc-puzzle-maker-page .mrc-maker-specific-game a:focus-visible,
+.mrc-puzzle-maker-page .share-services a:focus-visible{
+  outline:2px solid currentColor;outline-offset:4px;
+}
+.mrc-puzzle-maker-page .share-services{font-size:14px;line-height:1.55}

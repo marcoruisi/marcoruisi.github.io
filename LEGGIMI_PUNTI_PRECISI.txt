@@ -1,0 +1,17 @@
+MRC GIS - Selezione precisa e modifica punti (11 ottobre 2026)
+
+Applicare alla cartella /mrc/web dopo le patch GIS multi-sorgente e WMS HTTP.
+
+TOOL 02 e 03, IT e EN:
+- Click/tap sulla mappa principale apre una mini-mappa ingrandita con marcatore trascinabile e pulsante Conferma posizione.
+- Click sul marcatore gia presente: lente per spostamento o rimozione.
+- Trascinamento diretto del marcatore sulla mappa principale.
+- In Tool 02, anche la tabella consente Sposta / Rimuovi.
+- In Tool 03, anche l'elenco dei punti consente Sposta / Rimuovi.
+- In Tool 03, una modifica di coordinate svuota i risultati gia estratti.
+- Il CRS della lente e EPSG:4326; le coordinate nel Tool 02 restano visualizzate nel sistema selezionato.
+
+Files coinvolti: due JavaScript esistenti, un nuovo JS condiviso, un CSS e quattro HTML.
+Verifiche eseguite: sintassi JavaScript con node --check e integrita ZIP.
+Non collaudato interattivamente su browser/mobile; verificare i gesti touch e il caricamento delle mappe OSM.
+Nessun commit, push o deploy.

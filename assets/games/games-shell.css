@@ -143,3 +143,35 @@ body.mrc-2048-playing{overflow:hidden!important}
  .mrc-2048-stage .status{grid-row:4}
  .mrc-2048-stage .board2048{width:min(100%,310px,calc(100dvh - 295px),calc(100vw - 50px))}
 }
+
+
+/* 2048 mobile 2026-10-11: full viewport, swipe-first, no clipped HUD. */
+.mrc-2048-chooser[hidden]{display:none!important}
+.mrc-2048-chooser{margin:auto;max-width:460px;width:100%;padding:clamp(16px,4vw,30px);text-align:center}
+.mrc-2048-chooser h2{font-size:clamp(1.4rem,4vw,2rem);margin:0 0 12px}
+.mrc-2048-chooser p{line-height:1.5}
+.mrc-2048-chooser-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
+.mrc-2048-chooser-actions button{min-width:155px}
+.mrc-2048-stage-head button[hidden]{display:none!important}
+body.mrc-2048-overlay-open:not(.mrc-2048-playing){overflow:hidden!important}
+@media(hover:none) and (pointer:coarse){
+ .mrc-2048-stage .mrc-2048-control-panel{display:none!important}
+ .mrc-2048-stage .game-area{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto minmax(0,1fr) auto!important;gap:10px!important;align-items:center!important;justify-items:center!important;overflow:visible!important}
+ .mrc-2048-stage .metric{grid-column:1!important;grid-row:1!important;align-items:center;flex-wrap:wrap;gap:8px!important}
+ .mrc-2048-stage .metric .tools{gap:6px!important}
+ .mrc-2048-stage .metric button{min-height:40px!important;padding:7px 10px!important}
+ .mrc-2048-stage .board2048{grid-column:1!important;grid-row:2!important;width:min(100%,calc(100vw - 38px),calc(100dvh - 238px))!important;max-width:500px;min-width:0;align-self:center!important;justify-self:center!important;grid-template-rows:repeat(4,minmax(0,1fr))!important}
+ .mrc-2048-stage .tile{font-size:clamp(25px,8vw,53px)!important;line-height:1!important;font-weight:750}
+ .mrc-2048-stage .tile[data-value="128"],.mrc-2048-stage .tile[data-value="256"],.mrc-2048-stage .tile[data-value="512"],.mrc-2048-stage .tile[data-value="1024"],.mrc-2048-stage .tile[data-value="2048"]{font-size:clamp(21px,6vw,42px)!important}
+ .mrc-2048-stage .status{grid-column:1!important;grid-row:3!important;margin:0!important;font-size:.78rem!important;line-height:1.3!important}
+ .mrc-2048-stage .mrc-2048-gameover:not([hidden]){z-index:10}
+}
+@media(max-width:600px){
+ .mrc-2048-focus{padding:6px!important;align-items:stretch!important}
+ .mrc-2048-stage{width:100%;max-height:calc(100dvh - 12px)!important;padding:12px!important;gap:8px!important;overflow-y:auto!important;overflow-x:hidden!important}
+ .mrc-2048-stage-head{gap:6px!important;flex-wrap:wrap}
+ .mrc-2048-stage-head strong{font-size:1.25rem;margin-right:auto}
+ .mrc-2048-stage-head button{padding:7px 10px!important;font-size:.87rem!important;min-height:40px!important}
+ .mrc-2048-stage .mrc-playtime{padding:4px 0!important}
+ .mrc-2048-stage .game-area{flex:0 0 auto;min-height:0;overflow:visible!important}
+}

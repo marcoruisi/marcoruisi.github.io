@@ -65,6 +65,14 @@
         "en": "Game",
         "it": "Giochi"
       }
+    },
+    {
+      "field": "tags",
+      "value": "gis",
+      "label": {
+        "en": "GIS",
+        "it": "GIS"
+      }
     }
   ],
   "tags": {
@@ -163,6 +171,13 @@
       "label": {
         "en": "Game",
         "it": "Giochi"
+      },
+      "filter": true
+    },
+    "gis": {
+      "label": {
+        "en": "GIS",
+        "it": "GIS"
       },
       "filter": true
     }
@@ -635,6 +650,86 @@
       },
       "tags": [
         "game"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
+      "id": "gis-coordinate-converter",
+      "name": {
+        "en": "Coordinate converter",
+        "it": "Convertitore coordinate"
+      },
+      "url": {
+        "en": "/tools/coordinate-converter/",
+        "it": "/it/tools/convertitore-coordinate/"
+      },
+      "description": {
+        "en": "Convert coordinates between WGS84, Web Mercator and UTM systems.",
+        "it": "Converti coordinate tra WGS84, Web Mercator e sistemi UTM."
+      },
+      "tags": [
+        "gis"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
+      "id": "gis-map-coordinates",
+      "name": {
+        "en": "Points on a map",
+        "it": "Punti su mappa"
+      },
+      "url": {
+        "en": "/tools/map-coordinates/",
+        "it": "/it/tools/punti-su-mappa/"
+      },
+      "description": {
+        "en": "Pick points on a map, copy projected coordinates and open in Google Maps.",
+        "it": "Seleziona punti su una mappa, copia le coordinate e apri Google Maps."
+      },
+      "tags": [
+        "gis"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
+      "id": "gis-point-extractor",
+      "name": {
+        "en": "GIS data at points",
+        "it": "Estrai dati GIS per punti"
+      },
+      "url": {
+        "en": "/tools/point-extractor/",
+        "it": "/it/tools/estrazione-dati-punti/"
+      },
+      "description": {
+        "en": "Extract vector attributes, GeoTIFF samples and WMS feature information for points.",
+        "it": "Estrai attributi vettoriali, campioni GeoTIFF e informazioni WMS nei punti."
+      },
+      "tags": [
+        "gis"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
+      "id": "gis-coordinate-formats",
+      "name": {
+        "en": "Coordinate formats (DD / DMM / DMS)",
+        "it": "Formati coordinate (DD / DMM / DMS)"
+      },
+      "url": {
+        "en": "/tools/coordinate-formats/",
+        "it": "/it/tools/formati-coordinate/"
+      },
+      "description": {
+        "en": "Convert latitude and longitude between DD, DMM and DMS.",
+        "it": "Converti latitudine e longitudine tra DD, DMM e DMS."
+      },
+      "tags": [
+        "gis"
       ],
       "type": "tool",
       "availability": "free"

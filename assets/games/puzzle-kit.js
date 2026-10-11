@@ -5,6 +5,22 @@ kit.encode=o=>{const bytes=new TextEncoder().encode(JSON.stringify(o));let s='';
 kit.decode=s=>{if(!s||s.length>5500)throw Error('Invalid challenge');const b=atob(s.replace(/-/g,'+').replace(/_/g,'/')+'='.repeat((4-s.length%4)%4));return JSON.parse(new TextDecoder().decode(Uint8Array.from(b,c=>c.charCodeAt(0))))};
 kit.valid=o=>o&&o.version===1&&['sudoku','mastermind','sequences','wordsearch'].includes(o.type)&&typeof o.data==='object'&&o.data!==null;
 kit.share=async(data,title,it)=>{const path=it?{sudoku:'sudoku',mastermind:'codice-segreto',sequences:'sequenze',wordsearch:'trova-parole'}:{sudoku:'sudoku',mastermind:'codebreaker',sequences:'sequences',wordsearch:'wordsearch'};const url=location.origin+(it?'/it/giochi/':'/games/')+(path[data.type]||'')+'/';const qs='?challenge='+kit.encode(data);const link=url+qs;if(link.length>1900)return {link:null,msg:it?'Sfida troppo lunga per un link: scarica il JSON.':'Challenge too long for a link: download JSON.'};try{if(navigator.share){await navigator.share({title,text:it?'Prova la mia sfida MRC':'Try my MRC challenge',url:link});return {link,msg:it?'Condivisa.':'Shared.'}}}catch(e){if(e.name==='AbortError')return {link,msg:''}}try{await navigator.clipboard.writeText(link);return {link,msg:it?'Link copiato.':'Link copied.'}}catch{return {link,msg:it?'Copia il link qui sotto.':'Copy the link below.'}}};
+kit.attachGameShare=(root,getData,it)=>{
+ if(!root||root.querySelector('.mrc-game-share'))return;
+ const box=document.createElement('section');box.className='mrc-game-share';
+ const desc=document.createElement('p');desc.textContent=it?'Ti è piaciuta? Invita qualcuno a provare la stessa sfida.':'Enjoyed it? Invite someone to try the same challenge.';
+ const actions=document.createElement('div');actions.className='mrc-game-share-actions';
+ const button=(label,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',fn);actions.append(b);return b};
+ const status=document.createElement('p');status.className='mrc-game-share-status';status.setAttribute('role','status');
+ const url=document.createElement('input');url.type='text';url.className='mrc-game-share-url';url.readOnly=true;url.hidden=true;url.setAttribute('aria-label',it?'Link della sfida':'Challenge link');
+ button(it?'Condividi questa sfida ↗':'Share this challenge ↗',async()=>{
+  const data=getData();if(!data||!kit.validate(data)){status.textContent=it?'Sfida non disponibile.':'Challenge unavailable.';return}
+  const result=await kit.share(data,it?'Sfida MRC':'MRC challenge',it);status.textContent=result.msg;url.hidden=!result.link;if(result.link){url.value=result.link;url.select()}
+  if(!result.link)status.textContent+=(it?' Usa Scarica JSON per inviarla.':' Use Download JSON to send it.');
+ });
+ button(it?'Scarica JSON':'Download JSON',()=>{const data=getData();if(data&&kit.validate(data))kit.download(data,'mrc-'+data.type+'-challenge')});
+ box.append(desc,actions,status,url);root.append(box);
+};
 kit.download=(data,name)=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
 kit.readFile=async f=>{if(!f||f.size>200000)throw Error('File too large');const o=JSON.parse(await f.text());if(!kit.valid(o))throw Error('Invalid MRC puzzle');return o};
 kit.sudoku={};

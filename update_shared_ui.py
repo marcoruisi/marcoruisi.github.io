@@ -481,6 +481,8 @@ def plan_shared_ui(root=ROOT):
                 visit(data)
                 return '<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=2) + '\n</script>'
             text = re.sub(r'<script type="application/ld\+json">(.*?)</script>', website_name, text, flags=re.S)
+        if '/assets/language-preference.js' not in text:
+            text = text.replace('</body>', '<script src="/assets/language-preference.js" defer></script>\n</body>')
         # Collapse only whitespace between generated blocks; avoids repeated removal leaving blank lines.
         text = re.sub(r'\n{3,}', '\n\n', text)
         if text != original: planned[path] = text

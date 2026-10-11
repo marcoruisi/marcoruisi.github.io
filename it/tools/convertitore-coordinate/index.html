@@ -1,0 +1,75 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/gis/gis.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcorui.si/it/tools/convertitore-coordinate/">
+<meta property="og:url" content="https://marcorui.si/it/tools/convertitore-coordinate/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/coordinate-converter/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/convertitore-coordinate/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/coordinate-converter/">
+<title>Convertitore coordinate | MRC · Marco Ruisi</title>
+<meta name="description" content="Converti coordinate tra WGS84, Web Mercator e sistemi UTM.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Convertitore coordinate | MRC · Marco Ruisi">
+<meta property="og:description" content="Converti coordinate tra WGS84, Web Mercator e sistemi UTM.">
+<meta name="twitter:title" content="Convertitore coordinate | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Converti coordinate tra WGS84, Web Mercator e sistemi UTM.">
+<!-- MRC SHARED METADATA END -->
+</head><body><!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/it/" aria-label="marcorui.si home">← MRC</a>
+        <a href="/it/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/it/tools/tutti/" aria-label="Tutti gli strumenti"><span class="mrc-nav-full">Tutti gli strumenti</span><span class="mrc-nav-short" aria-hidden="true">All</span></a><a href="/it/tool-flows/" aria-label="Tool Flows"><span class="mrc-nav-full">Tool Flows</span><span class="mrc-nav-short" aria-hidden="true">Tool Flows</span></a><a href="/it/giochi/" aria-label="Giochi"><span class="mrc-nav-full">Giochi</span><span class="mrc-nav-short" aria-hidden="true">Giochi</span></a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/tools/coordinate-converter/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/convertitore-coordinate/" lang="it" aria-current="page">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END --><main class="mrc-gis">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Convertitore di coordinate</h1><p class="gis-intro">Converti coordinate tra sistemi di riferimento: WGS84, Web Mercator, ETRS89 e UTM.</p><nav class="gis-links" aria-label="GIS Tools"><a href="/it/tools/convertitore-coordinate/">Convertitore di coordinate</a> · <a href="/it/tools/punti-su-mappa/">Punti su mappa</a> · <a href="/it/tools/estrazione-dati-punti/">Estrazione dati GIS per punti</a> · <a href="/it/tools/formati-coordinate/">Formati coordinate DD/DMS</a></nav><section class="gis-panel"><div class="gis-grid"><label class="gis-field">Sistema di partenza<select id="from"></select></label><label class="gis-field">Sistema di arrivo<select id="to"></select></label><label class="gis-field">X (longitudine / est)<input id="x" inputmode="decimal"></label><label class="gis-field">Y (latitudine / nord)<input id="y" inputmode="decimal"></label></div><div class="gis-actions"><button class="primary" id="convert">Converti</button><button id="swap">Inverti sistemi</button></div><p class="gis-status" id="status" role="status"></p><pre id="result" class="gis-output" aria-live="polite"></pre><div class="gis-actions"><button id="copy">Copia coordinate</button><button id="save">CSV ↓</button><a id="maps" target="_blank" rel="noopener noreferrer" hidden>Google Maps ↗</a></div><p class="gis-note">Coordinate nell’ordine X / Y. Le conversioni geodetiche complesse possono richiedere griglie di trasformazione non incluse.</p></section></main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">E se fosse solo il primo passaggio?</h2><p>Il risultato di uno strumento può essere il punto di partenza per un altro. I collegamenti li trovi tu.</p></div>
+    <a class="mrc-flow-prompt-link" href="/it/tool-flows/">Scopri Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Strumenti correlati</h2><ul><li><a href="/it/tools/punti-su-mappa/">Punti su mappa</a></li><li><a href="/it/tools/estrazione-dati-punti/">Estrai dati GIS per punti</a></li><li><a href="/it/tools/formati-coordinate/">Formati coordinate (DD / DMM / DMS)</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Qualcosa non funziona?</h2>
+    <p>Hai trovato un problema o hai un suggerimento per migliorare questo strumento?</p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20Convertitore%20coordinate%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Convertitore%20coordinate%0D%0APagina%3A%20https%3A%2F%2Fmarcorui.si%2Fit%2Ftools%2Fconvertitore-coordinate%2F%0D%0A%0D%0ATipo%20di%20segnalazione%3A%20problema%20%2F%20suggerimento%20%2F%20altro%0D%0A%0D%0ADescrizione%3A%0D%0A%0D%0A%0D%0ABrowser%20e%20dispositivo%20%28facoltativo%29%3A">Invia una segnalazione →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Ti serve qualcosa di più specifico?</h2>
+        <p>Questo strumento risolve un problema comune. Se il tuo lavoro richiede regole, integrazioni o automazioni diverse, posso progettare una soluzione intorno a quelle esigenze.</p>
+        <p><a href="/it/contatti/">Raccontami il tuo problema →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="https://cdn.jsdelivr.net/npm/proj4@2.12.1/dist/proj4.js"></script><script src="/assets/gis/core.js"></script><script src="/assets/gis/coordinate.js"></script><script src="/assets/language-preference.js" defer></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+</body></html>

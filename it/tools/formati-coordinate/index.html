@@ -1,0 +1,76 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/gis/gis.css"><link rel="stylesheet" href="/assets/gis/angular-formats.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcorui.si/it/tools/formati-coordinate/">
+<meta property="og:url" content="https://marcorui.si/it/tools/formati-coordinate/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/coordinate-formats/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/formati-coordinate/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/coordinate-formats/">
+<title>Formati coordinate (DD / DMM / DMS) | MRC · Marco Ruisi</title>
+<meta name="description" content="Converti latitudine e longitudine tra DD, DMM e DMS.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Formati coordinate (DD / DMM / DMS) | MRC · Marco Ruisi">
+<meta property="og:description" content="Converti latitudine e longitudine tra DD, DMM e DMS.">
+<meta name="twitter:title" content="Formati coordinate (DD / DMM / DMS) | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Converti latitudine e longitudine tra DD, DMM e DMS.">
+<!-- MRC SHARED METADATA END -->
+</head><body><!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/it/" aria-label="marcorui.si home">← MRC</a>
+        <a href="/it/tools/" aria-label="Everyday Tools"><span class="mrc-nav-full">Everyday Tools</span><span class="mrc-nav-short" aria-hidden="true">Everyday</span></a><a href="/it/tools/tutti/" aria-label="Tutti gli strumenti"><span class="mrc-nav-full">Tutti gli strumenti</span><span class="mrc-nav-short" aria-hidden="true">All</span></a><a href="/it/tool-flows/" aria-label="Tool Flows"><span class="mrc-nav-full">Tool Flows</span><span class="mrc-nav-short" aria-hidden="true">Tool Flows</span></a><a href="/it/giochi/" aria-label="Giochi"><span class="mrc-nav-full">Giochi</span><span class="mrc-nav-short" aria-hidden="true">Giochi</span></a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/tools/coordinate-formats/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/formati-coordinate/" lang="it" aria-current="page">IT</a></nav>
+</header>
+<!-- MRC SHARED TOOL HEADER END --><main class="mrc-gis">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<p class="mrc-tool-model">TOOL · FREE</p><h1>Formati delle coordinate</h1><p class="gis-intro">Converti latitudine e longitudine tra gradi decimali, gradi e minuti decimali e gradi minuti secondi.</p><nav class="gis-links" aria-label="GIS Tools"><a href="/it/tools/convertitore-coordinate/">Convertitore CRS</a> · <a href="/it/tools/punti-su-mappa/">Punti su mappa</a> · <a href="/it/tools/estrazione-dati-punti/">Estrazione dati</a></nav><section class="gis-panel gis4-panel"><h2>Da DMS a decimali, e viceversa</h2><p class="gis4-help">Il formato cambia, non il sistema di riferimento. Le coordinate sono geografiche WGS84 (EPSG:4326), non UTM. Usa il convertitore CRS per cambiare proiezione.</p><label class="gis-field">Incolla una coppia (facoltativo)<textarea id="gis4-raw" rows="2" placeholder="44° 29′ 12″ N; 11° 20′ 15″ E"></textarea></label><div class="gis-actions"><button type="button" id="gis4-from-text">Leggi coordinate</button><button type="button" id="gis4-example">Esempio</button></div><div class="gis4-pair"><label class="gis-field">Latitudine<input id="gis4-lat" type="text" inputmode="text" autocomplete="off" placeholder="44° 29′ 12″ N"></label><label class="gis-field">Longitudine<input id="gis4-lon" type="text" inputmode="text" autocomplete="off" placeholder="11° 20′ 15″ E"></label></div><p class="gis4-examples">Accetta DD: 44.4866667, DMM: 44° 29.2′ N, DMS: 44° 29′ 12″ N. Anche S/O, segni negativi e virgola decimale.</p><div class="gis-actions"><button type="button" class="primary" id="gis4-convert">Converti</button></div><p id="gis4-status" class="gis-status" role="status" aria-live="polite"></p><label class="gis-field gis4-separator-field">Separatore decimale<select id="gis4-separator"><option value="dot">Punto (.)</option><option value="comma">Virgola (,)</option></select></label><section class="gis4-results"><h2>Risultati</h2><div id="gis4-result" class="gis4-result-list" aria-live="polite"></div><div id="gis4-table"><label class="gis-field">Riporta nei campi il formato<select id="gis4-format"><option value="dd">DD — Gradi decimali</option><option value="dmm">DMM — Gradi e minuti decimali</option><option value="dms">DMS — Gradi minuti secondi</option></select></label></div><div class="gis-actions"><button id="gis4-copy" type="button">Copia risultati</button><button id="gis4-csv" type="button">CSV ↓</button><a id="gis4-map" target="_blank" rel="noopener noreferrer" hidden>Google Maps ↗</a></div></section><p class="gis-note">Limiti: latitudine ±90° e longitudine ±180°. Output arrotondato (DD 8 decimali, DMM 6 decimali, DMS 2 decimali).</p></section></main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">E se fosse solo il primo passaggio?</h2><p>Il risultato di uno strumento può essere il punto di partenza per un altro. I collegamenti li trovi tu.</p></div>
+    <a class="mrc-flow-prompt-link" href="/it/tool-flows/">Scopri Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Strumenti correlati</h2><ul><li><a href="/it/tools/convertitore-coordinate/">Convertitore coordinate</a></li><li><a href="/it/tools/punti-su-mappa/">Punti su mappa</a></li><li><a href="/it/tools/estrazione-dati-punti/">Estrai dati GIS per punti</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Qualcosa non funziona?</h2>
+    <p>Hai trovato un problema o hai un suggerimento per migliorare questo strumento?</p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20Formati%20coordinate%20%28DD%20%2F%20DMM%20%2F%20DMS%29%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Formati%20coordinate%20%28DD%20%2F%20DMM%20%2F%20DMS%29%0D%0APagina%3A%20https%3A%2F%2Fmarcorui.si%2Fit%2Ftools%2Fformati-coordinate%2F%0D%0A%0D%0ATipo%20di%20segnalazione%3A%20problema%20%2F%20suggerimento%20%2F%20altro%0D%0A%0D%0ADescrizione%3A%0D%0A%0D%0A%0D%0ABrowser%20e%20dispositivo%20%28facoltativo%29%3A">Invia una segnalazione →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Ti serve qualcosa di più specifico?</h2>
+        <p>Questo strumento risolve un problema comune. Se il tuo lavoro richiede regole, integrazioni o automazioni diverse, posso progettare una soluzione intorno a quelle esigenze.</p>
+        <p><a href="/it/contatti/">Raccontami il tuo problema →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="/assets/gis/angular-formats.js"></script><script src="/assets/language-preference.js" defer></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+
+</body></html>
