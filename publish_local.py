@@ -33,7 +33,32 @@ def align_history(root=ROOT):
         print('Cronologia allineata a origin/main. File Dropbox conservati; differenze locali da pubblicare.')
 
 
-def publish(message, root=ROOT):
+def restore_automation_files(root=ROOT):
+    """Stage only missing local automation files; never overwrite existing remote files."""
+    tracked = set(git('ls-tree', '-r', '--name-only', 'HEAD', '--', '.github', 'scripts',
+                      root=root, capture=True).splitlines())
+    new_files = []
+    for dirname in ('.github', 'scripts'):
+        directory = root / dirname
+        if not directory.is_dir():
+            print(f'Ripristino: {dirname}/ non presente localmente, ignorata.')
+            continue
+        for file in sorted(directory.rglob('*')):
+            if not file.is_file() or file.is_symlink():
+                continue
+            rel = file.relative_to(root).as_posix()
+            if any(p in ('__pycache__', '.DS_Store') for p in file.parts) or file.suffix == '.pyc':
+                continue
+            if rel not in tracked:
+                new_files.append(rel)
+    if new_files:
+        git('add', '-f', '--', *new_files, root=root)
+        print(f'Ripristino: {len(new_files)} file nuovi di .github/ e scripts/ aggiunti al commit.')
+    else:
+        print('Ripristino: nessun file di automazione mancante da caricare.')
+
+
+def publish(message, root=ROOT, restore_automation=False):
     align_history(root)
     subprocess.run([sys.executable, str(root / 'build.py')], cwd=root, check=True)
     # Automation folders are managed separately: never upload or delete them here.
@@ -41,6 +66,8 @@ def publish(message, root=ROOT):
     staged_protected = git('diff', '--cached', '--name-only', '--', '.github', 'scripts', root=root, capture=True)
     if staged_protected.strip():
         git('reset', '-q', 'HEAD', '--', '.github', 'scripts', root=root)
+    if restore_automation:
+        restore_automation_files(root)
     ignored = subprocess.run(['git', 'ls-files', '-ci', '--exclude-standard', '-z'], cwd=root, check=True, stdout=subprocess.PIPE).stdout
     if ignored:
         names = [name for name in ignored.decode().rstrip('\0').split('\0')
@@ -68,9 +95,11 @@ def publish(message, root=ROOT):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--message', default='Update MRC website')
+    parser.add_argument('--restore-automation', action='store_true',
+                        help='Ripristina su GitHub soltanto file locali mancanti in .github/ e scripts/')
     args = parser.parse_args()
     try:
-        publish(args.message)
+        publish(args.message, restore_automation=args.restore_automation)
     except (subprocess.CalledProcessError, ValueError, OSError) as exc:
         print(f'Pubblicazione interrotta: {exc}', file=sys.stderr)
         sys.exit(1)

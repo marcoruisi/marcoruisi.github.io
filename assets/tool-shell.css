@@ -60,3 +60,15 @@ body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSyste
   .mrc-tool-header .mrc-tools-nav {min-width:0;}
   .mrc-donation {box-sizing:border-box;max-width:100%!important;}
 }
+
+/* Shared width for operational Tools, including topic-based creator. */
+:root { --mrc-content-width: 920px; }
+.topic-shell { width:100%; max-width:var(--mrc-content-width); min-width:0; margin-inline:auto; box-sizing:border-box; }
+
+/* Content links: recognizable throughout Tools and Games; navigation and button links keep their own styling. */
+body > main a:not(.card):not(.topic-launch):not([role="button"]),
+.app a:not(.card):not(.topic-launch):not([role="button"]) {
+  text-decoration:underline; text-underline-offset:3px;
+}
+body > main a:not(.card):not(.topic-launch):not([role="button"]):hover,
+.app a:not(.card):not(.topic-launch):not([role="button"]):hover { text-decoration-thickness:2px; }
