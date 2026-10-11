@@ -36,11 +36,17 @@ def align_history(root=ROOT):
 def publish(message, root=ROOT):
     align_history(root)
     subprocess.run([sys.executable, str(root / 'build.py')], cwd=root, check=True)
+    # Automation folders are managed separately: never upload or delete them here.
     git('add', '-A', root=root)
+    staged_protected = git('diff', '--cached', '--name-only', '--', '.github', 'scripts', root=root, capture=True)
+    if staged_protected.strip():
+        git('reset', '-q', 'HEAD', '--', '.github', 'scripts', root=root)
     ignored = subprocess.run(['git', 'ls-files', '-ci', '--exclude-standard', '-z'], cwd=root, check=True, stdout=subprocess.PIPE).stdout
     if ignored:
-        names = ignored.decode().rstrip('\0').split('\0')
-        git('rm', '--cached', '--ignore-unmatch', '--', *names, root=root)
+        names = [name for name in ignored.decode().rstrip('\0').split('\0')
+                 if name and name.split('/', 1)[0] not in ('.github', 'scripts')]
+        if names:
+            git('rm', '--cached', '--ignore-unmatch', '--', *names, root=root)
     changed = subprocess.run(['git', 'diff', '--cached', '--quiet'], cwd=root).returncode
     if changed not in (0, 1):
         raise ValueError('Impossibile verificare le modifiche staged.')
@@ -51,7 +57,10 @@ def publish(message, root=ROOT):
     git('fetch', 'origin', 'main', root=root)
     if git('rev-parse', 'HEAD', root=root, capture=True) != git('rev-parse', 'origin/main', root=root, capture=True):
         raise ValueError('HEAD e origin/main non allineati dopo il push.')
-    if git('status', '--porcelain', root=root, capture=True).strip():
+    status = git('status', '--porcelain', '--untracked-files=all', root=root, capture=True)
+    remaining = [line for line in status.splitlines()
+                 if line[3:].split('/', 1)[0] not in ('.github', 'scripts')]
+    if remaining:
         raise ValueError('Push eseguito, ma il repository contiene modifiche successive: non dichiarato pulito.')
     print('Repository pulito e allineato. Cloudflare Pages pubblicherà il commit: https://marcoruisi.pages.dev/')
 
