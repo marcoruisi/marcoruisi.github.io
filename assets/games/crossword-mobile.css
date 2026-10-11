@@ -87,3 +87,15 @@
 }
 @media (max-width:800px) and (pointer:fine){.mrc-cw-board-bar{display:none!important}}
 @media (min-width:801px){.mrc-cw-board-bar{display:none!important}}
+
+/* Native keyboard is an explicit action on coarse-pointer mobile only. */
+.mrc-cw-keyboard-action{display:none!important}
+@media (max-width:800px) and (pointer:coarse){
+ body.mrc-crossword-game.mrc-cw-touch-play #mobileKeyboard{display:block!important;width:100%;min-height:44px;margin:5px 0 2px;font:inherit;font-weight:650;border:1px solid var(--mrc-game-edge,#777);border-radius:7px;background:var(--panel,#fff);color:var(--text,#222);cursor:pointer}
+ body.mrc-crossword-game.mrc-cw-touch-play #mobileKeyboard[aria-pressed="true"]{background:var(--text,#222);color:var(--panel,#fff)}
+ body.mrc-crossword-game.mrc-cw-touch-play #mobileKeyboard:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+}
+
+/* Keyboard action available in both Crossword Tool and Game. */
+.mrc-cw-keyboard-action{display:none}
+@media(max-width:900px){.mrc-cw-keyboard-action{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 16px;margin:8px 0 12px;background:#202124;color:#fff;border:1px solid #202124;border-radius:5px}}

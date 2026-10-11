@@ -49,3 +49,6 @@ body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSyste
 
 /* Keep support cards aligned with the content column, including before a result. */
 .mrc-donation{margin-left:max(0px, calc((100% - 920px)/2))!important;margin-right:0!important;max-width:620px!important;width:100%!important}
+
+/* MRC: consistent legible palette in regular and private browsing. */
+:root{color-scheme:light;--bg:#f4f5f7;--panel:#fff;--text:#202124;--muted:#687078;--border:#d7dbe0;--primary:#2271b1;--primary-hover:#135e96;--success:#198754;--danger:#b42318}
