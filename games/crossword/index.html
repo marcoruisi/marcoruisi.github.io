@@ -34,6 +34,8 @@ body.guide-modal.guide-areas #photoEditor .toolbar{margin:.35rem 0;gap:.45rem}
 body.guide-modal.guide-areas #photoEditor .photo-tip,body.guide-modal.guide-areas #photoEditor .hint{margin:.4rem 0}
 @media(max-width:730px){body.guide-modal.guide-areas #photoEditor{inset:4px;padding:8px}}
 
+/* Match the editorial width used by the other MRC game pages. Keep the board scrollable inside this container. */
+body.mrc-crossword-game main{width:100%;max-width:960px;min-width:0}
 /* The desktop grid owns keyboard focus; touch devices use an invisible input bridge. */
 .touch-typing{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;padding:0!important;border:0!important}
 #board .cell:focus-visible{outline:3px solid #1765ad;outline-offset:-3px;z-index:2}
@@ -458,7 +460,7 @@ if(presetRoot){
  async function listExamples(){
   try{const r=await fetch('/assets/games/crosswords/index.json',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);
    const manifest=await r.json();if(!Array.isArray(manifest.games))throw Error('Invalid index');
-   const items=manifest.games.filter(x=>x.language==='it'&&safeName(x.file)&&x.file!=='mrc-cruciverba.json'&&x.file!=='mrc-del-giorno.json');
+   const items=manifest.games.filter(x=>x.language==='en'&&safeName(x.file)&&x.file!=='mrc-del-giorno.json');
    note.textContent=items.length?'':"No puzzles yet. You can import your JSON.";
    items.forEach(item=>{const button=document.createElement('button');button.type='button';const strong=document.createElement('strong');strong.textContent=item.title||item.file;button.appendChild(strong);button.addEventListener('click',()=>loadExample(item.file).catch(e=>{note.textContent='⚠ '+e.message}));presetRoot.insertBefore(button,presetRoot.children[presetRoot.children.length-4]);});
   }catch(err){note.textContent="Cannot load the collection. Open the site over HTTP, not file://.";}
