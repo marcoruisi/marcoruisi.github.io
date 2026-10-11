@@ -96,3 +96,21 @@
  window.addEventListener('pagehide',persist);
  setInterval(tick,250);setInterval(persist,5000);update();
 })();
+
+/* MRC shared footer: same component as Tools, including game pages. */
+(()=>{
+  'use strict';
+  const footer=document.querySelector('body > footer');
+  if(!footer)return;
+  const markup=`<p class="footer-name">Marco Ruisi</p><p class="footer-claim">Simple systems. Better questions.</p><p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p><p class="copyright">© 2026</p><p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>`;
+  function normalize(){
+    footer.classList.add('footer','mrc-site-footer');
+    if(!footer.querySelector('.footer-name'))footer.innerHTML=markup;
+  }
+  normalize();
+  // The crossword editor reassigns footer.textContent on every render.
+  if(document.querySelector('.mrc-crossword-intro')){
+    const observer=new MutationObserver(()=>{if(!footer.querySelector('.footer-name'))normalize()});
+    observer.observe(footer,{childList:true});
+  }
+})();

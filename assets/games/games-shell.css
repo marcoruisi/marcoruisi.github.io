@@ -146,3 +146,20 @@ body.mrc-2048-playing{overflow:hidden!important}
 
 /* Stable contrast for launch cards and controls on dark-preferring browsers. */
 :root{--mrc-game-bg:#f4f1fc;--mrc-game-edge:#d8d0eb}body{background:var(--mrc-game-bg);color:#202124}body .cards .card{background:#fff;color:#202124}body.mrc-crossword-game #startScreen .start-actions button{background:#fff;color:#202124;border-color:#d8d0eb}
+
+/* Site-wide MRC footer parity: Games and Tools. */
+body > footer.mrc-site-footer {
+  display:block; max-width:920px; margin:110px auto 0!important;
+  padding:35px 20px 25px!important; border-top:1px solid var(--line,#ddd);
+  background:transparent; color:var(--muted,#687078);
+  text-align:left; font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px; font-weight:400; line-height:1.6;
+}
+body > footer.mrc-site-footer p{margin:0 0 8px}
+body > footer.mrc-site-footer .footer-name{color:var(--text,#202124);font-weight:600}
+body > footer.mrc-site-footer a{color:inherit;text-decoration:none}
+body > footer.mrc-site-footer a:hover{text-decoration:underline;text-underline-offset:4px}
+body > footer.mrc-site-footer .copyright{margin-top:24px;font-size:13px}
+body > footer.mrc-site-footer .mrc-publish{margin-top:16px;font-size:12px}
+body > footer.mrc-site-footer a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+@media(max-width:700px){body > footer.mrc-site-footer{margin-top:70px!important;padding-inline:14px!important}}
