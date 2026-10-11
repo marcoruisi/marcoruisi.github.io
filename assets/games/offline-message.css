@@ -1,0 +1,24 @@
+/* Games offline — highlighted clickable introduction, separate setup action, plain explanation. */
+.mrc-games-offline-teaser{display:block;box-sizing:border-box;max-width:850px;margin:1.4rem 0 1.7rem;padding:1.15rem 1.45rem;border:1px solid #c9c2d5;border-radius:12px;background:#fff;color:#202124;text-decoration:none;transition:border-color .15s ease,background-color .15s ease}
+.mrc-games-offline-teaser:hover{border-color:#675c7b;background:#f8f6fb}
+.mrc-games-offline-teaser:focus-visible{outline:3px solid #675c7b;outline-offset:3px}
+.mrc-games-offline-eyebrow{display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#575064}
+.mrc-games-offline-teaser h2{font-size:clamp(1.25rem,3vw,1.75rem);line-height:1.25;margin:.35rem 0 .65rem;color:#202124}
+.mrc-games-offline-teaser .mrc-games-offline-cta{display:inline-block;font-size:.95rem;font-weight:650;color:#292336;text-decoration:underline;text-underline-offset:4px}
+.mrc-games-offline-explainer{box-sizing:border-box;max-width:850px;margin:1.7rem 0 .5rem;padding:0;background:transparent;border:0;border-radius:0;color:inherit;scroll-margin-top:1.5rem}
+.mrc-games-offline-explainer h2{font-size:clamp(1.25rem,3vw,1.75rem);line-height:1.25;margin:.35rem 0 .85rem;color:inherit}
+.mrc-games-offline-explainer p{margin:.7rem 0;line-height:1.65;color:inherit}
+.mrc-games-offline-explainer .mrc-games-offline-caveat{font-size:.9rem;opacity:.8}
+/* Service-worker state: a distinct action area, not another prose paragraph. */
+.mrc-games-offline{box-sizing:border-box;max-width:850px;margin:1.1rem 0 2rem;padding:1.05rem 1.25rem;border:1px solid #c9c2d5;border-radius:12px;background:#fff;color:#202124}
+.mrc-games-offline p{margin:.35rem 0;line-height:1.55;color:#202124}
+.mrc-games-offline button{margin-top:.65rem;padding:.65rem 1rem;min-height:44px;border:1px solid #292336;border-radius:8px;background:#292336;color:#fff;font:inherit;font-weight:650;cursor:pointer}
+.mrc-games-offline button:hover:not(:disabled){background:#4b405d}
+.mrc-games-offline button:disabled{opacity:.65;cursor:wait}
+.mrc-games-offline button[hidden],.mrc-games-offline p[hidden]{display:none}
+.mrc-games-offline button:focus-visible{outline:3px solid #675c7b;outline-offset:3px}
+@media(max-width:620px){.mrc-games-offline-teaser{padding:1rem 1.1rem;margin:1.15rem 0 1.45rem}.mrc-games-offline{padding:1rem 1.1rem}}
+/* Smooth anchor navigation from the offline teaser; respect reduced-motion preferences. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.mrc-games-offline-teaser) { scroll-behavior: smooth; }
+}
