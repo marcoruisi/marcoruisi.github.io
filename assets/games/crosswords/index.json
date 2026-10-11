@@ -1,9 +1,83 @@
 {
+  "version": 1,
   "games": [
     {
-      "file": "mrc-cruciverba.json",
+      "id": "daily",
+      "file": "mrc-del-giorno.json",
+      "title": "Cruciverba editoriale di prova",
       "language": "it",
-      "title": "Cruciverba 01 · Italiano"
+      "type": "editorial-preview",
+      "date": "2026-10-11"
+    },
+    {
+      "id": "cinema",
+      "file": "mrc-tema-cinema.json",
+      "title": "Cinema",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "musica",
+      "file": "mrc-tema-musica.json",
+      "title": "Musica",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "scienza",
+      "file": "mrc-tema-scienza.json",
+      "title": "Scienza",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "natura",
+      "file": "mrc-tema-natura.json",
+      "title": "Natura",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "storia",
+      "file": "mrc-tema-storia.json",
+      "title": "Storia",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "geografia",
+      "file": "mrc-tema-geografia.json",
+      "title": "Geografia",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "sport",
+      "file": "mrc-tema-sport.json",
+      "title": "Sport",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "letteratura",
+      "file": "mrc-tema-letteratura.json",
+      "title": "Letteratura",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "tecnologia",
+      "file": "mrc-tema-tecnologia.json",
+      "title": "Tecnologia",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "curiosita",
+      "file": "mrc-tema-curiosita.json",
+      "title": "Curiosità",
+      "language": "it",
+      "type": "curated"
     }
   ]
 }
