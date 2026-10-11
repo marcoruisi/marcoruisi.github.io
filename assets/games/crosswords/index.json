@@ -3,7 +3,7 @@
   "games": [
     {
       "id": "sample",
-      "file": "mrc-cruciverba",
+      "file": "mrc-cruciverba.json",
       "title": "Esempio",
       "language": "it",
       "type": "curated"
