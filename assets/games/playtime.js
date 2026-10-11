@@ -114,3 +114,6 @@
     observer.observe(footer,{childList:true});
   }
 })();
+
+/* Register offline capability on every game page. */
+(function(){if(!document.querySelector('script[src="/assets/games/offline.js"]')){const s=document.createElement("script");s.src="/assets/games/offline.js";s.defer=true;document.head.appendChild(s);}})();
