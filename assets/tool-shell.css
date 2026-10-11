@@ -61,14 +61,13 @@ body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSyste
   .mrc-donation {box-sizing:border-box;max-width:100%!important;}
 }
 
-/* Shared width for operational Tools, including topic-based creator. */
-:root { --mrc-content-width: 920px; }
-.topic-shell { width:100%; max-width:var(--mrc-content-width); min-width:0; margin-inline:auto; box-sizing:border-box; }
-
-/* Content links: recognizable throughout Tools and Games; navigation and button links keep their own styling. */
-body > main a:not(.card):not(.topic-launch):not([role="button"]),
-.app a:not(.card):not(.topic-launch):not([role="button"]) {
-  text-decoration:underline; text-underline-offset:3px;
+/* Editorial text links across Tools and Games; navigation and action cards retain their own styles. */
+:where(main.app, main.mrc-crossword-page, body.mrc-crossword-game main) a:not([class]) {
+  color: var(--text, #202124);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
-body > main a:not(.card):not(.topic-launch):not([role="button"]):hover,
-.app a:not(.card):not(.topic-launch):not([role="button"]):hover { text-decoration-thickness:2px; }
+:where(main.app, main.mrc-crossword-page, body.mrc-crossword-game main) a:not([class]):hover {
+  text-decoration-thickness: 2px;
+}
