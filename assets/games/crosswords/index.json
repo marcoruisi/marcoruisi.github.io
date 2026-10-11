@@ -2,9 +2,16 @@
   "version": 1,
   "games": [
     {
-      "id": "sample",
-      "file": "mrc-cruciverba-sample.json",
-      "title": "Esempio",
+      "id": "sample1",
+      "file": "mrc-cruciverba-sample01.json",
+      "title": "Esempio 01",
+      "language": "it",
+      "type": "curated"
+    },
+    {
+      "id": "sample2",
+      "file": "mrc-cruciverba-sample02.json",
+      "title": "Esempio 02",
       "language": "it",
       "type": "curated"
     },
