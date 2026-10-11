@@ -2,14 +2,6 @@
   "version": 1,
   "games": [
     {
-      "id": "daily",
-      "file": "mrc-del-giorno.json",
-      "title": "Cruciverba editoriale di prova",
-      "language": "it",
-      "type": "editorial-preview",
-      "date": "2026-10-11"
-    },
-    {
       "id": "cinema",
       "file": "mrc-tema-cinema.json",
       "title": "Cinema",
