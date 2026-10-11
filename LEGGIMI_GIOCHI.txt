@@ -1,6 +1,0 @@
-MRC Giochi - aggiornamento incrementale
-
-Scompatta il contenuto nella cartella /mrc/web mantenendo i percorsi. I file sostituiscono solo quelli elencati nell'archivio. Inglese: /games/ e /tools/crossword/ (nessuna cartella /en). Italiano: /it/giochi/ e /it/tools/cruciverba/.
-
-Header e menu generati dai shared template aggiornati. Include update_shared_ui.py e sitemap.xml.
-Non sono stati eseguiti commit, push o deploy.
