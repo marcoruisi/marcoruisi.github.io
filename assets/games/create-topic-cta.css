@@ -1,0 +1,9 @@
+/* MRC: an invitation to create, separate from game controls. */
+.mrc-create-topic-cta{display:block;margin:16px 0 22px;padding:17px 20px;border:1px solid #bfc2c4;border-radius:8px;background:#f4f4f2;color:#202020;text-decoration:none;line-height:1.45;transition:border-color .15s,background .15s}
+.mrc-create-topic-cta strong{display:block;font-size:1.04rem;font-weight:650;color:#202020}
+.mrc-create-topic-cta span{display:block;margin-top:5px;font-size:.93rem;font-weight:400;color:#555}
+.mrc-create-topic-cta:hover{background:#ececeb;border-color:#727272}
+.mrc-create-topic-cta:focus-visible{outline:3px solid #517ba6;outline-offset:3px}
+.mrc-create-topic-tool{margin:12px 0 20px;max-width:850px}
+.mrc-create-topic-tool a{font-weight:600;text-underline-offset:3px}
+@media(max-width:700px){.mrc-create-topic-cta{padding:14px 16px;margin:14px 0 18px}}

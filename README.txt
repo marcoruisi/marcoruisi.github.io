@@ -1,12 +1,10 @@
-MRC - Ritocco tipografico home Giochi, IT/EN
+MRC - Cruciverba: selezione iniziale prima casella utile
 
-Sostituire in /mrc/web:
-assets/games/offline-message.css
+Sostituire i due HTML nella cartella /mrc/web mantenendo i percorsi.
 
-- Intro "Senza account, pubblicita o classifiche": enfasi alleggerita (550).
-- Link "Scopri come funziona": testo descrittivo normale e grigio,
-  senza sottolineatura, come i testi delle schede giochi.
-- Resta cliccabile l'intero riquadro offline, con focus da tastiera.
-- Scroll morbido gia presente preservato.
+- All'apertura di schemi generati con la cella 1,1 nera, il cursore va alla prima parola numerata disponibile (preferenza orizzontale).
+- Resta valida la selezione salvata se appartiene ancora alla parola corrente.
+- La tastiera mobile non viene aperta dalla selezione automatica.
+- Anche il JSON dello schema vuoto non forza piu la selezione sulla cella 1,1 nera.
 
-Nessun deploy.
+Nessun commit, push o deploy. Verifica visiva richiesta nel browser.
