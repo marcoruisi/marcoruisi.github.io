@@ -17,7 +17,8 @@ body .mrc-tool-header nav{font-size:14px}body .mrc-tool-header .mrc-tools-nav{bo
 .mrc-crossword-bridge a{text-underline-offset:4px}
 @media(max-width:700px){body{padding:14px}body .cards{grid-template-columns:1fr}body .card{min-height:110px;padding:18px 0}}
 @media(prefers-color-scheme:dark){:root{--mrc-game-bg:#24212e;--mrc-game-edge:#484352}body .card{background:transparent;color:var(--text)}}
-/* Crossword uses the standard 920px Games container; grid scrolling remains internal. */
+/* Crossword retains the same existing interaction engine; the header is now site navigation. */
+/* Crossword uses the same 920px shell as all other games. */
 
 /* Index: a game is presented as a bounded card, like Everyday Tools. */
 body .cards{gap:14px;border-top:0;margin-top:22px}
