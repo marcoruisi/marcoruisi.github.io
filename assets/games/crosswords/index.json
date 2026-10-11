@@ -2,6 +2,13 @@
   "version": 1,
   "games": [
     {
+      "id": "sample",
+      "file": "mrc-cruciverba",
+      "title": "Esempio",
+      "language": "it",
+      "type": "curated"
+    },
+    {
       "id": "cinema",
       "file": "mrc-tema-cinema.json",
       "title": "Cinema",
