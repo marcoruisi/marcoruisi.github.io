@@ -122,3 +122,12 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
 .topbar .header-games:hover {text-decoration:underline;text-underline-offset:4px}
 .topbar .header-games:focus-visible {outline:2px solid currentColor;outline-offset:4px}
 @media(max-width:390px){.topbar .header-games{font-size:12px}}
+
+/* MRC mobile: only the page itself must never scroll sideways.
+   Internal scrollers (crossword board, code, data tables) are untouched. */
+@media (max-width:700px) {
+  html, body {max-width:100%; overflow-x:clip;}
+  body > main, body > header, body > footer, .site, .app {min-width:0;max-width:100%;}
+  img, video, iframe {max-width:100%;}
+  h1, h2, h3, p, li, a {overflow-wrap:anywhere;}
+}

@@ -4,7 +4,7 @@
 .mrc-games-offline-teaser:focus-visible{outline:3px solid #675c7b;outline-offset:3px}
 .mrc-games-offline-eyebrow{display:block;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#575064}
 .mrc-games-offline-teaser h2{font-size:clamp(1.25rem,3vw,1.75rem);line-height:1.25;margin:.35rem 0 .65rem;color:#202124}
-.mrc-games-offline-teaser .mrc-games-offline-cta{display:inline-block;font-size:.95rem;font-weight:650;color:#292336;text-decoration:underline;text-underline-offset:4px}
+.mrc-games-offline-teaser .mrc-games-offline-cta{display:inline-block;font-size:1rem;font-weight:400;line-height:1.5;color:#666;text-decoration:none}
 .mrc-games-offline-explainer{box-sizing:border-box;max-width:850px;margin:1.7rem 0 .5rem;padding:0;background:transparent;border:0;border-radius:0;color:inherit;scroll-margin-top:1.5rem}
 .mrc-games-offline-explainer h2{font-size:clamp(1.25rem,3vw,1.75rem);line-height:1.25;margin:.35rem 0 .85rem;color:inherit}
 .mrc-games-offline-explainer p{margin:.7rem 0;line-height:1.65;color:inherit}
@@ -22,3 +22,13 @@
 @media (prefers-reduced-motion: no-preference) {
   html:has(.mrc-games-offline-teaser) { scroll-behavior: smooth; }
 }
+
+/* Personal editorial statement: text, never another card. */
+.mrc-games-statement{max-width:850px;margin:2rem 0 1.5rem;padding:0;border:0;background:none;color:inherit}
+.mrc-games-statement p{margin:0;font-size:clamp(1rem,2vw,1.15rem);font-weight:600;line-height:1.5}
+.mrc-games-statement .mrc-games-signature{display:block;margin-top:.45rem;font-size:.88rem;font-weight:400;opacity:.75}
+
+/* Intro: a single typographic level, with a quiet emphasis on free and open access. */
+.mrc-games-intro{max-width:none;}
+.mrc-games-intro strong{font-weight:550;color:inherit;}
+.mrc-games-statement{width:100%;box-sizing:border-box;}

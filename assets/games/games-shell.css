@@ -163,3 +163,10 @@ body > footer.mrc-site-footer .copyright{margin-top:24px;font-size:13px}
 body > footer.mrc-site-footer .mrc-publish{margin-top:16px;font-size:12px}
 body > footer.mrc-site-footer a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 @media(max-width:700px){body > footer.mrc-site-footer{margin-top:70px!important;padding-inline:14px!important}}
+
+/* No page-level horizontal scrolling on phones; crossword/grid zoom stays local. */
+@media (max-width:700px) {
+  body > main, body > header.mrc-tool-header, body > footer {box-sizing:border-box;min-width:0;max-width:100%;}
+  body .cards {min-width:0;max-width:100%;}
+  body .cards .card {min-width:0;max-width:100%;box-sizing:border-box;}
+}

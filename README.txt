@@ -1,10 +1,12 @@
-MRC - Giochi: richiamo offline e spiegazione
+MRC - Ritocco tipografico home Giochi, IT/EN
 
-Applicare DOPO MRC_Giochi_modalita_offline_2026-10-11.zip e le relative patch comunicazione SEO.
-Questo ZIP comprende anche il JS correttivo degli stati della preparazione offline: quando READY il pulsante Riprova non compare.
+Sostituire in /mrc/web:
+assets/games/offline-message.css
 
-IT/EN: richiamo breve sopra la griglia Giochi, link alla spiegazione completa sotto la griglia.
-Spiegazione e stato di preparazione sotto i giochi. SEO e testo HTML indicizzabile preservati.
+- Intro "Senza account, pubblicita o classifiche": enfasi alleggerita (550).
+- Link "Scopri come funziona": testo descrittivo normale e grigio,
+  senza sottolineatura, come i testi delle schede giochi.
+- Resta cliccabile l'intero riquadro offline, con focus da tastiera.
+- Scroll morbido gia presente preservato.
 
-Verificati sintassi JS, link di ancoraggio e archivio. Da testare nel browser, anche offline.
-No commit, push, deploy.
+Nessun deploy.
