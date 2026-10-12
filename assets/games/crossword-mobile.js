@@ -141,12 +141,26 @@
   body.classList.toggle('mrc-cw-touch-play',enabled);syncControls();
  }
 
- board.addEventListener('click',()=>{if(mq.matches)requestAnimationFrame(()=>{
-  const active=selectedCell();if(!active)return;
-  // Only nudge when the selected tile would be out of the visible board window.
-  const x=active.offsetLeft,y=active.offsetTop;
-  if(x<wrap.scrollLeft||x+active.offsetWidth>wrap.scrollLeft+wrap.clientWidth||y<wrap.scrollTop||y+active.offsetHeight>wrap.scrollTop+wrap.clientHeight)centerSelection();
- })});
+ // A render replaces all grid cells. Follow selection after keyboard input too,
+ // not just after a tap on the board. Never change the user's zoom level.
+ let selectionFrame=0;
+ function followSelection(){
+  if(selectionFrame)return;
+  selectionFrame=requestAnimationFrame(()=>{
+   selectionFrame=0;
+   if(!mq.matches||!body.classList.contains('game-ready'))return;
+   const active=selectedCell();if(!active)return;
+   const x=active.offsetLeft,y=active.offsetTop;
+   const margin=Math.min(28,Math.max(8,active.offsetWidth/2));
+   if(x<wrap.scrollLeft+margin||x+active.offsetWidth>wrap.scrollLeft+wrap.clientWidth-margin||
+      y<wrap.scrollTop+margin||y+active.offsetHeight>wrap.scrollTop+wrap.clientHeight-margin){
+    wrap.scrollTo({left:Math.max(0,x+active.offsetWidth/2-wrap.clientWidth/2),
+      top:Math.max(0,y+active.offsetHeight/2-wrap.clientHeight/2),behavior:'instant'});
+   }
+  });
+ }
+ board.addEventListener('click',followSelection);
+ new MutationObserver(followSelection).observe(board,{childList:true});
  function dist(t){return Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY)}
  wrap.addEventListener('touchstart',ev=>{if(ev.touches.length===2)pinch={distance:dist(ev.touches),cell};else pinch=null},{passive:true});
  wrap.addEventListener('touchmove',ev=>{if(!pinch||ev.touches.length!==2)return;ev.preventDefault();zoomTo(pinch.cell*dist(ev.touches)/Math.max(1,pinch.distance))},{passive:false});
