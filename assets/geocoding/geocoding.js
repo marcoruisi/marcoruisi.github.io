@@ -26,15 +26,16 @@ const accordion=root.querySelector('.geo-accordion');
 const sharedDetails=$('geo-option-shared'),personalDetails=$('geo-option-personal');
 function openMethod(mode){
   if(state.busy)return;
-  selectMode(mode);
-  sharedDetails.open=mode==='shared';
-  personalDetails.open=mode==='personal';
+  const method=mode==='shared'?sharedDetails:personalDetails;
+  const shouldOpen=!method.open;
+  sharedDetails.open=shouldOpen&&mode==='shared';
+  personalDetails.open=shouldOpen&&mode==='personal';
+  $('geo-search-controls').classList.toggle('geo-hidden',!shouldOpen);
+  if(shouldOpen)selectMode(mode);
 }
 for(const method of [sharedDetails,personalDetails]){
   method.querySelector('summary').addEventListener('click',event=>{
     event.preventDefault();
-    if(state.busy)return;
-    if(method.open)return;
     openMethod(method===sharedDetails?'shared':'personal');
   });
 }

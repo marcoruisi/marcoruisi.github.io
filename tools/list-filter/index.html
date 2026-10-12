@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/list-filter/list-filter.css"><link rel="stylesheet" href="/assets/tool-flows.css">
-<link rel="stylesheet" href="/assets/tools-content.css">
-<link rel="stylesheet" href="/assets/tool-feedback.css">
-<!-- MRC SHARED METADATA START -->
+<link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/list-filter/list-filter.css"><!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcorui.si/tools/list-filter/">
 <meta property="og:url" content="https://marcorui.si/tools/list-filter/">
@@ -19,6 +16,9 @@
 <meta name="twitter:title" content="List Filter | MRC · Marco Ruisi">
 <meta name="twitter:description" content="Filter pasted lists or CSV files, choose and reorder columns, and copy results into Google Sheets. Browser-based.">
 <!-- MRC SHARED METADATA END -->
+<link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
 </head><body>
 <!-- MRC SHARED TOOL HEADER START -->
 <header class="mrc-tool-header">
@@ -34,11 +34,11 @@
 <p class="mrc-tool-model">TOOL · FREE</p>
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>List Filter</h1><p>Find the rows you need, choose the columns and copy results to Excel or Google Sheets. Your original data stays unchanged.</p>
-<section class="lf-box"><h2>1. Import your list</h2>
+<section class="lf-box"><h2>Choose how to import your list</h2><p class="lf-hint">Three alternative methods: open the one you prefer.</p>
 <div class="lf-input-methods" id="lf-input-methods">
-<details class="lf-input-method" open><summary>01 · Paste a list</summary><div class="lf-input-body"><label for="lf-raw">Paste cells from Excel, Google Sheets or CSV text</label><textarea id="lf-raw" placeholder="Name&#9;Province&#9;Country&#10;Store A&#9;Taranto&#9;Italy"></textarea><div class="lf-actions"><button type="button" class="lf-primary" id="lf-loadpaste">Load pasted text</button></div></div></details>
-<details class="lf-input-method"><summary>02 · Upload a CSV / TXT file</summary><div class="lf-input-body"><label for="lf-file">Choose a file from your device</label><input type="file" id="lf-file" accept=".csv,.txt,.tsv,text/csv,text/plain,text/tab-separated-values"><p class="lf-hint">Up to 10 MB, 50,000 rows and 100 columns.</p></div></details>
-<details class="lf-input-method"><summary>03 · Import a public CSV / Google Sheet</summary><div class="lf-input-body"><label for="lf-url">Public Google Sheet or CSV URL</label><input type="url" id="lf-url" placeholder="https://docs.google.com/spreadsheets/d/…"><div class="lf-actions"><button type="button" id="lf-loadurl">Load from URL</button></div><p class="lf-hint">The sheet must be public. If direct access is blocked, download and upload the CSV file instead.</p>
+<details class="lf-input-method"><summary>Paste a list</summary><div class="lf-input-body"><label for="lf-raw">Paste cells from Excel, Google Sheets or CSV text</label><textarea id="lf-raw" placeholder="Name&#9;Province&#9;Country&#10;Store A&#9;Taranto&#9;Italy"></textarea><div class="lf-actions"><button type="button" class="lf-primary" id="lf-loadpaste">Load pasted text</button></div></div></details>
+<details class="lf-input-method"><summary>Upload a CSV / TXT file</summary><div class="lf-input-body"><label for="lf-file">Choose a file from your device</label><input type="file" id="lf-file" accept=".csv,.txt,.tsv,text/csv,text/plain,text/tab-separated-values"><p class="lf-hint">Up to 10 MB, 50,000 rows and 100 columns.</p></div></details>
+<details class="lf-input-method"><summary>Import a public CSV / Google Sheet</summary><div class="lf-input-body"><label for="lf-url">Public Google Sheet or CSV URL</label><input type="url" id="lf-url" placeholder="https://docs.google.com/spreadsheets/d/…"><div class="lf-actions"><button type="button" id="lf-loadurl">Load from URL</button></div><p class="lf-hint">The sheet must be public. If direct access is blocked, download and upload the CSV file instead.</p>
 <div class="lf-example"><strong>Public CSV to test this tool</strong><p>ANPR historical Italian municipalities archive from Italy’s Ministry of the Interior. Includes names, location codes and provinces to test filters and columns without providing personal information.</p><p><a href="https://github.com/italia/anpr/blob/master/src/archivi/ANPR_archivio_comuni.csv" target="_blank" rel="noopener noreferrer">View the official dataset ↗</a> · <a href="https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv" target="_blank" rel="noopener noreferrer">Download CSV ↗</a></p><button type="button" class="lf-example-url" data-csv-url="https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv">Fill URL field</button><p class="lf-hint">If your browser blocks direct access, download the CSV and upload it as a file.</p></div></div></details>
 </div><p id="lf-loaded" class="lf-stat" role="status"></p><p class="lf-hint">First row contains column names. Automatically detects tabs, commas, semicolons and pipes.</p></section>
 <div id="lf-workspace" class="lf-hidden">
@@ -82,7 +82,6 @@
     <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
 </footer>
 <!-- MRC SHARED FOOTER END -->
-
 <script src="/assets/list-filter/list-filter.js" defer></script>
 
 <script src="/assets/support.js" defer></script>

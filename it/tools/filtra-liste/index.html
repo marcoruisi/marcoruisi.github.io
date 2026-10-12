@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/list-filter/list-filter.css"><link rel="stylesheet" href="/assets/tool-flows.css">
-<link rel="stylesheet" href="/assets/tools-content.css">
-<link rel="stylesheet" href="/assets/tool-feedback.css">
-<!-- MRC SHARED METADATA START -->
+<link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/list-filter/list-filter.css"><!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcorui.si/it/tools/filtra-liste/">
 <meta property="og:url" content="https://marcorui.si/it/tools/filtra-liste/">
@@ -19,6 +16,9 @@
 <meta name="twitter:title" content="Filtra liste | MRC · Marco Ruisi">
 <meta name="twitter:description" content="Filtra elenchi CSV o incollati, seleziona e riordina colonne e copia il risultato in Google Sheets. Tutto nel browser.">
 <!-- MRC SHARED METADATA END -->
+<link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
 </head><body>
 <!-- MRC SHARED TOOL HEADER START -->
 <header class="mrc-tool-header">
@@ -34,11 +34,11 @@
 <p class="mrc-tool-model">TOOL · FREE</p>
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>Filtra liste</h1><p>Trova le righe che ti servono, scegli le colonne e copia i risultati in Excel o Google Sheets. Senza modificare il file originale.</p>
-<section class="lf-box"><h2>1. Importa la lista</h2>
+<section class="lf-box"><h2>Scegli come importare la lista</h2><p class="lf-hint">Tre modalità alternative: apri quella che preferisci.</p>
 <div class="lf-input-methods" id="lf-input-methods">
-<details class="lf-input-method" open><summary>01 · Incolla una lista</summary><div class="lf-input-body"><label for="lf-raw">Incolla celle da Excel, Google Sheets o testo CSV</label><textarea id="lf-raw" placeholder="Nome&#9;Provincia&#9;Stato&#10;Negozio A&#9;Taranto&#9;Italia"></textarea><div class="lf-actions"><button type="button" class="lf-primary" id="lf-loadpaste">Leggi testo</button></div></div></details>
-<details class="lf-input-method"><summary>02 · Carica un file CSV / TXT</summary><div class="lf-input-body"><label for="lf-file">Scegli un file dal dispositivo</label><input type="file" id="lf-file" accept=".csv,.txt,.tsv,text/csv,text/plain,text/tab-separated-values"><p class="lf-hint">Fino a 10 MB, 50.000 righe e 100 colonne.</p></div></details>
-<details class="lf-input-method"><summary>03 · Importa un CSV pubblico / Google Sheets</summary><div class="lf-input-body"><label for="lf-url">Link a un Google Sheet pubblico o a un CSV</label><input type="url" id="lf-url" placeholder="https://docs.google.com/spreadsheets/d/…"><div class="lf-actions"><button type="button" id="lf-loadurl">Carica dal link</button></div><p class="lf-hint">Il foglio deve essere pubblico. Se il sito impedisce il caricamento diretto, scarica il file e usa la seconda modalità.</p>
+<details class="lf-input-method"><summary>Incolla una lista</summary><div class="lf-input-body"><label for="lf-raw">Incolla celle da Excel, Google Sheets o testo CSV</label><textarea id="lf-raw" placeholder="Nome&#9;Provincia&#9;Stato&#10;Negozio A&#9;Taranto&#9;Italia"></textarea><div class="lf-actions"><button type="button" class="lf-primary" id="lf-loadpaste">Leggi testo</button></div></div></details>
+<details class="lf-input-method"><summary>Carica un file CSV / TXT</summary><div class="lf-input-body"><label for="lf-file">Scegli un file dal dispositivo</label><input type="file" id="lf-file" accept=".csv,.txt,.tsv,text/csv,text/plain,text/tab-separated-values"><p class="lf-hint">Fino a 10 MB, 50.000 righe e 100 colonne.</p></div></details>
+<details class="lf-input-method"><summary>Importa un CSV pubblico / Google Sheets</summary><div class="lf-input-body"><label for="lf-url">Link a un Google Sheet pubblico o a un CSV</label><input type="url" id="lf-url" placeholder="https://docs.google.com/spreadsheets/d/…"><div class="lf-actions"><button type="button" id="lf-loadurl">Carica dal link</button></div><p class="lf-hint">Il foglio deve essere pubblico. Se il sito impedisce il caricamento diretto, scarica il file e usa la seconda modalità.</p>
 <div class="lf-example"><strong>CSV pubblico per provare il tool</strong><p>Archivio storico dei comuni ANPR, pubblicato dal Ministero dell’Interno: denominazioni, codici e province per sperimentare filtri e colonne senza inserire dati personali.</p><p><a href="https://github.com/italia/anpr/blob/master/src/archivi/ANPR_archivio_comuni.csv" target="_blank" rel="noopener noreferrer">Visualizza il dataset ufficiale ↗</a> · <a href="https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv" target="_blank" rel="noopener noreferrer">Scarica il CSV ↗</a></p><button type="button" class="lf-example-url" data-csv-url="https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv">Inserisci il link nel campo</button><p class="lf-hint">Se il download diretto è bloccato dal browser, scarica il CSV e caricalo come file.</p></div></div></details>
 </div><p id="lf-loaded" class="lf-stat" role="status"></p><p class="lf-hint">La prima riga contiene le intestazioni. Separatori riconosciuti automaticamente: tab, virgola, punto e virgola, barra verticale.</p></section>
 <div id="lf-workspace" class="lf-hidden">
@@ -82,7 +82,6 @@
     <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
 </footer>
 <!-- MRC SHARED FOOTER END -->
-
 <script src="/assets/list-filter/list-filter.js" defer></script>
 
 <script src="/assets/support.js" defer></script>
