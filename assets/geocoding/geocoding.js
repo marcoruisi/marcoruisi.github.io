@@ -22,7 +22,22 @@ const delays=[0,0,0,30,60,120];const delaySec=count=>count<3?0:delays[Math.min(c
 const getWait=()=>{const u=usage();return Math.max(0,Math.ceil((u.last+delaySec(u.count)*1000-Date.now())/1000))};
 function status(text,kind=''){const el=$('geo-status');el.textContent=text;el.dataset.kind=kind;}
 function selectMode(mode){state.mode=mode;for(const btn of root.querySelectorAll('[data-mode]'))btn.setAttribute('aria-pressed',String(btn.dataset.mode===mode));$('geo-shared').classList.toggle('geo-hidden',mode!=='shared');$('geo-personal').classList.toggle('geo-hidden',mode!=='personal');$('geo-input-label').textContent=mode==='shared'?$('geo-input-label').dataset.single:$('geo-input-label').dataset.batch;$('geo-addresses').rows=mode==='shared'?2:7;$('geo-addresses').value='';state.rows=[];state.statuses=[];showResults();status('');refresh();}
-root.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{if(!state.busy)selectMode(b.dataset.mode)}));
+const accordion=root.querySelector('.geo-accordion');
+const sharedDetails=$('geo-option-shared'),personalDetails=$('geo-option-personal');
+function openMethod(mode){
+  if(state.busy)return;
+  selectMode(mode);
+  sharedDetails.open=mode==='shared';
+  personalDetails.open=mode==='personal';
+}
+for(const method of [sharedDetails,personalDetails]){
+  method.querySelector('summary').addEventListener('click',event=>{
+    event.preventDefault();
+    if(state.busy)return;
+    if(method.open)return;
+    openMethod(method===sharedDetails?'shared':'personal');
+  });
+}
 function refresh(){const wait=getWait(),u=usage();$('geo-remaining').textContent=String(Math.max(0,3-u.count));$('geo-wait').textContent=wait?L.wait(wait):'';$('geo-start').disabled=state.busy||(state.mode==='shared'&&(!sharedKey||wait>0));$('geo-cancel').disabled=!state.busy;$('geo-shared-key-warning').classList.toggle('geo-hidden',!!sharedKey);}
 const cache=()=>{const c=read(CACHE_KEY,{});return c&&typeof c==='object'&&!Array.isArray(c)?c:{}};
 function lookupCache(address){const entry=cache()[address.trim().toLowerCase()];return entry&&Date.now()-entry.ts<30*86400000?entry.result:null}
