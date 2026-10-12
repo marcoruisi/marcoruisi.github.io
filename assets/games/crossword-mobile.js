@@ -12,11 +12,32 @@
  const bar=document.createElement('div');bar.className='mrc-cw-board-bar';
  const exit=document.createElement('a');exit.href=it?'/it/giochi/':'/games/';exit.textContent=it?'← Giochi':'← Games';
  const buttons=document.createElement('div');buttons.className='mrc-cw-zoom-buttons';
- const minus=document.createElement('button'),plus=document.createElement('button'),center=document.createElement('button');
- for(const [b,label,aria] of [[minus,'−',it?'Riduci zoom':'Zoom out'],[plus,'+',it?'Ingrandisci':'Zoom in'],[center,'⌖',it?'Centra casella':'Center cell']]){
-  b.type='button';b.textContent=label;b.setAttribute('aria-label',aria);buttons.append(b);
+ const originalAcross=document.getElementById('across'),originalDown=document.getElementById('down');
+ const originalKeyboard=document.getElementById('mobileKeyboard');
+ const topButtons=[];
+ for(const [target,symbol,name] of [[originalAcross,'→',it?'Orizzontale':'Across'],[originalDown,'↓',it?'Verticale':'Down']]){
+  const button=document.createElement('button');button.type='button';button.textContent=symbol;
+  button.setAttribute('aria-label',name);button.addEventListener('click',()=>target?.click());buttons.append(button);topButtons.push(button);
  }
+ const keyboard=document.createElement('button');keyboard.type='button';keyboard.className='mrc-cw-top-keyboard';
+ keyboard.setAttribute('aria-label',it?'Mostra o nascondi tastiera':'Show or hide keyboard');
+ keyboard.innerHTML='<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M5 7h1m2 0h1m2 0h1m2 0h1m2 0h1M5 10h1m2 0h1m2 0h1m2 0h1m2 0h1M7 13h10M9 19l3 3 3-3"/></svg>';
+ keyboard.addEventListener('click',()=>originalKeyboard?.click());buttons.append(keyboard);
  bar.append(exit,buttons);wrap.parentElement.insertBefore(bar,wrap);
+ const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
+ const info=document.createElement('div');info.className='mrc-cw-info-row';
+ const word=document.createElement('span');word.className='mrc-cw-word-info';
+ if(status){status.parentElement.insertBefore(info,status);info.append(word,status);}
+ function syncControls(){
+  topButtons.forEach((b,i)=>{const original=i===0?originalAcross:originalDown;
+   b.disabled=!!original?.disabled;b.setAttribute('aria-pressed',original?.getAttribute('aria-pressed')||'false');});
+  const pressed=originalKeyboard?.getAttribute('aria-pressed')==='true';
+  keyboard.setAttribute('aria-pressed',String(pressed));
+  body.classList.toggle('mrc-cw-keyboard-open',pressed && mq.matches && body.classList.contains('game-ready'));
+  const label=selectedTitle?.textContent||'';
+  const match=label.match(/^(\d+)\s*([→↓])\s*·\s*(\d+)/);
+  word.textContent=match?`${match[1]} ${match[2]} · ${match[3]} ${it?'lettere':'letters'}`:'';
+ }
  function updateViewport(){
   const viewport=window.visualViewport;
   body.style.setProperty('--mrc-cw-vh',(viewport?.height||window.innerHeight)+'px');
@@ -48,9 +69,9 @@
  function sync(){
   updateColumns();updateViewport();
   const enabled=mq.matches&&body.classList.contains('game-ready')&&!playArea.classList.contains('hidden');
-  body.classList.toggle('mrc-cw-touch-play',enabled);
+  body.classList.toggle('mrc-cw-touch-play',enabled);syncControls();
  }
- minus.addEventListener('click',()=>zoomTo(cell-6));plus.addEventListener('click',()=>zoomTo(cell+6));center.addEventListener('click',centerSelection);
+
  board.addEventListener('click',()=>{if(mq.matches)requestAnimationFrame(()=>{
   const active=selectedCell();if(!active)return;
   // Only nudge when the selected tile would be out of the visible board window.
@@ -64,6 +85,8 @@
  const observer=new MutationObserver(sync);observer.observe(board,{attributes:true,attributeFilter:['style']});
  observer.observe(playArea,{attributes:true,attributeFilter:['class']});
  observer.observe(body,{attributes:true,attributeFilter:['class']});
+ for(const el of [originalAcross,originalDown,originalKeyboard])if(el)observer.observe(el,{attributes:true,attributeFilter:['aria-pressed','disabled']});
+ if(selectedTitle)observer.observe(selectedTitle,{childList:true,characterData:true,subtree:true});
  mq.addEventListener('change',sync);window.addEventListener('resize',updateViewport);
  window.visualViewport?.addEventListener('resize',updateViewport);window.visualViewport?.addEventListener('scroll',updateViewport);
  body.style.setProperty('--mrc-cw-cell',cell+'px');sync();

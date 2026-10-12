@@ -99,3 +99,30 @@
 /* Keyboard action available in both Crossword Tool and Game. */
 .mrc-cw-keyboard-action{display:none}
 @media(max-width:900px){.mrc-cw-keyboard-action{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 16px;margin:8px 0 12px;background:#202124;color:#fff;border:1px solid #202124;border-radius:5px}}
+
+/* MRC compact mobile crossword: controls above grid; clue alone below. */
+@media (max-width:800px) and (pointer:coarse){
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar .mrc-cw-zoom-buttons{gap:7px}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar button[aria-pressed="true"]{background:var(--text,#222);color:var(--panel,#fff)}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar button:disabled{opacity:.35}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-top-keyboard svg{display:block}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-info-row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:30px;padding:3px 2px;flex:none}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-word-info{font-size:14px;font-weight:650;white-space:nowrap}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-info-row #status{margin:0!important;text-align:right;font-size:12px!important}
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #selectionTitle,
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside .direction,
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #mobileKeyboard,
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #playArea .toolbar,
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #mrcClueSource{display:none!important}
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside.panel{justify-content:flex-start!important;padding:14px 16px max(12px,env(safe-area-inset-bottom))!important;gap:0!important}
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #playArea{display:block!important;min-height:0!important}
+ body.mrc-crossword-game.mrc-cw-touch-play main>.layout>aside #currentClue{margin:0!important}
+ /* When the keyboard is closed, allow normal page scrolling and a generous grid. */
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open){overflow:auto!important}
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) main>.layout{position:relative!important;top:auto!important;left:auto!important;height:auto!important;min-height:0!important;grid-template-rows:minmax(0,auto) auto!important;overflow:visible!important;z-index:auto!important}
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) main>.layout>section{height:auto!important;min-height:0!important}
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) .board-wrap{flex:none!important;height:min(62dvh,550px)!important}
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) main>.layout>aside.panel{height:auto!important;min-height:100px!important}
+ /* Keyboard visible: exactly 2/3 grid and 1/3 clue, with internal grid scrolling. */
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play.mrc-cw-keyboard-open main>.layout{grid-template-rows:minmax(0,2fr) minmax(0,1fr)!important}
+}
