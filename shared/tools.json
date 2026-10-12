@@ -386,6 +386,32 @@
       "availability": "free"
     },
     {
+      "id": "list-filter",
+      "name": {
+        "it": "Filtra liste",
+        "en": "List Filter"
+      },
+      "url": {
+        "it": "/it/tools/filtra-liste/",
+        "en": "/tools/list-filter/"
+      },
+      "description": {
+        "it": "Filtra elenchi CSV o incollati, seleziona e riordina colonne e copia il risultato in Google Sheets. Tutto nel browser.",
+        "en": "Filter pasted lists or CSV files, choose and reorder columns, and copy results into Google Sheets. Browser-based."
+      },
+      "action": {
+        "it": "Filtra e riorganizza una lista",
+        "en": "Filter and rearrange a list"
+      },
+      "tags": [
+        "everyday",
+        "csv",
+        "text"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
       "id": "block-subscriber-wp-admin",
       "name": {
         "en": "Block Subscriber access to wp-admin",

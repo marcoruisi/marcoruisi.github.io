@@ -172,6 +172,9 @@
     <loc>https://marcorui.si/it/tools/estrazione-dati-punti/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/it/tools/filtra-liste/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/it/tools/formati-coordinate/</loc>
   </url>
   <url>
@@ -302,6 +305,9 @@
   </url>
   <url>
     <loc>https://marcorui.si/tools/images-to-pdf/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/tools/list-filter/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/tools/map-coordinates/</loc>
