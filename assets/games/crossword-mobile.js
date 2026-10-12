@@ -14,15 +14,52 @@
  const buttons=document.createElement('div');buttons.className='mrc-cw-zoom-buttons';
  const originalAcross=document.getElementById('across'),originalDown=document.getElementById('down');
  const originalKeyboard=document.getElementById('mobileKeyboard');
+ const originalKeys=document.getElementById('kbd');
+ const erase=document.getElementById('erase');
+ const letterInput=document.getElementById('letter');
  const topButtons=[];
  for(const [target,symbol,name] of [[originalAcross,'→',it?'Orizzontale':'Across'],[originalDown,'↓',it?'Verticale':'Down']]){
   const button=document.createElement('button');button.type='button';button.textContent=symbol;
   button.setAttribute('aria-label',name);button.addEventListener('click',()=>target?.click());buttons.append(button);topButtons.push(button);
  }
- const keyboard=document.createElement('button');keyboard.type='button';keyboard.className='mrc-cw-top-keyboard';
- keyboard.setAttribute('aria-label',it?'Mostra o nascondi tastiera':'Show or hide keyboard');
- keyboard.innerHTML='<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M5 7h1m2 0h1m2 0h1m2 0h1m2 0h1M5 10h1m2 0h1m2 0h1m2 0h1m2 0h1M7 13h10M9 19l3 3 3-3"/></svg>';
- keyboard.addEventListener('click',()=>originalKeyboard?.click());buttons.append(keyboard);
+ // Compact keyboard lives with the clue, not in the toolbar above the grid.
+ const cluePanel=layout.querySelector('aside.panel');
+ const clueHeader=document.createElement('div');clueHeader.className='mrc-cw-clue-header';
+ const keyboard=document.createElement('button');keyboard.type='button';keyboard.className='mrc-cw-clue-keyboard-toggle';
+ keyboard.setAttribute('aria-label',it?'Mostra tastiera':'Show keyboard');
+ keyboard.setAttribute('aria-expanded','false');
+ keyboard.innerHTML='<svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="15" rx="2"/><path d="M5 8h1m2 0h1m2 0h1m2 0h1m2 0h1M5 11h1m2 0h1m2 0h1m2 0h1m2 0h1M7 15h10"/></svg>';
+ clueHeader.append(keyboard);cluePanel.insertBefore(clueHeader,playArea);
+ const customKeyboard=document.createElement('div');customKeyboard.className='mrc-cw-mini-keyboard';
+ customKeyboard.id='mrc-cw-mini-keyboard';customKeyboard.hidden=true;
+ for(const letters of ['QWERTYUIOP','ASDFGHJKL','ZXCVBNM']){
+  const row=document.createElement('div');row.className='mrc-cw-mini-row';
+  for(const c of letters){const key=document.createElement('button');key.type='button';key.textContent=c;key.dataset.key=c;key.setAttribute('aria-label',c);row.append(key)}
+  if(letters==='ZXCVBNM'){
+   const del=document.createElement('button');del.type='button';del.className='mrc-cw-mini-delete';del.textContent='⌫';
+   del.setAttribute('aria-label',it?'Cancella lettera':'Delete letter');del.dataset.erase='true';row.append(del);
+  }
+  customKeyboard.append(row);
+ }
+ cluePanel.append(customKeyboard);
+ let keyboardOpen=false;
+ function setKeyboard(open){
+  keyboardOpen=!!open;customKeyboard.hidden=!keyboardOpen;
+  keyboard.setAttribute('aria-expanded',String(keyboardOpen));
+  keyboard.setAttribute('aria-label',keyboardOpen?(it?'Nascondi tastiera':'Hide keyboard'):(it?'Mostra tastiera':'Show keyboard'));
+  body.classList.toggle('mrc-cw-mini-open',keyboardOpen&&mq.matches&&body.classList.contains('game-ready'));
+  if(letterInput&&document.activeElement===letterInput)letterInput.blur();
+ }
+ keyboard.addEventListener('click',()=>setKeyboard(!keyboardOpen));
+ // Reuse the existing game engine and its event handlers, without focusing an input.
+ customKeyboard.addEventListener('click',ev=>{
+  const key=ev.target.closest('button');if(!key)return;
+  if(key.dataset.erase)erase?.click();
+  else if(key.dataset.key)originalKeys?.querySelector(`[data-letter="${key.dataset.key}"]`)?.click();
+ });
+ // Prevent Safari/Android from opening a native soft keyboard in this game.
+ if(letterInput){letterInput.readOnly=true;letterInput.setAttribute('inputmode','none');
+  letterInput.addEventListener('focus',()=>{if(mq.matches)letterInput.blur()});}
  bar.append(exit,buttons);wrap.parentElement.insertBefore(bar,wrap);
  const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
  const info=document.createElement('div');info.className='mrc-cw-info-row';
@@ -31,9 +68,8 @@
  function syncControls(){
   topButtons.forEach((b,i)=>{const original=i===0?originalAcross:originalDown;
    b.disabled=!!original?.disabled;b.setAttribute('aria-pressed',original?.getAttribute('aria-pressed')||'false');});
-  const pressed=originalKeyboard?.getAttribute('aria-pressed')==='true';
-  keyboard.setAttribute('aria-pressed',String(pressed));
-  body.classList.toggle('mrc-cw-keyboard-open',pressed && mq.matches && body.classList.contains('game-ready'));
+  body.classList.remove('mrc-cw-keyboard-open');
+  body.classList.toggle('mrc-cw-mini-open',keyboardOpen&&mq.matches&&body.classList.contains('game-ready')); 
   const label=selectedTitle?.textContent||'';
   const match=label.match(/^(\d+)\s*([→↓])\s*·\s*(\d+)/);
   word.textContent=match?`${match[1]} ${match[2]} · ${match[3]} ${it?'lettere':'letters'}`:'';
@@ -85,7 +121,7 @@
  const observer=new MutationObserver(sync);observer.observe(board,{attributes:true,attributeFilter:['style']});
  observer.observe(playArea,{attributes:true,attributeFilter:['class']});
  observer.observe(body,{attributes:true,attributeFilter:['class']});
- for(const el of [originalAcross,originalDown,originalKeyboard])if(el)observer.observe(el,{attributes:true,attributeFilter:['aria-pressed','disabled']});
+ for(const el of [originalAcross,originalDown])if(el)observer.observe(el,{attributes:true,attributeFilter:['aria-pressed','disabled']});
  if(selectedTitle)observer.observe(selectedTitle,{childList:true,characterData:true,subtree:true});
  mq.addEventListener('change',sync);window.addEventListener('resize',updateViewport);
  window.visualViewport?.addEventListener('resize',updateViewport);window.visualViewport?.addEventListener('scroll',updateViewport);
