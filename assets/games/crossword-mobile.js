@@ -76,6 +76,13 @@
   try{await navigator.clipboard.writeText(url);button.textContent=it?'Link copiato ✓':'Link copied ✓';setTimeout(()=>button.textContent=button===share?(it?'Condividi':'Share'):(it?'Condividi partita':'Share progress'),2200);}
   catch{window.prompt(it?'Copia il link della partita':'Copy the game link',url)}
  }
+ // The focused mobile workspace must allow exporting the full current game
+ // before leaving. Reuse the page's existing JSON exporter (no duplicate format).
+ const saveGame=document.createElement('button');saveGame.type='button';
+ saveGame.className='mrc-cw-save-progress';
+ saveGame.textContent=it?'Salva':'Save';
+ saveGame.setAttribute('aria-label',it?'Salva la partita come file JSON':'Save the current game as JSON');
+ saveGame.addEventListener('click',()=>document.getElementById('export')?.click());
  share.addEventListener('click',()=>shareProgress(share));
  // Desktop uses the same share action as the mobile game toolbar.
  const desktopShare=document.getElementById('mrcShareProgress')||document.createElement('button');desktopShare.type='button';
@@ -93,7 +100,7 @@
   document.body.classList.remove('mrc-cw-touch-play','mrc-cw-mini-open');
   window.scrollTo({top:0,behavior:'instant'});
  });
- bar.append(exit,share,buttons);wrap.parentElement.insertBefore(bar,wrap);
+ bar.append(exit,saveGame,share,buttons);wrap.parentElement.insertBefore(bar,wrap);
  const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
  const info=document.createElement('div');info.className='mrc-cw-info-row';
  const word=document.createElement('span');word.className='mrc-cw-word-info';
