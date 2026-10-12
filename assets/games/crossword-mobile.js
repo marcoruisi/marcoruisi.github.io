@@ -78,13 +78,13 @@
  }
  share.addEventListener('click',()=>shareProgress(share));
  // Desktop uses the same share action as the mobile game toolbar.
- const desktopShare=document.createElement('button');desktopShare.type='button';
+ const desktopShare=document.getElementById('mrcShareProgress')||document.createElement('button');desktopShare.type='button';
  desktopShare.className='mrc-cw-share-desktop';
  desktopShare.textContent=it?'Condividi partita':'Share progress';
  desktopShare.setAttribute('aria-label',it?'Condividi la partita con le lettere compilate':'Share crossword including entered letters');
  desktopShare.addEventListener('click',()=>shareProgress(desktopShare));
  const shareBlank=document.getElementById('mrcShareBlank');
- if(shareBlank)shareBlank.insertAdjacentElement('afterend',desktopShare);
+ if(shareBlank && !desktopShare.isConnected)shareBlank.insertAdjacentElement('afterend',desktopShare);
  exit.addEventListener('click',ev=>{
   ev.preventDefault();setKeyboard(false);
   document.body.classList.remove('game-ready');

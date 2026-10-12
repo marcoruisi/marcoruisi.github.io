@@ -66,7 +66,17 @@ function wordsearch(d){
   const seen=new Set();for(const p of l.places){if(!p||!words.includes(p.word)||seen.has(p.word)||!Array.isArray(p.ids)||p.ids.length!==p.word.length)return false;seen.add(p.word);
    if(!p.ids.every((id,k)=>Number.isInteger(id)&&id>=0&&id<l.grid.length&&l.grid[id]===p.word[k]))return false}
   return true}
- const w=validLayout(d.layout)?d.layout:kit.wordsearch(words,{rows,cols});
+ // A displayed word must always have a real placement. Retry incomplete random layouts.
+ let w=validLayout(d.layout)?d.layout:null;
+ if(!w){
+  for(let attempt=0;attempt<60;attempt++){
+   const candidate=kit.wordsearch(words,{rows,cols});
+   if(!w||candidate.places.length>w.places.length)w=candidate;
+   if(w.places.length===words.length)break;
+  }
+ }
+ // When a very constrained custom list cannot fit, never show impossible targets.
+ const playableWords=new Set(w.places.map(p=>p.word));
  cols=w.cols;rows=w.rows;
  // Always share the board currently being displayed, not just the word list.
  d.layout={grid:w.grid.slice(),places:w.places.map(x=>({word:x.word,ids:x.ids.slice()})),rows:w.rows,cols:w.cols};
@@ -93,7 +103,7 @@ function wordsearch(d){
   area.append(orientationNote);
  const instruction=document.createElement('p');instruction.className='wordsearch-instructions';instruction.innerHTML=it?'<strong>Come si gioca:</strong> clicca la <strong>prima lettera</strong> di una parola e poi la <strong>ultima lettera</strong>. Non occorre cliccare le lettere intermedie.':'<strong>How to play:</strong> select the <strong>first letter</strong> of a word, then its <strong>last letter</strong>. You do not need to click the letters in between.';
  const clue=document.createElement('p');clue.className='wordsearch-word-list';const wordLabels=new Map();
- for(const [i,word] of words.entries()){if(i)clue.append(document.createTextNode(' · '));const label=document.createElement('span');label.textContent=word;wordLabels.set(word,label);clue.append(label)}
+ for(const [i,word] of words.filter(word=>playableWords.has(word)).entries()){if(i)clue.append(document.createTextNode(' · '));const label=document.createElement('span');label.textContent=word;wordLabels.set(word,label);clue.append(label)}
  area.append(instruction,clue,wrap);
  for(const [i,char] of w.grid.entries()){
    const b=button(char,()=>{
@@ -105,7 +115,7 @@ function wordsearch(d){
      if(match){found.add(match.word);wordLabels.get(match.word)?.classList.add('is-found');for(const index of ids)cells[index].classList.add('found');setStatus((it?'Trovata: ':'Found: ')+match.word)}
      else setStatus(it?'Non corrisponde: seleziona prima e ultima lettera.':'Not a match: select first and last letter.');
      for(const cell of cells)cell.classList.remove('selected');selected=-1;selection=[];
-     if(w.places.length>0&&found.size===w.places.length){setStatus(it?'Tutte le parole trovate!':'All words found!');finish(it?'Tutte le parole trovate!':'All words found!',it?`Hai trovato tutte e ${found.size} le parole. Vuoi cercarne altre?`:`You found all ${found.size} words. Ready for new ones?`)}
+     if(w.places.length>0&&found.size===playableWords.size){setStatus(it?'Tutte le parole trovate!':'All words found!');finish(it?'Tutte le parole trovate!':'All words found!',it?`Hai trovato tutte e ${found.size} le parole. Vuoi cercarne altre?`:`You found all ${found.size} words. Ready for new ones?`)}
    });
    b.setAttribute('aria-label',`${char}, ${Math.floor(i/cols)+1}, ${i%cols+1}`);cells.push(b);
  }
@@ -114,7 +124,7 @@ function wordsearch(d){
  updateOrientation();
  window.addEventListener('resize',updateOrientation,{passive:true});
  removeWordsearchOrientation=()=>window.removeEventListener('resize',updateOrientation);
- if(w.places.length<words.length)setStatus(it?'Alcune parole non sono entrate: prova una nuova griglia.':'Some words did not fit: try a new grid.');
+ if(w.places.length<words.length)setStatus(it?'Alcune parole non entrano nella griglia scelta e non sono mostrate. Prova una griglia più grande.':'Some words do not fit this grid and are not shown. Try a larger grid.');
 }
 
 if(type==='wordsearch'){
