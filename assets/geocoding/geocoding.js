@@ -17,6 +17,25 @@ const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fa
 const save=(key,data)=>{try{localStorage.setItem(key,JSON.stringify(data))}catch{}};
 const sharedKey=String(window.MRC_GEOCODING_SHARED_KEY||'').trim();
 const personalInput=$('geo-key');personalInput.value=read(STORE_KEY,'');
+const keyCheck=$('geo-key-indicator'),keyMessage=$('geo-key-message'),keyTest=$('geo-test-key');
+let verifyingKey=false;
+function keyState(kind,message){keyCheck.dataset.state=kind;keyMessage.textContent=message;}
+const keyLabels=it?{idle:'Non verificata',checking:'Verifica in corso…',valid:'Chiave valida',invalid:'Chiave non valida o non autorizzata',quota:'Quota esaurita: verifica non conclusa',network:'Impossibile verificare: connessione non disponibile',other:'Verifica non riuscita'}:{idle:'Not checked',checking:'Checking…',valid:'Valid API key',invalid:'Invalid or unauthorized key',quota:'Quota exhausted: could not verify',network:'Could not verify: connection unavailable',other:'Verification failed'};
+personalInput.addEventListener('input',()=>keyState('idle',keyLabels.idle));
+keyTest.addEventListener('click',async()=>{
+ const key=personalInput.value.trim();if(!key){keyState('invalid',it?'Inserisci una chiave':'Enter an API key');return;}
+ if(verifyingKey)return;verifyingKey=true;keyTest.disabled=true;keyState('checking',keyLabels.checking);
+ try{
+  const url=new URL('https://api.geoapify.com/v1/geocode/search');
+  url.searchParams.set('text','Roma, Italia');url.searchParams.set('format','json');url.searchParams.set('limit','1');url.searchParams.set('apiKey',key);
+  const response=await fetch(url.toString(),{cache:'no-store'});
+  if(response.status===401||response.status===403){keyState('invalid',keyLabels.invalid);return;}
+  if(response.status===429){keyState('error',keyLabels.quota);return;}
+  if(!response.ok){keyState('error',keyLabels.other+' (HTTP '+response.status+')');return;}
+  const data=await response.json();
+  keyState(Array.isArray(data.results)&&data.results.length?'valid':'error',Array.isArray(data.results)&&data.results.length?keyLabels.valid:keyLabels.other);
+ }catch{keyState('error',keyLabels.network)}finally{verifyingKey=false;keyTest.disabled=false;}
+});
 const today=()=>Math.floor(Date.now()/86400000);const usage=()=>{const a=read(USAGE_KEY,{day:today(),count:0,last:0});return a.day===today()?a:{day:today(),count:0,last:0}};
 const delays=[0,0,0,30,60,120];const delaySec=count=>count<3?0:delays[Math.min(count,5)]||300;
 const getWait=()=>{const u=usage();return Math.max(0,Math.ceil((u.last+delaySec(u.count)*1000-Date.now())/1000))};
@@ -49,7 +68,7 @@ function tsv(){const reversed=$('geo-order').value==='lonlat';return state.rows.
 function showResults(){const out=$('geo-output');out.value=state.rows.length?tsv():'';const list=$('geo-issues');list.replaceChildren();let problems=0;for(let i=0;i<state.statuses.length;i++){const s=state.statuses[i];if(!s)continue;problems++;const li=document.createElement('li');li.textContent=`${it?'Riga':'Row'} ${i+1}: ${s}`;list.appendChild(li)}$('geo-issues-wrap').classList.toggle('geo-hidden',problems===0);$('geo-output-count').textContent=state.rows.length?`${state.rows.length} ${it?'righe':'rows'}`:''}
 $('geo-order').addEventListener('change',showResults);$('geo-decimal').addEventListener('change',showResults);$('geo-digits').addEventListener('change',showResults);
 $('geo-save-key').addEventListener('click',()=>{save(STORE_KEY,personalInput.value.trim());status(L.saved)});
-$('geo-delete-key').addEventListener('click',()=>{personalInput.value='';try{localStorage.removeItem(STORE_KEY)}catch{}status(L.deleted)});
+$('geo-delete-key').addEventListener('click',()=>{personalInput.value='';keyState('idle',keyLabels.idle);try{localStorage.removeItem(STORE_KEY)}catch{}status(L.deleted)});
 $('geo-copy').addEventListener('click',async()=>{if(!state.rows.length){status(L.noresults,'error');return}const value=tsv();try{await navigator.clipboard.writeText(value);status(L.copied)}catch{status(L.copyfail,'error');$('geo-output').focus();$('geo-output').select()}});
 $('geo-cancel').addEventListener('click',()=>{state.abort?.abort()});
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
