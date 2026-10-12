@@ -482,8 +482,8 @@ if(presetRoot){
   try{if(navigator.share){await navigator.share({title:'MRC Crossword',url});return}}catch(e){if(e.name==='AbortError')return}
   try{await navigator.clipboard.writeText(url);setMsg(document.documentElement.lang.startsWith('it')?'Link allo schema vuoto copiato.':'Blank puzzle link copied.')}catch{window.prompt(document.documentElement.lang.startsWith('it')?'Copia il link':'Copy link',url)}
  });
- try{const match=/^#mrc-crossword=([A-Za-z0-9_-]+)$/.exec(location.hash);
-  if(match){const incoming=validate(from64(match[1]));if(!incoming)throw Error('Invalid crossword');incoming.letters.fill('');incoming.ui.mode='play';incoming.ui.lang=pageLang;state=incoming;
+ try{const match=/^#mrc-crossword(-progress)?=([A-Za-z0-9_-]+)$/.exec(location.hash);
+  if(match){const incoming=validate(from64(match[2]));if(!incoming)throw Error('Invalid crossword');if(!match[1])incoming.letters.fill('');incoming.ui.mode='play';incoming.ui.lang=pageLang;state=incoming;
    // Remove shared data from the address after importing; never overwrite a prior save silently on refresh.
    history.replaceState(null,'',location.pathname+location.search);
    document.getElementById('startScreen')?.classList.add('hidden');document.body.classList.add('game-ready');

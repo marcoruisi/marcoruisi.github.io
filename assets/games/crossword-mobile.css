@@ -167,3 +167,36 @@
  body.mrc-crossword-game.mrc-cw-touch-play #letter{pointer-events:none!important}
 }
 @media (min-width:801px), (pointer:fine){.mrc-cw-clue-header,.mrc-cw-mini-keyboard{display:none!important}}
+
+/* Focused mobile play: board and clues are the only scroll containers. */
+@media (max-width:800px) and (pointer:coarse){
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play{overflow:hidden!important;touch-action:auto}
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout,
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) main>.layout,
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play.mrc-cw-mini-open main>.layout{
+  position:fixed!important;top:var(--mrc-cw-top,0px)!important;left:0!important;
+  width:100%!important;height:var(--mrc-cw-vh,100dvh)!important;z-index:900!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) minmax(125px,auto)!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;gap:0!important;
+ }
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout>section,
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) main>.layout>section{
+  height:100%!important;min-height:0!important;overflow:hidden!important;
+ }
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play .board-wrap,
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) .board-wrap{
+  height:auto!important;flex:1 1 auto!important;min-height:0!important;
+  overflow:auto!important;overscroll-behavior:contain!important;
+ }
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout>aside.panel,
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play:not(.mrc-cw-keyboard-open) main>.layout>aside.panel{
+  height:auto!important;min-height:125px!important;max-height:45dvh!important;
+  overflow-y:auto!important;overscroll-behavior:contain!important;
+ }
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar{gap:5px!important}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar .mrc-cw-share-progress{
+  min-width:0!important;font-size:12px!important;padding:5px 8px!important;white-space:nowrap;
+ }
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar a{white-space:nowrap;font-size:12px!important;padding:5px 8px!important}
+}

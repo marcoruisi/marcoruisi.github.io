@@ -10,7 +10,7 @@
  const mq=window.matchMedia('(max-width:800px) and (pointer:coarse)');
  let cell=42,cols=15,pinch=null;
  const bar=document.createElement('div');bar.className='mrc-cw-board-bar';
- const exit=document.createElement('a');exit.href=it?'/it/giochi/':'/games/';exit.textContent=it?'← Giochi':'← Games';
+ const exit=document.createElement('a');exit.href='#';exit.textContent=it?'← Esci':'← Exit';exit.setAttribute('aria-label',it?'Esci dalla partita':'Leave game');
  const buttons=document.createElement('div');buttons.className='mrc-cw-zoom-buttons';
  const originalAcross=document.getElementById('across'),originalDown=document.getElementById('down');
  const originalKeyboard=document.getElementById('mobileKeyboard');
@@ -60,7 +60,31 @@
  // Prevent Safari/Android from opening a native soft keyboard in this game.
  if(letterInput){letterInput.readOnly=true;letterInput.setAttribute('inputmode','none');
   letterInput.addEventListener('focus',()=>{if(mq.matches)letterInput.blur()});}
- bar.append(exit,buttons);wrap.parentElement.insertBefore(bar,wrap);
+ const share=document.createElement('button');share.type='button';share.className='mrc-cw-share-progress';share.textContent=it?'Condividi':'Share';share.setAttribute('aria-label',it?'Condividi la partita con le lettere inserite':'Share crossword with entered letters');
+ share.addEventListener('click',async()=>{
+  const storeKey='mrc-crossword-game-'+(it?'it':'en')+'-v1';
+  let game;try{game=JSON.parse(localStorage.getItem(storeKey)||'null');}catch{}
+  if(!game||!Array.isArray(game.letters)||!Array.isArray(game.blacks)){window.alert(it?'Partita non disponibile.':'Game unavailable.');return;}
+  // Preserve the entered letters in the shared link; the original "Share blank" remains unchanged.
+  game.ui={...(game.ui||{}),mode:'play'};
+  const bytes=new TextEncoder().encode(JSON.stringify(game));
+  let binary='';for(const byte of bytes)binary+=String.fromCharCode(byte);
+  const payload=btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  const url=location.origin+location.pathname+'#mrc-crossword-progress='+payload;
+  if(url.length>6800){window.alert(it?'Partita troppo grande per un link. Usa «Salva progetto (.json)» nella pagina.':'Game too large for a link. Use "Save project (.json)" on the page.');return;}
+  try{if(navigator.share){await navigator.share({title:it?'Continua il mio cruciverba':'Continue my crossword',url});return;}}catch(e){if(e.name==='AbortError')return;}
+  try{await navigator.clipboard.writeText(url);share.textContent=it?'Link copiato ✓':'Link copied ✓';setTimeout(()=>share.textContent=it?'Condividi':'Share',2200);}
+  catch{window.prompt(it?'Copia il link della partita':'Copy the game link',url)}
+ });
+ exit.addEventListener('click',ev=>{
+  ev.preventDefault();setKeyboard(false);
+  document.body.classList.remove('game-ready');
+  const start=document.getElementById('startScreen');if(start)start.classList.remove('hidden');
+  const resume=document.getElementById('startLocal');if(resume)resume.classList.remove('hidden');
+  document.body.classList.remove('mrc-cw-touch-play','mrc-cw-mini-open');
+  window.scrollTo({top:0,behavior:'instant'});
+ });
+ bar.append(exit,share,buttons);wrap.parentElement.insertBefore(bar,wrap);
  const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
  const info=document.createElement('div');info.className='mrc-cw-info-row';
  const word=document.createElement('span');word.className='mrc-cw-word-info';
