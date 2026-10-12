@@ -449,28 +449,42 @@ $('fresh').addEventListener('click',()=>{if(!confirm(tx('surefresh')))return;sta
 
 const presetRoot=document.querySelector('#startScreen .start-actions');
 if(presetRoot){
- const title=document.createElement('div');title.className='muted';title.textContent="Italian crossword collection";presetRoot.prepend(title);
- const note=document.createElement('div');note.className='muted';note.textContent="Loading puzzles…";presetRoot.insertBefore(note,presetRoot.children[1]);
  const safeName=name=>typeof name==='string'&&/^[a-zA-Z0-9][a-zA-Z0-9._-]*\.json$/.test(name)&&!name.includes('..');
+ const groups={};
+ for(const [category,heading] of [['classic',"Ready-to-play crosswords"],['themed',"Themed crosswords"]]){
+  const wrap=document.createElement('section');wrap.className='mrc-crossword-collection';wrap.dataset.category=category;
+  const h=document.createElement('h3');h.textContent=heading;h.style.cssText='font-size:1.08rem;margin:0 0 .5rem';
+  const list=document.createElement('div');list.className='mrc-crossword-collection-list';list.style.cssText='display:grid;gap:12px';
+  const note=document.createElement('p');note.className='muted';note.textContent="Loading collection…";
+  wrap.append(h,note,list);presetRoot.insertBefore(wrap,$('startProject'));
+  groups[category]={list,note};
+ }
  async function loadExample(name){
   if(!safeName(name))throw Error('Invalid filename');
   const response=await fetch('/assets/games/crosswords/'+encodeURIComponent(name),{cache:'no-store'});
   if(!response.ok)throw Error('HTTP '+response.status);
   const raw=await response.json(),clean=validate(raw);if(!clean)throw Error('Invalid crossword JSON');
-  clean.letters.fill('');clean.ui.mode='play';clean.ui.lang='en';
-  clean.ui.lang=pageLang;state=clean;closeStart();render();save();
+  clean.letters.fill('');clean.ui.mode='play';clean.ui.lang=pageLang;state=clean;closeStart();render();save();
  }
- 
  async function listExamples(){
   try{const r=await fetch('/assets/games/crosswords/index.json',{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw Error('HTTP '+r.status);
    const manifest=await r.json();if(!Array.isArray(manifest.games))throw Error('Invalid index');
-   const items=manifest.games.filter(x=>x.language==='en'&&safeName(x.file)&&x.file!=='mrc-del-giorno.json');
-   note.textContent=items.length?'':"No puzzles yet. You can import your JSON.";
-   items.forEach(item=>{const button=document.createElement('button');button.type='button';const strong=document.createElement('strong');strong.textContent=item.title||item.file;button.appendChild(strong);button.addEventListener('click',()=>loadExample(item.file).catch(e=>{note.textContent='⚠ '+e.message}));presetRoot.insertBefore(button,presetRoot.children[presetRoot.children.length-4]);});
-  }catch(err){note.textContent="Collection unavailable ("+(err.name==='TimeoutError'?"request timed out":err.message)+"). Check /assets/games/crosswords/index.json.";}
+   const items=manifest.games.filter(x=>x.language===pageLang&&safeName(x.file)&&x.file!=='mrc-del-giorno.json');
+   for(const item of items){
+    const category=item.category==='classic'?'classic':'themed';
+    const button=document.createElement('button');button.type='button';
+    const strong=document.createElement('strong');strong.textContent=item.title||item.file;button.appendChild(strong);
+    button.addEventListener('click',()=>loadExample(item.file).catch(e=>{groups[category].note.textContent="Cannot open crossword: "+e.message}));
+    groups[category].list.appendChild(button);
+   }
+   groups.classic.note.textContent=groups.classic.list.children.length?'':"No ready-made puzzles yet.";
+   groups.themed.note.textContent=groups.themed.list.children.length?'':"No themed crosswords yet.";
+  }catch(err){for(const group of Object.values(groups))group.note.textContent="Collection unavailable: "+err.message;}
  }
  listExamples();
 }
+
+
 
 
  // Native shared crossword data: fragment is kept out of HTTP requests and server storage.
