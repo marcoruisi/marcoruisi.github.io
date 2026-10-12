@@ -17,7 +17,30 @@ function filtered(){const term=norm($('search').value);return rows.filter(r=>{if
 function refresh(){view=filtered();$('stats').textContent=t(`${view.length.toLocaleString('it-IT')} risultati su ${rows.length.toLocaleString('it-IT')} righe`,`${view.length.toLocaleString('en-US')} results of ${rows.length.toLocaleString('en-US')} rows`);const selected=cols.filter(c=>c.include),table=$('table');table.replaceChildren();const thead=document.createElement('thead'),tr=document.createElement('tr');selected.forEach(c=>{const th=document.createElement('th');th.textContent=c.name;tr.append(th);});thead.append(tr);table.append(thead);const body=document.createElement('tbody');for(const r of view.slice(0,PREVIEW)){const tr=document.createElement('tr');selected.forEach(c=>{const td=document.createElement('td');td.textContent=r[c.i];tr.append(td);});body.append(tr);}table.append(body);$('previewinfo').textContent=view.length>PREVIEW?t(`Anteprima: prime ${PREVIEW} righe. L'esportazione comprende tutti i risultati.`,`Preview: first ${PREVIEW} rows. Export includes all results.`):'';}
 function output(delimiter){const s=cols.filter(c=>c.include);if(!s.length)throw Error(t('Seleziona almeno una colonna.','Select at least one column.'));const quote=v=>{v=String(v??'');return v.includes('"')||v.includes('\n')||v.includes('\r')||v.includes(delimiter)?'"'+v.replace(/"/g,'""')+'"':v;};return [s.map(c=>quote(c.name)).join(delimiter),...view.map(row=>s.map(c=>quote(row[c.i])).join(delimiter))].join('\r\n');}
 function download(text,name,type){const blob=new Blob(['\uFEFF',text],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-function sheetUrl(value){const url=new URL(value);if(url.protocol!=='https:')throw Error(t('Usa un link HTTPS pubblico.','Use a public HTTPS link.'));if(['docs.google.com','sheets.google.com'].includes(url.hostname)){const match=url.pathname.match(/^\/spreadsheets\/d\/([\w-]+)/);if(!match)throw Error(t('Link Google Sheets non riconosciuto.','Google Sheets link not recognised.'));let gid=url.searchParams.get('gid');if(!gid){const f=url.hash.match(/gid=(\d+)/);if(f)gid=f[1];}return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv${gid?'&gid='+encodeURIComponent(gid):''}`;}if(url.hostname==='localhost'||url.hostname.endsWith('.local'))throw Error(t('Indirizzo non pubblico.','Non-public address.'));return url.href;}
+function sheetUrl(value){
+  const url=new URL(value);
+  if(url.protocol!=='https:')throw Error(t('Usa un link HTTPS pubblico.','Use a public HTTPS link.'));
+  if(['docs.google.com','sheets.google.com'].includes(url.hostname)){
+    // Published-to-web URLs have a different identifier and MUST NOT be
+    // rewritten to /spreadsheets/d/<id>/export (that returns HTTP 404).
+    const published=url.pathname.match(/^\/spreadsheets\/d\/e\/([\w-]+)\/pub\/?$/);
+    if(published){
+      const out=new URL(`https://docs.google.com/spreadsheets/d/e/${published[1]}/pub`);
+      const gid=url.searchParams.get('gid');
+      if(gid!==null)out.searchParams.set('gid',gid);
+      if(url.searchParams.has('single'))out.searchParams.set('single',url.searchParams.get('single'));
+      out.searchParams.set('output','csv');
+      return out.href;
+    }
+    const match=url.pathname.match(/^\/spreadsheets\/d\/([\w-]+)/);
+    if(!match)throw Error(t('Link Google Sheets non riconosciuto.','Google Sheets link not recognised.'));
+    let gid=url.searchParams.get('gid');
+    if(!gid){const f=url.hash.match(/gid=(\d+)/);if(f)gid=f[1];}
+    return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv${gid?'&gid='+encodeURIComponent(gid):''}`;
+  }
+  if(url.hostname==='localhost'||url.hostname.endsWith('.local'))throw Error(t('Indirizzo non pubblico.','Non-public address.'));
+  return url.href;
+}
 $('loadpaste').addEventListener('click',()=>{try{load($('raw').value);}catch(e){message(e.message);}});
 $('file').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>MAX_BYTES)throw Error(t('File troppo grande.','File too large.'));load(await file.text());}catch(err){message(err.message);}finally{e.target.value='';}});
 $('loadurl').addEventListener('click',async()=>{const btn=$('loadurl');try{const url=sheetUrl($('url').value.trim());btn.disabled=true;message(t('Caricamento…','Loading…'));const ctrl=new AbortController(),timeout=setTimeout(()=>ctrl.abort(),15000);let res;try{res=await fetch(url,{signal:ctrl.signal,credentials:'omit'});}finally{clearTimeout(timeout);}if(!res.ok)throw Error(`HTTP ${res.status}`);const txt=await res.text();load(txt);}catch(e){message(t('Impossibile leggere il CSV pubblico. Verifica i permessi; in alternativa scarica il CSV e caricalo qui. Dettaglio: ','Could not read public CSV. Check sharing permissions or download and upload the CSV instead. Details: ')+e.message);}finally{btn.disabled=false;}});
