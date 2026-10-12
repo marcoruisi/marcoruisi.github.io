@@ -655,6 +655,26 @@
       "availability": "free"
     },
     {
+      "id": "gis-address-geocoding",
+      "name": {
+        "en": "Address geocoding",
+        "it": "Geocodifica indirizzi"
+      },
+      "url": {
+        "en": "/tools/address-geocoding/",
+        "it": "/it/tools/geocodifica-indirizzi/"
+      },
+      "description": {
+        "en": "Find coordinates from addresses, including lists with a personal API key. Copy two columns for Google Sheets.",
+        "it": "Ricava coordinate da indirizzi, anche in elenco con API personale. Copia due colonne per Google Sheets."
+      },
+      "tags": [
+        "gis"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
       "id": "gis-coordinate-converter",
       "name": {
         "en": "Coordinate converter",

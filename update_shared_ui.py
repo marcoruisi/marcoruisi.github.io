@@ -388,8 +388,9 @@ def plan_shared_ui(root=ROOT):
     planned = {}
     for path, original in files:
         text = original; url = route(path, root)
-        if url.startswith(('/games/', '/it/giochi/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/'):
-            continue  # Standalone game engines have their own light HTML shell.
+        if url.startswith(('/games/', '/it/giochi/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
+                '/tools/address-geocoding/', '/it/tools/geocodifica-indirizzi/'):
+            continue  # Standalone pages already have their own technical HTML shell.
         lang_match = re.search(r'<html\b[^>]*\blang=["\'](en|it)["\']', text, re.I)
         if not lang_match: raise ValueError(f'Lingua non riconosciuta: {path}')
         lang = lang_match[1]; tool = tool_by_url.get(url); index = url in [v for p in INDEX_PAIRS for v in p]

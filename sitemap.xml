@@ -178,6 +178,9 @@
     <loc>https://marcorui.si/it/tools/foto-entro-peso/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/it/tools/geocodifica-indirizzi/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/it/tools/giochi-da-argomento/</loc>
   </url>
   <url>
@@ -257,6 +260,9 @@
   </url>
   <url>
     <loc>https://marcorui.si/tools/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/tools/address-geocoding/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/tools/all/</loc>
