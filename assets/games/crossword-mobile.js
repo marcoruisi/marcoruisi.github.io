@@ -120,7 +120,9 @@
  wrap.addEventListener('touchend',ev=>{if(ev.touches.length<2)pinch=null},{passive:true});
  const observer=new MutationObserver(sync);observer.observe(board,{attributes:true,attributeFilter:['style']});
  observer.observe(playArea,{attributes:true,attributeFilter:['class']});
- observer.observe(body,{attributes:true,attributeFilter:['class']});
+ // Observe the start-screen transition instead of body: sync() also changes body classes.
+ const startScreen=document.getElementById('startScreen');
+ if(startScreen)observer.observe(startScreen,{attributes:true,attributeFilter:['class']});
  for(const el of [originalAcross,originalDown])if(el)observer.observe(el,{attributes:true,attributeFilter:['aria-pressed','disabled']});
  if(selectedTitle)observer.observe(selectedTitle,{childList:true,characterData:true,subtree:true});
  mq.addEventListener('change',sync);window.addEventListener('resize',updateViewport);
