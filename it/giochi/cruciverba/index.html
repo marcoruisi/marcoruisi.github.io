@@ -462,12 +462,12 @@ if(presetRoot){
  }
  
  async function listExamples(){
-  try{const r=await fetch('/assets/games/crosswords/index.json',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);
+  try{const r=await fetch('/assets/games/crosswords/index.json',{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw Error('HTTP '+r.status);
    const manifest=await r.json();if(!Array.isArray(manifest.games))throw Error('Invalid index');
    const items=manifest.games.filter(x=>x.language==='it'&&safeName(x.file)&&x.file!=='mrc-del-giorno.json');
    note.textContent=items.length?'':"Nessuno schema disponibile. Puoi importare il tuo JSON.";
    items.forEach(item=>{const button=document.createElement('button');button.type='button';const strong=document.createElement('strong');strong.textContent=item.title||item.file;button.appendChild(strong);button.addEventListener('click',()=>loadExample(item.file).catch(e=>{note.textContent='⚠ '+e.message}));presetRoot.insertBefore(button,presetRoot.children[presetRoot.children.length-4]);});
-  }catch(err){note.textContent="Non riesco a caricare la raccolta. Apri il sito tramite HTTP, non file://.";}
+  }catch(err){note.textContent="Raccolta non disponibile ("+(err.name==='TimeoutError'?"tempo scaduto":err.message)+"). Verifica /assets/games/crosswords/index.json.";}
  }
  listExamples();
 }
