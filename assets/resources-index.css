@@ -1,0 +1,5 @@
+/* Resource index: reuse Tools rows, filters and responsive rules. */
+.mrc-resources-index{padding-top:24px;--border:#d7dbe0;--muted:#687078}
+.mrc-resources-index h1{margin:0 0 8px;font:600 28px/1.2 Manrope,system-ui,sans-serif;letter-spacing:normal}
+.mrc-resources-index .intro{margin:0 0 18px;color:var(--muted);line-height:1.5}
+@media(max-width:700px){.mrc-resources-index{padding-top:14px}}

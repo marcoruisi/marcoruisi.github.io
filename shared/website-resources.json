@@ -1,0 +1,44 @@
+[
+  {
+    "name": {
+      "it": "MRC Crossword",
+      "en": "MRC Crossword"
+    },
+    "type": "kit",
+    "availability": "on-request",
+    "description": {
+      "it": "Prova il Cruciverba gratuito. Puoi richiedere una versione standalone o WordPress, adattata al tuo sito.",
+      "en": "Try the free crossword game. Request a standalone or WordPress version adapted to your site."
+    },
+    "url": {
+      "it": "/it/kit/crossword/",
+      "en": "/kit/crossword/"
+    },
+    "contact": {
+      "it": "mailto:ciao@marcorui.si?subject=MRC+Crossword+Kit+-+richiesta+personalizzazione&body=Buongiorno%2C+vorrei+informazioni+per+integrare+il+cruciverba+sul+mio+sito.%0ASito%3A+%0APreferenza%3A+WordPress+%2F+Standalone%0AEsigenze%3A+%0A",
+      "en": "mailto:ciao@marcorui.si?subject=MRC+Crossword+Kit+-+customisation+enquiry&body=Hello%2C+I+would+like+to+integrate+the+crossword+on+my+website.%0AWebsite%3A+%0APreferred+version%3A+WordPress+%2F+Standalone%0ARequirements%3A+%0A"
+    },
+    "compatibility": "WordPress · Standalone"
+  },
+  {
+    "name": {
+      "it": "MRC WPML Group Tools",
+      "en": "MRC WPML Group Tools"
+    },
+    "type": "plugin",
+    "availability": "on-request",
+    "description": {
+      "it": "Azioni in blocco sui gruppi di traduzioni WPML: bozze, pubblicazione, privacy e gestione della visibilità nei menu, per pagine e articoli.",
+      "en": "Bulk actions on WPML translation groups: drafts, publishing, private status and menu visibility, for pages and posts."
+    },
+    "url": {
+      "it": "mailto:ciao@marcorui.si?subject=MRC+WPML+Group+Tools+-+richiesta&body=Buongiorno%2C+vorrei+valutare+una+soluzione+WPML+per+il+mio+sito.%0A",
+      "en": "mailto:ciao@marcorui.si?subject=MRC+WPML+Group+Tools+-+enquiry&body=Hello%2C+I+would+like+to+discuss+a+WPML+solution+for+my+website.%0A"
+    },
+    "contact": {
+      "it": "mailto:ciao@marcorui.si?subject=MRC+WPML+Group+Tools+-+richiesta&body=Buongiorno%2C+vorrei+valutare+una+soluzione+WPML+per+il+mio+sito.%0A",
+      "en": "mailto:ciao@marcorui.si?subject=MRC+WPML+Group+Tools+-+enquiry&body=Hello%2C+I+would+like+to+discuss+a+WPML+solution+for+my+website.%0A"
+    },
+    "compatibility": "WordPress"
+  }
+]

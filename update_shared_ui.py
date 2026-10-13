@@ -257,7 +257,6 @@ def editorial_header(root, text, lang, pair=None):
         'tools_url': '/it/tools/' if lang == 'it' else '/tools/',
         'games_url': '/it/giochi/' if lang == 'it' else '/games/',
         'games_label': 'Giochi' if lang == 'it' else 'Games',
-        'kit_url': '/it/kit/' if lang == 'it' else '/kit/',
         'language_navigation': language_navigation,
     })
     content = template(root, 'site-header.html', {
@@ -281,14 +280,13 @@ def editorial_header(root, text, lang, pair=None):
     raise ValueError('Header editoriale: topbar non chiusa')
 
 
-def tool_header(root, lang, pair, current, include_subnav=True):
+def tool_header(root, lang, pair, current):
     """Shared global header; the three Tool routes are secondary navigation."""
     home = '/it/' if lang == 'it' else '/'
     everyday = '/it/tools/' if lang == 'it' else '/tools/'
     all_url = '/it/tools/tutti/' if lang == 'it' else '/tools/all/'
     games = '/it/giochi/' if lang == 'it' else '/games/'
-    kit = '/it/kit/' if lang == 'it' else '/kit/'
-    global_links = ((everyday, 'Tools'), (games, 'Giochi' if lang == 'it' else 'Games'), (kit, 'Kit'))
+    global_links = ((everyday, 'Tools'), (games, 'Giochi' if lang == 'it' else 'Games'))
     nav = ''.join(f'<a href="{url}"' + (' aria-current="page"' if current == url or (url == everyday and current.startswith(('/tools/', '/it/tools/')) and current != all_url) else '') + f'>{html.escape(label)}</a>' for url, label in global_links)
     tool_context = current.startswith(('/tools/', '/it/tools/')) or current in FLOW_URLS.values()
     subnav = ''
@@ -299,8 +297,6 @@ def tool_header(root, lang, pair, current, include_subnav=True):
         links = ''.join(f'<a href="{url}"' + (' aria-current="page"' if current == url else '') + f'>{label}</a>' for url, label in items)
         subnav = f'<nav class="mrc-tools-secondary" aria-label="{ "Navigazione Tools" if lang == "it" else "Tools navigation" }">{links}</nav>'
     language = '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(f'<a href="{pair[l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it'))
-    if not include_subnav:
-        subnav = ''
     return template(root, 'tool-header.html', {'site_home': home, 'home_label': 'marcorui.si home', 'tool_links': nav, 'tool_subnav': subnav, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
 
 
@@ -379,15 +375,6 @@ def index_content(root, tools, tags, lang, everyday):
     it = lang == 'it'; pick = lambda a, b: a if it else b
     title = 'Everyday Tools' if everyday else pick('Tutti gli strumenti', 'All Tools')
     content = f'<h1>{title}</h1><p class="intro">' + (pick('Piccoli strumenti gratuiti. Scegli cosa vuoi fare.', 'Small, free tools. Choose what you need to do.') if everyday else pick('Strumenti, snippet e plugin nati da problemi reali. Gratuiti o su richiesta.', 'Tools, snippets and plugins born from real problems. Free or on request.')) + '</p>'
-    # The section navigation belongs to the index introduction, after h1 and lede.
-    everyday_url = '/it/tools/' if it else '/tools/'
-    all_url = '/it/tools/tutti/' if it else '/tools/all/'
-    current_url = everyday_url if everyday else all_url
-    nav_items = ((everyday_url, 'Everyday Tools'),
-                 (all_url, pick('Tutti gli strumenti', 'All Tools')),
-                 (FLOW_URLS[lang], 'Tool Flows'))
-    sublinks = ''.join(link(url, label, current_url) for url, label in nav_items)
-    content += f'<nav class="mrc-tools-secondary" aria-label="{pick("Navigazione Tools", "Tools navigation")}">{sublinks}</nav>'
     content += template(root, f'tool-flow-index.{lang}.html')
     if everyday:
         rows = ''.join(f'<li><a href="{t["url"][lang]}"><h2>{html.escape(t["action"][lang])}</h2><p>{html.escape(t["name"][lang])}</p><span aria-hidden="true">→</span></a></li>' for t in tools if 'everyday' in t['tags'])
@@ -403,50 +390,40 @@ def index_content(root, tools, tags, lang, everyday):
         buttons += '<div class="mrc-tool-scopes" role="group" aria-label="' + pick('Ambito', 'Scope') + '">' + controls(dataset['filters']) + '</div>'
         rows = ''.join(f'<li class="mrc-tool-row" data-tool-tags="{" ".join(t["tags"])}" data-tool-type="{t["type"]}" data-tool-availability="{t["availability"]}"><h2>{link(t["url"][lang], t["name"][lang])}</h2><p>{html.escape(t["description"][lang])}</p>{status(t,tags,lang)}</li>' for t in tools)
         content += f'<div class="mrc-tool-filters"  role="group" aria-label="{pick("Filtra gli strumenti", "Filter tools")}" hidden>{buttons}</div><p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="{pick("strumenti visibili", "tools shown")}" hidden></p><ul class="mrc-tools-list" id="mrc-tools-list">{rows}</ul>'
+    resource_url = '/it/kit/' if it else '/kit/'
+    content += '<section class="mrc-index-bridge"><h2>' + link(resource_url, pick('Risorse per il tuo sito', 'Resources for your website')) + '</h2><p>' + pick('Plugin, kit e snippet da integrare nel tuo sito.', 'Plugins, kits and snippets to integrate into your website.') + '</p></section>'
     contact = '/it/contatti/' if it else '/contact/'
     content += '<section class="mrc-index-bridge"><h2>' + pick('Hai un problema che questi strumenti non risolvono?', 'Have a problem these tools don’t solve?') + '</h2><p>' + pick('Questi strumenti nascono spesso da un problema concreto che vale la pena semplificare.', 'These tools usually start from a concrete problem worth simplifying.') + f'</p><p><a href="{contact}">' + pick('Raccontami il tuo →', 'Tell me yours →') + '</a></p></section>'
     return content
 
 
-def kit_catalog_cards(tools, lang):
-    """Produce one Kit view of existing plugin/snippet pages. No duplicate detail pages."""
+def kit_catalog_cards(root, tools, lang):
+    """One resource catalogue, reusing Tools cards and native category filters."""
     it = lang == 'it'
-    grouped = [('plugin', 'Plugin WordPress' if it else 'WordPress plugins'),
-               ('snippet', 'Snippet WordPress' if it else 'WordPress snippets')]
-    result = []
-    for kind, title in grouped:
-        cards = []
-        for item in tools:
-            if item['type'] != kind:
-                continue
-            name = html.escape(item['name'][lang]);desc = html.escape(item['description'][lang]);url = html.escape(item['url'][lang], quote=True)
-            free = item['availability'] == 'free'
-            status = ('Gratuito' if it else 'Free') if free else ('Su richiesta' if it else 'On request')
-            version = (' · v' + html.escape(str(item['version']))) if item.get('version') else ''
-            label = ('Scopri il plugin →' if it else 'Explore plugin →') if kind == 'plugin' else ('Vedi lo snippet →' if it else 'View snippet →')
-            cards.append(f'<article class="kit-card"><span class="kit-tag">{status}{version}</span><h3>{name}</h3><p>{desc}</p><div class="kit-card-actions"><a class="kit-action kit-action-secondary" href="{url}">{label}</a></div></article>')
-        result.append('<section class="kit-section"><h2>'+title+'</h2><div class="kit-grid">'+''.join(cards)+'</div></section>')
-    return ''.join(result)
+    pick = lambda a, b: a if it else b
+    resources = json.loads((root / 'shared/website-resources.json').read_text(encoding='utf-8'))
+    resources += [item for item in tools if item['type'] in ('plugin', 'snippet')]
+    buttons = ''.join(f'<button type="button" data-tool-filter="{kind}" data-filter-field="type" aria-pressed="{"true" if kind == "all" else "false"}" aria-controls="mrc-tools-list">{label}</button>' for kind, label in [('all', pick('Tutte', 'All')), ('plugin', pick('Plugin', 'Plugins')), ('kit', pick('Kit', 'Kits')), ('snippet', pick('Snippet', 'Snippets'))])
+    rows = []
+    for item in resources:
+        kind = item['type']
+        url = item['url'][lang]
+        compatibility = item.get('compatibility', 'WordPress')
+        if item.get('download'):
+            action_url = item['download']
+            action = pick('Scarica', 'Download')
+        elif item['availability'] == 'on-request':
+            action_url = item['contact'][lang] if item.get('contact') else request_mailto(item, lang)
+            action = pick('Richiedi informazioni', 'Request information')
+        else:
+            action_url = url
+            action = pick('Vedi e copia il codice', 'View and copy code')
+        rows.append(f'<li class="mrc-tool-row" data-tool-tags="{kind}" data-tool-type="{kind}"><h2>{link(url, item["name"][lang])}</h2><p>{html.escape(item["description"][lang])}</p><p class="mrc-tool-model">{pick("Tipo", "Type")}: {kind.title()}</p><p class="mrc-tool-model">{pick("Compatibilità", "Compatibility")}: {html.escape(compatibility)}</p><p>{link(action_url, action + " →")}</p></li>')
+    return '<div class="mrc-tool-filters" role="group" aria-label="' + pick('Filtra per tipo', 'Filter by type') + '" hidden><div class="mrc-tool-scopes">' + buttons + '</div></div><p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="' + pick('risorse visibili', 'resources shown') + '" hidden></p><ul class="mrc-tools-list" id="mrc-tools-list">' + ''.join(rows) + '</ul>'
 
 
-def kit_catalog_page(text, tools, lang):
-    """Update the Kit index without touching the independent crossword/WPML cards."""
-    if '<!-- MRC SHARED KIT CATALOG START -->' in text:
-        return replace_block(text, 'KIT CATALOG', kit_catalog_cards(tools, lang))
-    # Append after the existing kit-card grid section, before the following section.
-    headings = list(re.finditer(r'<section class="kit-section">', text))
-    if len(headings) < 2 or 'kit-grid' not in text[headings[0].start():headings[1].start()]:
-        raise ValueError('Kit index: sezione schede originale non trovata')
-    pos = headings[1].start()
-    return text[:pos] + marked('KIT CATALOG', kit_catalog_cards(tools, lang)) + '\n' + text[pos:]
-
-def index_layout_styles(text):
-    """One stylesheet for the three section landings, without touching game/tool UI."""
-    url = '/assets/technical-index-layout.css'
-    if f'href="{url}"' not in text:
-        text = text.replace('</head>', f'<link rel="stylesheet" href="{url}">\n</head>', 1)
-    return text
-
+def kit_catalog_page(root, text, tools, lang):
+    return replace_block(text, 'KIT CATALOG', kit_catalog_cards(root, tools, lang))
 
 def plan_shared_ui(root=ROOT):
     dataset = dataset_checked(root); tools, tags = dataset['tools'], dataset['tags']
@@ -462,10 +439,7 @@ def plan_shared_ui(root=ROOT):
         text = original; url = route(path, root)
         if url in ('/kit/', '/it/kit/'):
             lang = 'it' if url.startswith('/it/') else 'en'
-            text = kit_catalog_page(original, tools, lang)
-            # Kit index: shared introduction is h1 + lead, without a separate eyebrow.
-            text = re.sub(r'<p class="kit-kicker">MRC / Kit</p>', '', text, count=1, flags=re.I)
-            text = index_layout_styles(text)
+            text = kit_catalog_page(root, original, tools, lang)
             if text != original: planned[path] = text
             continue
         # Standalone games and tools use their own engines; unify only their existing
@@ -489,10 +463,6 @@ def plan_shared_ui(root=ROOT):
                         text = original[:header.start()] + marked('TOOL HEADER', content) + original[header.end():]
                     else:
                         text = original
-                if url in ('/games/', '/it/giochi/'):
-                    # Index-only: remove the obsolete eyebrow, not the in-page content.
-                    text = re.sub(r'<div class="eyebrow">MRC / (?:Games|Giochi)</div>', '', text, count=1)
-                    text = index_layout_styles(text)
                 if text != original: planned[path] = text
             continue
         if url.startswith(('/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
@@ -513,11 +483,10 @@ def plan_shared_ui(root=ROOT):
         elif tool or index:
             for css in ('/assets/tool-shell.css', '/assets/tools-content.css'):
                 if f'href="{css}"' not in text: text = text.replace('</head>', f'<link rel="stylesheet" href="{css}">\n</head>')
-            text = replace_block(text, 'TOOL HEADER', tool_header(root, lang, pair, url, include_subnav=not index), r'<header class="tool-header"[^>]*>.*?</header>')
+            text = replace_block(text, 'TOOL HEADER', tool_header(root, lang, pair, url), r'<header class="tool-header"[^>]*>.*?</header>')
             if index:
                 text = re.sub(r'<link\b[^>]*href="/assets/style.min.css"[^>]*>\s*', '', text)
                 text = replace_block(text, 'INDEX', index_content(root, tools, tags, lang, url in INDEX_PAIRS[0]))
-                text = index_layout_styles(text)
                 if 'href="/assets/tools-index.css"' not in text: text = text.replace('</head>', '<link rel="stylesheet" href="/assets/tools-index.css">\n</head>')
                 if url in INDEX_PAIRS[1] and 'src="/assets/tools-index.js"' not in text: text = text.replace('</body>', '<script src="/assets/tools-index.js" defer></script>\n</body>')
             else:

@@ -60,38 +60,13 @@
  // Prevent Safari/Android from opening a native soft keyboard in this game.
  if(letterInput){letterInput.readOnly=true;letterInput.setAttribute('inputmode','none');
   letterInput.addEventListener('focus',()=>{if(mq.matches)letterInput.blur()});}
- const share=document.createElement('button');share.type='button';share.className='mrc-cw-share-progress';share.textContent=it?'Condividi':'Share';share.setAttribute('aria-label',it?'Condividi la partita con le lettere inserite':'Share crossword with entered letters');
- async function shareProgress(button){
-  const storeKey='mrc-crossword-game-'+(it?'it':'en')+'-v1';
-  let game;try{game=JSON.parse(localStorage.getItem(storeKey)||'null');}catch{}
-  if(!game||!Array.isArray(game.letters)||!Array.isArray(game.blacks)){window.alert(it?'Partita non disponibile.':'Game unavailable.');return;}
-  // Preserve the entered letters in the shared link; the original "Share blank" remains unchanged.
-  game.ui={...(game.ui||{}),mode:'play'};
-  const bytes=new TextEncoder().encode(JSON.stringify(game));
-  let binary='';for(const byte of bytes)binary+=String.fromCharCode(byte);
-  const payload=btoa(binary).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-  const url=location.origin+location.pathname+'#mrc-crossword-progress='+payload;
-  if(url.length>6800){window.alert(it?'Partita troppo grande per un link. Usa «Salva progetto (.json)» nella pagina.':'Game too large for a link. Use "Save project (.json)" on the page.');return;}
-  try{if(navigator.share){await navigator.share({title:it?'Continua il mio cruciverba':'Continue my crossword',url});return;}}catch(e){if(e.name==='AbortError')return;}
-  try{await navigator.clipboard.writeText(url);button.textContent=it?'Link copiato ✓':'Link copied ✓';setTimeout(()=>button.textContent=button===share?(it?'Condividi':'Share'):(it?'Condividi partita':'Share progress'),2200);}
-  catch{window.prompt(it?'Copia il link della partita':'Copy the game link',url)}
- }
- // The focused mobile workspace must allow exporting the full current game
- // before leaving. Reuse the page's existing JSON exporter (no duplicate format).
- const saveGame=document.createElement('button');saveGame.type='button';
- saveGame.className='mrc-cw-save-progress';
- saveGame.textContent=it?'Salva':'Save';
- saveGame.setAttribute('aria-label',it?'Salva la partita come file JSON':'Save the current game as JSON');
+ const share=document.createElement('button');share.type='button';share.className='mrc-cw-share-progress';
+ share.textContent=it?'Scarica .json':'Download .json';
+ share.setAttribute('aria-label',it?'Scarica cruciverba (.json)':'Download crossword (.json)');
+ share.addEventListener('click',()=>document.getElementById('mrcDownloadPuzzle')?.click());
+ const saveGame=document.createElement('button');saveGame.type='button';saveGame.className='mrc-cw-save-progress';
+ saveGame.textContent=it?'Salva progressi':'Save progress';
  saveGame.addEventListener('click',()=>document.getElementById('export')?.click());
- share.addEventListener('click',()=>shareProgress(share));
- // Desktop uses the same share action as the mobile game toolbar.
- const desktopShare=document.getElementById('mrcShareProgress')||document.createElement('button');desktopShare.type='button';
- desktopShare.className='mrc-cw-share-desktop';
- desktopShare.textContent=it?'Condividi partita':'Share progress';
- desktopShare.setAttribute('aria-label',it?'Condividi la partita con le lettere compilate':'Share crossword including entered letters');
- desktopShare.addEventListener('click',()=>shareProgress(desktopShare));
- const shareBlank=document.getElementById('mrcShareBlank');
- if(shareBlank && !desktopShare.isConnected)shareBlank.insertAdjacentElement('afterend',desktopShare);
  exit.addEventListener('click',ev=>{
   ev.preventDefault();setKeyboard(false);
   document.body.classList.remove('game-ready');
