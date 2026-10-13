@@ -153,3 +153,21 @@ body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSyste
   }
   .mrc-tool-language a { min-width:25px; min-height:44px; }
 }
+
+
+/* Sticky navigation on landing pages only; never inside a game/tool session.
+   The canonical identifies each index without changing HTML on every page. */
+body:has(head link[rel="canonical"][href="https://marcorui.si/tools/"]) > .mrc-tool-header,
+body:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/"]) > .mrc-tool-header,
+body:has(head link[rel="canonical"][href="https://marcorui.si/tools/all/"]) > .mrc-tool-header,
+body:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/tutti/"]) > .mrc-tool-header,
+body:has(head link[rel="canonical"][href="https://marcorui.si/tool-flows/"]) > .mrc-tool-header,
+body:has(head link[rel="canonical"][href="https://marcorui.si/it/tool-flows/"]) > .mrc-tool-header,
+body:has(head link[rel="canonical"][href="https://marcorui.si/games/"]) > .mrc-tool-header,
+body:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) > .mrc-tool-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg, #f4f5f7);
+  isolation: isolate;
+}

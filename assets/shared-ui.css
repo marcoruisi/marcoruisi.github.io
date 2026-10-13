@@ -267,3 +267,24 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
   body.mrc-home .site > .topbar .header-language a { min-width: 23px; }
   body.mrc-home .site > .topbar .menu-trigger { flex-basis: 36px; width: 36px; min-width: 36px; }
 }
+
+
+/* MRC sticky editorial header: keep the menu in document flow. */
+.site > .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg, #fff);
+  isolation: isolate;
+}
+/* Subtle separation only when navigation is present; no large shadow. */
+.site > .topbar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line, rgba(0,0,0,.12));
+  pointer-events: none;
+}
