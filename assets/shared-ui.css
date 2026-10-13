@@ -191,3 +191,79 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
   .mrc-home .topbar .header-language a { min-width: 24px; }
   .mrc-home .topbar .menu-trigger { flex-basis: 32px; min-width: 32px; width: 32px; }
 }
+
+
+/* MRC home mobile header: single aligned row, independent of cached logo markup. */
+@media (max-width:700px) {
+  body.mrc-home .site > .topbar {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+  body.mrc-home .site > .topbar .logo-mark {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 44px;
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    overflow: visible;
+    font-size: 0 !important;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    overflow-wrap: normal;
+  }
+  body.mrc-home .site > .topbar .logo-mark > * { display: none !important; }
+  body.mrc-home .site > .topbar .logo-mark::before {
+    content: "m.";
+    font: 700 32px/1 Georgia, "Times New Roman", serif;
+    letter-spacing: -.045em;
+    color: inherit;
+  }
+  body.mrc-home .site > .topbar .header-actions {
+    display: flex;
+    margin-left: auto;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 0 1 auto;
+    min-width: 0;
+    gap: 3px;
+  }
+  body.mrc-home .site > .topbar .header-utilities {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    min-width: 0;
+    gap: 3px;
+  }
+  body.mrc-home .site > .topbar .header-tools,
+  body.mrc-home .site > .topbar .header-games {
+    flex: 0 0 auto;
+    min-width: 40px;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+  body.mrc-home .site > .topbar .header-language { flex-wrap: nowrap; white-space: nowrap; }
+  body.mrc-home .site > .topbar .header-language a { min-width: 26px; }
+  body.mrc-home .site > .topbar .menu-trigger { flex: 0 0 40px; width: 40px; min-width: 40px; }
+}
+@media (max-width:360px) {
+  body.mrc-home .site > .topbar { gap: 2px; }
+  body.mrc-home .site > .topbar .header-actions,
+  body.mrc-home .site > .topbar .header-utilities { gap: 1px; }
+  body.mrc-home .site > .topbar .header-tools,
+  body.mrc-home .site > .topbar .header-games { min-width: 36px; padding-inline: 0; font-size: 11px; }
+  body.mrc-home .site > .topbar .header-language a { min-width: 23px; }
+  body.mrc-home .site > .topbar .menu-trigger { flex-basis: 36px; width: 36px; min-width: 36px; }
+}
