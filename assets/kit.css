@@ -12,3 +12,14 @@
 .kit-section h2{font:600 clamp(23px,3vw,29px)/1.2 Manrope,system-ui,sans-serif;letter-spacing:-.025em}
 .kit-card h3{font-weight:600}
 @media(max-width:700px){.kit-hero{padding-top:32px;padding-bottom:28px}.kit-hero h1{font-size:clamp(30px,8vw,42px)}}
+
+/* Shared technical header metrics; Kit keeps its own full-bleed border. */
+.kit-header-inner{width:min(100% - 48px,920px);max-width:920px;min-height:64px;gap:18px}
+.kit-logo{font-size:27px;letter-spacing:-.035em}
+.kit-nav{gap:20px;font-size:13px}
+.kit-languages{gap:5px;margin-left:0}
+@media(max-width:700px){
+ .kit-header-inner{width:min(100% - 28px,920px);min-height:54px;gap:7px}
+ .kit-logo{font-size:32px;min-width:38px}
+ .kit-nav{gap:10px;font-size:12px}
+}

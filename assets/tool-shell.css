@@ -205,3 +205,42 @@ body>.mrc-tools-secondary a:hover,body>.mrc-tools-secondary a[aria-current="page
 /* Games index keeps its original playful background while sticky. */
 html:has(head link[rel="canonical"][href$="/games/"]) body>.mrc-tool-header,
 html:has(head link[rel="canonical"][href$="/giochi/"]) body>.mrc-tool-header{background:var(--mrc-game-bg,#f4f1fc)}
+
+
+/* MRC technical header alignment (Tools / Games).
+   Full-width separator; 920px centered controls. No editorial header changes. */
+body > header.mrc-tool-header {
+  width: min(100%, 920px);
+  max-width: 920px;
+  min-height: 64px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 0 1px;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 18px;
+}
+body > header.mrc-tool-header .mrc-tools-nav {
+  align-items: center;
+  gap: 20px;
+}
+body > header.mrc-tool-header .mrc-tools-nav .mrc-tools-brand {
+  font: 700 27px/1 Georgia, "Times New Roman", serif;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+}
+body > header.mrc-tool-header .mrc-tools-nav a:not(.mrc-tools-brand),
+body > header.mrc-tool-header .mrc-tool-language { font-size: 13px; }
+body > header.mrc-tool-header .mrc-tool-language { margin-left: auto; }
+@media (max-width:700px) {
+  body > header.mrc-tool-header { min-height:54px; gap:7px; }
+  body > header.mrc-tool-header .mrc-tools-nav { gap:10px; }
+  body > header.mrc-tool-header .mrc-tools-nav .mrc-tools-brand { font-size:0; min-width:38px; }
+  body > header.mrc-tool-header .mrc-tools-nav .mrc-tools-brand::after {
+    content:"m."; font:700 32px/1 Georgia,"Times New Roman",serif;
+  }
+  body > header.mrc-tool-header .mrc-tools-nav a:not(.mrc-tools-brand),
+  body > header.mrc-tool-header .mrc-tool-language { font-size:12px; }
+}
