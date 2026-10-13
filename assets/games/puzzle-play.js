@@ -99,7 +99,7 @@ function wordsearch(d){
     wrap.append(...order.map(i=>cells[i]));
   }
   const orientationNote=document.createElement('p');orientationNote.className='wordsearch-layout-note';
-  orientationNote.textContent=kids?(it?'8 parole da trovare. La modalità Bambini non mostra richieste di contributo.':'Find 8 words. Kids mode has no donation requests.'):(it?'La griglia segue automaticamente la rotazione dello schermo, senza perdere i progressi.':'The grid automatically follows screen rotation without losing your progress.');
+  orientationNote.textContent=kids?(it?`${playableWords.size} parole da trovare. La modalità Bambini non mostra richieste di contributo.`:`Find ${playableWords.size} words. Kids mode has no donation requests.`):(it?'La griglia segue automaticamente la rotazione dello schermo, senza perdere i progressi.':'The grid automatically follows screen rotation without losing your progress.');
   area.append(orientationNote);
  const instruction=document.createElement('p');instruction.className='wordsearch-instructions';instruction.innerHTML=it?'<strong>Come si gioca:</strong> clicca la <strong>prima lettera</strong> di una parola e poi la <strong>ultima lettera</strong>. Non occorre cliccare le lettere intermedie.':'<strong>How to play:</strong> select the <strong>first letter</strong> of a word, then its <strong>last letter</strong>. You do not need to click the letters in between.';
  const clue=document.createElement('p');clue.className='wordsearch-word-list';const wordLabels=new Map();

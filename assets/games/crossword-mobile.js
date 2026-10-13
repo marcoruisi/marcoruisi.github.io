@@ -83,7 +83,21 @@
  saveGame.textContent=it?'Salva':'Save';
  saveGame.setAttribute('aria-label',it?'Salva la partita come file JSON':'Save the current game as JSON');
  saveGame.addEventListener('click',()=>document.getElementById('export')?.click());
- share.addEventListener('click',()=>shareProgress(share));
+ const shareMenu=document.createElement('dialog');shareMenu.className='panel';
+ shareMenu.style.maxWidth='min(90vw,360px)';
+ shareMenu.setAttribute('aria-label',it?'Condividi cruciverba':'Share crossword');
+ const shareOptions=document.createElement('div');shareOptions.className='toolbar';
+ for(const [label,action] of [
+  [it?'Condividi schema vuoto':'Share blank crossword',()=>document.getElementById('mrcShareBlank')?.click()],
+  [it?'Condividi partita':'Share progress',()=>shareProgress(share)],
+  [it?'Annulla':'Cancel',()=>{}]
+ ]){
+  const option=document.createElement('button');option.type='button';option.textContent=label;
+  option.addEventListener('click',()=>{shareMenu.close();action()});shareOptions.append(option);
+ }
+ shareMenu.append(shareOptions);body.append(shareMenu);
+ share.setAttribute('aria-label',it?'Condividi schema vuoto o partita':'Share blank crossword or progress');
+ share.addEventListener('click',()=>shareMenu.showModal());
  // Desktop uses the same share action as the mobile game toolbar.
  const desktopShare=document.getElementById('mrcShareProgress')||document.createElement('button');desktopShare.type='button';
  desktopShare.className='mrc-cw-share-desktop';
