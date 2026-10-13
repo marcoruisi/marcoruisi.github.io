@@ -72,3 +72,11 @@ html:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) body
   background: var(--mrc-game-bg, #f4f1fc);
 }
 
+
+/* Index-only rhythm: secondary Tools navigation is outside the page introduction. */
+html:has(head link[rel="canonical"][href="https://marcorui.si/tools/"]) body>.mrc-tools-secondary,
+html:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/"]) body>.mrc-tools-secondary,
+html:has(head link[rel="canonical"][href="https://marcorui.si/tools/all/"]) body>.mrc-tools-secondary,
+html:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/tutti/"]) body>.mrc-tools-secondary {
+  margin-bottom:20px;
+}

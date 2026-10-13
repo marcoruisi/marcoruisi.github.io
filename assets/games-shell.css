@@ -165,3 +165,14 @@ body > footer.mrc-site-footer a:focus-visible{outline:2px solid currentColor;out
   body .cards .card {min-width:0;max-width:100%;box-sizing:border-box;}
 }
 
+
+/* Only Games landing pages: match the technical content spacing.
+   Individual games and their full-screen play interfaces are untouched. */
+html:has(head link[rel="canonical"][href="https://marcorui.si/games/"]) body>main,
+html:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) body>main {
+  padding-top:44px;
+}
+@media(max-width:700px) {
+  html:has(head link[rel="canonical"][href="https://marcorui.si/games/"]) body>main,
+  html:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) body>main {padding-top:26px;}
+}

@@ -7,9 +7,9 @@
 @media(max-width:700px){.kit-shell{width:min(100% - 28px,920px)}.kit-hero{padding:50px 0 38px}.kit-section{padding:36px 0}.kit-grid{grid-template-columns:1fr}.kit-card{padding:20px}h1{font-size:clamp(41px,11vw,56px)}}
 
 /* Kit aligned with MRC technical pages; retain native full-bleed sticky header. */
-.kit-hero{padding-top:48px;padding-bottom:35px}
+.kit-hero{padding-top:44px;padding-bottom:35px}
 .kit-hero h1{font:600 clamp(30px,4.2vw,44px)/1.14 Manrope,system-ui,sans-serif;letter-spacing:-.035em}
 .kit-section h2{font:600 clamp(23px,3vw,29px)/1.2 Manrope,system-ui,sans-serif;letter-spacing:-.025em}
 .kit-card h3{font-weight:600}
-@media(max-width:700px){.kit-hero{padding-top:32px;padding-bottom:28px}.kit-hero h1{font-size:clamp(30px,8vw,42px)}}
+@media(max-width:700px){.kit-hero{padding-top:26px;padding-bottom:28px}.kit-hero h1{font-size:clamp(30px,8vw,42px)}}
 
