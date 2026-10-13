@@ -39,18 +39,20 @@ async function loadFillerWords(){
   const lines=text.replace(/^\uFEFF/,'').trim().split(/\r?\n/);
   const parsed=[];
   for(const line of lines.slice(1)){
-   const fields=line.split(',');
-   if(fields.length!==4)continue;
-   const [word,clue,lang]=fields;
-   if(lang==='it'&&/^[A-Z]{2,6}$/.test(word)&&clue&&clue.length>=9)parsed.push({word,clue,source:'',mrcFiller:true});
+   const fields=(line.match(/("(?:[^"]|"")*"|[^,]*)(,|$)/g)||[]).map(v=>v.replace(/,$/,'').replace(/^"|"$/g,'').replace(/""/g,'"'));
+   if(fields.length<4)continue;
+   const [word,clue,lang,,category,topic]=fields;
+   if(lang==='it'&&/^[A-Z]{2,14}$/.test(word)&&clue&&clue.length>=9)parsed.push({word,clue,source:'',mrcFiller:true,bankCategory:category||'generale',bankTopic:topic||''});
   }
   fillerCache=parsed;return parsed;
  }catch(e){console.warn('MRC: banca parole di raccordo non disponibile',e);return []}
 }
 function selectFillers(theme,bank,limit=42){
  const used=new Set(theme.map(x=>x.word));const freq={};
+ const query=norm($('#topic-query')?.value||'');
+ const topic=query.includes('CINEMA')?'cinema':query.includes('SCIENZA')?'scienza':query.includes('NATURA')?'natura':'';
  for(const entry of theme)for(const c of new Set(entry.word))freq[c]=(freq[c]||0)+1;
- return bank.filter(entry=>!used.has(entry.word)).map(entry=>({entry,score:[...entry.word].reduce((t,c)=>t+(freq[c]||0),0)/entry.word.length+((entry.word.length<=4)?1:0)})).sort((a,b)=>b.score-a.score||a.entry.word.localeCompare(b.entry.word)).slice(0,limit).map(x=>x.entry);
+ return bank.filter(entry=>!used.has(entry.word)&&(!entry.bankTopic||entry.bankTopic===topic)).map(entry=>({entry,score:[...entry.word].reduce((t,c)=>t+(freq[c]||0),0)/entry.word.length+((entry.word.length<=4)?1:0)})).sort((a,b)=>b.score-a.score||a.entry.word.localeCompare(b.entry.word)).slice(0,limit).map(x=>x.entry);
 }
 function chooseCrossword(input){
  // Multi-start constructive crossword, quality-first: compactness and actual crossing density.
