@@ -233,16 +233,31 @@ def language_pairs(files, tools):
     return pairs
 
 
-def editorial_header(root, text, lang):
-    """Generate one complete header, preserving the existing language equivalents."""
-    language = re.findall(r'<nav class="header-language"[^>]*>.*?</nav>', text, re.S)
-    if len(language) != 1:
-        raise ValueError('Header editoriale: switch lingua assente/duplicato')
+def editorial_header(root, text, lang, pair=None):
+    """Generate the shared header, retaining or restoring the validated language switch."""
+    language = re.findall(
+        r'<nav\b(?=[^>]*\bclass\s*=\s*["\'][^"\']*\bheader-language\b[^"\']*["\'])[^>]*>.*?</nav\s*>',
+        text, flags=re.S | re.I,
+    )
+    if len(language) > 1:
+        raise ValueError('Header editoriale: switch lingua duplicato')
+    if language:
+        language_navigation = language[0]
+    else:
+        if not pair or set(pair) != {'en', 'it'}:
+            raise ValueError('Header editoriale: switch lingua assente e coppia IT/EN non disponibile')
+        language_label = 'Selezione lingua' if lang == 'it' else 'Language selection'
+        links = []
+        for code in ('en', 'it'):
+            active = ' class="active" aria-current="page"' if code == lang else ''
+            links.append(f'<a href="{html.escape(pair[code], quote=True)}"{active}>{code.upper()}</a>')
+        language_navigation = (f'<nav class="header-language" aria-label="{language_label}">'
+                               + '<span>/</span>'.join(links) + '</nav>')
     utilities = template(root, 'header-utilities.html', {
         'tools_url': '/it/tools/' if lang == 'it' else '/tools/',
         'games_url': '/it/giochi/' if lang == 'it' else '/games/',
         'games_label': 'Giochi' if lang == 'it' else 'Games',
-        'language_navigation': language[0],
+        'language_navigation': language_navigation,
     })
     content = template(root, 'site-header.html', {
         'home_url': '/it/' if lang == 'it' else '/',
@@ -388,9 +403,9 @@ def plan_shared_ui(root=ROOT):
     planned = {}
     for path, original in files:
         text = original; url = route(path, root)
-        if url.startswith(('/games/', '/it/giochi/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
+        if url.startswith(('/games/', '/it/giochi/', '/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
                 '/tools/address-geocoding/', '/it/tools/geocodifica-indirizzi/'):
-            continue  # Standalone pages already have their own technical HTML shell.
+            continue  # Standalone game/kit pages already have their own HTML shell.
         lang_match = re.search(r'<html\b[^>]*\blang=["\'](en|it)["\']', text, re.I)
         if not lang_match: raise ValueError(f'Lingua non riconosciuta: {path}')
         lang = lang_match[1]; tool = tool_by_url.get(url); index = url in [v for p in INDEX_PAIRS for v in p]
@@ -441,7 +456,10 @@ def plan_shared_ui(root=ROOT):
                 content = '<section class="mrc-related"><h2>' + ('Strumenti correlati' if lang == 'it' else 'Related tools') + '</h2><ul>' + ''.join('<li>' + link(t['url'][lang], t['name'][lang]) + '</li>' for t in related) + '</ul></section>'
                 text = replace_block(text, 'RELATED TOOLS', content)
         else:
-            text = editorial_header(root, text, lang)
+            try:
+                text = editorial_header(root, text, lang, pair)
+            except ValueError as exc:
+                raise ValueError(f'{url}: {exc}') from exc
             menu = template(root, f'menu.{lang}.html')
             menu = re.sub(r'(<a\s+href="([^"]+)")', lambda m: m[1] + (' aria-current="page"' if m[2] == url else ''), menu)
             if '<!-- MRC POPUP MENU START -->' in text or '<!-- MRC SHARED MENU START -->' in text:
