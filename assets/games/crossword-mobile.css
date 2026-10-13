@@ -200,3 +200,24 @@
  }
  body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-board-bar a{white-space:nowrap;font-size:12px!important;padding:5px 8px!important}
 }
+
+/* MRC 2026-10-13: compact focused play without changing board zoom or key sizes. */
+@media (max-width:800px) and (pointer:coarse) {
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar {
+    padding-top:2px!important;
+    padding-bottom:4px!important;
+    min-height:40px;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout>aside.panel {
+    gap:3px!important;
+    padding-top:7px!important;
+    padding-bottom:max(8px,env(safe-area-inset-bottom))!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-clue-header {
+    min-height:38px;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-mini-keyboard:not([hidden]) {
+    margin-top:6px!important;
+    padding-top:0!important;
+  }
+}
