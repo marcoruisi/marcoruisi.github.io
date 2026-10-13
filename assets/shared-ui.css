@@ -296,3 +296,17 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
 .site>.topbar{max-width:920px;width:100%;box-sizing:border-box;margin-left:auto;margin-right:auto}
 .site>.topbar::after{left:50%;right:auto;width:100vw;transform:translateX(-50%)}
 @media(max-width:700px){.topbar .header-kit{font-size:12px;min-height:44px}.topbar .header-utilities{gap:4px}}
+
+/* Editorial pages stay inside their white paper sheet.
+   Full-bleed technical navigation belongs only to Tools/Games/Kit. */
+.site > .topbar {
+  width: auto;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  background: #fff;
+}
+.site > .topbar::after {
+  display: none;
+  content: none;
+}
