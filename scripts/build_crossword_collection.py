@@ -239,7 +239,7 @@ def words_for(key):
     return out
 
 
-def load_filler_bank(root):
+def load_filler_bank(root,topic=None):
     import csv
     csv_file=root/'assets/games/crossword-fillers.csv'
     if not csv_file.exists():
@@ -247,27 +247,44 @@ def load_filler_bank(root):
     with csv_file.open(encoding='utf-8-sig',newline='') as stream:
         rows=csv.DictReader(stream)
         return [(row['word'].strip().upper(),row['clue_it'].strip()) for row in rows
-                if row.get('lang')=='it' and re.fullmatch('[A-Z]{2,6}',row['word'].strip().upper()) and row.get('clue_it')]
+                if row.get('lang')=='it' and re.fullmatch('[A-Z]{2,15}',row['word'].strip().upper()) and row.get('clue_it')
+                and (not topic or not row.get('topic') or row['topic']==topic)]
 
-def select_filler_bank(data, fillers, limit=64):
+def bank_categories(root,topic=None):
+    import csv
+    with (root/'assets/games/crossword-fillers.csv').open(encoding='utf-8-sig',newline='') as stream:
+        return {r['word']:('tematica' if topic and r.get('topic')==topic else
+                           'raccordo' if len(r['word'])<=3 else 'generale') for r in csv.DictReader(stream)}
+
+def select_filler_bank(data, fillers, limit=64, categories=None, include_thematic=False):
     from collections import Counter
     freq=Counter(c for word,_ in data for c in set(word))
     existing={word for word,_ in data}
     candidates=[entry for entry in fillers if entry[0] not in existing]
     candidates.sort(key=lambda p:(-sum(freq.get(c,0) for c in p[0])/len(p[0]),abs(len(p[0])-3),p[0]))
+    if categories:
+        thematic=[p for p in candidates if categories.get(p[0])=='tematica'][:max(1,limit//3)]
+        candidates=[p for p in candidates if categories.get(p[0])!='tematica' and len(p[0])<=6]
+        if include_thematic:candidates=thematic+candidates
     return candidates[:limit]
 
-def construct(data,seed,max_words=48,attempts=12):
+def construct(data,seed,max_words=48,attempts=12,primary_words=None,word_categories=None,completion_bank=None):
+    # Keep one non-empty clue per answer; never construct an undefined entry.
+    data=list(dict((w.strip().upper(),c.strip()) for w,c in data
+                   if re.fullmatch('[A-Za-z]{2,15}',w.strip()) and c.strip()).items())
+    if not data:return None
     rng=random.Random(seed)
     N=33
-    main_words={w for w,_ in data if len(w)>6}
+    main_words=set(primary_words) if primary_words is not None else {w for w,_ in data if len(w)>6}
+    categories=word_categories or {}
     # Two-letter entries are fillers and may be placed only without growing the board.
     short_words={w for w,_ in data if len(w)==2}
     best=None
     # Random-restart greedy placement, selecting candidates by compactness and crosses.
     for iteration in range(attempts):
         board={}; placements=[]; used=set()
-        start=rng.choice(data[:min(12,len(data))]); direction=iteration%2
+        starters=[item for item in data if item[0] in main_words] or data
+        start=rng.choice(starters[:min(12,len(starters))]); direction=iteration%2
         r=N//2 if not direction else (N-len(start[0]))//2
         c=(N-len(start[0]))//2 if not direction else N//2
         def install(item,row,col,d,hits):
@@ -301,17 +318,22 @@ def construct(data,seed,max_words=48,attempts=12):
                             if not good or hits<1:continue
                             nr=min(minr,rr);xr=max(maxr,er);nc=min(minc,cc);xc=max(maxc,ec)
                             newarea=(xr-nr+1)*(xc-nc+1)
+                            if xr-nr+1>30 or xc-nc+1>30:continue
                             growth=newarea-oldarea
                             if word in short_words and (growth != 0 or len(placements) < 12):continue
                             score=hits*95-growth*5.8+len(word)*3+ (26 if len(word)<=8 else 0)-abs((xr-nr)-(xc-nc))*2
                             if word in short_words:score+=95
-                            if word in main_words:score+=70
+                            if word in main_words:score+=180
+                            elif categories.get(word)=='tematica':score+=80
+                            # Close internal gaps before growing another sparse branch.
+                            if growth==0:score+=80
                             score+=rng.random()*25
-                            options.append((score,item,rr,cc,d,hits))
+                            priority=3 if word in main_words else {'tematica':2,'generale':1,'raccordo':0}.get(categories.get(word),0)
+                            options.append((score,priority,item,rr,cc,d,hits))
             if not options:break
-            options.sort(key=lambda z:z[0],reverse=True)
+            options.sort(key=lambda z:(z[0],z[1]),reverse=True)
             pick=options[0]
-            install(pick[1],pick[2],pick[3],pick[4],pick[5])
+            install(pick[2],pick[3],pick[4],pick[5],pick[6])
         minr=min(k[0] for k in board);maxr=max(k[0] for k in board)
         minc=min(k[1] for k in board);maxc=max(k[1] for k in board)
         rows=maxr-minr+1;cols=maxc-minc+1;area=rows*cols
@@ -321,15 +343,17 @@ def construct(data,seed,max_words=48,attempts=12):
     # Second pass: fill *existing* footprint, never enlarge it. Prefer slots
     # with two or more crossings and fully validate every new across/down run.
     _, placed, board, minr, minc, rows, cols = best
+    maxr=minr+rows-1;maxc=minc+cols-1
     placed=list(placed);board=dict(board)
     used={p[0][0] for p in placed}
     occupied_dir={}
     for item,r,c,d in placed:
         dr,dc=((0,1) if d==0 else (1,0))
         for i in range(len(item[0])):occupied_dir[(r+i*dr,c+i*dc,d)]=True
+    completion=list(dict(data+list(completion_bank or [])).items())
     for _ in range(min(25,max_words-len(placed))):
         winner=None
-        for item in data:
+        for item in completion:
             word=item[0]
             if word in used or len(word)>max(rows,cols):continue
             for d in (0,1):
@@ -349,8 +373,9 @@ def construct(data,seed,max_words=48,attempts=12):
                                 # A new letter may not touch a parallel entry.
                                 if (y+dc,x+dr) in board or (y-dc,x-dr) in board:ok=False;break
                                 added+=1
-                        if not ok or hits<2 or not added:continue
+                        if not ok or hits<1 or not added:continue
                         quality=hits*120+len(word)*4-added*2+(70 if len(word)<=4 else 0)
+                        quality+=180 if word in main_words else {'tematica':80,'generale':30,'raccordo':0}.get(categories.get(word),0)
                         if winner is None or quality>winner[0]:winner=(quality,item,r,c,d)
         if winner is None:break
         _,item,r,c,d=winner
@@ -377,7 +402,7 @@ def construct(data,seed,max_words=48,attempts=12):
                 if d=='a':isstart=(c==0 or blacks[i-1]) and c+1<cols and not blacks[i+1]
                 else:isstart=(r==0 or blacks[i-cols]) and r+1<rows and not blacks[i+cols]
                 if isstart and f'{d}:{i}' not in clues:return None
-    return {'version':1,'rows':rows,'cols':cols,'blacks':blacks,'letters':['']*(rows*cols),'clues':clues,'clueSources':sources,'ui':{'mode':'play','dir':'a','selected':-1,'lang':'it'},'mrcEditorial':{'topic':NAMES.get(seed[0] if isinstance(seed,tuple) else '', ''),'answers':answers,'credit':'Definizioni originali MRC; non provenienti dai siti del catalogo'}}
+    return {'version':1,'rows':rows,'cols':cols,'blacks':blacks,'letters':['']*(rows*cols),'clues':clues,'clueSources':sources,'ui':{'mode':'play','dir':'a','selected':-1,'lang':'it'},'mrcEditorial':{'topic':NAMES.get(seed[0] if isinstance(seed,tuple) else '', ''),'answers':answers,'wordCategories':{k:('principale' if w in main_words else categories.get(w,'raccordo' if len(w)<=3 else 'generale')) for k,w in answers.items()},'credit':'Definizioni originali MRC; non provenienti dai siti del catalogo'}}
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--root',default='.');ap.add_argument('--daily',default=None,help='YYYY-MM-DD; default today');a=ap.parse_args()
@@ -386,39 +411,23 @@ def main():
     filler_bank=load_filler_bank(root)
     for k in NAMES:
         data=words_for(k)
-        result=construct(data+select_filler_bank(data,filler_bank,limit=54),k,max_words=36,attempts=8)
+        categories=bank_categories(root,k)
+        bank=load_filler_bank(root,k)
+        result=construct(data+select_filler_bank(data,bank,limit=54,categories=categories),k,max_words=36,attempts=8,primary_words={w for w,_ in data},word_categories=categories,completion_bank=bank)
         if not result:raise RuntimeError(f'Failed to create valid puzzle for {k}')
         result['mrcEditorial']['topic']=NAMES[k]
         result['mrcEditorial']['credit']='Definizioni originali MRC (non estratte automaticamente da articoli)'
         filename=f'mrc-tema-{k}.json'
         (dest/filename).write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
-        manifest['games'].append({'id':k,'file':filename,'title':NAMES[k],'language':'it','type':'curated'})
+        manifest['games'].append({'id':k,'file':filename,'title':NAMES[k],'language':'it','type':'curated','category':'themed'})
         print(k,len(result['clues']),f"{result['rows']}x{result['cols']}")
-    date=datetime.date.fromisoformat(a.daily) if a.daily else datetime.date.today()
-    key=list(NAMES)[(date.toordinal())%len(NAMES)]
-    # TEMPORARY EDITORIAL FALLBACK ONLY. Not current events; do not market this as a news crossword.
-    # A true news crossword requires an approved live news feed and fact-checked answer/clue pairs.
-    # An existing daily is never labeled as today's news: this is an editorial thematic puzzle.
-    all_keys=list(NAMES);pos=all_keys.index(key)
-    chosen=[all_keys[(pos+j)%len(all_keys)] for j in (0,3)]
-    collected=[];seen=set()
-    for topic in chosen:
-        for word,clue in words_for(topic):
-            if word not in seen:
-                collected.append((word,clue));seen.add(word)
-    daily=construct(collected+select_filler_bank(collected,filler_bank,limit=85),('daily-'+str(date)),max_words=48,attempts=8)
-    if daily is None or len(daily['clues'])<28:
-        raise RuntimeError('Cruciverba del giorno non sufficientemente ricco: non pubblicare una versione incompleta')
-    daily['mrcEditorial']['topic']='Anteprima editoriale · '+' · '.join(NAMES[t] for t in chosen)
-    daily['mrcEditorial']['dailyDate']=str(date)
-    daily['mrcEditorial']['credit']='Selezione tematica MRC; non basata su notizie in tempo reale'
-    (dest/'mrc-del-giorno.json').write_text(json.dumps(daily,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
-    manifest['games'].insert(0,{'id':'daily','file':'mrc-del-giorno.json','title':'Cruciverba editoriale di prova','language':'it','type':'editorial-preview','date':str(date)})
+    # Daily news is produced only by build_daily_news_crossword.py.
+    # A thematic fallback must never masquerade as a fresh daily issue.
     # Preserve manually authored existing games and omit non-existent paths.
     old=dest/'index.json'
     if old.exists():
         previous=json.loads(old.read_text(encoding='utf8'))
         known={x['file'] for x in manifest['games']}
-        manifest['games'] += [x for x in previous.get('games',[]) if x.get('file') not in known and (dest/x.get('file','')).exists()]
+        manifest['games'] += [x for x in previous.get('games',[]) if x.get('file') not in known and x.get('type')!='editorial-preview' and (x.get('file')!='mrc-del-giorno.json' or x.get('type')=='daily-news') and (dest/x.get('file','')).exists()]
     old.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 if __name__=='__main__':main()

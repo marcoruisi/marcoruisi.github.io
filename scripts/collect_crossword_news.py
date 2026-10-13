@@ -21,7 +21,7 @@ def child(node, tag):
  for x in node:
   if localname(x.tag)==tag:return (x.text or '').strip()
  return ''
-def entries(payload):
+def entries(payload,include_summary=False):
  root=ET.fromstring(payload)
  for node in root.iter():
   if localname(node.tag) not in ('item','entry'):continue
@@ -32,29 +32,72 @@ def entries(payload):
     if localname(elem.tag)=='link' and elem.attrib.get('href'):
      url=elem.attrib['href'];break
   pub=child(node,'pubDate') or child(node,'published') or child(node,'updated')
-  if title and url.startswith('https://'):yield title,url,parsedate(pub)
+  summary=html.unescape(re.sub('<[^>]+>',' ',child(node,'description') or child(node,'summary') or child(node,'encoded')))
+  summary=' '.join(summary.split())[:6000]
+  if title and url.startswith('https://'):
+   yield (title,url,parsedate(pub),summary) if include_summary else (title,url,parsedate(pub))
+
+def summary_candidates(title,summary,source,link,date):
+ # Evidence-bound proposals from explicit relations, not free headline tokens.
+ # No LLM, external API or additional article request. Publication remains gated.
+ text=' '.join(summary.split())
+ if re.search(r'\b(non|forse|potrebbe|avrebbe|dovrebbe)\b',text,re.I):return
+ proposals=[]
+ mission=re.search(r'(?:Lo scorso )?(?P<day>\d{1,2} [a-zà]+) la missione (?P<name>[A-Z][A-Za-z-]{2,14}) ha (?:iniziato|avviato)(?: ufficialmente)? la sua attività scientifica',text)
+ if mission:
+  name=mission['name']
+  proposals.append((normalized(name),f'La missione entrata nella fase scientifica il {mission["day"]}, secondo la notizia del {date.strftime("%d/%m")}', 'mission-science-start'))
+  if 'effetti del vento solare sulla magnetosfera terrestre' in text:
+   proposals.append(('MAGNETOSFERA',f'La regione dominata dal campo magnetico terrestre su cui {name} studia gli effetti del vento solare','mission-target'))
+ discovery=re.search(r'Sono (?P<count>tre|due|quattro) (?P<kind>galassie|stelle|comete|nebulose) (?P<detail>[^,.!?]{5,70})[,.!?]',text)
+ person=re.search(r'A scoprir(?:le|li),?.{0,150}?è stato (?P<name>[A-ZÀ-Ö][a-zà-öø-ÿ]+(?: [A-ZÀ-Ö][a-zà-öø-ÿ]+){1,2}),',text)
+ if discovery and person:
+  name=person['name'];obj=f'{discovery["count"]} {discovery["kind"]} {discovery["detail"]}'.strip()
+  if not re.search(r'\b(non|forse|possibili|candidate)\b',obj,re.I):
+   proposals.append((normalized(name.split()[-1]),f'Il cognome di chi ha individuato {obj}, nella ricerca descritta dalla fonte','discovery-author'))
+   proposals.append((normalized(discovery['kind']),f'{discovery["detail"].capitalize()}: ne ha individuate {discovery["count"]} {name}', 'discovery-object'))
+ seen=set()
+ for word,clue,rule in proposals:
+  if word in seen or not re.fullmatch('[A-Z]{3,15}',word) or not 12<=len(clue)<=250:continue
+  if any(normalized(token)==word for token in re.findall(r'[\wÀ-ÿ]+',clue)):continue
+  seen.add(word)
+  yield {'word':word,'clue_it':clue,'source_name':source,'source_url':link,
+         'published_at':date.isoformat(),'source_title':title,'language':'it','reviewed':'no','rule':rule}
 def candidates(title,source,cat,link,date):
- # Avoid guessing actual factual answers from news headlines: extract explicit, literal headline tokens.
- # Source title is never published verbatim; hint uses up to two context keywords excluding the answer.
- words=re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ]{3,18}",title)
- ranked=[]
- for idx,token in enumerate(words):
-  answer=normalized(token)
-  if not 3<=len(answer)<=12 or token.lower() in STOP or answer in ('ITALIA','ITALIANO','EUROPA','EUROPEO','NOTIZIE'):continue
-  rank=(3 if idx>0 and token[:1].isupper() else 0)+(2 if len(answer)>=5 else 0)-idx*.07
-  ranked.append((rank,idx,answer))
- for _,pos,answer in sorted(ranked,reverse=True)[:2]:
-  context=[w.lower() for i,w in enumerate(words) if i!=pos and w.lower() not in STOP and 3<=len(w)<=15][:3]
-  if len(context)<2:continue
-  clue=f"Nelle notizie di {cat}: termine associato a {' e '.join(context[:2])}"
-  yield {'word':answer,'clue_it':clue[:180],'source_name':source,'source_url':link,'published_at':date.isoformat()}
+ # Only explicit Italian subject/event relations. Unknown titles yield no clue.
+ # These are editorial proposals, NEVER automatically verified news.
+ title=' '.join(title.split())
+ name=r"(?P<subject>[A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ]+(?: [A-ZÀ-ÖØ-Þ][a-zà-öø-ÿ]+){1,3})"
+ rules=[
+  (name+r" vince (?:il |la |l’|l')(?P<event>[^.!?]+)",
+   "Il cognome di chi ha conquistato {event}"),
+  (name+r" riceve (?:il |la |l’|l')(?P<event>[^.!?]+)",
+   "Il cognome della persona a cui è stato assegnato {event}"),
+  (r"(?P<subject>Roma|Milano|Torino|Bologna|Napoli|Venezia|Firenze) ospita (?P<event>[^.!?]+)",
+   "La città che ospita {event}"),
+  (r"(?P<subject>Euclid|Webb|Hubble|Gaia|Cheops|Juice) (?:scopre|rileva|osserva) (?P<event>[^.!?]+)",
+   "La missione o il telescopio protagonista dell’osservazione di {event}"),
+ ]
+ for pattern,template in rules:
+  match=re.fullmatch(pattern,title.rstrip('.'))
+  if not match:continue
+  subject=match['subject'];event=match['event'].strip()
+  # Negations, predictions, quotations and compound events need human authoring.
+  if re.search(r"[?:;“”\"]|\b(non|forse|potrebbe|dovrebbe|secondo|indiscrezioni)\b",event,re.I):return
+  if len(event)<8 or len(event)>130:return
+  answer=normalized(subject.split()[-1])
+  if not 3<=len(answer)<=15 or answer in normalized(event):return
+  clue=template.format(event=event)+f" (notizia del {date.strftime('%d/%m')})"
+  yield {'word':answer,'clue_it':clue,'source_name':source,'source_url':link,
+         'published_at':date.isoformat(),'source_title':title,'language':'it','reviewed':'no'}
+  return
 def collect(root,date,fixture=None):
  source_path=root/'assets/games/topic-sources.csv'
  with source_path.open(encoding='utf-8-sig',newline='') as fh:sources=list(csv.DictReader(fh))
  result=[];audit=[];seen=set();per_category={};remaining=10
  for row in sources:
   if remaining<=0:break
-  if row.get('stato','').lower()!='attiva' or row.get('accesso')!='rss':continue
+  if row.get('stato','').lower()!='attiva' or row.get('accesso')!='rss' or row.get('lingua')!='it':continue
   feed=row.get('feed_url','').strip()
   if not feed.startswith('https://') or not int(row.get('max_richieste_giorno') or 0):continue
   maxitems=min(int(row.get('max_notizie_giorno') or 0),3,remaining)
@@ -69,12 +112,13 @@ def collect(root,date,fixture=None):
    else:
     with urllib.request.urlopen(urllib.request.Request(feed,headers={'User-Agent':UA,'Accept':'application/rss+xml, application/atom+xml, application/xml'}),timeout=15) as response:payload=response.read(1_500_001)
     if len(payload)>1_500_000:raise ValueError('Feed over size limit')
-   matches=[(title,link,pub) for title,link,pub in entries(payload) if pub==date]
+   matches=[(title,link,pub,summary) for title,link,pub,summary in entries(payload,True) if pub is not None and 0<=(date-pub).days<=1]
    used=0
-   for title,link,pub in matches:
+   for title,link,pub,summary in matches:
     if used>=maxitems or remaining<=0 or per_category.get(category,0)>=4:break
     new=[]
-    for item in candidates(title,source,category,link,pub):
+    proposals=list(summary_candidates(title,summary,source,link,pub)) or list(candidates(title,source,category,link,pub))
+    for item in proposals[:2]:
      if item['word'] not in seen:new.append(item)
     if not new:continue
     # One used article can yield up to two candidate answers.
@@ -91,7 +135,7 @@ def main():
  root=pathlib.Path(a.root);items,audit=collect(root,day,pathlib.Path(a.fixture_dir) if a.fixture_dir else None)
  out=pathlib.Path(a.out);out.parent.mkdir(parents=True,exist_ok=True)
  with out.open('w',encoding='utf-8',newline='') as fh:
-  writer=csv.DictWriter(fh,fieldnames=['word','clue_it','source_name','source_url','published_at']);writer.writeheader();writer.writerows(items)
+  writer=csv.DictWriter(fh,fieldnames=['word','clue_it','source_name','source_url','published_at','source_title','language','reviewed','rule']);writer.writeheader();writer.writerows(items)
  print(json.dumps({'date':str(day),'candidate_words':len(items),'used_sources':audit,'csv':str(out)},ensure_ascii=False))
  if not items:sys.exit(3)
 if __name__=='__main__':main()

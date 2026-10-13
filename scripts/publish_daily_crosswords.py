@@ -46,6 +46,7 @@ def main():
     day=datetime.date.fromisoformat(args.date)
     source=ROOT/'mrc-del-giorno.json';obj=safe_json(source)
     if obj.get('mrcEditorial',{}).get('dailyDate')!=str(day):raise ValueError('Data dello schema diversa dalla data prevista')
+    if obj['mrcEditorial'].get('reviewRequired',True):raise ValueError('Revisione editoriale non completata')
     if obj['mrcEditorial'].get('verifiedNewsClues',0)<12:raise ValueError('Insufficienti definizioni di attualita verificate')
     archive=ROOT/'daily';archive.mkdir(exist_ok=True)
     copy=archive/(str(day)+'.json');copy.write_bytes(source.read_bytes())

@@ -221,3 +221,74 @@
     padding-top:0!important;
   }
 }
+
+/* MRC 2026-10-13: the clue determines its own height; the board gets the rest.
+   Applies only inside the immersive touch game. No keyboard/board logic changes. */
+@media (max-width:800px) and (pointer:coarse) {
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout {
+    grid-template-rows:minmax(0,1fr) auto!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout>aside.panel {
+    height:auto!important;
+    min-height:0!important;
+    max-height:48dvh!important;
+    align-self:end!important;
+    gap:0!important;
+    padding:7px 12px max(8px,env(safe-area-inset-bottom))!important;
+    overflow-y:auto!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-clue-header {
+    min-height:38px!important;
+    height:38px!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout>aside #playArea {
+    flex:0 0 auto!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout>aside #currentClue {
+    margin:4px 0 0!important;
+    padding:0!important;
+    min-height:0!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-mini-keyboard:not([hidden]) {
+    margin:8px 0 0!important;
+    padding:0!important;
+    flex:0 0 auto!important;
+  }
+}
+
+/* Compact, full-width mobile action bar: labels share the remaining width. */
+@media (max-width:800px) and (pointer:coarse) {
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar {
+    width:100%!important;
+    gap:clamp(3px,1.1vw,7px)!important;
+    justify-content:space-between!important;
+    padding-inline:0!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar > a,
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar > .mrc-cw-save-progress,
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar > .mrc-cw-share-progress {
+    flex:1 1 0!important;
+    min-width:0!important;
+    min-height:40px!important;
+    padding:5px 3px!important;
+    font-size:clamp(11px,3vw,14px)!important;
+    white-space:nowrap!important;
+    text-align:center!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar > .mrc-cw-zoom-buttons {
+    display:flex!important;
+    flex:0 0 auto!important;
+    gap:4px!important;
+    min-width:0!important;
+  }
+  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar > .mrc-cw-zoom-buttons > button {
+    flex:0 0 40px!important;
+    width:40px!important;
+    min-width:40px!important;
+    min-height:40px!important;
+    padding:4px!important;
+  }
+}
