@@ -73,7 +73,7 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
  .topbar { padding-left: 12px; padding-right: 12px; gap: 4px; }
  .topbar .logo-mark { font-size: 18px; }
  .topbar .header-utilities { gap: 2px; }
- .topbar .header-tools { display: none; }
+ .topbar .header-tools { display: inline-flex; }
  .topbar .header-language a { min-width: 22px; }
 }
 
@@ -122,6 +122,20 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
 .topbar .header-games:hover {text-decoration:underline;text-underline-offset:4px}
 .topbar .header-games:focus-visible {outline:2px solid currentColor;outline-offset:4px}
 @media(max-width:390px){.topbar .header-games{font-size:12px}}
+
+/* Keep the four primary destinations available without squeezing touch targets. */
+@media(max-width:700px){
+ .topbar .header-tools,.topbar .header-games{min-width:44px;min-height:44px;justify-content:center}
+ .topbar .header-language a{min-width:32px;min-height:44px}
+ .topbar .menu-trigger{width:44px;min-width:44px;flex-basis:44px}
+}
+@media(max-width:430px){
+ .topbar{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:0 8px;max-width:100%;box-sizing:border-box}
+ .topbar .logo-mark{grid-column:1;grid-row:1}
+ .topbar .header-actions{display:contents}
+ .topbar .menu-trigger{grid-column:2;grid-row:1}
+ .topbar .header-utilities{grid-column:1 / -1;grid-row:2;justify-content:flex-end;gap:12px;min-width:0;flex-wrap:wrap}
+}
 
 /* MRC mobile: only the page itself must never scroll sideways.
    Internal scrollers (crossword board, code, data tables) are untouched. */
