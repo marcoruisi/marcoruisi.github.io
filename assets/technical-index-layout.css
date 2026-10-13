@@ -1,0 +1,23 @@
+/* MRC section landing pages: header -> title -> subtitle -> optional secondary navigation -> content.
+   Loaded on the three technical indexes only by update_shared_ui.py. */
+:root { --mrc-section-intro-gap:40px; }
+@media(max-width:700px){:root{--mrc-section-intro-gap:24px}}
+
+/* Tools index: navigation is generated immediately after the subtitle inside main. */
+body > main.app:has(> .mrc-tools-secondary) { padding-top:var(--mrc-section-intro-gap); }
+body > main.app:has(> .mrc-tools-secondary) > h1 { font:600 32px/1.2 Manrope,system-ui,sans-serif;letter-spacing:-.025em;margin:0 0 12px; }
+body > main.app:has(> .mrc-tools-secondary) > .intro { font-size:16px;line-height:1.5;margin:0; }
+body > main.app > .mrc-tools-secondary { display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;width:100%;margin:24px 0 28px;padding:12px 0 0;border-top:1px solid var(--border);font-size:13px; }
+body > main.app > .mrc-tools-secondary a { display:inline-flex;align-items:center;min-height:36px;color:var(--text);text-decoration:none; }
+body > main.app > .mrc-tools-secondary a:hover,body > main.app > .mrc-tools-secondary a[aria-current="page"] {text-decoration:underline;text-underline-offset:4px}
+@media(max-width:700px){body > main.app > .mrc-tools-secondary{gap:9px 17px;margin:20px 0 24px;padding-top:8px;font-size:12px}}
+
+/* Games index: identify it by the unique direct intro element, not by canonical. */
+body > main:has(> .mrc-games-intro) {padding-top:var(--mrc-section-intro-gap)!important;}
+body > main:has(> .mrc-games-intro) > h1 {font:600 32px/1.2 Manrope,system-ui,sans-serif;letter-spacing:-.025em;margin:0 0 12px;}
+body > main:has(> .mrc-games-intro) > .mrc-games-intro {font-size:16px;line-height:1.5;margin:0 0 28px;}
+
+/* Kit index: preserve hero section and borders, remove the 680px text constraint. */
+body.kit-page > main.kit-shell > .kit-hero {padding-top:var(--mrc-section-intro-gap);}
+body.kit-page > main.kit-shell > .kit-hero > h1 {font:600 32px/1.2 Manrope,system-ui,sans-serif;letter-spacing:-.025em;margin:0 0 12px;max-width:none;}
+body.kit-page > main.kit-shell > .kit-hero > .kit-lede {font-size:16px;line-height:1.5;margin:0;max-width:none;}

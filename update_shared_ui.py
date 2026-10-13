@@ -281,7 +281,7 @@ def editorial_header(root, text, lang, pair=None):
     raise ValueError('Header editoriale: topbar non chiusa')
 
 
-def tool_header(root, lang, pair, current):
+def tool_header(root, lang, pair, current, include_subnav=True):
     """Shared global header; the three Tool routes are secondary navigation."""
     home = '/it/' if lang == 'it' else '/'
     everyday = '/it/tools/' if lang == 'it' else '/tools/'
@@ -299,6 +299,8 @@ def tool_header(root, lang, pair, current):
         links = ''.join(f'<a href="{url}"' + (' aria-current="page"' if current == url else '') + f'>{label}</a>' for url, label in items)
         subnav = f'<nav class="mrc-tools-secondary" aria-label="{ "Navigazione Tools" if lang == "it" else "Tools navigation" }">{links}</nav>'
     language = '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(f'<a href="{pair[l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it'))
+    if not include_subnav:
+        subnav = ''
     return template(root, 'tool-header.html', {'site_home': home, 'home_label': 'marcorui.si home', 'tool_links': nav, 'tool_subnav': subnav, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
 
 
@@ -377,6 +379,15 @@ def index_content(root, tools, tags, lang, everyday):
     it = lang == 'it'; pick = lambda a, b: a if it else b
     title = 'Everyday Tools' if everyday else pick('Tutti gli strumenti', 'All Tools')
     content = f'<h1>{title}</h1><p class="intro">' + (pick('Piccoli strumenti gratuiti. Scegli cosa vuoi fare.', 'Small, free tools. Choose what you need to do.') if everyday else pick('Strumenti, snippet e plugin nati da problemi reali. Gratuiti o su richiesta.', 'Tools, snippets and plugins born from real problems. Free or on request.')) + '</p>'
+    # The section navigation belongs to the index introduction, after h1 and lede.
+    everyday_url = '/it/tools/' if it else '/tools/'
+    all_url = '/it/tools/tutti/' if it else '/tools/all/'
+    current_url = everyday_url if everyday else all_url
+    nav_items = ((everyday_url, 'Everyday Tools'),
+                 (all_url, pick('Tutti gli strumenti', 'All Tools')),
+                 (FLOW_URLS[lang], 'Tool Flows'))
+    sublinks = ''.join(link(url, label, current_url) for url, label in nav_items)
+    content += f'<nav class="mrc-tools-secondary" aria-label="{pick("Navigazione Tools", "Tools navigation")}">{sublinks}</nav>'
     content += template(root, f'tool-flow-index.{lang}.html')
     if everyday:
         rows = ''.join(f'<li><a href="{t["url"][lang]}"><h2>{html.escape(t["action"][lang])}</h2><p>{html.escape(t["name"][lang])}</p><span aria-hidden="true">→</span></a></li>' for t in tools if 'everyday' in t['tags'])
@@ -429,6 +440,14 @@ def kit_catalog_page(text, tools, lang):
     pos = headings[1].start()
     return text[:pos] + marked('KIT CATALOG', kit_catalog_cards(tools, lang)) + '\n' + text[pos:]
 
+def index_layout_styles(text):
+    """One stylesheet for the three section landings, without touching game/tool UI."""
+    url = '/assets/technical-index-layout.css'
+    if f'href="{url}"' not in text:
+        text = text.replace('</head>', f'<link rel="stylesheet" href="{url}">\n</head>', 1)
+    return text
+
+
 def plan_shared_ui(root=ROOT):
     dataset = dataset_checked(root); tools, tags = dataset['tools'], dataset['tags']
     files = list(page_files(root)); pairs = language_pairs(files, tools)
@@ -444,6 +463,9 @@ def plan_shared_ui(root=ROOT):
         if url in ('/kit/', '/it/kit/'):
             lang = 'it' if url.startswith('/it/') else 'en'
             text = kit_catalog_page(original, tools, lang)
+            # Kit index: shared introduction is h1 + lead, without a separate eyebrow.
+            text = re.sub(r'<p class="kit-kicker">MRC / Kit</p>', '', text, count=1, flags=re.I)
+            text = index_layout_styles(text)
             if text != original: planned[path] = text
             continue
         # Standalone games and tools use their own engines; unify only their existing
@@ -467,6 +489,10 @@ def plan_shared_ui(root=ROOT):
                         text = original[:header.start()] + marked('TOOL HEADER', content) + original[header.end():]
                     else:
                         text = original
+                if url in ('/games/', '/it/giochi/'):
+                    # Index-only: remove the obsolete eyebrow, not the in-page content.
+                    text = re.sub(r'<div class="eyebrow">MRC / (?:Games|Giochi)</div>', '', text, count=1)
+                    text = index_layout_styles(text)
                 if text != original: planned[path] = text
             continue
         if url.startswith(('/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
@@ -487,10 +513,11 @@ def plan_shared_ui(root=ROOT):
         elif tool or index:
             for css in ('/assets/tool-shell.css', '/assets/tools-content.css'):
                 if f'href="{css}"' not in text: text = text.replace('</head>', f'<link rel="stylesheet" href="{css}">\n</head>')
-            text = replace_block(text, 'TOOL HEADER', tool_header(root, lang, pair, url), r'<header class="tool-header"[^>]*>.*?</header>')
+            text = replace_block(text, 'TOOL HEADER', tool_header(root, lang, pair, url, include_subnav=not index), r'<header class="tool-header"[^>]*>.*?</header>')
             if index:
                 text = re.sub(r'<link\b[^>]*href="/assets/style.min.css"[^>]*>\s*', '', text)
                 text = replace_block(text, 'INDEX', index_content(root, tools, tags, lang, url in INDEX_PAIRS[0]))
+                text = index_layout_styles(text)
                 if 'href="/assets/tools-index.css"' not in text: text = text.replace('</head>', '<link rel="stylesheet" href="/assets/tools-index.css">\n</head>')
                 if url in INDEX_PAIRS[1] and 'src="/assets/tools-index.js"' not in text: text = text.replace('</body>', '<script src="/assets/tools-index.js" defer></script>\n</body>')
             else:
