@@ -168,11 +168,30 @@ body > footer.mrc-site-footer a:focus-visible{outline:2px solid currentColor;out
 
 /* Only Games landing pages: match the technical content spacing.
    Individual games and their full-screen play interfaces are untouched. */
-html:has(head link[rel="canonical"][href="https://marcorui.si/games/"]) body>main,
-html:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) body>main {
-  padding-top:44px;
+html:has(head link[rel="canonical"][href$="/games/"]) body>main,
+html:has(head link[rel="canonical"][href$="/games"]) body>main,
+html:has(head link[rel="canonical"][href$="/it/giochi/"]) body>main,
+html:has(head link[rel="canonical"][href$="/it/giochi"]) body>main {
+  padding-top:40px;
 }
 @media(max-width:700px) {
-  html:has(head link[rel="canonical"][href="https://marcorui.si/games/"]) body>main,
-  html:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) body>main {padding-top:26px;}
+  html:has(head link[rel="canonical"][href$="/games/"]) body>main,
+  html:has(head link[rel="canonical"][href$="/games"]) body>main,
+  html:has(head link[rel="canonical"][href$="/it/giochi/"]) body>main,
+  html:has(head link[rel="canonical"][href$="/it/giochi"]) body>main {padding-top:24px;}
+}
+
+/* Games index title and introduction follow the shared technical scale. */
+html:has(head link[rel="canonical"][href$="/games/"]) body>main>h1,
+html:has(head link[rel="canonical"][href$="/games"]) body>main>h1,
+html:has(head link[rel="canonical"][href$="/it/giochi/"]) body>main>h1,
+html:has(head link[rel="canonical"][href$="/it/giochi"]) body>main>h1 {
+  font:600 32px/1.2 Manrope,system-ui,sans-serif;
+  letter-spacing:-.025em;margin:0 0 12px;
+}
+html:has(head link[rel="canonical"][href$="/games/"]) body>main>.muted,
+html:has(head link[rel="canonical"][href$="/games"]) body>main>.muted,
+html:has(head link[rel="canonical"][href$="/it/giochi/"]) body>main>.muted,
+html:has(head link[rel="canonical"][href$="/it/giochi"]) body>main>.muted {
+  font-size:16px;line-height:1.5;
 }
