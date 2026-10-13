@@ -257,6 +257,7 @@ def editorial_header(root, text, lang, pair=None):
         'tools_url': '/it/tools/' if lang == 'it' else '/tools/',
         'games_url': '/it/giochi/' if lang == 'it' else '/games/',
         'games_label': 'Giochi' if lang == 'it' else 'Games',
+        'kit_url': '/it/kit/' if lang == 'it' else '/kit/',
         'language_navigation': language_navigation,
     })
     content = template(root, 'site-header.html', {
@@ -281,19 +282,24 @@ def editorial_header(root, text, lang, pair=None):
 
 
 def tool_header(root, lang, pair, current):
+    """Shared global header; the three Tool routes are secondary navigation."""
+    home = '/it/' if lang == 'it' else '/'
     everyday = '/it/tools/' if lang == 'it' else '/tools/'
     all_url = '/it/tools/tutti/' if lang == 'it' else '/tools/all/'
-    links = ''
-    for url, full, short in ((everyday, 'Everyday Tools', 'Everyday'),
-                             (all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools', 'All'),
-                             (FLOW_URLS[lang], 'Tool Flows', 'Tool Flows'),
-                             ('/it/giochi/' if lang == 'it' else '/games/', 'Giochi' if lang == 'it' else 'Games', 'Giochi' if lang == 'it' else 'Games')):
-        active = ' aria-current="page"' if url == current else ''
-        links += (f'<a href="{url}" aria-label="{full}"{active}>'
-                  f'<span class="mrc-nav-full">{full}</span>'
-                  f'<span class="mrc-nav-short" aria-hidden="true">{short}</span></a>')
+    games = '/it/giochi/' if lang == 'it' else '/games/'
+    kit = '/it/kit/' if lang == 'it' else '/kit/'
+    global_links = ((everyday, 'Tools'), (games, 'Giochi' if lang == 'it' else 'Games'), (kit, 'Kit'))
+    nav = ''.join(f'<a href="{url}"' + (' aria-current="page"' if current == url or (url == everyday and current.startswith(('/tools/', '/it/tools/')) and current != all_url) else '') + f'>{html.escape(label)}</a>' for url, label in global_links)
+    tool_context = current.startswith(('/tools/', '/it/tools/')) or current in FLOW_URLS.values()
+    subnav = ''
+    if tool_context:
+        items = ((everyday, 'Everyday Tools'),
+                 (all_url, 'Tutti gli strumenti' if lang == 'it' else 'All Tools'),
+                 (FLOW_URLS[lang], 'Tool Flows'))
+        links = ''.join(f'<a href="{url}"' + (' aria-current="page"' if current == url else '') + f'>{label}</a>' for url, label in items)
+        subnav = f'<nav class="mrc-tools-secondary" aria-label="{ "Navigazione Tools" if lang == "it" else "Tools navigation" }">{links}</nav>'
     language = '<span class="mrc-language-separator" aria-hidden="true">/</span>'.join(f'<a href="{pair[l]}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{l.upper()}</a>' for l in ('en', 'it'))
-    return template(root, 'tool-header.html', {'site_home': '/it/' if lang == 'it' else '/', 'home_label': 'marcorui.si home', 'tool_links': links, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
+    return template(root, 'tool-header.html', {'site_home': home, 'home_label': 'marcorui.si home', 'tool_links': nav, 'tool_subnav': subnav, 'language_label': 'Selezione lingua' if lang == 'it' else 'Language selection', 'language_links': language})
 
 
 def tool_flows_shell(root, text, lang, pair, current):
@@ -391,6 +397,38 @@ def index_content(root, tools, tags, lang, everyday):
     return content
 
 
+def kit_catalog_cards(tools, lang):
+    """Produce one Kit view of existing plugin/snippet pages. No duplicate detail pages."""
+    it = lang == 'it'
+    grouped = [('plugin', 'Plugin WordPress' if it else 'WordPress plugins'),
+               ('snippet', 'Snippet WordPress' if it else 'WordPress snippets')]
+    result = []
+    for kind, title in grouped:
+        cards = []
+        for item in tools:
+            if item['type'] != kind:
+                continue
+            name = html.escape(item['name'][lang]);desc = html.escape(item['description'][lang]);url = html.escape(item['url'][lang], quote=True)
+            free = item['availability'] == 'free'
+            status = ('Gratuito' if it else 'Free') if free else ('Su richiesta' if it else 'On request')
+            version = (' · v' + html.escape(str(item['version']))) if item.get('version') else ''
+            label = ('Scopri il plugin →' if it else 'Explore plugin →') if kind == 'plugin' else ('Vedi lo snippet →' if it else 'View snippet →')
+            cards.append(f'<article class="kit-card"><span class="kit-tag">{status}{version}</span><h3>{name}</h3><p>{desc}</p><div class="kit-card-actions"><a class="kit-action kit-action-secondary" href="{url}">{label}</a></div></article>')
+        result.append('<section class="kit-section"><h2>'+title+'</h2><div class="kit-grid">'+''.join(cards)+'</div></section>')
+    return ''.join(result)
+
+
+def kit_catalog_page(text, tools, lang):
+    """Update the Kit index without touching the independent crossword/WPML cards."""
+    if '<!-- MRC SHARED KIT CATALOG START -->' in text:
+        return replace_block(text, 'KIT CATALOG', kit_catalog_cards(tools, lang))
+    # Append after the existing kit-card grid section, before the following section.
+    headings = list(re.finditer(r'<section class="kit-section">', text))
+    if len(headings) < 2 or 'kit-grid' not in text[headings[0].start():headings[1].start()]:
+        raise ValueError('Kit index: sezione schede originale non trovata')
+    pos = headings[1].start()
+    return text[:pos] + marked('KIT CATALOG', kit_catalog_cards(tools, lang)) + '\n' + text[pos:]
+
 def plan_shared_ui(root=ROOT):
     dataset = dataset_checked(root); tools, tags = dataset['tools'], dataset['tags']
     files = list(page_files(root)); pairs = language_pairs(files, tools)
@@ -403,7 +441,35 @@ def plan_shared_ui(root=ROOT):
     planned = {}
     for path, original in files:
         text = original; url = route(path, root)
-        if url.startswith(('/games/', '/it/giochi/', '/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
+        if url in ('/kit/', '/it/kit/'):
+            lang = 'it' if url.startswith('/it/') else 'en'
+            text = kit_catalog_page(original, tools, lang)
+            if text != original: planned[path] = text
+            continue
+        # Standalone games and tools use their own engines; unify only their existing
+        # technical header, leaving all game/script markup untouched.
+        standalone = url.startswith(('/games/', '/it/giochi/')) or url in (
+            '/tools/crossword/', '/it/tools/cruciverba/',
+            '/tools/puzzle-maker/', '/it/tools/crea-sfida/',
+            '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
+            '/tools/address-geocoding/', '/it/tools/geocodifica-indirizzi/',
+        )
+        if standalone:
+            pair = pairs.get(url)
+            if pair and set(pair) == {'it', 'en'}:
+                lang = 'it' if url.startswith('/it/') else 'en'
+                content = tool_header(root, lang, pair, url)
+                if '<!-- MRC SHARED TOOL HEADER START -->' in original:
+                    text = replace_block(original, 'TOOL HEADER', content)
+                else:
+                    header = re.search(r'<header\b(?=[^>]*\bclass=["\'][^"\']*\bmrc-tool-header\b)[^>]*>.*?</header>', original, re.S | re.I)
+                    if header:
+                        text = original[:header.start()] + marked('TOOL HEADER', content) + original[header.end():]
+                    else:
+                        text = original
+                if text != original: planned[path] = text
+            continue
+        if url.startswith(('/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
                 '/tools/address-geocoding/', '/it/tools/geocodifica-indirizzi/'):
             continue  # Standalone game/kit pages already have their own HTML shell.
         lang_match = re.search(r'<html\b[^>]*\blang=["\'](en|it)["\']', text, re.I)

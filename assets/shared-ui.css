@@ -288,3 +288,11 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
   background: var(--line, rgba(0,0,0,.12));
   pointer-events: none;
 }
+
+/* MRC unified primary navigation: Kit + full-bleed separator. */
+.topbar .header-kit{font:inherit;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.topbar .header-kit:hover{text-decoration:underline;text-underline-offset:4px}
+.topbar .header-kit:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.site>.topbar{max-width:920px;width:100%;box-sizing:border-box;margin-left:auto;margin-right:auto}
+.site>.topbar::after{left:50%;right:auto;width:100vw;transform:translateX(-50%)}
+@media(max-width:700px){.topbar .header-kit{font-size:12px;min-height:44px}.topbar .header-utilities{gap:4px}}

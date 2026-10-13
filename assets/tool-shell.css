@@ -178,3 +178,30 @@ html:has(head link[rel="canonical"][href="https://marcorui.si/games/"]) body > .
 html:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) body > .mrc-tool-header {
   background: var(--mrc-game-bg, #f4f1fc);
 }
+
+/* MRC common header: primary Tools / Games / Kit, with secondary Tools choices. */
+body>.mrc-tool-header{position:relative;max-width:920px;width:100%;box-sizing:border-box;display:flex;align-items:center;flex-wrap:nowrap;gap:12px;padding:0 0 12px;margin:0 auto 0;border-bottom:0;isolation:isolate}
+body>.mrc-tool-header::after{content:"";position:absolute;left:50%;bottom:0;width:100vw;transform:translateX(-50%);border-bottom:1px solid var(--border,#d7dbe0);pointer-events:none}
+body>.mrc-tool-header .mrc-tools-nav{display:flex;flex:1 1 auto;align-items:center;justify-content:flex-start;flex-wrap:nowrap;gap:clamp(12px,2vw,24px);overflow:visible;min-width:0;margin:0;padding:0;border:0}
+body>.mrc-tool-header .mrc-tools-nav .mrc-tools-brand{font:700 27px/1 Georgia,"Times New Roman",serif;letter-spacing:-.03em;text-decoration:none;margin-right:auto;min-height:44px}
+body>.mrc-tool-header .mrc-tools-nav .mrc-tools-brand::after{content:none}
+body>.mrc-tool-header .mrc-tools-nav a{display:inline-flex;font-size:13px;min-height:44px;padding:0;white-space:nowrap;text-decoration:none}
+body>.mrc-tool-header .mrc-tools-nav a:hover,body>.mrc-tool-header .mrc-tools-nav a[aria-current="page"]{text-decoration:underline;text-underline-offset:4px}
+body>.mrc-tool-header .mrc-tool-language{flex:0 0 auto;margin:0 0 0 8px;gap:5px;font-size:13px}
+body>.mrc-tool-header .mrc-tool-language a{min-width:24px;min-height:44px}
+body>.mrc-tools-secondary{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;width:100%;max-width:920px;margin:0 auto 22px;padding:12px 0 0;font-size:13px}
+body>.mrc-tools-secondary a{color:var(--text);text-decoration:none;min-height:36px;display:inline-flex;align-items:center}
+body>.mrc-tools-secondary a:hover,body>.mrc-tools-secondary a[aria-current="page"]{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:700px){
+ body>.mrc-tool-header{gap:6px;padding:0 0 5px}
+ body>.mrc-tool-header .mrc-tools-nav{gap:clamp(7px,2vw,12px)}
+ body>.mrc-tool-header .mrc-tools-nav .mrc-tools-brand{font-size:0;min-width:34px;margin-right:auto}
+ body>.mrc-tool-header .mrc-tools-nav .mrc-tools-brand::after{content:"m.";font:700 30px/1 Georgia,"Times New Roman",serif}
+ body>.mrc-tool-header .mrc-tools-nav a{font-size:12px;min-height:44px}
+ body>.mrc-tool-header .mrc-tool-language{gap:2px;margin-left:3px;font-size:12px}
+ body>.mrc-tool-header .mrc-tool-language a{min-width:20px}
+ body>.mrc-tools-secondary{gap:9px 17px;padding-top:8px;font-size:12px}
+}
+/* Games index keeps its original playful background while sticky. */
+html:has(head link[rel="canonical"][href$="/games/"]) body>.mrc-tool-header,
+html:has(head link[rel="canonical"][href$="/giochi/"]) body>.mrc-tool-header{background:var(--mrc-game-bg,#f4f1fc)}
