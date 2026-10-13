@@ -145,3 +145,49 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
   img, video, iframe {max-width:100%;}
   h1, h2, h3, p, li, a {overflow-wrap:anywhere;}
 }
+
+/* MRC home: compact, single-row mobile navigation (IT/EN).
+   The menu remains available for secondary editorial destinations. */
+.mrc-home .topbar .mrc-logo-short { display: none; }
+@media (max-width: 700px) {
+  .mrc-home .topbar {
+    display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between;
+    gap: 4px; padding-left: 12px; padding-right: 12px; min-width: 0;
+  }
+  .mrc-home .topbar .logo-mark {
+    flex: 0 0 auto; min-width: 44px; min-height: 44px;
+    justify-content: flex-start; font-size: 32px; letter-spacing: -.045em;
+  }
+  .mrc-home .topbar .mrc-logo-full { display: none; }
+  .mrc-home .topbar .mrc-logo-short { display: inline; }
+  .mrc-home .topbar .header-actions {
+    display: flex; align-items: center; flex: 0 1 auto; min-width: 0; gap: 2px;
+  }
+  .mrc-home .topbar .header-utilities {
+    display: flex; flex-wrap: nowrap; gap: 2px; min-width: 0;
+    justify-content: flex-end; font-size: 12px;
+  }
+  .mrc-home .topbar .header-tools,
+  .mrc-home .topbar .header-games {
+    display: inline-flex; font-size: 12px; min-width: 44px; min-height: 44px;
+    padding: 0 2px; white-space: nowrap;
+  }
+  .mrc-home .topbar .header-language { display: flex; flex-wrap: nowrap; gap: 0; }
+  .mrc-home .topbar .header-language a { min-width: 28px; min-height: 44px; }
+  .mrc-home .topbar .header-menu-separator,
+  .mrc-home .topbar .header-utility-separator { display: none; }
+  .mrc-home .topbar .menu-trigger {
+    display: inline-flex; flex: 0 0 36px; width: 36px; min-width: 36px;
+    height: 44px; min-height: 44px;
+  }
+  .mrc-home .topbar .menu-trigger::before,
+  .mrc-home .topbar .menu-trigger::after { right: 5px; }
+}
+@media (max-width: 350px) {
+  .mrc-home .topbar { padding-left: 8px; padding-right: 8px; gap: 2px; }
+  .mrc-home .topbar .header-utilities { gap: 0; font-size: 11px; }
+  .mrc-home .topbar .header-tools,
+  .mrc-home .topbar .header-games { min-width: 39px; padding: 0 1px; font-size: 11px; }
+  .mrc-home .topbar .header-language a { min-width: 24px; }
+  .mrc-home .topbar .menu-trigger { flex-basis: 32px; min-width: 32px; width: 32px; }
+}
