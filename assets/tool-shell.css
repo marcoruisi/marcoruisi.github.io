@@ -72,6 +72,24 @@ body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSyste
   text-decoration-thickness: 2px;
 }
 
+/* MRC identity on operational pages: full wordmark on desktop, m. on mobile. */
+.mrc-tool-header .mrc-tools-nav .mrc-tools-brand {
+  font-size:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:700;
+  letter-spacing:-.025em;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.mrc-tool-header .mrc-tools-nav .mrc-tools-brand::after {
+  content:"marcorui.si";
+  font-size:clamp(26px,2.55vw,31px);
+  line-height:1;
+}
+@media(max-width:700px) {
+  .mrc-tool-header .mrc-tools-nav .mrc-tools-brand::after { content:"m."; font-size:30px; }
+}
+
 /* MRC mobile-first operational navigation: one line, consistent with the home. */
 @media (max-width:700px) {
   .mrc-tool-header {
