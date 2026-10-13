@@ -1,27 +1,35 @@
-/* Static shared footer. Publish is deliberately outside all navigation. */
-/* Complete editorial header, distinct from the operational Tools shell. */
-.topbar { gap: 20px; }
-.topbar .header-actions { display: flex; align-items: center; gap: 14px; white-space: nowrap; }
-.topbar .header-utilities { display: flex; align-items: center; gap: 9px; font-family: "Manrope", system-ui, sans-serif; font-size: 13px; line-height: 1.5; white-space: nowrap; }
-.topbar .header-utilities .header-language { margin: 0; font: inherit; line-height: inherit; }
-.topbar .header-utilities .header-tools { font: inherit; color: var(--text); text-decoration: none; }
-.topbar .header-utility-separator,.topbar .header-menu-separator { color: var(--muted); font: 13px/1.5 "Manrope", system-ui, sans-serif; }
-.topbar .header-language { gap: 3px; }
-.topbar .header-language a { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; min-height: 44px; }
-.topbar .header-tools,.topbar .logo-mark { display: inline-flex; align-items: center; min-height: 44px; }
-.topbar .menu-trigger { min-height: 44px; }
-.topbar .menu-icon { display: none; }
-.topbar .header-tools:hover { text-decoration: underline; text-underline-offset: 4px; }
-.topbar .header-tools:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
-@media (max-width:700px) {
- .topbar { gap: 10px; }
- .topbar .header-actions { gap: 6px; }
- .topbar .header-utilities { gap: 6px; }
- .topbar .menu-trigger { min-width: 44px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
- .topbar .menu-label { display: none; }
- .topbar .menu-icon { display: inline; font: 23px/1 system-ui, sans-serif; }
+/* Editorial navigation follows the white sheet's inner content width. */
+.site > .topbar {width:auto;max-width:none;gap:12px;flex-wrap:nowrap;background:var(--bg,#fff);isolation:isolate}
+.topbar .logo-mark {display:inline-flex;align-items:center;min-height:44px;flex-shrink:0;font:700 clamp(26px,2.55vw,31px)/1 Georgia,"Times New Roman",serif;letter-spacing:-.025em;white-space:nowrap}
+.topbar .header-actions {display:flex;align-items:center;gap:14px;white-space:nowrap}
+.topbar .header-utilities {display:flex;align-items:center;gap:8px;font:13px/1.5 Manrope,system-ui,sans-serif;white-space:nowrap}
+.topbar .header-language {margin:0;gap:3px;font:inherit;line-height:inherit}
+.topbar .header-language a {display:inline-flex;align-items:center;justify-content:center;min-width:28px;min-height:44px}
+.topbar .header-tools,.topbar .header-games,.topbar .header-kit {display:inline-flex;align-items:center;min-height:44px;font:inherit;color:var(--text);text-decoration:none}
+.topbar .header-tools:hover,.topbar .header-games:hover,.topbar .header-kit:hover {text-decoration:underline;text-underline-offset:4px}
+.topbar a:focus-visible {outline:2px solid currentColor;outline-offset:4px}
+.topbar .header-utility-separator,.topbar .header-menu-separator {color:var(--muted);font:13px/1.5 Manrope,system-ui,sans-serif}
+.topbar .menu-trigger {position:relative;display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;border:0;background:transparent;text-decoration:none}
+.topbar .menu-trigger .menu-icon,.topbar .menu-trigger .menu-label,.topbar .mrc-logo-short {display:none}
+.topbar .menu-trigger::before,.topbar .menu-trigger::after {content:"";position:absolute;right:9px;height:2px;background:currentColor;pointer-events:none;transition:width .16s ease,transform .16s ease}
+.topbar .menu-trigger::before {top:17px;width:24px}.topbar .menu-trigger::after {top:25px;width:15px}.topbar .menu-trigger:hover::after {width:20px}
+@media(max-width:700px) {
+ .site > .topbar {gap:8px}
+ .topbar .logo-mark {font-size:0;min-width:38px;overflow-wrap:normal}
+ .topbar .logo-mark > * {display:none}
+ .topbar .logo-mark::before {content:"m.";font:700 32px/1 Georgia,"Times New Roman",serif}
+ .topbar .header-actions {gap:3px;margin-left:auto}
+ .topbar .header-utilities {gap:4px;font-size:12px;flex-wrap:nowrap}
+ .topbar .header-utility-separator,.topbar .header-menu-separator {display:none}
+ .topbar .header-language {gap:0}.topbar .header-language a {min-width:26px}
+ .topbar .menu-trigger {flex-basis:40px;width:40px;min-width:40px}
+ .topbar .menu-trigger::before,.topbar .menu-trigger::after {right:5px}
 }
-
+@media(max-width:360px) {
+ .site > .topbar {gap:2px}.topbar .header-actions,.topbar .header-utilities {gap:2px}
+ .topbar .header-utilities {font-size:11px}.topbar .header-language a {min-width:23px}
+ .topbar .menu-trigger {flex-basis:36px;width:36px;min-width:36px}
+}
 /* The two reading paths are full editorial surfaces, not just final text links. */
 .reading-paths { gap: 0; padding: 0; align-items: stretch; }
 .reading-paths .reading-choice { padding: 28px 30px; min-height: 190px; justify-content: flex-start; cursor: pointer; }
@@ -48,95 +56,6 @@ footer.mrc-site-footer .mrc-publish { margin-top: 16px; font-size: 12px; }
 footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 @media (max-width:700px) { footer.mrc-site-footer { margin-top: 70px; } }
 
-/* MRC identity 2026: one editorial header across desktop and mobile */
-.topbar { gap: 12px; flex-wrap: nowrap; }
-.topbar .logo-mark { font-family: Georgia,"Times New Roman",serif; font-weight: 700; font-size: clamp(20px,2.3vw,26px); line-height: 1; letter-spacing: -.025em; white-space: nowrap; flex-shrink: 0; }
-.topbar .header-actions { gap: 14px; flex-shrink: 0; }
-.topbar .header-utilities { gap: 8px; }
-.topbar .menu-trigger { width: 44px; min-width: 44px; min-height: 44px; display: inline-flex; justify-content: center; align-items: center; padding: 0; }
-.topbar .menu-trigger .menu-label { display: none; }
-.topbar .menu-trigger .menu-icon { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; }
-.topbar .menu-trigger .menu-icon svg { display: block; width: 26px; height: 26px; }
-.topbar .menu-trigger:hover { text-decoration: none; }
-.topbar .menu-trigger:hover .menu-icon { opacity: .65; }
-@media (max-width:700px) {
- .topbar { padding-left: 16px; padding-right: 16px; gap: 6px; }
- .topbar .logo-mark { font-size: clamp(18px,4.5vw,22px); letter-spacing: -.035em; }
- .topbar .header-actions { gap: 4px; }
- .topbar .header-utilities { gap: 5px; font-size: 12px; }
- .topbar .header-utility-separator,.topbar .header-menu-separator { display: none; }
- .topbar .header-language { gap: 0; }
- .topbar .header-language a { min-width: 23px; }
- .topbar .menu-trigger { width: 36px; min-width: 36px; }
-}
-@media (max-width:390px) {
- .topbar { padding-left: 12px; padding-right: 12px; gap: 4px; }
- .topbar .logo-mark { font-size: 18px; }
- .topbar .header-utilities { gap: 2px; }
- .topbar .header-tools { display: inline-flex; }
- .topbar .header-language a { min-width: 22px; }
-}
-
-/* MRC header refinement 2026-10-09: CSS-drawn two-stroke icon, independent of old glyph/SVG. */
-.topbar .logo-mark { font-size: clamp(26px, 2.55vw, 31px); letter-spacing: -.025em; }
-.topbar .menu-trigger {
-  position: relative;
-  width: 44px;
-  min-width: 44px;
-  height: 44px;
-  min-height: 44px;
-  flex: 0 0 44px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  text-decoration: none;
-}
-.topbar .menu-trigger .menu-icon,
-.topbar .menu-trigger .menu-label { display: none !important; }
-.topbar .menu-trigger::before,
-.topbar .menu-trigger::after {
-  content: "";
-  position: absolute;
-  right: 9px;
-  height: 2px;
-  background: currentColor;
-  border-radius: 0;
-  pointer-events: none;
-  transition: width .16s ease, transform .16s ease;
-}
-.topbar .menu-trigger::before { top: 17px; width: 24px; }
-.topbar .menu-trigger::after { top: 25px; width: 15px; }
-.topbar .menu-trigger:hover::after { width: 20px; }
-@media (max-width: 700px) {
-  .topbar .logo-mark { font-size: clamp(22px, 4.7vw, 26px); letter-spacing: -.025em; }
-  .topbar .menu-trigger { width: 40px; min-width: 40px; flex-basis: 40px; }
-  .topbar .menu-trigger::before,.topbar .menu-trigger::after { right: 7px; }
-}
-@media (max-width: 390px) {
-  .topbar .logo-mark { font-size: 21px; }
-  .topbar .menu-trigger { width: 38px; min-width: 38px; flex-basis: 38px; }
-}
-
-/* Games navigation follows Tools across editorial pages. */
-.topbar .header-games {font:inherit;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
-.topbar .header-games:hover {text-decoration:underline;text-underline-offset:4px}
-.topbar .header-games:focus-visible {outline:2px solid currentColor;outline-offset:4px}
-@media(max-width:390px){.topbar .header-games{font-size:12px}}
-
-/* Keep the four primary destinations available without squeezing touch targets. */
-@media(max-width:700px){
- .topbar .header-tools,.topbar .header-games{min-width:44px;min-height:44px;justify-content:center}
- .topbar .header-language a{min-width:32px;min-height:44px}
- .topbar .menu-trigger{width:44px;min-width:44px;flex-basis:44px}
-}
-@media(max-width:430px){
- .topbar{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:0 8px;max-width:100%;box-sizing:border-box}
- .topbar .logo-mark{grid-column:1;grid-row:1}
- .topbar .header-actions{display:contents}
- .topbar .menu-trigger{grid-column:2;grid-row:1}
- .topbar .header-utilities{grid-column:1 / -1;grid-row:2;justify-content:flex-end;gap:12px;min-width:0;flex-wrap:wrap}
-}
-
 /* MRC mobile: only the page itself must never scroll sideways.
    Internal scrollers (crossword board, code, data tables) are untouched. */
 @media (max-width:700px) {
@@ -146,167 +65,3 @@ footer.mrc-site-footer a:focus-visible { outline: 2px solid currentColor; outlin
   h1, h2, h3, p, li, a {overflow-wrap:anywhere;}
 }
 
-/* MRC home: compact, single-row mobile navigation (IT/EN).
-   The menu remains available for secondary editorial destinations. */
-.mrc-home .topbar .mrc-logo-short { display: none; }
-@media (max-width: 700px) {
-  .mrc-home .topbar {
-    display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between;
-    gap: 4px; padding-left: 12px; padding-right: 12px; min-width: 0;
-  }
-  .mrc-home .topbar .logo-mark {
-    flex: 0 0 auto; min-width: 44px; min-height: 44px;
-    justify-content: flex-start; font-size: 32px; letter-spacing: -.045em;
-  }
-  .mrc-home .topbar .mrc-logo-full { display: none; }
-  .mrc-home .topbar .mrc-logo-short { display: inline; }
-  .mrc-home .topbar .header-actions {
-    display: flex; align-items: center; flex: 0 1 auto; min-width: 0; gap: 2px;
-  }
-  .mrc-home .topbar .header-utilities {
-    display: flex; flex-wrap: nowrap; gap: 2px; min-width: 0;
-    justify-content: flex-end; font-size: 12px;
-  }
-  .mrc-home .topbar .header-tools,
-  .mrc-home .topbar .header-games {
-    display: inline-flex; font-size: 12px; min-width: 44px; min-height: 44px;
-    padding: 0 2px; white-space: nowrap;
-  }
-  .mrc-home .topbar .header-language { display: flex; flex-wrap: nowrap; gap: 0; }
-  .mrc-home .topbar .header-language a { min-width: 28px; min-height: 44px; }
-  .mrc-home .topbar .header-menu-separator,
-  .mrc-home .topbar .header-utility-separator { display: none; }
-  .mrc-home .topbar .menu-trigger {
-    display: inline-flex; flex: 0 0 36px; width: 36px; min-width: 36px;
-    height: 44px; min-height: 44px;
-  }
-  .mrc-home .topbar .menu-trigger::before,
-  .mrc-home .topbar .menu-trigger::after { right: 5px; }
-}
-@media (max-width: 350px) {
-  .mrc-home .topbar { padding-left: 8px; padding-right: 8px; gap: 2px; }
-  .mrc-home .topbar .header-utilities { gap: 0; font-size: 11px; }
-  .mrc-home .topbar .header-tools,
-  .mrc-home .topbar .header-games { min-width: 39px; padding: 0 1px; font-size: 11px; }
-  .mrc-home .topbar .header-language a { min-width: 24px; }
-  .mrc-home .topbar .menu-trigger { flex-basis: 32px; min-width: 32px; width: 32px; }
-}
-
-
-/* MRC home mobile header: single aligned row, independent of cached logo markup. */
-@media (max-width:700px) {
-  body.mrc-home .site > .topbar {
-    display: flex;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0;
-    padding-right: 0;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    gap: 8px;
-  }
-  body.mrc-home .site > .topbar .logo-mark {
-    display: inline-flex;
-    align-items: center;
-    flex: 0 0 44px;
-    width: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    overflow: visible;
-    font-size: 0 !important;
-    line-height: 1;
-    white-space: nowrap;
-    text-decoration: none;
-    overflow-wrap: normal;
-  }
-  body.mrc-home .site > .topbar .logo-mark > * { display: none !important; }
-  body.mrc-home .site > .topbar .logo-mark::before {
-    content: "m.";
-    font: 700 32px/1 Georgia, "Times New Roman", serif;
-    letter-spacing: -.045em;
-    color: inherit;
-  }
-  body.mrc-home .site > .topbar .header-actions {
-    display: flex;
-    margin-left: auto;
-    justify-content: flex-end;
-    align-items: center;
-    flex: 0 1 auto;
-    min-width: 0;
-    gap: 3px;
-  }
-  body.mrc-home .site > .topbar .header-utilities {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: nowrap;
-    min-width: 0;
-    gap: 3px;
-  }
-  body.mrc-home .site > .topbar .header-tools,
-  body.mrc-home .site > .topbar .header-games {
-    flex: 0 0 auto;
-    min-width: 40px;
-    white-space: nowrap;
-    overflow-wrap: normal;
-  }
-  body.mrc-home .site > .topbar .header-language { flex-wrap: nowrap; white-space: nowrap; }
-  body.mrc-home .site > .topbar .header-language a { min-width: 26px; }
-  body.mrc-home .site > .topbar .menu-trigger { flex: 0 0 40px; width: 40px; min-width: 40px; }
-}
-@media (max-width:360px) {
-  body.mrc-home .site > .topbar { gap: 2px; }
-  body.mrc-home .site > .topbar .header-actions,
-  body.mrc-home .site > .topbar .header-utilities { gap: 1px; }
-  body.mrc-home .site > .topbar .header-tools,
-  body.mrc-home .site > .topbar .header-games { min-width: 36px; padding-inline: 0; font-size: 11px; }
-  body.mrc-home .site > .topbar .header-language a { min-width: 23px; }
-  body.mrc-home .site > .topbar .menu-trigger { flex-basis: 36px; width: 36px; min-width: 36px; }
-}
-
-
-/* MRC sticky editorial header: keep the menu in document flow. */
-.site > .topbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: var(--bg, #fff);
-  isolation: isolate;
-}
-/* Subtle separation only when navigation is present; no large shadow. */
-.site > .topbar::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--line, rgba(0,0,0,.12));
-  pointer-events: none;
-}
-
-/* MRC unified primary navigation: Kit + full-bleed separator. */
-.topbar .header-kit{font:inherit;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
-.topbar .header-kit:hover{text-decoration:underline;text-underline-offset:4px}
-.topbar .header-kit:focus-visible{outline:2px solid currentColor;outline-offset:4px}
-.site>.topbar{max-width:920px;width:100%;box-sizing:border-box;margin-left:auto;margin-right:auto}
-.site>.topbar::after{left:50%;right:auto;width:100vw;transform:translateX(-50%)}
-@media(max-width:700px){.topbar .header-kit{font-size:12px;min-height:44px}.topbar .header-utilities{gap:4px}}
-
-/* Editorial pages stay inside their white paper sheet.
-   Full-bleed technical navigation belongs only to Tools/Games/Kit. */
-.site > .topbar {
-  width: auto;
-  max-width: none;
-  margin-left: 0;
-  margin-right: 0;
-  background: #fff;
-}
-.site > .topbar::after {
-  display: none;
-  content: none;
-}

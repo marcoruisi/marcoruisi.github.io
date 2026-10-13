@@ -1,0 +1,60 @@
+@font-face{font-family:Manrope;src:url("/fonts/Manrope-Medium.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+/* One set of metrics for Tools, Games and Kit; section backgrounds stay local. */
+body > header.mrc-tool-header, .kit-header-inner {
+  box-sizing:border-box; width:min(100%,920px); max-width:920px; height:64px;
+  display:flex; align-items:center; flex-wrap:nowrap; gap:20px;
+  margin:0 auto; padding:0; border:0;
+  font-family:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body > header.mrc-tool-header {position:relative;isolation:isolate}
+body > header.mrc-tool-header::after {
+  content:"";position:absolute;left:50%;bottom:0;width:100vw;
+  transform:translateX(-50%);border-bottom:1px solid var(--border,#d7dbe0);pointer-events:none;
+}
+.kit-header {position:sticky;top:0;z-index:50;background:var(--bg,#fff);border-bottom:0}
+.kit-header::after {content:"";position:absolute;bottom:0;left:0;right:0;border-bottom:1px solid var(--line,#d7dbe0);pointer-events:none}
+.kit-header .kit-header-inner {width:min(calc(100% - 48px),920px)}
+body > header.mrc-tool-header .mrc-tools-nav, .kit-nav {
+  display:flex;align-items:center;flex-wrap:nowrap;gap:20px;min-width:0;
+  margin:0;padding:0;border:0;overflow:visible;white-space:nowrap;
+}
+body > header.mrc-tool-header .mrc-tools-nav {flex:1}
+.kit-nav {margin-left:auto}
+body > header.mrc-tool-header a, .kit-header a {
+  display:inline-flex;align-items:center;flex-shrink:0;min-height:44px;
+  padding:0;border:0;border-radius:0;background:transparent;color:inherit;
+  font-size:13px;font-weight:500;line-height:20px;text-decoration:none;white-space:nowrap;
+}
+body > header.mrc-tool-header a:hover, body > header.mrc-tool-header a[aria-current="page"],
+.kit-header a:hover,.kit-header a[aria-current="page"] {text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+body > header.mrc-tool-header .mrc-tools-nav .mrc-tools-brand, .kit-header .kit-logo {
+  font:700 27px/1 Georgia,"Times New Roman",serif;letter-spacing:-.035em;text-decoration:none;margin-right:auto;
+}
+.kit-logo-mobile {display:none}
+body > header.mrc-tool-header .mrc-tool-language, .kit-languages {
+  display:flex;flex:0 0 auto;align-items:center;gap:5px;margin:0;
+  font-size:13px;line-height:20px;white-space:nowrap;
+}
+body > header.mrc-tool-header .mrc-tool-language a,.kit-languages a {min-width:24px;justify-content:center}
+/* Use the same visual language order without changing URLs or accessible labels. */
+body > header.mrc-tool-header .mrc-tool-language a[lang="it"],.kit-languages a[lang="it"] {order:0}
+body > header.mrc-tool-header .mrc-tool-language span,.kit-languages span {order:1}
+body > header.mrc-tool-header .mrc-tool-language a[lang="en"],.kit-languages a[lang="en"] {order:2}
+body > header.mrc-tool-header a:focus-visible {outline:2px solid currentColor;outline-offset:3px}
+html:has(head link[rel="canonical"][href="https://marcorui.si/tools/"]) body,
+html:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/"]) body,
+html:has(head link[rel="canonical"][href="https://marcorui.si/games/"]) body,
+html:has(head link[rel="canonical"][href="https://marcorui.si/it/giochi/"]) body {padding-top:0}
+@media(max-width:700px) {
+  body > header.mrc-tool-header,.kit-header-inner {height:54px;gap:10px}
+  .kit-header .kit-header-inner {width:min(calc(100% - 28px),920px)}
+  body > header.mrc-tool-header .mrc-tools-nav,.kit-nav {gap:10px}
+  body > header.mrc-tool-header a,.kit-header a,
+  body > header.mrc-tool-header .mrc-tool-language,.kit-languages {font-size:12px}
+  body > header.mrc-tool-header .mrc-tools-nav .mrc-tools-brand {font-size:0;min-width:38px}
+  body > header.mrc-tool-header .mrc-tools-brand::after {content:"m.";font:700 32px/1 Georgia,"Times New Roman",serif}
+  .kit-header .kit-logo {font-size:32px;min-width:38px}
+  .kit-logo-full {display:none}.kit-logo-mobile {display:inline}
+  body > header.mrc-tool-header .mrc-tool-language,.kit-languages {gap:2px}
+  body > header.mrc-tool-header .mrc-tool-language a,.kit-languages a {min-width:20px}
+}
