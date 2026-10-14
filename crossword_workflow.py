@@ -3,8 +3,7 @@
 import ast,base64,datetime,json,os,pathlib,re,shutil,subprocess,sys,tempfile,urllib.error,urllib.request
 ROOT=pathlib.Path(__file__).resolve().parent
 WORKFLOW='.github/workflows/mrc-crossword-daily.yml'
-VARIABLE='MRC_DAILY_ENABLED'
-GATE="${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && vars.MRC_DAILY_ENABLED == 'true') }}"
+VARIABLE='MRC_CROSSWORD_SCHEDULE_ENABLED'
 FILES=(WORKFLOW,'scripts/build_daily_news_crossword.py','scripts/build_crossword_collection.py',
        'scripts/collect_crossword_news.py','scripts/collect_crossword_history.py','scripts/news_relations.py',
        'assets/games/crossword-fillers.csv','assets/games/topic-sources.csv')
@@ -70,26 +69,22 @@ class Panel:
         self.api.call('/actions/variables'+('/'+VARIABLE if current else ''),
                       'PATCH' if current else 'POST',{'name':VARIABLE,'value':'true' if value else 'false'})
     def status(self):
-        w,text=self.remote()
-        if w['state']!='active':print('Automatico: OFF — workflow GitHub '+w['state']);return False
-        if GATE in text and re.search(r'^  schedule:',text,re.M):
+        variable=self.variable()
+        if variable is None:
+            self.set_variable(False)
             variable=self.variable()
-            if variable is None:
-                raise ValueError('Stato non determinabile: manca la variabile a livello repository (potrebbe essere ereditata). Usa Disabilita automatico per inizializzarla a OFF.')
-            enabled=variable['value'].lower()=='true'
-            print('Automatico: '+('ON' if enabled else 'OFF')+' — variabile GitHub '+VARIABLE+'='+variable['value'])
-            return enabled
-        if "if: ${{ github.event_name == 'workflow_dispatch' }}" in text:
-            print('Automatico: OFF — blocco fisso nel workflow remoto. Aggiorna script per renderlo gestibile.');return False
-        raise ValueError('Condizione remota non riconosciuta: stato non dichiarato ON/OFF e nessuna modifica effettuata.')
+            print('Variabile repository inizializzata a OFF.')
+        if variable is None or variable['value'] not in ('true','false'):
+            raise ValueError('Stato remoto non valido: '+VARIABLE+' deve contenere true oppure false.')
+        enabled=variable['value']=='true'
+        print('Automatico: '+('ON' if enabled else 'OFF')+' — variabile GitHub '+VARIABLE+'='+variable['value'])
+        return enabled
     def automatic(self,enabled):
-        w,text=self.remote()
-        if GATE not in text or not re.search(r'^  schedule:',text,re.M):raise ValueError('Prima esegui Aggiorna script: il workflow remoto non contiene l’interruttore gestibile.')
         print(f'Repository: {self.repo}\nAutomatico → {"ON" if enabled else "OFF"}. Il lancio manuale resta separato.')
-        if enabled and w['state']!='active':print('Verrà anche riabilitato il workflow a livello GitHub.')
         if not confirm():return
+        # Initialize a missing repository variable safely before any requested activation.
+        if self.variable() is None:self.status()
         self.set_variable(enabled)
-        if enabled and w['state']!='active':self.api.call('/actions/workflows/'+str(w['id'])+'/enable','PUT')
         if self.status()!=enabled:raise ValueError('Lo stato riletto non corrisponde alla richiesta. Controlla GitHub; non viene dichiarato un successo.')
     def run(self):
         w,text=self.remote();inputs=read_inputs(text);values={}
@@ -103,12 +98,8 @@ class Panel:
             if value:values[name]=value
         print(f'Run MANUALE: {self.repo} / {pathlib.Path(WORKFLOW).name}\nBranch remoto: {self.branch}\nParametri: '+json.dumps(values,ensure_ascii=False)+'\nProduce un’anteprima; non pubblica il sito e non abilita la schedulazione.')
         if w['state']!='active':
-            if GATE not in text:raise ValueError('Workflow disabilitato globalmente: aggiorna prima gli script.')
-            print('Per il run manuale il workflow sarà riabilitato globalmente, con automatico impostato a OFF.')
+            raise ValueError('Workflow disabilitato globalmente su GitHub: il lancio manuale non è disponibile. Nessuna impostazione globale modificata; questo stato è distinto dall’automatico OFF.')
         if not confirm():return
-        if w['state']!='active':
-            self.set_variable(False)
-            self.api.call('/actions/workflows/'+str(w['id'])+'/enable','PUT')
         self.api.call('/actions/workflows/'+str(w['id'])+'/dispatches','POST',{'ref':self.branch,'inputs':values})
         print('Richiesta accettata da GitHub (completamento non ancora verificato).\nhttps://github.com/'+self.repo+'/actions/workflows/'+pathlib.Path(WORKFLOW).name)
     def update(self):
@@ -117,12 +108,9 @@ class Panel:
             if not p.is_file() or p.is_symlink():raise ValueError('File necessario assente o symlink: '+name)
         print('Aggiornamento separato su '+self.repo+'/'+self.branch+' dei soli file:\n'+'\n'.join(FILES))
         print('Non include pagine o altri commit locali. Il commit usa [skip ci] e [CF-Pages-Skip].')
-        _,remote_text=self.remote()
-        legacy_off="if: ${{ github.event_name == 'workflow_dispatch' }}" in remote_text
-        if not legacy_off and GATE not in remote_text:raise ValueError('Interruttore remoto non riconosciuto: aggiornamento annullato.')
-        print('Il blocco fisso OFF sarà conservato come variabile false; un interruttore già gestibile conserverà il suo stato.')
+        print('La variabile repository conserva il suo stato; se assente viene inizializzata a OFF.')
         if not confirm():return
-        if legacy_off or self.variable() is None:self.set_variable(False)
+        self.status()
         git('fetch','origin',self.branch)
         base=git('rev-parse','refs/remotes/origin/'+self.branch)
         # Isolated index: no checkout/reset/stash, no existing staged changes or commits included.
