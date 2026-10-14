@@ -31,7 +31,7 @@ function gameNotice(){
  const link=document.createElement('a');link.href=href;link.textContent=it?'Prepara i giochi offline →':'Prepare games for offline play →';
  const p=document.createElement('p');p.textContent=it?'Puoi giocare anche in modalità aereo: prepara una volta i giochi dalla pagina Giochi quando sei online.':'You can play in airplane mode: prepare the games once from the Games page while online.';
  notice.append(p,link);
- const css=document.createElement('style');css.textContent='.mrc-game-offline-note{box-sizing:border-box;clear:both;margin:1.25rem auto;padding:.8rem 1rem;max-width:850px;border:1px solid #cdc8dc;border-radius:10px;background:#fff;color:#202124;font:400 13px/1.5 Manrope,system-ui,sans-serif}.mrc-game-offline-note p{margin:0 0 .35rem}.mrc-game-offline-note a{color:#292336;text-decoration:underline;text-underline-offset:3px;font-weight:600}.mrc-game-offline-note a:focus-visible{outline:2px solid currentColor;outline-offset:3px}';
+ const css=document.createElement('style');css.textContent='.mrc-game-offline-note{box-sizing:border-box;clear:both;margin:1.25rem 0;margin-left:max(0px,calc((100% - 920px)/2));padding:.8rem 1rem;width:min(100%,920px);max-width:920px;border:1px solid #cdc8dc;border-radius:10px;background:#fff;color:#202124;font:400 13px/1.5 Manrope,system-ui,sans-serif}.mrc-game-offline-note p{margin:0 0 .35rem}.mrc-game-offline-note a{color:#292336;text-decoration:underline;text-underline-offset:3px;font-weight:600}.mrc-game-offline-note a:focus-visible{outline:2px solid currentColor;outline-offset:3px}';
  notice.prepend(css);
  const anchor=document.querySelector('body > footer');
  if(anchor)anchor.before(notice);else main.append(notice);
