@@ -1,4 +1,18 @@
 /* MRC Crossword: touch play workspace, intentionally scoped to game pages. */
+.mrc-cw-clear{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px}
+.mrc-cw-clear svg{flex:none}
+.mrc-cw-clear-confirmation{width:min(calc(100% - 32px),420px);max-width:420px;padding:24px;border:1px solid #cdc8dc;border-radius:8px;background:#fff;color:#202124;font-family:Manrope,system-ui,sans-serif}
+.mrc-cw-clear-confirmation::backdrop{background:rgba(0,0,0,.45)}
+.mrc-cw-clear-confirmation h2{font-size:20px;line-height:1.35;margin:0 0 12px}
+.mrc-cw-clear-confirmation p{margin:0 0 22px;line-height:1.5}
+.mrc-cw-clear-actions{display:flex;justify-content:flex-end;gap:10px}
+.mrc-cw-clear-actions button{min-height:44px}
+.mrc-cw-clear-confirm{background:#b42318;color:#fff;border-color:#b42318}
+@media (max-width:800px) and (pointer:coarse){
+ body.mrc-crossword-game .mrc-cw-progress-controls{display:flex;align-items:center;justify-content:flex-end;gap:4px;min-width:0}
+ body.mrc-crossword-game .mrc-cw-progress-controls #fresh{width:44px;height:44px;min-width:44px;min-height:44px;padding:10px;border:0;background:transparent}
+ body.mrc-crossword-game .mrc-cw-progress-controls #fresh span{display:none}
+}
 @media (min-width:801px), (pointer:fine) {
   body.mrc-crossword-game #board .cell{container-type:inline-size}
   body.mrc-crossword-game #board .cell .char{font-size:46cqw;line-height:1;padding-top:4cqw}

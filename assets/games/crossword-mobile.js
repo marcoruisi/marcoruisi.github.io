@@ -79,7 +79,29 @@
  const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
  const info=document.createElement('div');info.className='mrc-cw-info-row';
  const word=document.createElement('span');word.className='mrc-cw-word-info';
- if(status){status.parentElement.insertBefore(info,status);info.append(word,status);}
+ const progressControls=document.createElement('div');progressControls.className='mrc-cw-progress-controls';
+ if(status){status.parentElement.insertBefore(info,status);progressControls.append(status);info.append(word,progressControls);}
+ const clear=document.getElementById('fresh'),clearHome=clear?.parentElement;
+ if(clear){
+  clear.classList.add('mrc-cw-clear');clear.setAttribute('aria-label',it?'Svuota schema':'Clear grid');
+  clear.title=it?'Svuota schema':'Clear grid';
+  clear.innerHTML='<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+  const label=document.createElement('span');label.textContent=it?'Svuota schema':'Clear grid';clear.append(label);
+  const dialog=document.createElement('dialog');dialog.className='mrc-cw-clear-confirmation';
+  dialog.setAttribute('aria-labelledby','mrc-cw-clear-title');dialog.setAttribute('aria-describedby','mrc-cw-clear-description');
+  const title=document.createElement('h2');title.id='mrc-cw-clear-title';title.textContent=it?'Svuotare lo schema?':'Clear the grid?';
+  const description=document.createElement('p');description.id='mrc-cw-clear-description';description.textContent=it?'Verranno cancellate tutte le lettere inserite. Il cruciverba resterà lo stesso.':'All entered letters will be removed. The crossword will stay the same.';
+  const actions=document.createElement('div');actions.className='mrc-cw-clear-actions';
+  const cancel=document.createElement('button');cancel.type='button';cancel.textContent=it?'Annulla':'Cancel';cancel.autofocus=true;
+  const confirm=document.createElement('button');confirm.type='button';confirm.className='mrc-cw-clear-confirm';confirm.textContent=it?'Svuota':'Clear';
+  actions.append(cancel,confirm);dialog.append(title,description,actions);body.append(dialog);
+  clear.addEventListener('click',()=>{if(!dialog.open)dialog.showModal()});
+  cancel.addEventListener('click',()=>dialog.close());
+  confirm.addEventListener('click',()=>{document.dispatchEvent(new Event('mrc-crossword-clear-confirmed'));dialog.close()});
+  dialog.addEventListener('close',()=>clear.focus({preventScroll:true}));
+  function placeClear(){(mq.matches?progressControls:clearHome).append(clear)}
+  mq.addEventListener('change',placeClear);placeClear();
+ }
  function syncControls(){
   topButtons.forEach((b,i)=>{const original=i===0?originalAcross:originalDown;
    b.disabled=!!original?.disabled;b.setAttribute('aria-pressed',original?.getAttribute('aria-pressed')||'false');});
