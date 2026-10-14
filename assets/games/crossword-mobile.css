@@ -1,4 +1,9 @@
 /* MRC Crossword: touch play workspace, intentionally scoped to game pages. */
+@media (min-width:801px), (pointer:fine) {
+  body.mrc-crossword-game #board .cell{container-type:inline-size}
+  body.mrc-crossword-game #board .cell .char{font-size:46cqw;line-height:1;padding-top:4cqw}
+  body.mrc-crossword-game #board .cell .num{font-size:24cqw;line-height:1}
+}
 @media (max-width:800px) and (pointer:coarse){
   body.mrc-crossword-game.game-ready.mrc-cw-touch-play{overflow:hidden!important}
   body.mrc-crossword-game.game-ready.mrc-cw-touch-play main>.layout{
