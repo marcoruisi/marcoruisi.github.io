@@ -6,7 +6,7 @@
 .mrc-games-offline-teaser h2{font-size:clamp(1.25rem,3vw,1.75rem);line-height:1.25;margin:.35rem 0 .65rem;color:#202124}
 .mrc-games-offline-teaser .mrc-games-offline-cta{display:inline-block;font-size:1rem;font-weight:400;line-height:1.5;color:#666;text-decoration:none}
 .mrc-games-offline-explainer{box-sizing:border-box;max-width:850px;margin:1.7rem 0 .5rem;padding:0;background:transparent;border:0;border-radius:0;color:inherit;scroll-margin-top:1.5rem}
-.mrc-games-offline-explainer h2{font-size:clamp(1.25rem,3vw,1.75rem);line-height:1.25;margin:.35rem 0 .85rem;color:inherit}
+.mrc-games-offline-explainer h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.25rem,3vw,1.75rem);line-height:1.25;margin:.35rem 0 .85rem;color:inherit}
 .mrc-games-offline-explainer p{margin:.7rem 0;line-height:1.65;color:inherit}
 .mrc-games-offline-explainer .mrc-games-offline-caveat{font-size:.9rem;opacity:.8}
 /* Service-worker state: a distinct action area, not another prose paragraph. */

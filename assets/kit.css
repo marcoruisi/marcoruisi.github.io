@@ -8,8 +8,8 @@
 
 /* Kit aligned with MRC technical pages; retain native full-bleed sticky header. */
 .kit-hero{padding-top:40px;padding-bottom:35px}
-.kit-hero h1{font:600 32px/1.2 Manrope,system-ui,sans-serif;letter-spacing:-.025em;margin:0 0 12px}
-.kit-section h2{font:600 clamp(23px,3vw,29px)/1.2 Manrope,system-ui,sans-serif;letter-spacing:-.025em}
+.kit-hero h1{font:600 32px/1.2 Georgia,"Times New Roman",serif;letter-spacing:-.025em;margin:0 0 12px}
+.kit-section h2{font:600 clamp(23px,3vw,29px)/1.2 Georgia,"Times New Roman",serif;letter-spacing:-.025em}
 .kit-card h3{font-weight:600}
 @media(max-width:700px){.kit-hero{padding-top:24px;padding-bottom:28px}}
 

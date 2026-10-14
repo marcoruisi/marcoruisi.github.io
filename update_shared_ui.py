@@ -257,6 +257,7 @@ def editorial_header(root, text, lang, pair=None):
         'tools_url': '/it/tools/' if lang == 'it' else '/tools/',
         'games_url': '/it/giochi/' if lang == 'it' else '/games/',
         'games_label': 'Giochi' if lang == 'it' else 'Games',
+        'kit_url': '/it/kit/' if lang == 'it' else '/kit/',
         'language_navigation': language_navigation,
     })
     content = template(root, 'site-header.html', {
@@ -286,7 +287,7 @@ def tool_header(root, lang, pair, current):
     everyday = '/it/tools/' if lang == 'it' else '/tools/'
     all_url = '/it/tools/tutti/' if lang == 'it' else '/tools/all/'
     games = '/it/giochi/' if lang == 'it' else '/games/'
-    global_links = ((everyday, 'Tools'), (games, 'Giochi' if lang == 'it' else 'Games'))
+    global_links = ((everyday, 'Tools'), (games, 'Giochi' if lang == 'it' else 'Games'), ('/it/kit/' if lang == 'it' else '/kit/', 'Kit'))
     nav = ''.join(f'<a href="{url}"' + (' aria-current="page"' if current == url or (url == everyday and current.startswith(('/tools/', '/it/tools/')) and current != all_url) else '') + f'>{html.escape(label)}</a>' for url, label in global_links)
     tool_context = current.startswith(('/tools/', '/it/tools/')) or current in FLOW_URLS.values()
     subnav = ''

@@ -44,7 +44,7 @@ body.guide-modal.guide-areas #photoEditor .photo-tip,body.guide-modal.guide-area
 <header class="mrc-tool-header">
     <nav class="mrc-tools-nav" aria-label="MRC Tools">
         <a class="mrc-tools-brand" href="/it/" aria-label="marcorui.si home">marcorui.si</a>
-        <a href="/it/tools/">Tools</a><a href="/it/giochi/">Giochi</a>
+        <a href="/it/tools/">Tools</a><a href="/it/giochi/">Giochi</a><a href="/it/kit/">Kit</a>
     </nav>
     <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/games/crossword/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/giochi/cruciverba/" lang="it" aria-current="page">IT</a></nav>
 </header>
@@ -475,7 +475,7 @@ const presetRoot=document.querySelector('#startScreen .start-actions');
 if(presetRoot){
  const safeName=name=>typeof name==='string'&&/^[a-zA-Z0-9][a-zA-Z0-9._-]*\.json$/.test(name)&&!name.includes('..');
  const groups={};
- for(const [category,heading] of [['classic',"Schemi pronti"],['themed',"Cruciverba tematici"]]){
+ for(const [category,heading] of [['daily',"Cruciverba del giorno"],['history',"Macchina del tempo · Accadde oggi"],['classic',"Schemi pronti"],['themed',"Cruciverba tematici"]]){
   const wrap=document.createElement('section');wrap.className='mrc-crossword-collection';wrap.dataset.category=category;
   const h=document.createElement('h3');h.textContent=heading;h.style.cssText='font-size:1.08rem;margin:0 0 .5rem';
   const list=document.createElement('div');list.className='mrc-crossword-collection-list';list.style.cssText='display:grid;gap:12px';
@@ -493,14 +493,15 @@ if(presetRoot){
  async function listExamples(){
   try{const r=await fetch('/assets/games/crosswords/index.json',{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw Error('HTTP '+r.status);
    const manifest=await r.json();if(!Array.isArray(manifest.games))throw Error('Invalid index');
-   const items=manifest.games.filter(x=>x.language===pageLang&&safeName(x.file)&&x.file!=='mrc-del-giorno.json');
+   const items=manifest.games.filter(x=>x.language===pageLang&&safeName(x.file)&&(x.file!=='mrc-del-giorno.json'||x.type==='daily-news'));
    for(const item of items){
-    const category=item.category==='classic'?'classic':'themed';
+    const category=item.type==='daily-news'?'daily':item.type==='time-machine'||item.category==='history'?'history':item.category==='classic'?'classic':'themed';
     const button=document.createElement('button');button.type='button';
     const strong=document.createElement('strong');strong.textContent=item.title||item.file;button.appendChild(strong);
     button.addEventListener('click',()=>loadExample(item.file).catch(e=>{groups[category].note.textContent="Impossibile aprire il cruciverba: "+e.message}));
     groups[category].list.appendChild(button);
    }
+   for(const name of ['daily','history'])groups[name].note.textContent=groups[name].list.children.length?'':'Nessuna anteprima pubblicata.';
    groups.classic.note.textContent=groups.classic.list.children.length?'':"Nessuno schema pronto disponibile.";
    groups.themed.note.textContent=groups.themed.list.children.length?'':"Nessun cruciverba tematico disponibile.";
   }catch(err){for(const group of Object.values(groups))group.note.textContent="Raccolta non disponibile: "+err.message;}

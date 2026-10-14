@@ -8,14 +8,14 @@
 @media (prefers-color-scheme:dark) { :root { --bg:#17191c; --panel:#22252a; --text:#f2f3f5; --muted:#adb3ba; --border:#41464d; --primary:#72aee6; --primary-hover:#9ec5e8; --success:#58c98d; --danger:#ff8a80; } }
 body { margin:0; padding:24px; font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--text); }
 .app,.mrc-tool-afterword { width:100%; max-width:920px; margin-left:auto; margin-right:auto; }
-.app h1 { margin:0 0 8px; font-size:28px; line-height:1.2; letter-spacing:normal; }
+.app h1 { font-family:Georgia,"Times New Roman",serif; margin:0 0 8px; font-size:28px; line-height:1.2; letter-spacing:normal; }
 .app .intro { margin:0 0 18px; color:var(--muted); line-height:1.5; }
 .mrc-tool-afterword { margin-top:72px; }
 .mrc-tool-afterword .mrc-tool-specific { font-size:14px; color:inherit; }
 .mrc-tool-afterword .mrc-tool-specific h2 { font-size:18px; }
 @media(max-width:700px) { body { padding:14px; } .mrc-tool-afterword { margin-top:48px; } }
 
-/* Shared editorial sections use Manrope, including dynamically inserted donations. */
+/* Shared interface text uses Manrope. */
 .mrc-related,.mrc-tool-feedback,.mrc-tool-afterword,.mrc-donation{font-family:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 
 /* Keep support cards aligned with the content column, including before a result. */
@@ -92,7 +92,7 @@ html:has(head link[rel="canonical"][href="https://marcorui.si/tools/"]) body>mai
 html:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/"]) body>main.app>h1,
 html:has(head link[rel="canonical"][href="https://marcorui.si/tools/all/"]) body>main.app>h1,
 html:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/tutti/"]) body>main.app>h1 {
-  font-family:Manrope,system-ui,sans-serif;font-size:32px;font-weight:600;
+  font-family:Georgia,"Times New Roman",serif;font-size:32px;font-weight:600;
   line-height:1.2;letter-spacing:-.025em;margin:0 0 12px;
 }
 html:has(head link[rel="canonical"][href="https://marcorui.si/tools/"]) body>main.app>.intro,
@@ -100,4 +100,11 @@ html:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/"]) body>
 html:has(head link[rel="canonical"][href="https://marcorui.si/tools/all/"]) body>main.app>.intro,
 html:has(head link[rel="canonical"][href="https://marcorui.si/it/tools/tutti/"]) body>main.app>.intro {
   font-size:16px;line-height:1.5;
+}
+
+/* Page titles and editorial sections; operational panels retain Manrope. */
+body>main:is(.mrc-gis,.topic-shell)>h1,
+.mrc-technical .section>h2,
+.mrc-related h2,.mrc-plugin-request h2,.mrc-tool-feedback h2,.mrc-tool-afterword h2 {
+  font-family:Georgia,"Times New Roman",serif;
 }

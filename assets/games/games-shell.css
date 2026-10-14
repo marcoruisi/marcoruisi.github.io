@@ -3,9 +3,9 @@
 body{background:var(--mrc-game-bg);padding:24px;font-family:Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body>main,body>footer{max-width:920px;margin-left:auto;margin-right:auto}
 body>main{padding:0}body>footer{padding:22px 0}
-body>main>h1{font-size:28px;line-height:1.2;letter-spacing:0;font-weight:650;margin:0 0 8px}
+body>main>h1{font-family:Georgia,"Times New Roman",serif;font-size:28px;line-height:1.2;letter-spacing:0;font-weight:650;margin:0 0 8px}
 body>main>.muted{margin:0 0 18px;line-height:1.5}
-body>main>.eyebrow{display:none}
+body>main:not(:has(> .mrc-games-intro))>.eyebrow{display:none}
 body .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:30px 0;border-top:1px solid var(--border)}
 body .card{min-height:145px;padding:24px 12px 20px 0;background:transparent;border:0;border-bottom:1px solid var(--border);border-radius:0;transition:none}
 body .card:hover{border-bottom-color:var(--text)}body .card strong{font-size:21px;font-weight:650}body .card p{font-size:14px}
@@ -77,7 +77,7 @@ body.mrc-2048-playing{overflow:hidden!important;overscroll-behavior:none}
 /* A single, substantial support section on the Games index. */
 .games-support-feature{margin:42px 0 20px;padding:clamp(25px,4vw,46px) 0 24px;border-top:1px solid var(--border);max-width:740px}
 .games-support-feature .games-support-overline{display:block;font-size:12px;letter-spacing:.08em;color:var(--muted);margin-bottom:22px}
-.games-support-feature h2{font-size:clamp(23px,3vw,34px);font-weight:650;line-height:1.2;margin:0 0 18px}
+.games-support-feature h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(23px,3vw,34px);font-weight:650;line-height:1.2;margin:0 0 18px}
 .games-support-feature>p{font-size:16px;max-width:590px;line-height:1.65}
 .games-support-feature .games-support-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:11px 20px;margin:16px 0;border:1px solid var(--text);background:var(--text);color:var(--mrc-game-bg);text-decoration:none;font-weight:600}
 .games-support-feature .games-support-fine{font-size:13px;color:var(--muted);margin:0}
@@ -164,3 +164,8 @@ body > footer.mrc-site-footer a:focus-visible{outline:2px solid currentColor;out
   body .cards {min-width:0;max-width:100%;}
   body .cards .card {min-width:0;max-width:100%;box-sizing:border-box;}
 }
+
+/* Games index: leave room below the header without moving individual games. */
+body>main:has(> .mrc-games-intro){padding-top:40px}
+body>main:has(> .mrc-games-intro)>h1{font:600 32px/1.2 Georgia,"Times New Roman",serif;letter-spacing:-.025em;margin:0 0 12px}
+@media(max-width:700px){body>main:has(> .mrc-games-intro){padding-top:24px}}

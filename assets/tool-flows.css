@@ -47,7 +47,7 @@
 /* A static, shared invitation. No runtime storage or automatic file hand-off. */
 .mrc-flow-prompt{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 30px;width:100%;max-width:920px;margin:44px auto 0;padding:24px 0;border-top:1px solid var(--border,var(--line,#ddd));border-bottom:1px solid var(--border,var(--line,#ddd));font-family:"Manrope",system-ui,sans-serif;line-height:1.65;color:inherit}
 .mrc-flow-prompt>div{flex:1 1 460px;min-width:0;max-width:680px}
-.mrc-flow-prompt h2{margin:0 0 8px;font-family:"Manrope",system-ui,sans-serif;font-size:20px;font-weight:600;line-height:1.35;letter-spacing:-.02em}
+.mrc-flow-prompt h2{margin:0 0 8px;font-family:Georgia,"Times New Roman",serif;font-size:20px;font-weight:600;line-height:1.35;letter-spacing:-.02em}
 .mrc-flow-prompt p{margin:0;font-size:14px;overflow-wrap:anywhere}
 .mrc-flow-prompt .mrc-flows-eyebrow{margin:0 0 8px;font-size:10px}
 .mrc-flow-prompt .mrc-flow-prompt-link{display:inline-flex;align-items:center;min-height:44px;flex:0 0 auto;max-width:100%;color:inherit;font-family:inherit;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
