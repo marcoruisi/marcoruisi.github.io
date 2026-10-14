@@ -22,7 +22,7 @@ function validate(x,playable=false){
    if(dir==='a'?c>0&&!x.blacks[i-1]:r>0&&!x.blacks[i-x.cols])continue;
    const cells=[];for(let j=i;j<n&&!x.blacks[j]&&(dir==='d'||Math.floor(j/x.cols)===r);j+=step)cells.push(j);
    if(cells.length<2)continue;
-   if(!String(clues[dir+':'+i]||'').trim())return null;
+   if(!Object.hasOwn(clues,dir+':'+i))clues[dir+':'+i]='';
    cells.forEach(j=>covered.add(j));count++;
   }
   if(!count||x.blacks.some((b,i)=>!b&&!covered.has(i)))return null;
@@ -57,5 +57,5 @@ function download(input,options={}){
  const url=URL.createObjectURL(new Blob([JSON.stringify(s,null,2)],{type:'application/json'}));
  const a=document.createElement('a');a.href=url;a.download='mrc-'+stem+(options.progress?'-progressi':'')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
 }
-window.MRCCrosswordJSON={validate,load,download};
+window.MRCCrosswordJSON={validate,load,download,document:documentData};
 })();

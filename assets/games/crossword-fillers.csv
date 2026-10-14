@@ -1,405 +1,663 @@
-word,clue_it,lang,source,category,topic
-AGO,Si infila per cucire,it,MRC,raccordo,
-ALA,Permette agli uccelli di volare,it,MRC,raccordo,
-ALI,Le apre un uccello in volo,it,MRC,raccordo,
-APE,Insetto che produce miele,it,MRC,raccordo,
-API,Insetti degli alveari,it,MRC,raccordo,
-ARA,Pappagallo dalla lunga coda,it,MRC,raccordo,
-ARE,Unità di superficie di cento metri quadrati,it,MRC,raccordo,
-BAR,Locale dove si ordina un caffè,it,MRC,raccordo,
-BIS,Richiesta di ripetere un'esibizione,it,MRC,raccordo,
-BOA,Galleggiante che segnala un punto in acqua,it,MRC,raccordo,
-BOE,Segnali galleggianti in mare,it,MRC,raccordo,
-BUS,Mezzo pubblico su gomma,it,MRC,raccordo,
-CAI,Sigla del Club Alpino Italiano,it,MRC,raccordo,
-CAL,La si aggiunge alla malta,it,MRC,raccordo,
-CON,Preposizione che indica compagnia,it,MRC,raccordo,
-CUI,Pronome relativo preceduto da preposizione,it,MRC,raccordo,
-DAL,Preposizione articolata con da e il,it,MRC,raccordo,
-DEA,Divinità femminile,it,MRC,raccordo,
-DEI,Preposizione articolata con di e i,it,MRC,raccordo,
-DEL,Preposizione articolata con di e il,it,MRC,raccordo,
-DIO,Divinità al maschile,it,MRC,raccordo,
-DUE,Il numero fra uno e tre,it,MRC,raccordo,
-ECO,Ritorno di un suono riflesso,it,MRC,raccordo,
-ERA,Lungo periodo della storia,it,MRC,raccordo,
-ERO,Prima persona del passato di essere,it,MRC,raccordo,
-ETA,Anni compiuti da una persona,it,MRC,raccordo,
-EVA,Prima donna secondo la Genesi,it,MRC,raccordo,
-FAX,Documento trasmesso per via telefonica,it,MRC,raccordo,
-FILO,Si infila nella cruna,it,MRC,generale,
-FINE,Conclusione di una storia,it,MRC,generale,
-FOCA,Mammifero marino con pinne,it,MRC,generale,
-FOTO,Immagine ottenuta con una macchina fotografica,it,MRC,generale,
-FUMO,Sale da un camino acceso,it,MRC,generale,
-GALA,Ricevimento o serata solenne,it,MRC,generale,
-GARA,Competizione con vincitori,it,MRC,generale,
-GELO,Freddo molto intenso,it,MRC,generale,
-GIRO,Percorso che ritorna al punto di partenza,it,MRC,generale,
-GITA,Breve escursione fuori città,it,MRC,generale,
-GOLA,Parte del corpo attraversata dal cibo,it,MRC,generale,
-GOMMA,Materiale elastico usato per cancellare,it,MRC,generale,
-GRU,Macchina per sollevare carichi,it,MRC,raccordo,
-IDEA,Si accende nella mente,it,MRC,generale,
-IERI,Il giorno prima di oggi,it,MRC,generale,
-INNO,Canto solenne di una comunità,it,MRC,generale,
-ISOLA,Terra circondata dall'acqua,it,MRC,generale,
-LAGO,Specchio d'acqua interno,it,MRC,generale,
-LANA,Fibra ricavata dal vello delle pecore,it,MRC,generale,
-LATO,Uno dei segmenti di un poligono,it,MRC,generale,
-LAVA,Roccia fusa sulla superficie terrestre,it,MRC,generale,
-LEI,Pronome femminile singolare,it,MRC,raccordo,
-LEVA,Macchina semplice con fulcro,it,MRC,generale,
-LIDO,Tratto di costa attrezzato per il bagno,it,MRC,generale,
-LIMA,Utensile che consuma superfici dure,it,MRC,generale,
-LINO,Fibra tessile ricavata da una pianta,it,MRC,generale,
-LIRA,Vecchia moneta italiana,it,MRC,generale,
-LUNA,Satellite naturale della Terra,it,MRC,generale,
-MARE,Distesa di acqua salata,it,MRC,generale,
-MELE,Frutti del melo,it,MRC,generale,
-META,Punto di arrivo di un percorso,it,MRC,generale,
-MIEI,Aggettivo possessivo plurale,it,MRC,generale,
-MIMO,Artista che recita senza parole,it,MRC,generale,
-MOLA,Pietra per affilare lame,it,MRC,generale,
-MOTO,Veicolo a due ruote con motore,it,MRC,generale,
-NAVE,Imbarcazione di grandi dimensioni,it,MRC,generale,
-NERO,Colore opposto al bianco,it,MRC,generale,
-NIDO,Rifugio costruito dagli uccelli,it,MRC,generale,
-NODO,Intreccio che lega due capi,it,MRC,generale,
-NOME,Identifica una persona o una cosa,it,MRC,generale,
-NOTA,Un suono sulla scala musicale,it,MRC,generale,
-NOVE,Il numero prima di dieci,it,MRC,generale,
-OCHE,Animali da cortile dal collo lungo,it,MRC,generale,
-ODIO,Sentimento contrario all'amore,it,MRC,generale,
-OLIO,Condimento liquido estratto dalle olive,it,MRC,generale,
-ONDA,Movimento della superficie del mare,it,MRC,generale,
-ORCA,Grande cetaceo bianco e nero,it,MRC,generale,
-ORMA,Impronta lasciata da un piede,it,MRC,generale,
-ORO,Metallo prezioso di colore giallo,it,MRC,raccordo,
-ORTO,Terreno coltivato a verdure,it,MRC,generale,
-OSSA,Parti dure dello scheletro,it,MRC,generale,
-OTTO,Il numero dopo sette,it,MRC,generale,
-OVALE,Figura simile a un cerchio allungato,it,MRC,generale,
-PALA,Attrezzo per spostare terra,it,MRC,generale,
-PANE,Alimento fatto di farina e acqua,it,MRC,generale,
-PARI,Numero divisibile per due,it,MRC,generale,
-PENA,Una punizione o un dolore,it,MRC,generale,
-PESO,Forza esercitata dalla gravità,it,MRC,generale,
-PILA,Generatore elettrico portatile,it,MRC,generale,
-PINO,Albero dalle foglie aghiformi,it,MRC,generale,
-PIPA,Si usa per fumare tabacco,it,MRC,generale,
-POLO,Estremità dell'asse terrestre,it,MRC,generale,
-POMO,Un frutto in linguaggio letterario,it,MRC,generale,
-PONTE,Struttura per attraversare un ostacolo,it,MRC,generale,
-RAME,Metallo rossastro ottimo conduttore,it,MRC,generale,
-RANA,Anfibio che salta,it,MRC,generale,
-RARA,Poco comune al femminile,it,MRC,generale,
-RETE,Intreccio di fili o collegamenti,it,MRC,generale,
-RIMA,Identità di suoni alla fine dei versi,it,MRC,generale,
-RISO,Cereale usato per il risotto,it,MRC,generale,
-RIVA,Confine tra terra e acqua,it,MRC,generale,
-ROSA,Fiore con spine sul fusto,it,MRC,generale,
-RUPE,Parete di roccia scoscesa,it,MRC,generale,
-SALE,Condimento estratto dal mare,it,MRC,generale,
-SEME,Origine di una nuova pianta,it,MRC,generale,
-SETA,Fibra prodotta dai bachi,it,MRC,generale,
-SERA,Parte del giorno dopo il pomeriggio,it,MRC,generale,
-SETE,Bisogno di bere acqua,it,MRC,generale,
-SILO,Struttura per conservare cereali,it,MRC,generale,
-SITO,Indirizzo o luogo nel web,it,MRC,generale,
-SOLE,Stella al centro del sistema solare,it,MRC,generale,
-SOLO,Privo di compagnia,it,MRC,generale,
-SONO,Prima persona plurale di essere,it,MRC,generale,
-SUD,Punto cardinale opposto al nord,it,MRC,raccordo,
-TANA,Rifugio di molti animali,it,MRC,generale,
-TARA,Peso dell'imballaggio,it,MRC,generale,
-TASTO,Pulsante di una tastiera,it,MRC,generale,
-TELO,Grande pezzo di tessuto,it,MRC,generale,
-TEMA,Argomento di una composizione,it,MRC,generale,
-TIMO,Pianta aromatica mediterranea,it,MRC,generale,
-TINO,Recipiente per la fermentazione,it,MRC,generale,
-TIPO,Modello o genere di qualcosa,it,MRC,generale,
-TIRO,Il lancio di una palla,it,MRC,generale,
-TOPO,Piccolo roditore,it,MRC,generale,
-TORO,Maschio adulto del bovino,it,MRC,generale,
-TUTA,Indumento per lo sport,it,MRC,generale,
-ULNA,Osso dell'avambraccio,it,MRC,generale,
-UOVA,Prodotti deposti dagli uccelli,it,MRC,generale,
-URNA,Recipiente usato nelle votazioni,it,MRC,generale,
-USO,Impiego abituale di qualcosa,it,MRC,raccordo,
-UVA,Frutto della vite,it,MRC,raccordo,
-VALE,Ha valore,it,MRC,generale,
-VALLE,Depressione tra rilievi,it,MRC,generale,
-VANO,Inutile o privo di effetto,it,MRC,generale,
-VARO,Primo ingresso in acqua di una nave,it,MRC,generale,
-VASO,Contenitore per fiori,it,MRC,generale,
-VELO,Tessuto leggero e trasparente,it,MRC,generale,
-VENTO,Aria in movimento,it,MRC,generale,
-VERO,Contrario di falso,it,MRC,generale,
-VIA,Strada cittadina,it,MRC,raccordo,
-VINO,Bevanda ottenuta dall'uva,it,MRC,generale,
-VISO,Parte anteriore della testa,it,MRC,generale,
-VITA,Esistenza di un essere vivente,it,MRC,generale,
-VOCE,Suono prodotto parlando,it,MRC,generale,
-VOTO,Preferenza espressa alle elezioni,it,MRC,generale,
-ZERO,Numero che precede uno,it,MRC,generale,
-ZONA,Area delimitata,it,MRC,generale,
-AG,Simbolo chimico del argento,it,MRC,raccordo,
-AL,Simbolo chimico del alluminio,it,MRC,raccordo,
-AR,Simbolo chimico del argon,it,MRC,raccordo,
-AS,Simbolo chimico del arsenico,it,MRC,raccordo,
-AU,Simbolo chimico del oro,it,MRC,raccordo,
-BA,Simbolo chimico del bario,it,MRC,raccordo,
-BE,Simbolo chimico del berillio,it,MRC,raccordo,
-BR,Simbolo chimico del bromo,it,MRC,raccordo,
-CA,Simbolo chimico del calcio,it,MRC,raccordo,
-CD,Simbolo chimico del cadmio,it,MRC,raccordo,
-CL,Simbolo chimico del cloro,it,MRC,raccordo,
-CO,Simbolo chimico del cobalto,it,MRC,raccordo,
-CR,Simbolo chimico del cromo,it,MRC,raccordo,
-CS,Simbolo chimico del cesio,it,MRC,raccordo,
-CU,Simbolo chimico del rame,it,MRC,raccordo,
-FE,Simbolo chimico del ferro,it,MRC,raccordo,
-GA,Simbolo chimico del gallio,it,MRC,raccordo,
-GE,Simbolo chimico del germanio,it,MRC,raccordo,
-HE,Simbolo chimico del elio,it,MRC,raccordo,
-IN,Simbolo chimico del indio,it,MRC,raccordo,
-IR,Simbolo chimico del iridio,it,MRC,raccordo,
-KR,Simbolo chimico del cripton,it,MRC,raccordo,
-LA,Simbolo chimico del lantanio,it,MRC,raccordo,
-LI,Simbolo chimico del litio,it,MRC,raccordo,
-MG,Simbolo chimico del magnesio,it,MRC,raccordo,
-MN,Simbolo chimico del manganese,it,MRC,raccordo,
-MO,Simbolo chimico del molibdeno,it,MRC,raccordo,
-NA,Simbolo chimico del sodio,it,MRC,raccordo,
-NE,Simbolo chimico del neon,it,MRC,raccordo,
-NI,Simbolo chimico del nichel,it,MRC,raccordo,
-OS,Simbolo chimico del osmio,it,MRC,raccordo,
-PB,Simbolo chimico del piombo,it,MRC,raccordo,
-PD,Simbolo chimico del palladio,it,MRC,raccordo,
-PT,Simbolo chimico del platino,it,MRC,raccordo,
-RB,Simbolo chimico del rubidio,it,MRC,raccordo,
-RE,Simbolo chimico del renio,it,MRC,raccordo,
-RH,Simbolo chimico del rodio,it,MRC,raccordo,
-RN,Simbolo chimico del radon,it,MRC,raccordo,
-RU,Simbolo chimico del rutenio,it,MRC,raccordo,
-SB,Simbolo chimico del antimonio,it,MRC,raccordo,
-SC,Simbolo chimico del scandio,it,MRC,raccordo,
-SE,Simbolo chimico del selenio,it,MRC,raccordo,
-SI,Simbolo chimico del silicio,it,MRC,raccordo,
-SN,Simbolo chimico del stagno,it,MRC,raccordo,
-SR,Simbolo chimico del stronzio,it,MRC,raccordo,
-TA,Simbolo chimico del tantalio,it,MRC,raccordo,
-TE,Simbolo chimico del tellurio,it,MRC,raccordo,
-TH,Simbolo chimico del torio,it,MRC,raccordo,
-TI,Simbolo chimico del titanio,it,MRC,raccordo,
-TL,Simbolo chimico del tallio,it,MRC,raccordo,
-TM,Simbolo chimico del tulio,it,MRC,raccordo,
-XE,Simbolo chimico del xeno,it,MRC,raccordo,
-ZN,Simbolo chimico del zinco,it,MRC,raccordo,
-AB,"Antonio Banderas, volto del cinema spagnolo",it,MRC,raccordo,
-BB,"Brigitte Bardot, diva francese",it,MRC,raccordo,
-CC,"Claudia Cardinale, icona del cinema italiano",it,MRC,raccordo,
-EF,"Enrico Fermi, fisico Nobel",it,MRC,raccordo,
-FM,"Freddie Mercury, voce dei Queen",it,MRC,raccordo,
-GB,"George Best, leggenda del calcio",it,MRC,raccordo,
-GC,"George Clooney, attore e regista",it,MRC,raccordo,
-GG,"Greta Garbo, diva del cinema muto",it,MRC,raccordo,
-JC,"James Cameron, regista di Titanic",it,MRC,raccordo,
-JL,"John Lennon, uno dei Beatles",it,MRC,raccordo,
-JM,"John Malkovich, attore statunitense",it,MRC,raccordo,
-KS,"Kristen Stewart, attrice di Twilight",it,MRC,raccordo,
-LB,"Luc Besson, regista francese",it,MRC,raccordo,
-LM,"Lionel Messi, fuoriclasse del calcio",it,MRC,raccordo,
-MM,"Marilyn Monroe, diva indimenticabile",it,MRC,raccordo,
-MP,"Michael Phelps, campione olimpico del nuoto",it,MRC,raccordo,
-MS,"Martin Scorsese, maestro del cinema",it,MRC,raccordo,
-NM,"Nick Mason, batterista dei Pink Floyd",it,MRC,raccordo,
-OB,"Orlando Bloom, attore del Signore degli Anelli",it,MRC,raccordo,
-PC,"Paolo Conte, cantautore e pianista",it,MRC,raccordo,
-PF,"Peter Falk, interprete del tenente Colombo",it,MRC,raccordo,
-RF,"Roger Federer, campione del tennis",it,MRC,raccordo,
-RM,"Rami Malek, interprete di Freddie Mercury",it,MRC,raccordo,
-SL,"Stan Lee, creatore di supereroi",it,MRC,raccordo,
-SJ,"Scarlett Johansson, attrice degli Avengers",it,MRC,raccordo,
-SM,"Steve McQueen, divo della Grande fuga",it,MRC,raccordo,
-SS,"Steven Spielberg, regista di E.T.",it,MRC,raccordo,
-TC,"Tom Cruise, protagonista di Mission: Impossible",it,MRC,raccordo,
-TS,"Taylor Swift, popstar statunitense",it,MRC,raccordo,
-VB,"Victoria Beckham, ex Spice Girl",it,MRC,raccordo,
-WD,"Walt Disney, pioniere dell’animazione",it,MRC,raccordo,
-WH,"Whitney Houston, voce di I Will Always Love You",it,MRC,raccordo,
-ABACO,Antico strumento per eseguire calcoli,it,MRC,generale,
-ACETO,Condimento dal sapore aspro,it,MRC,generale,
-AEREO,Veicolo che vola grazie alle ali,it,MRC,generale,
-AFA,Caldo umido e soffocante,it,MRC,raccordo,
-AIDA,Opera di Giuseppe Verdi,it,MRC,generale,
-ALBA,Inizio del giorno,it,MRC,generale,
-ALCE,Grande cervide dalle corna ampie,it,MRC,generale,
-AMO,Uncino usato nella pesca,it,MRC,raccordo,
-ANICE,Pianta aromatica usata nei liquori,it,MRC,generale,
-ARCO,Lo tende chi scaglia frecce,it,MRC,generale,
-ARIA,Miscela gassosa che respiriamo,it,MRC,generale,
-ARPA,Strumento musicale a corde pizzicate,it,MRC,generale,
-ASSE,Elemento lungo e rigido di una struttura,it,MRC,generale,
-ASTRO,Corpo celeste,it,MRC,generale,
-ATTO,Una parte di un testo teatrale,it,MRC,generale,
-AUTO,Veicolo con quattro ruote,it,MRC,generale,
-AVENA,Cereale usato anche nei fiocchi,it,MRC,generale,
-BACIO,Un gesto di affetto con le labbra,it,MRC,generale,
-BACO,Larva allevata per la seta,it,MRC,generale,
-BAIA,Insienatura riparata del mare,it,MRC,generale,
-BALA,Sfera usata in certi giochi,it,MRC,generale,
-BENE,Il contrario di male,it,MRC,generale,
-BICI,Veicolo a pedali,it,MRC,generale,
-BORA,Vento freddo dell Adriatico,it,MRC,generale,
-CANE,Animale domestico che abbaia,it,MRC,generale,
-CAPO,Chi guida un gruppo,it,MRC,generale,
-CERA,Sostanza usata per fabbricare candele,it,MRC,generale,
-CIBO,Serve a nutrirsi,it,MRC,generale,
-CODA,Parte terminale del corpo di molti animali,it,MRC,generale,
-CUBO,Solido con sei facce quadrate,it,MRC,generale,
-DADO,Piccolo cubo da gioco,it,MRC,generale,
-DENTE,Elemento duro della dentatura,it,MRC,generale,
-DITO,Una parte della mano,it,MRC,generale,
-ERBA,Pianta di piccolo fusto non legnoso,it,MRC,generale,
-ESCA,Attira i pesci all amo,it,MRC,generale,
-FARO,Torre luminosa che guida le navi,it,MRC,generale,
-FASE,Una parte di un processo,it,MRC,generale,
-FILA,Serie ordinata di persone,it,MRC,generale,
-FIUME,Corso d’acqua naturale,it,MRC,generale,
-FORO,Piccola apertura in una superficie,it,MRC,generale,
-FUNE,Corda robusta,it,MRC,generale,
-GATTO,Felino domestico,it,MRC,generale,
-GENE,Unità di informazione ereditaria,it,MRC,generale,
-GHIRO,Piccolo roditore che va in letargo,it,MRC,generale,
-GIADA,Pietra ornamentale di colore verde,it,MRC,generale,
-IRIDE,Parte colorata dell occhio,it,MRC,generale,
-LAMA,Parte tagliente di un coltello,it,MRC,generale,
-LENTE,Vetro che ingrandisce,it,MRC,generale,
-LEONE,Grande felino della savana,it,MRC,generale,
-LUME,Fonte di luce,it,MRC,generale,
-MAGO,Personaggio che compie magie,it,MRC,generale,
-MANO,Estremità del braccio,it,MRC,generale,
-MESE,Una delle dodici parti dell anno,it,MRC,generale,
-MINA,Carica esplosiva nascosta,it,MRC,generale,
-MIRA,Direzione scelta per colpire un bersaglio,it,MRC,generale,
-MULO,Ibrido di cavallo e asina,it,MRC,generale,
-NEVE,Acqua ghiacciata che cade in fiocchi,it,MRC,generale,
-NORD,Punto cardinale opposto al sud,it,MRC,generale,
-NOTTE,Periodo fra tramonto e alba,it,MRC,generale,
-NUCA,Parte posteriore del collo,it,MRC,generale,
-OCCHIO,Organo della vista,it,MRC,generale,
-ODE,Componimento poetico di tono solenne,it,MRC,raccordo,
-OLMO,Albero delle ulmacee,it,MRC,generale,
-ONORE,Stima riconosciuta a una persona,it,MRC,generale,
-OPERA,Lavoro artistico compiuto,it,MRC,generale,
-ORSO,Grande mammifero onnivoro,it,MRC,generale,
-OSTE,Gestore tradizionale di una locanda,it,MRC,generale,
-PACE,Assenza di guerra,it,MRC,generale,
-PALCO,Piattaforma dove si esibiscono gli artisti,it,MRC,generale,
-PALO,Elemento di sostegno piantato nel terreno,it,MRC,generale,
-PARCO,Area verde aperta ai visitatori,it,MRC,generale,
-PASSO,Movimento compiuto camminando,it,MRC,generale,
-PECE,Sostanza nera e viscosa,it,MRC,generale,
-PESCE,Animale acquatico con branchie,it,MRC,generale,
-PIUMA,Rivestimento leggero degli uccelli,it,MRC,generale,
-POETA,Autore di componimenti in versi,it,MRC,generale,
-RAPA,Ortaggio dalla radice tondeggiante,it,MRC,generale,
-RESA,Capitolazione di chi smette di combattere,it,MRC,generale,
-RITO,Cerimonia regolata da usanze,it,MRC,generale,
-ROTA,Ruota in forma letteraria,it,MRC,generale,
-SALA,Stanza ampia di un edificio,it,MRC,generale,
-SUONO,Vibrazione percepibile dall udito,it,MRC,generale,
-TARO,Pianta tropicale dalla radice commestibile,it,MRC,generale,
-TETTO,Copertura superiore di un edificio,it,MRC,generale,
-ULIVO,Albero che produce olive,it,MRC,generale,
-URLO,Grido forte,it,MRC,generale,
-VENA,Vaso sanguigno che porta sangue al cuore,it,MRC,generale,
-ZAINO,Borsa portata sulle spalle,it,MRC,generale,
-DB,"David Bowie, icona del rock",it,MRC,raccordo,
-SENTIERO,Percorso stretto tracciato dal passaggio di persone o animali,it,MRC,generale,
-CANCELLO,Chiude l'accesso a un cortile o a un giardino,it,MRC,generale,
-CARTELLA,Custodia per fogli o raggruppamento di file,it,MRC,generale,
-LANTERNA,Protegge una fonte luminosa con pareti trasparenti,it,MRC,generale,
-BOTTIGLIA,Recipiente con collo stretto per conservare liquidi,it,MRC,generale,
-QUADERNO,Fogli rilegati usati per scrivere appunti,it,MRC,generale,
-BILANCIA,Strumento che misura la massa degli oggetti,it,MRC,generale,
-CERNIERA,Unisce due lembi con dentini e un cursore,it,MRC,generale,
-FINESTRA,Apertura vetrata che dà luce a una stanza,it,MRC,generale,
-PANCHINA,Sedile lungo che si trova spesso nei parchi,it,MRC,generale,
-CESTINO,Piccolo contenitore intrecciato o per rifiuti,it,MRC,generale,
-TOVAGLIA,Tessuto disteso sulla tavola prima del pasto,it,MRC,generale,
-OMBRELLONE,Ripara dal sole una parte della spiaggia,it,MRC,generale,
-SCORCIATOIA,Percorso alternativo che abbrevia il tragitto,it,MRC,generale,
-SEGNALIBRO,Indica dove si è interrotta la lettura,it,MRC,generale,
-CLESSIDRA,Misura il tempo con il passaggio della sabbia,it,MRC,generale,
-RIPRESA,Registrazione di immagini con una cinepresa,it,MRC,tematica,cinema
-CARRELLO,Supporto mobile per spostare la macchina da presa,it,MRC,tematica,cinema
-COMPARSA,Interprete che appare senza un ruolo principale,it,MRC,tematica,cinema
-PELLICOLA,Supporto fotosensibile del cinema analogico,it,MRC,tematica,cinema
-INQUADRATURA,Porzione di spazio delimitata dall'immagine del film,it,MRC,tematica,cinema
-CORTOMETRAGGIO,Film di durata breve,it,MRC,tematica,cinema
-SCENOGRAFIA,Progettazione degli ambienti visibili in scena,it,MRC,tematica,cinema
-CINEPRESA,Apparecchio usato per registrare immagini in movimento,it,MRC,tematica,cinema
-CONTROCAMPO,Inquadratura dal lato opposto rispetto alla precedente,it,MRC,tematica,cinema
-CINEFILO,Appassionato della storia e delle opere del cinema,it,MRC,tematica,cinema
-ISOTOPO,Atomo con uguale numero di protoni ma diverso numero di neutroni,it,MRC,tematica,scienza
-FOTONE,Quanto di energia della radiazione elettromagnetica,it,MRC,tematica,scienza
-NEBULOSA,Nube interstellare di gas e polvere,it,MRC,tematica,scienza
-TELESCOPIO,Strumento per osservare corpi celesti lontani,it,MRC,tematica,scienza
-SPETTRO,Distribuzione di una radiazione nelle sue diverse lunghezze d'onda,it,MRC,tematica,scienza
-REAZIONE,Processo chimico che trasforma reagenti in prodotti,it,MRC,tematica,scienza
-SOLUZIONE,Miscela omogenea di un solvente e sostanze disciolte,it,MRC,tematica,scienza
-SATELLITE,Corpo naturale o artificiale in orbita attorno a un altro,it,MRC,tematica,scienza
-PRESSIONE,Rapporto tra forza perpendicolare e superficie su cui agisce,it,MRC,tematica,scienza
-CONDUTTORE,Materiale che permette il passaggio della corrente elettrica,it,MRC,tematica,scienza
-QUERCIA,Albero che produce ghiande,it,MRC,tematica,natura
-ABETE,Conifera tipica di molti boschi montani,it,MRC,tematica,natura
-GHIANDA,Frutto della quercia,it,MRC,tematica,natura
-FELCE,Pianta con fronde che si riproduce tramite spore,it,MRC,tematica,natura
-LICHENE,Associazione stabile fra un fungo e un organismo fotosintetico,it,MRC,tematica,natura
-RUSCELLO,Piccolo corso d'acqua naturale,it,MRC,tematica,natura
-TORRENTE,Corso d'acqua con portata molto variabile,it,MRC,tematica,natura
-SCOGLIERA,Tratto di costa formato da rocce affioranti,it,MRC,tematica,natura
-IMPOLLINAZIONE,Trasporto del polline verso la parte ricettiva di un fiore,it,MRC,tematica,natura
-SOTTOBOSCO,Vegetazione che cresce al di sotto delle chiome degli alberi,it,MRC,tematica,natura
-GERMOGLIO,Giovane sviluppo di una pianta da una gemma o da un seme,it,MRC,tematica,natura
-MIGRAZIONE,Spostamento stagionale di animali fra aree diverse,it,MRC,tematica,natura
-ACERO,Albero dalle foglie palmate,it,MRC,raccordo,
-AGLIO,Bulbo diviso in spicchi,it,MRC,raccordo,
-AIUOLA,Piccolo spazio coltivato a fiori,it,MRC,raccordo,
-ALGA,Organismo acquatico che compie la fotosintesi,it,MRC,raccordo,
-ALONE,Cerchio luminoso intorno alla Luna,it,MRC,raccordo,
-ANCA,Articolazione tra bacino e femore,it,MRC,raccordo,
-ANSIA,Stato di apprensione,it,MRC,raccordo,
-ARCA,Il natante costruito da Noè,it,MRC,raccordo,
-ARENA,Spazio centrale di un anfiteatro,it,MRC,raccordo,
-ASOLA,Apertura in cui entra il bottone,it,MRC,raccordo,
-ASTA,Si aggiudica al miglior offerente,it,MRC,raccordo,
-BAVA,La produce la lumaca muovendosi,it,MRC,raccordo,
-BEFFA,Scherzo fatto per deridere,it,MRC,raccordo,
-BICA,Mucchio di covoni,it,MRC,raccordo,
-BIRO,Penna a sfera,it,MRC,raccordo,
-BRINA,Gelo sottile sulle superfici,it,MRC,raccordo,
-BUCA,Avvallamento nel terreno,it,MRC,raccordo,
-CAVO,Può trasportare corrente elettrica,it,MRC,raccordo,
-CIMA,La sommità del monte,it,MRC,raccordo,
-COVA,Incubazione delle uova,it,MRC,raccordo,
-DIGA,Trattiene l’acqua di un bacino,it,MRC,raccordo,
-DOTE,Talento naturale di una persona,it,MRC,raccordo,
-ELMO,Protezione metallica del capo,it,MRC,raccordo,
-FAVA,Legume racchiuso in un baccello,it,MRC,raccordo,
-FOCE,Sbocco del fiume,it,MRC,raccordo,
-FUSO,Arnese per filare a mano,it,MRC,raccordo,
-GORA,Canale che alimenta un mulino,it,MRC,raccordo,
-MICA,Minerale che si sfalda in lamine,it,MRC,raccordo,
-MOLO,Struttura portuale per l’attracco,it,MRC,raccordo,
-ORLO,Bordo ripiegato di un tessuto,it,MRC,raccordo,
-OTRE,Recipiente di pelle per liquidi,it,MRC,raccordo,
-REMO,Serve a spingere una barca a braccia,it,MRC,raccordo,
-ROVO,Arbusto spinoso che produce more,it,MRC,raccordo,
-SUOLA,Parte della scarpa a contatto con il terreno,it,MRC,raccordo,
-TRAVE,Elemento orizzontale che sostiene un solaio,it,MRC,raccordo,
-VELA,Sfrutta il vento per muovere la barca,it,MRC,raccordo,
-ZOLLA,Pezzo compatto di terra,it,MRC,raccordo,
+word,clue_it,lang,source,category,topic,tags
+AGO,Si infila per cucire,it,MRC,raccordo,,
+ALA,Permette agli uccelli di volare,it,MRC,raccordo,,
+ALI,Le apre un uccello in volo,it,MRC,raccordo,,
+APE,Insetto che produce miele,it,MRC,raccordo,,natura
+API,Insetti degli alveari,it,MRC,raccordo,,
+ARA,Pappagallo dalla lunga coda,it,MRC,raccordo,,
+ARE,Unità di superficie di cento metri quadrati,it,MRC,raccordo,,
+BAR,Locale dove si ordina un caffè,it,MRC,raccordo,,
+BIS,Richiesta di ripetere un'esibizione,it,MRC,raccordo,,
+BOA,Galleggiante che segnala un punto in acqua,it,MRC,raccordo,,
+BOE,Segnali galleggianti in mare,it,MRC,raccordo,,
+BUS,Mezzo pubblico su gomma,it,MRC,raccordo,,
+CAI,Sigla del Club Alpino Italiano,it,MRC,raccordo,,
+CAL,La si aggiunge alla malta,it,MRC,raccordo,,
+CON,Preposizione che indica compagnia,it,MRC,raccordo,,
+CUI,Pronome relativo preceduto da preposizione,it,MRC,raccordo,,
+DAL,Preposizione articolata con da e il,it,MRC,raccordo,,
+DEA,Divinità femminile,it,MRC,raccordo,,
+DEI,Preposizione articolata con di e i,it,MRC,raccordo,,
+DEL,Preposizione articolata con di e il,it,MRC,raccordo,,
+DIO,Divinità al maschile,it,MRC,raccordo,,
+DUE,Il numero fra uno e tre,it,MRC,raccordo,,
+ECO,Ritorno di un suono riflesso,it,MRC,raccordo,,curiosita
+ERA,Lungo periodo della storia,it,MRC,raccordo,,
+ERO,Prima persona del passato di essere,it,MRC,raccordo,,
+ETA,Anni compiuti da una persona,it,MRC,raccordo,,
+EVA,Prima donna secondo la Genesi,it,MRC,raccordo,,
+FAX,Documento trasmesso per via telefonica,it,MRC,raccordo,,
+FILO,Si infila nella cruna,it,MRC,generale,,
+FINE,Conclusione di una storia,it,MRC,generale,,
+FOCA,Mammifero marino con pinne,it,MRC,generale,,
+FOTO,Immagine ottenuta con una macchina fotografica,it,MRC,generale,,
+FUMO,Sale da un camino acceso,it,MRC,generale,,
+GALA,Ricevimento o serata solenne,it,MRC,generale,,
+GARA,Competizione con vincitori,it,MRC,generale,,sport
+GELO,Freddo molto intenso,it,MRC,generale,,
+GIRO,Percorso che ritorna al punto di partenza,it,MRC,generale,,
+GITA,Breve escursione fuori città,it,MRC,generale,,
+GOLA,Parte del corpo attraversata dal cibo,it,MRC,generale,,
+GOMMA,Materiale elastico usato per cancellare,it,MRC,generale,,
+GRU,Macchina per sollevare carichi,it,MRC,raccordo,,
+IDEA,Si accende nella mente,it,MRC,generale,,
+IERI,Il giorno prima di oggi,it,MRC,generale,,
+INNO,Canto solenne di una comunità,it,MRC,generale,,
+ISOLA,Terra circondata dall'acqua,it,MRC,generale,,geografia
+LAGO,Specchio d'acqua interno,it,MRC,generale,,natura
+LANA,Fibra ricavata dal vello delle pecore,it,MRC,generale,,
+LATO,Uno dei segmenti di un poligono,it,MRC,generale,,
+LAVA,Roccia fusa sulla superficie terrestre,it,MRC,generale,,
+LEI,Pronome femminile singolare,it,MRC,raccordo,,
+LEVA,Macchina semplice con fulcro,it,MRC,generale,,
+LIDO,Tratto di costa attrezzato per il bagno,it,MRC,generale,,
+LIMA,Utensile che consuma superfici dure,it,MRC,generale,,
+LINO,Fibra tessile ricavata da una pianta,it,MRC,generale,,
+LIRA,Vecchia moneta italiana,it,MRC,generale,,
+LUNA,Satellite naturale della Terra,it,MRC,generale,,
+MARE,Distesa di acqua salata,it,MRC,generale,,geografia
+MELE,Frutti del melo,it,MRC,generale,,
+META,Punto di arrivo di un percorso,it,MRC,generale,,
+MIEI,Aggettivo possessivo plurale,it,MRC,generale,,
+MIMO,Artista che recita senza parole,it,MRC,generale,,
+MOLA,Pietra per affilare lame,it,MRC,generale,,
+MOTO,Veicolo a due ruote con motore,it,MRC,generale,,
+NAVE,Imbarcazione di grandi dimensioni,it,MRC,generale,,
+NERO,Colore opposto al bianco,it,MRC,generale,,
+NIDO,Rifugio costruito dagli uccelli,it,MRC,generale,,
+NODO,Intreccio che lega due capi,it,MRC,generale,,
+NOME,Identifica una persona o una cosa,it,MRC,generale,,
+NOTA,Un suono sulla scala musicale,it,MRC,generale,,musica
+NOVE,Il numero prima di dieci,it,MRC,generale,,
+OCHE,Animali da cortile dal collo lungo,it,MRC,generale,,
+ODIO,Sentimento contrario all'amore,it,MRC,generale,,
+OLIO,Condimento liquido estratto dalle olive,it,MRC,generale,,
+ONDA,Movimento della superficie del mare,it,MRC,generale,,
+ORCA,Grande cetaceo bianco e nero,it,MRC,generale,,
+ORMA,Impronta lasciata da un piede,it,MRC,generale,,
+ORO,Metallo prezioso di colore giallo,it,MRC,raccordo,,
+ORTO,Terreno coltivato a verdure,it,MRC,generale,,
+OSSA,Parti dure dello scheletro,it,MRC,generale,,
+OTTO,Il numero dopo sette,it,MRC,generale,,
+OVALE,Figura simile a un cerchio allungato,it,MRC,generale,,
+PALA,Attrezzo per spostare terra,it,MRC,generale,,
+PANE,Alimento fatto di farina e acqua,it,MRC,generale,,
+PARI,Numero divisibile per due,it,MRC,generale,,
+PENA,Una punizione o un dolore,it,MRC,generale,,
+PESO,Forza esercitata dalla gravità,it,MRC,generale,,
+PILA,Generatore elettrico portatile,it,MRC,generale,,
+PINO,Albero dalle foglie aghiformi,it,MRC,generale,,
+PIPA,Si usa per fumare tabacco,it,MRC,generale,,
+POLO,Estremità dell'asse terrestre,it,MRC,generale,,geografia
+POMO,Un frutto in linguaggio letterario,it,MRC,generale,,
+PONTE,Struttura per attraversare un ostacolo,it,MRC,generale,,
+RAME,Metallo rossastro ottimo conduttore,it,MRC,generale,,
+RANA,Anfibio che salta,it,MRC,generale,,
+RARA,Poco comune al femminile,it,MRC,generale,,
+RETE,Intreccio di fili o collegamenti,it,MRC,generale,,sport tecnologia
+RIMA,Identità di suoni alla fine dei versi,it,MRC,generale,,letteratura
+RISO,Cereale usato per il risotto,it,MRC,generale,,
+RIVA,Confine tra terra e acqua,it,MRC,generale,,
+ROSA,Fiore con spine sul fusto,it,MRC,generale,,
+RUPE,Parete di roccia scoscesa,it,MRC,generale,,
+SALE,Condimento estratto dal mare,it,MRC,generale,,
+SEME,Origine di una nuova pianta,it,MRC,generale,,natura
+SETA,Fibra prodotta dai bachi,it,MRC,generale,,
+SERA,Parte del giorno dopo il pomeriggio,it,MRC,generale,,
+SETE,Bisogno di bere acqua,it,MRC,generale,,
+SILO,Struttura per conservare cereali,it,MRC,generale,,
+SITO,Indirizzo o luogo nel web,it,MRC,generale,,
+SOLE,Stella al centro del sistema solare,it,MRC,generale,,
+SOLO,Privo di compagnia,it,MRC,generale,,
+SONO,Prima persona plurale di essere,it,MRC,generale,,
+SUD,Punto cardinale opposto al nord,it,MRC,raccordo,,
+TANA,Rifugio di molti animali,it,MRC,generale,,
+TARA,Peso dell'imballaggio,it,MRC,generale,,
+TASTO,Pulsante di una tastiera,it,MRC,generale,,
+TELO,Grande pezzo di tessuto,it,MRC,generale,,
+TEMA,Argomento di una composizione,it,MRC,generale,,
+TIMO,Pianta aromatica mediterranea,it,MRC,generale,,
+TINO,Recipiente per la fermentazione,it,MRC,generale,,
+TIPO,Modello o genere di qualcosa,it,MRC,generale,,
+TIRO,Il lancio di una palla,it,MRC,generale,,
+TOPO,Piccolo roditore,it,MRC,generale,,
+TORO,Maschio adulto del bovino,it,MRC,generale,,
+TUTA,Indumento per lo sport,it,MRC,generale,,
+ULNA,Osso dell'avambraccio,it,MRC,generale,,
+UOVA,Prodotti deposti dagli uccelli,it,MRC,generale,,
+URNA,Recipiente usato nelle votazioni,it,MRC,generale,,
+USO,Impiego abituale di qualcosa,it,MRC,raccordo,,
+UVA,Frutto della vite,it,MRC,raccordo,,
+VALE,Ha valore,it,MRC,generale,,
+VALLE,Depressione tra rilievi,it,MRC,generale,,geografia
+VANO,Inutile o privo di effetto,it,MRC,generale,,
+VARO,Primo ingresso in acqua di una nave,it,MRC,generale,,
+VASO,Contenitore per fiori,it,MRC,generale,,
+VELO,Tessuto leggero e trasparente,it,MRC,generale,,
+VENTO,Aria in movimento,it,MRC,generale,,
+VERO,Contrario di falso,it,MRC,generale,,
+VIA,Strada cittadina,it,MRC,raccordo,,
+VINO,Bevanda ottenuta dall'uva,it,MRC,generale,,
+VISO,Parte anteriore della testa,it,MRC,generale,,
+VITA,Esistenza di un essere vivente,it,MRC,generale,,
+VOCE,Suono prodotto parlando,it,MRC,generale,,
+VOTO,Preferenza espressa alle elezioni,it,MRC,generale,,
+ZERO,Numero che precede uno,it,MRC,generale,,
+ZONA,Area delimitata,it,MRC,generale,,
+AG,Simbolo chimico del argento,it,MRC,raccordo,,
+AL,Simbolo chimico del alluminio,it,MRC,raccordo,,
+AR,Simbolo chimico del argon,it,MRC,raccordo,,
+AS,Simbolo chimico del arsenico,it,MRC,raccordo,,
+AU,Simbolo chimico del oro,it,MRC,raccordo,,
+BA,Simbolo chimico del bario,it,MRC,raccordo,,
+BE,Simbolo chimico del berillio,it,MRC,raccordo,,
+BR,Simbolo chimico del bromo,it,MRC,raccordo,,
+CA,Simbolo chimico del calcio,it,MRC,raccordo,,
+CD,Simbolo chimico del cadmio,it,MRC,raccordo,,
+CL,Simbolo chimico del cloro,it,MRC,raccordo,,
+CO,Simbolo chimico del cobalto,it,MRC,raccordo,,
+CR,Simbolo chimico del cromo,it,MRC,raccordo,,
+CS,Simbolo chimico del cesio,it,MRC,raccordo,,
+CU,Simbolo chimico del rame,it,MRC,raccordo,,
+FE,Simbolo chimico del ferro,it,MRC,raccordo,,
+GA,Simbolo chimico del gallio,it,MRC,raccordo,,
+GE,Simbolo chimico del germanio,it,MRC,raccordo,,
+HE,Simbolo chimico del elio,it,MRC,raccordo,,
+IN,Simbolo chimico del indio,it,MRC,raccordo,,
+IR,Simbolo chimico del iridio,it,MRC,raccordo,,
+KR,Simbolo chimico del cripton,it,MRC,raccordo,,
+LA,Simbolo chimico del lantanio,it,MRC,raccordo,,
+LI,Simbolo chimico del litio,it,MRC,raccordo,,
+MG,Simbolo chimico del magnesio,it,MRC,raccordo,,
+MN,Simbolo chimico del manganese,it,MRC,raccordo,,
+MO,Simbolo chimico del molibdeno,it,MRC,raccordo,,
+NA,Simbolo chimico del sodio,it,MRC,raccordo,,
+NE,Simbolo chimico del neon,it,MRC,raccordo,,
+NI,Simbolo chimico del nichel,it,MRC,raccordo,,
+OS,Simbolo chimico del osmio,it,MRC,raccordo,,
+PB,Simbolo chimico del piombo,it,MRC,raccordo,,
+PD,Simbolo chimico del palladio,it,MRC,raccordo,,
+PT,Simbolo chimico del platino,it,MRC,raccordo,,
+RB,Simbolo chimico del rubidio,it,MRC,raccordo,,
+RE,Simbolo chimico del renio,it,MRC,raccordo,,storia
+RH,Simbolo chimico del rodio,it,MRC,raccordo,,
+RN,Simbolo chimico del radon,it,MRC,raccordo,,
+RU,Simbolo chimico del rutenio,it,MRC,raccordo,,
+SB,Simbolo chimico del antimonio,it,MRC,raccordo,,
+SC,Simbolo chimico del scandio,it,MRC,raccordo,,
+SE,Simbolo chimico del selenio,it,MRC,raccordo,,
+SI,Simbolo chimico del silicio,it,MRC,raccordo,,
+SN,Simbolo chimico del stagno,it,MRC,raccordo,,
+SR,Simbolo chimico del stronzio,it,MRC,raccordo,,
+TA,Simbolo chimico del tantalio,it,MRC,raccordo,,
+TE,Simbolo chimico del tellurio,it,MRC,raccordo,,
+TH,Simbolo chimico del torio,it,MRC,raccordo,,
+TI,Simbolo chimico del titanio,it,MRC,raccordo,,
+TL,Simbolo chimico del tallio,it,MRC,raccordo,,
+TM,Simbolo chimico del tulio,it,MRC,raccordo,,
+XE,Simbolo chimico del xeno,it,MRC,raccordo,,
+ZN,Simbolo chimico del zinco,it,MRC,raccordo,,
+AB,"Antonio Banderas, volto del cinema spagnolo",it,MRC,raccordo,,
+BB,"Brigitte Bardot, diva francese",it,MRC,raccordo,,
+CC,"Claudia Cardinale, icona del cinema italiano",it,MRC,raccordo,,
+EF,"Enrico Fermi, fisico Nobel",it,MRC,raccordo,,
+FM,"Freddie Mercury, voce dei Queen",it,MRC,raccordo,,
+GB,"George Best, leggenda del calcio",it,MRC,raccordo,,
+GC,"George Clooney, attore e regista",it,MRC,raccordo,,
+GG,"Greta Garbo, diva del cinema muto",it,MRC,raccordo,,
+JC,"James Cameron, regista di Titanic",it,MRC,raccordo,,
+JL,"John Lennon, uno dei Beatles",it,MRC,raccordo,,
+JM,"John Malkovich, attore statunitense",it,MRC,raccordo,,
+KS,"Kristen Stewart, attrice di Twilight",it,MRC,raccordo,,
+LB,"Luc Besson, regista francese",it,MRC,raccordo,,
+LM,"Lionel Messi, fuoriclasse del calcio",it,MRC,raccordo,,
+MM,"Marilyn Monroe, diva indimenticabile",it,MRC,raccordo,,
+MP,"Michael Phelps, campione olimpico del nuoto",it,MRC,raccordo,,
+MS,"Martin Scorsese, maestro del cinema",it,MRC,raccordo,,
+NM,"Nick Mason, batterista dei Pink Floyd",it,MRC,raccordo,,
+OB,"Orlando Bloom, attore del Signore degli Anelli",it,MRC,raccordo,,
+PC,"Paolo Conte, cantautore e pianista",it,MRC,raccordo,,
+PF,"Peter Falk, interprete del tenente Colombo",it,MRC,raccordo,,
+RF,"Roger Federer, campione del tennis",it,MRC,raccordo,,
+RM,"Rami Malek, interprete di Freddie Mercury",it,MRC,raccordo,,
+SL,"Stan Lee, creatore di supereroi",it,MRC,raccordo,,
+SJ,"Scarlett Johansson, attrice degli Avengers",it,MRC,raccordo,,
+SM,"Steve McQueen, divo della Grande fuga",it,MRC,raccordo,,
+SS,"Steven Spielberg, regista di E.T.",it,MRC,raccordo,,
+TC,"Tom Cruise, protagonista di Mission: Impossible",it,MRC,raccordo,,
+TS,"Taylor Swift, popstar statunitense",it,MRC,raccordo,,
+VB,"Victoria Beckham, ex Spice Girl",it,MRC,raccordo,,
+WD,"Walt Disney, pioniere dell’animazione",it,MRC,raccordo,,
+WH,"Whitney Houston, voce di I Will Always Love You",it,MRC,raccordo,,
+ABACO,Antico strumento per eseguire calcoli,it,MRC,generale,,
+ACETO,Condimento dal sapore aspro,it,MRC,generale,,
+AEREO,Veicolo che vola grazie alle ali,it,MRC,generale,,
+AFA,Caldo umido e soffocante,it,MRC,raccordo,,
+AIDA,Opera di Giuseppe Verdi,it,MRC,generale,,
+ALBA,Inizio del giorno,it,MRC,generale,,
+ALCE,Grande cervide dalle corna ampie,it,MRC,generale,,
+AMO,Uncino usato nella pesca,it,MRC,raccordo,,
+ANICE,Pianta aromatica usata nei liquori,it,MRC,generale,,
+ARCO,Lo tende chi scaglia frecce,it,MRC,generale,,storia
+ARIA,Miscela gassosa che respiriamo,it,MRC,generale,,
+ARPA,Strumento musicale a corde pizzicate,it,MRC,generale,,
+ASSE,Elemento lungo e rigido di una struttura,it,MRC,generale,,
+ASTRO,Corpo celeste,it,MRC,generale,,
+ATTO,Una parte di un testo teatrale,it,MRC,generale,,
+AUTO,Veicolo con quattro ruote,it,MRC,generale,,
+AVENA,Cereale usato anche nei fiocchi,it,MRC,generale,,
+BACIO,Un gesto di affetto con le labbra,it,MRC,generale,,
+BACO,Larva allevata per la seta,it,MRC,generale,,
+BAIA,Insienatura riparata del mare,it,MRC,generale,,
+BALA,Sfera usata in certi giochi,it,MRC,generale,,
+BENE,Il contrario di male,it,MRC,generale,,
+BICI,Veicolo a pedali,it,MRC,generale,,
+BORA,Vento freddo dell Adriatico,it,MRC,generale,,
+CANE,Animale domestico che abbaia,it,MRC,generale,,
+CAPO,Chi guida un gruppo,it,MRC,generale,,
+CERA,Sostanza usata per fabbricare candele,it,MRC,generale,,
+CIBO,Serve a nutrirsi,it,MRC,generale,,
+CODA,Parte terminale del corpo di molti animali,it,MRC,generale,,
+CUBO,Solido con sei facce quadrate,it,MRC,generale,,
+DADO,Piccolo cubo da gioco,it,MRC,generale,,
+DENTE,Elemento duro della dentatura,it,MRC,generale,,
+DITO,Una parte della mano,it,MRC,generale,,
+ERBA,Pianta di piccolo fusto non legnoso,it,MRC,generale,,
+ESCA,Attira i pesci all amo,it,MRC,generale,,
+FARO,Torre luminosa che guida le navi,it,MRC,generale,,
+FASE,Una parte di un processo,it,MRC,generale,,
+FILA,Serie ordinata di persone,it,MRC,generale,,
+FIUME,Corso d’acqua naturale,it,MRC,generale,,natura
+FORO,Piccola apertura in una superficie,it,MRC,generale,,storia
+FUNE,Corda robusta,it,MRC,generale,,
+GATTO,Felino domestico,it,MRC,generale,,
+GENE,Unità di informazione ereditaria,it,MRC,generale,,scienza
+GHIRO,Piccolo roditore che va in letargo,it,MRC,generale,,
+GIADA,Pietra ornamentale di colore verde,it,MRC,generale,,
+IRIDE,Parte colorata dell occhio,it,MRC,generale,,
+LAMA,Parte tagliente di un coltello,it,MRC,generale,,
+LENTE,Vetro che ingrandisce,it,MRC,generale,,
+LEONE,Grande felino della savana,it,MRC,generale,,
+LUME,Fonte di luce,it,MRC,generale,,
+MAGO,Personaggio che compie magie,it,MRC,generale,,
+MANO,Estremità del braccio,it,MRC,generale,,
+MESE,Una delle dodici parti dell anno,it,MRC,generale,,
+MINA,Carica esplosiva nascosta,it,MRC,generale,,
+MIRA,Direzione scelta per colpire un bersaglio,it,MRC,generale,,
+MULO,Ibrido di cavallo e asina,it,MRC,generale,,
+NEVE,Acqua ghiacciata che cade in fiocchi,it,MRC,generale,,
+NORD,Punto cardinale opposto al sud,it,MRC,generale,,
+NOTTE,Periodo fra tramonto e alba,it,MRC,generale,,
+NUCA,Parte posteriore del collo,it,MRC,generale,,
+OCCHIO,Organo della vista,it,MRC,generale,,
+ODE,Componimento poetico di tono solenne,it,MRC,raccordo,,
+OLMO,Albero delle ulmacee,it,MRC,generale,,
+ONORE,Stima riconosciuta a una persona,it,MRC,generale,,
+OPERA,Lavoro artistico compiuto,it,MRC,generale,,
+ORSO,Grande mammifero onnivoro,it,MRC,generale,,natura
+OSTE,Gestore tradizionale di una locanda,it,MRC,generale,,
+PACE,Assenza di guerra,it,MRC,generale,,
+PALCO,Piattaforma dove si esibiscono gli artisti,it,MRC,generale,,
+PALO,Elemento di sostegno piantato nel terreno,it,MRC,generale,,
+PARCO,Area verde aperta ai visitatori,it,MRC,generale,,
+PASSO,Movimento compiuto camminando,it,MRC,generale,,
+PECE,Sostanza nera e viscosa,it,MRC,generale,,
+PESCE,Animale acquatico con branchie,it,MRC,generale,,
+PIUMA,Rivestimento leggero degli uccelli,it,MRC,generale,,
+POETA,Autore di componimenti in versi,it,MRC,generale,,
+RAPA,Ortaggio dalla radice tondeggiante,it,MRC,generale,,
+RESA,Capitolazione di chi smette di combattere,it,MRC,generale,,
+RITO,Cerimonia regolata da usanze,it,MRC,generale,,
+ROTA,Ruota in forma letteraria,it,MRC,generale,,
+SALA,Stanza ampia di un edificio,it,MRC,generale,,
+SUONO,Vibrazione percepibile dall udito,it,MRC,generale,,
+TARO,Pianta tropicale dalla radice commestibile,it,MRC,generale,,
+TETTO,Copertura superiore di un edificio,it,MRC,generale,,
+ULIVO,Albero che produce olive,it,MRC,generale,,
+URLO,Grido forte,it,MRC,generale,,
+VENA,Vaso sanguigno che porta sangue al cuore,it,MRC,generale,,
+ZAINO,Borsa portata sulle spalle,it,MRC,generale,,
+DB,"David Bowie, icona del rock",it,MRC,raccordo,,
+SENTIERO,Percorso stretto tracciato dal passaggio di persone o animali,it,MRC,generale,,
+CANCELLO,Chiude l'accesso a un cortile o a un giardino,it,MRC,generale,,
+CARTELLA,Custodia per fogli o raggruppamento di file,it,MRC,generale,,
+LANTERNA,Protegge una fonte luminosa con pareti trasparenti,it,MRC,generale,,
+BOTTIGLIA,Recipiente con collo stretto per conservare liquidi,it,MRC,generale,,
+QUADERNO,Fogli rilegati usati per scrivere appunti,it,MRC,generale,,
+BILANCIA,Strumento che misura la massa degli oggetti,it,MRC,generale,,
+CERNIERA,Unisce due lembi con dentini e un cursore,it,MRC,generale,,
+FINESTRA,Apertura vetrata che dà luce a una stanza,it,MRC,generale,,
+PANCHINA,Sedile lungo che si trova spesso nei parchi,it,MRC,generale,,
+CESTINO,Piccolo contenitore intrecciato o per rifiuti,it,MRC,generale,,
+TOVAGLIA,Tessuto disteso sulla tavola prima del pasto,it,MRC,generale,,
+OMBRELLONE,Ripara dal sole una parte della spiaggia,it,MRC,generale,,
+SCORCIATOIA,Percorso alternativo che abbrevia il tragitto,it,MRC,generale,,
+SEGNALIBRO,Indica dove si è interrotta la lettura,it,MRC,generale,,
+CLESSIDRA,Misura il tempo con il passaggio della sabbia,it,MRC,generale,,
+RIPRESA,Registrazione di immagini con una cinepresa,it,MRC,tematica,cinema,
+CARRELLO,Supporto mobile per spostare la macchina da presa,it,MRC,tematica,cinema,
+COMPARSA,Interprete che appare senza un ruolo principale,it,MRC,tematica,cinema,
+PELLICOLA,Supporto fotosensibile del cinema analogico,it,MRC,tematica,cinema,
+INQUADRATURA,Porzione di spazio delimitata dall'immagine del film,it,MRC,tematica,cinema,
+CORTOMETRAGGIO,Film di durata breve,it,MRC,tematica,cinema,
+SCENOGRAFIA,Progettazione degli ambienti visibili in scena,it,MRC,tematica,cinema,
+CINEPRESA,Apparecchio usato per registrare immagini in movimento,it,MRC,tematica,cinema,
+CONTROCAMPO,Inquadratura dal lato opposto rispetto alla precedente,it,MRC,tematica,cinema,
+CINEFILO,Appassionato della storia e delle opere del cinema,it,MRC,tematica,cinema,
+ISOTOPO,Atomo con uguale numero di protoni ma diverso numero di neutroni,it,MRC,tematica,scienza,
+FOTONE,Quanto di energia della radiazione elettromagnetica,it,MRC,tematica,scienza,
+NEBULOSA,Nube interstellare di gas e polvere,it,MRC,tematica,scienza,
+TELESCOPIO,Strumento per osservare corpi celesti lontani,it,MRC,tematica,scienza,
+SPETTRO,Distribuzione di una radiazione nelle sue diverse lunghezze d'onda,it,MRC,tematica,scienza,
+REAZIONE,Processo chimico che trasforma reagenti in prodotti,it,MRC,tematica,scienza,
+SOLUZIONE,Miscela omogenea di un solvente e sostanze disciolte,it,MRC,tematica,scienza,
+SATELLITE,Corpo naturale o artificiale in orbita attorno a un altro,it,MRC,tematica,scienza,
+PRESSIONE,Rapporto tra forza perpendicolare e superficie su cui agisce,it,MRC,tematica,scienza,
+CONDUTTORE,Materiale che permette il passaggio della corrente elettrica,it,MRC,tematica,scienza,
+QUERCIA,Albero che produce ghiande,it,MRC,tematica,natura,
+ABETE,Conifera tipica di molti boschi montani,it,MRC,tematica,natura,
+GHIANDA,Frutto della quercia,it,MRC,tematica,natura,
+FELCE,Pianta con fronde che si riproduce tramite spore,it,MRC,tematica,natura,
+LICHENE,Associazione stabile fra un fungo e un organismo fotosintetico,it,MRC,tematica,natura,
+RUSCELLO,Piccolo corso d'acqua naturale,it,MRC,tematica,natura,
+TORRENTE,Corso d'acqua con portata molto variabile,it,MRC,tematica,natura,
+SCOGLIERA,Tratto di costa formato da rocce affioranti,it,MRC,tematica,natura,
+IMPOLLINAZIONE,Trasporto del polline verso la parte ricettiva di un fiore,it,MRC,tematica,natura,
+SOTTOBOSCO,Vegetazione che cresce al di sotto delle chiome degli alberi,it,MRC,tematica,natura,
+GERMOGLIO,Giovane sviluppo di una pianta da una gemma o da un seme,it,MRC,tematica,natura,
+MIGRAZIONE,Spostamento stagionale di animali fra aree diverse,it,MRC,tematica,natura,
+ACERO,Albero dalle foglie palmate,it,MRC,raccordo,,
+AGLIO,Bulbo diviso in spicchi,it,MRC,raccordo,,
+AIUOLA,Piccolo spazio coltivato a fiori,it,MRC,raccordo,,
+ALGA,Organismo acquatico che compie la fotosintesi,it,MRC,raccordo,,
+ALONE,Cerchio luminoso intorno alla Luna,it,MRC,raccordo,,
+ANCA,Articolazione tra bacino e femore,it,MRC,raccordo,,
+ANSIA,Stato di apprensione,it,MRC,raccordo,,
+ARCA,Il natante costruito da Noè,it,MRC,raccordo,,
+ARENA,Spazio centrale di un anfiteatro,it,MRC,raccordo,,
+ASOLA,Apertura in cui entra il bottone,it,MRC,raccordo,,
+ASTA,Si aggiudica al miglior offerente,it,MRC,raccordo,,
+BAVA,La produce la lumaca muovendosi,it,MRC,raccordo,,
+BEFFA,Scherzo fatto per deridere,it,MRC,raccordo,,
+BICA,Mucchio di covoni,it,MRC,raccordo,,
+BIRO,Penna a sfera,it,MRC,raccordo,,
+BRINA,Gelo sottile sulle superfici,it,MRC,raccordo,,
+BUCA,Avvallamento nel terreno,it,MRC,raccordo,,
+CAVO,Può trasportare corrente elettrica,it,MRC,raccordo,,
+CIMA,La sommità del monte,it,MRC,raccordo,,
+COVA,Incubazione delle uova,it,MRC,raccordo,,
+DIGA,Trattiene l’acqua di un bacino,it,MRC,raccordo,,
+DOTE,Talento naturale di una persona,it,MRC,raccordo,,
+ELMO,Protezione metallica del capo,it,MRC,raccordo,,
+FAVA,Legume racchiuso in un baccello,it,MRC,raccordo,,
+FOCE,Sbocco del fiume,it,MRC,raccordo,,
+FUSO,Arnese per filare a mano,it,MRC,raccordo,,
+GORA,Canale che alimenta un mulino,it,MRC,raccordo,,
+MICA,Minerale che si sfalda in lamine,it,MRC,raccordo,,
+MOLO,Struttura portuale per l’attracco,it,MRC,raccordo,,
+ORLO,Bordo ripiegato di un tessuto,it,MRC,raccordo,,
+OTRE,Recipiente di pelle per liquidi,it,MRC,raccordo,,
+REMO,Serve a spingere una barca a braccia,it,MRC,raccordo,,
+ROVO,Arbusto spinoso che produce more,it,MRC,raccordo,,
+SUOLA,Parte della scarpa a contatto con il terreno,it,MRC,raccordo,,
+TRAVE,Elemento orizzontale che sostiene un solaio,it,MRC,raccordo,,
+VELA,Sfrutta il vento per muovere la barca,it,MRC,raccordo,,
+ZOLLA,Pezzo compatto di terra,it,MRC,raccordo,,
+REGISTA,Dirige la realizzazione di un film,it,MRC,tematica,cinema,cinema
+SCENA,Parte di un film ambientata in un preciso momento,it,MRC,tematica,cinema,cinema
+ATTORE,Interpreta un personaggio sullo schermo,it,MRC,tematica,cinema,cinema
+ATTRICE,Interpreta un ruolo cinematografico,it,MRC,tematica,cinema,cinema
+COPIONE,Testo che guida dialoghi e azioni di un film,it,MRC,tematica,cinema,cinema
+TRAMA,Successione degli eventi narrati,it,MRC,tematica,cinema,cinema letteratura
+MONTAGGIO,Organizzazione delle inquadrature nella versione finale,it,MRC,tematica,cinema,cinema
+CINEMA,Sala dedicata alla proiezione di film,it,MRC,tematica,cinema,cinema
+GENERE,"Categoria come commedia, horror o western",it,MRC,tematica,cinema,cinema
+OSCAR,Celebre premio cinematografico statunitense,it,MRC,tematica,cinema,cinema
+SET,Luogo in cui viene girata una scena,it,MRC,tematica,cinema,cinema
+CIAK,Tavoletta usata per identificare le riprese,it,MRC,tematica,cinema,cinema
+FOTOGRAFIA,Nel film cura luci e resa visiva delle immagini,it,MRC,tematica,cinema,cinema
+SEQUENZA,Insieme di inquadrature che formano un momento narrativo,it,MRC,tematica,cinema,cinema
+DOPPIAGGIO,Sostituzione delle voci originali,it,MRC,tematica,cinema,cinema
+SOGGETTO,Prima descrizione sintetica della storia di un film,it,MRC,tematica,cinema,cinema
+PRODUTTORE,Organizza risorse e finanziamento del film,it,MRC,tematica,cinema,cinema
+COLONNA,Quella sonora accompagna le immagini,it,MRC,tematica,cinema,cinema
+PREMIERE,Prima presentazione pubblica di un film,it,MRC,tematica,cinema,cinema
+LOCANDINA,Manifesto promozionale di un film,it,MRC,tematica,cinema,cinema
+DOCUMENTARIO,Film che racconta eventi e realtà non di finzione,it,MRC,tematica,cinema,cinema
+SOTTOTITOLI,Testo dei dialoghi visualizzato sullo schermo,it,MRC,tematica,cinema,cinema
+RITMO,Successione temporale di suoni e pause,it,MRC,tematica,musica,musica
+MELODIA,Successione riconoscibile di note,it,MRC,tematica,musica,musica
+ARMONIA,Combinazione simultanea di note,it,MRC,tematica,musica,musica
+CHITARRA,Strumento a corde spesso con sei corde,it,MRC,tematica,musica,musica
+PIANO,Strumento a tasti con corde percosse da martelletti,it,MRC,tematica,musica,musica
+TAMBuro,Strumento a percussione con una membrana,it,MRC,tematica,musica,musica
+VIOLINO,Strumento ad arco più piccolo della viola,it,MRC,tematica,musica,musica
+FLAUTO,Strumento a fiato dal suono limpido,it,MRC,tematica,musica,musica
+CORO,Insieme di persone che cantano,it,MRC,tematica,musica,musica
+ORCHESTRA,Grande formazione di strumentisti,it,MRC,tematica,musica,musica
+CANTO,Uso musicale della voce,it,MRC,tematica,musica,musica
+ALBUM,Raccolta di brani pubblicata insieme,it,MRC,tematica,musica,musica
+BRANO,Singola composizione musicale,it,MRC,tematica,musica,musica
+SINGOLO,Brano pubblicato separatamente da un album,it,MRC,tematica,musica,musica
+CONCERTO,Esecuzione musicale davanti a un pubblico,it,MRC,tematica,musica,musica
+JAZZ,Genere associato a improvvisazione e swing,it,MRC,tematica,musica,musica
+ROCK,Genere musicale nato dal rock and roll,it,MRC,tematica,musica,musica
+BLUES,Genere caratterizzato spesso da dodici battute,it,MRC,tematica,musica,musica
+BASSO,Strumento che sostiene le frequenze gravi,it,MRC,tematica,musica,musica
+BATTUTA,Unità ritmica delimitata nella notazione,it,MRC,tematica,musica,musica
+PENTAGRAMMA,Cinque linee su cui si scrivono le note,it,MRC,tematica,musica,musica
+ATOMO,Unità fondamentale di un elemento chimico,it,MRC,tematica,scienza,scienza
+CELLULA,Unità strutturale di base degli esseri viventi,it,MRC,tematica,scienza,scienza
+MASSA,Quantità di materia di un corpo,it,MRC,tematica,scienza,scienza
+ENERGIA,Capacità di compiere lavoro o produrre trasformazioni,it,MRC,tematica,scienza,scienza
+GRAVITA,Interazione che attrae i corpi dotati di massa,it,MRC,tematica,scienza,curiosita scienza
+PIANETA,Corpo celeste che orbita attorno a una stella,it,MRC,tematica,scienza,scienza
+STELLA,Corpo celeste che emette luce propria,it,MRC,tematica,scienza,scienza
+ORBITA,Traiettoria di un corpo attorno a un altro,it,MRC,tematica,scienza,scienza
+GALASSIA,"Sistema di stelle, gas e polveri",it,MRC,tematica,scienza,scienza
+ELETTRONE,Particella dotata di carica negativa,it,MRC,tematica,scienza,scienza
+PROTONE,Particella nucleare a carica positiva,it,MRC,tematica,scienza,scienza
+NEUTRONE,Particella nucleare priva di carica elettrica,it,MRC,tematica,scienza,scienza
+MOLECOLA,Insieme stabile di atomi legati tra loro,it,MRC,tematica,scienza,scienza
+TEORIA,Sistema di principi usato per spiegare fenomeni,it,MRC,tematica,scienza,scienza
+IPOTESI,Spiegazione provvisoria da sottoporre a verifica,it,MRC,tematica,scienza,scienza
+ESPERIMENTO,Prova controllata per osservare un fenomeno,it,MRC,tematica,scienza,scienza
+LASER,Dispositivo che emette luce coerente,it,MRC,tematica,scienza,scienza
+DNA,Molecola che conserva informazione genetica,it,MRC,tematica,scienza,scienza
+OTTICA,Ramo della fisica che studia la luce,it,MRC,tematica,scienza,scienza
+FOSSILE,Resto o traccia di organismo conservato nel tempo,it,MRC,tematica,scienza,scienza
+MICROSCOPIO,Strumento per osservare oggetti molto piccoli,it,MRC,tematica,scienza,scienza
+BOSCO,Terreno coperto prevalentemente da alberi,it,MRC,tematica,natura,natura
+FOGLIA,Organo vegetale spesso deputato alla fotosintesi,it,MRC,tematica,natura,natura
+RADICE,Organo che ancora la pianta al terreno,it,MRC,tematica,natura,natura
+FIORE,Struttura riproduttiva di molte piante,it,MRC,tematica,natura,natura
+ALBERO,Pianta legnosa dotata di tronco,it,MRC,tematica,natura,natura
+MUSCHIO,Piccola pianta comune in ambienti umidi,it,MRC,tematica,natura,natura
+FARFALLA,Insetto con ali spesso colorate,it,MRC,tematica,natura,natura
+LUPO,Mammifero carnivoro della famiglia dei canidi,it,MRC,tematica,natura,natura
+VOLPE,Canide con coda folta,it,MRC,tematica,natura,natura
+AQUILA,Rapace diurno dal volo potente,it,MRC,tematica,natura,natura
+DELFINO,Mammifero marino che respira aria,it,MRC,tematica,natura,natura
+CORALLO,Animale coloniale spesso costruttore di scogliere,it,MRC,tematica,natura,natura
+HABITAT,Ambiente naturale di una specie,it,MRC,tematica,natura,natura
+ECOSISTEMA,Insieme di organismi e ambiente in relazione,it,MRC,tematica,natura,natura
+CLIMA,Andamento medio delle condizioni atmosferiche,it,MRC,tematica,natura,natura
+PIOGGIA,Precipitazione di gocce d'acqua,it,MRC,tematica,natura,natura
+ROCCIA,Aggregato naturale di minerali,it,MRC,tematica,natura,natura
+IMPERO,Territorio governato da un imperatore,it,MRC,tematica,storia,storia
+REGNO,Stato governato da un sovrano,it,MRC,tematica,storia,storia
+REGINA,Sovrana o consorte di un sovrano,it,MRC,tematica,storia,storia
+EPOCA,Periodo storico caratterizzato da tratti comuni,it,MRC,tematica,storia,storia
+SECOLO,Periodo di cento anni,it,MRC,tematica,storia,storia
+DECENNIO,Periodo di dieci anni,it,MRC,tematica,storia,storia
+ARCHIVIO,Luogo che conserva documenti storici,it,MRC,tematica,storia,storia
+FONTE,Testimonianza usata per ricostruire il passato,it,MRC,tematica,storia,storia
+CRONACA,Racconto di avvenimenti secondo il loro svolgimento,it,MRC,tematica,storia,storia
+DINASTIA,Successione di sovrani della stessa famiglia,it,MRC,tematica,storia,storia
+REPUBBLICA,Forma di governo priva di monarca ereditario,it,MRC,tematica,storia,storia
+SENATO,Assemblea politica già presente nell'antica Roma,it,MRC,tematica,storia,storia
+MONETA,Oggetto usato come mezzo di scambio,it,MRC,tematica,storia,storia
+ROTTA,Percorso seguito da navi o esploratori,it,MRC,tematica,storia,storia
+COLONIA,Insediamento fondato lontano dalla comunità d'origine,it,MRC,tematica,storia,storia
+BATTAGLIA,Scontro armato tra forze avversarie,it,MRC,tematica,storia,storia
+TRATTATO,Accordo formale tra stati,it,MRC,tematica,storia,storia
+ARTEFATTO,Oggetto prodotto da attività umana,it,MRC,tematica,storia,storia
+MUSEO,Istituzione che conserva e presenta testimonianze,it,MRC,tematica,storia,storia
+ITALIA,Paese europeo a forma di stivale,it,MRC,tematica,geografia,geografia
+OCEANO,Vastissima massa di acqua salata,it,MRC,tematica,geografia,geografia
+MONTE,Rilievo naturale elevato,it,MRC,tematica,geografia,geografia
+PIANURA,Territorio prevalentemente pianeggiante,it,MRC,tematica,geografia,geografia
+DELTA,Foce fluviale divisa in più rami,it,MRC,tematica,geografia,geografia
+ESTUARIO,Foce fluviale ampia e aperta verso il mare,it,MRC,tematica,geografia,geografia
+CAPITALE,Città sede delle istituzioni principali di uno stato,it,MRC,tematica,geografia,geografia
+CONFINE,Limite che separa territori,it,MRC,tematica,geografia,geografia
+REGIONE,Ripartizione territoriale di uno stato,it,MRC,tematica,geografia,geografia
+LATITUDINE,Distanza angolare dall'equatore,it,MRC,tematica,geografia,geografia
+LONGITUDINE,Distanza angolare dal meridiano di Greenwich,it,MRC,tematica,geografia,geografia
+EQUATORE,Parallelo che divide la Terra in due emisferi,it,MRC,tematica,geografia,geografia
+MAPPA,Rappresentazione grafica di un territorio,it,MRC,tematica,geografia,geografia
+SCALA,Rapporto tra distanza sulla carta e distanza reale,it,MRC,tematica,geografia,geografia
+DESERTO,Regione con precipitazioni molto scarse,it,MRC,tematica,geografia,geografia
+GHIACCIAIO,Massa di ghiaccio che si muove lentamente,it,MRC,tematica,geografia,geografia
+VULCANO,Rilievo da cui possono fuoriuscire lava e gas,it,MRC,tematica,geografia,geografia
+ARCIPELAGO,Insieme di isole vicine,it,MRC,tematica,geografia,geografia
+ATLETA,Persona che pratica una disciplina sportiva,it,MRC,tematica,sport,sport
+PALLA,Oggetto sferico usato in numerosi sport,it,MRC,tematica,sport,sport
+GOAL,Punto segnato nel calcio,it,MRC,tematica,sport,sport
+PISTA,Percorso preparato per gare o allenamenti,it,MRC,tematica,sport,sport
+CORSIA,Spazio riservato a un concorrente in pista o piscina,it,MRC,tematica,sport,sport
+STAFFETTA,Gara di squadra con passaggi di testimone,it,MRC,tematica,sport,sport
+NUOTO,Disciplina sportiva praticata in acqua,it,MRC,tematica,sport,sport
+TENNIS,Sport con racchette e pallina,it,MRC,tematica,sport,sport
+CALCIO,Sport di squadra con undici giocatori per parte,it,MRC,tematica,sport,sport
+RUGBY,Sport di squadra con palla ovale,it,MRC,tematica,sport,sport
+SCI,Attrezzi lunghi usati per scivolare sulla neve,it,MRC,tematica,sport,sport
+PODIO,Piattaforma per i primi classificati,it,MRC,tematica,sport,sport
+ARBITRO,Figura incaricata di far rispettare le regole,it,MRC,tematica,sport,sport
+TEMPO,Misura fondamentale nelle gare di velocità,it,MRC,tematica,sport,sport
+RECORD,Migliore prestazione riconosciuta,it,MRC,tematica,sport,sport
+MARATONA,Corsa su una distanza di oltre quarantadue chilometri,it,MRC,tematica,sport,sport
+ALLENATORE,Persona che guida la preparazione di una squadra,it,MRC,tematica,sport,sport
+TORNEO,Serie organizzata di incontri sportivi,it,MRC,tematica,sport,sport
+MEDAGLIA,Premio spesso assegnato ai primi classificati,it,MRC,tematica,sport,sport
+TRAGUARDO,Linea che segna la fine di una corsa,it,MRC,tematica,sport,sport
+LIBRO,Opera scritta pubblicata in volume,it,MRC,tematica,letteratura,letteratura
+ROMANZO,Narrazione di finzione generalmente lunga,it,MRC,tematica,letteratura,letteratura
+POESIA,Composizione basata anche su ritmo e immagini,it,MRC,tematica,letteratura,letteratura
+VERSO,Singola riga di una poesia,it,MRC,tematica,letteratura,letteratura
+STROFA,Gruppo di versi di un testo poetico,it,MRC,tematica,letteratura,letteratura
+AUTORE,Chi scrive un'opera,it,MRC,tematica,letteratura,letteratura
+PERSONAGGIO,Figura che agisce in un racconto,it,MRC,tematica,letteratura,letteratura
+CAPITOLO,Divisione di un libro,it,MRC,tematica,letteratura,letteratura
+PAGINA,Facciata di un foglio di un libro,it,MRC,tematica,letteratura,letteratura
+EDITORE,Soggetto che pubblica opere,it,MRC,tematica,letteratura,letteratura
+BIBLIOTECA,Luogo di conservazione e consultazione di libri,it,MRC,tematica,letteratura,letteratura
+FAVOLA,Racconto breve spesso con una morale,it,MRC,tematica,letteratura,letteratura
+FIABA,Narrazione fantastica di tradizione popolare,it,MRC,tematica,letteratura,letteratura
+SONETTO,Componimento poetico di quattordici versi,it,MRC,tematica,letteratura,letteratura
+DIALOGO,Scambio di battute tra personaggi,it,MRC,tematica,letteratura,letteratura
+PROLOGO,Sezione che precede il racconto principale,it,MRC,tematica,letteratura,letteratura
+EPILOGO,Parte conclusiva di una narrazione,it,MRC,tematica,letteratura,letteratura
+METAFORA,Figura retorica che trasferisce un significato,it,MRC,tematica,letteratura,letteratura
+NARRATORE,Voce che racconta gli eventi,it,MRC,tematica,letteratura,letteratura
+LESSICO,Insieme delle parole di una lingua,it,MRC,tematica,letteratura,letteratura
+CODICE,Insieme di istruzioni scritte in un linguaggio,it,MRC,tematica,tecnologia,curiosita tecnologia
+PIXEL,Elemento minimo di una immagine digitale,it,MRC,tematica,tecnologia,tecnologia
+SERVER,Sistema che offre servizi ad altri dispositivi,it,MRC,tematica,tecnologia,tecnologia
+BROWSER,Programma per consultare pagine web,it,MRC,tematica,tecnologia,tecnologia
+HTML,Linguaggio di marcatura delle pagine web,it,MRC,tematica,tecnologia,tecnologia
+CSS,Linguaggio che definisce lo stile delle pagine web,it,MRC,tematica,tecnologia,tecnologia
+SCRIPT,Sequenza di istruzioni eseguibili,it,MRC,tematica,tecnologia,tecnologia
+CACHE,Memoria per conservare dati di uso frequente,it,MRC,tematica,tecnologia,tecnologia
+DATABASE,Archivio organizzato di informazioni,it,MRC,tematica,tecnologia,tecnologia
+BACKUP,Copia di sicurezza dei dati,it,MRC,tematica,tecnologia,tecnologia
+CLOUD,Infrastruttura informatica accessibile via rete,it,MRC,tematica,tecnologia,tecnologia
+ROUTER,Dispositivo che inoltra pacchetti tra reti,it,MRC,tematica,tecnologia,tecnologia
+SENSORE,Dispositivo che rileva una grandezza fisica,it,MRC,tematica,tecnologia,tecnologia
+DISPLAY,Schermo per visualizzare dati,it,MRC,tematica,tecnologia,tecnologia
+BIT,Unità minima di informazione binaria,it,MRC,tematica,tecnologia,tecnologia
+BYTE,Gruppo composto normalmente da otto bit,it,MRC,tematica,tecnologia,tecnologia
+LINK,Collegamento ipertestuale,it,MRC,tematica,tecnologia,tecnologia
+DOMINIO,Nome che identifica un sito sulla rete,it,MRC,tematica,tecnologia,tecnologia
+PROTOCOLLO,Insieme di regole per comunicare,it,MRC,tematica,tecnologia,tecnologia
+OPEN,Parola inglese che indica apertura,it,MRC,tematica,tecnologia,tecnologia
+PORTA,Interfaccia per collegare dispositivi,it,MRC,tematica,tecnologia,tecnologia
+ENIGMA,Questione che richiede ingegno per essere risolta,it,MRC,tematica,curiosita,curiosita
+LABIRINTO,Percorso intricato con bivi,it,MRC,tematica,curiosita,curiosita
+BUSSOLA,Strumento per orientarsi,it,MRC,tematica,curiosita,curiosita
+SPECCHIO,Superficie che riflette le immagini,it,MRC,tematica,curiosita,curiosita
+CALENDARIO,Sistema di organizzazione dei giorni,it,MRC,tematica,curiosita,curiosita
+OROLOGIO,Strumento che misura il tempo,it,MRC,tematica,curiosita,curiosita
+MERIDIANA,Strumento che indica il tempo con l'ombra,it,MRC,tematica,curiosita,curiosita
+ARCOBALENO,Fenomeno ottico con colori nel cielo,it,MRC,tematica,curiosita,curiosita
+OMBRELLO,Oggetto usato per ripararsi dalla pioggia,it,MRC,tematica,curiosita,curiosita
+BOLLA,Piccola sfera di gas in un liquido,it,MRC,tematica,curiosita,curiosita
+MOSAICO,Immagine composta da piccoli pezzi,it,MRC,tematica,curiosita,curiosita
+CHIAVE,Oggetto che apre una serratura,it,MRC,tematica,curiosita,curiosita
+SFERA,Solido rotondo in tutte le direzioni,it,MRC,tematica,curiosita,curiosita
+SPIRALE,Curva che gira attorno a un centro,it,MRC,tematica,curiosita,curiosita
+NUMERO,Elemento usato per contare,it,MRC,tematica,curiosita,curiosita
+LETTERA,Segno di un alfabeto,it,MRC,tematica,curiosita,curiosita
+PAROLA,Insieme di lettere con significato,it,MRC,tematica,curiosita,curiosita
+DOMANDA,Frase con cui si chiede un'informazione,it,MRC,tematica,curiosita,curiosita
+RISPOSTA,Ciò che viene dato a una domanda,it,MRC,tematica,curiosita,curiosita
+ACTOR,Performer in a film,en,MRC,tematica,cinema,cinema
+CAMERA,Device used to film a scene,en,MRC,tematica,cinema,cinema
+SCRIPT,Written dialogue for a film,en,MRC,tematica,cinema,cinema
+SCENE,Part of a film set in one place,en,MRC,tematica,cinema,cinema
+SCREEN,Surface on which a film is shown,en,MRC,tematica,cinema,cinema
+DIRECTOR,Person who guides the making of a film,en,MRC,tematica,cinema,cinema
+PIANO,Keyboard instrument with hammers and strings,en,MRC,tematica,musica,musica
+VIOLIN,Bowed instrument with four strings,en,MRC,tematica,musica,musica
+DRUM,Instrument played by striking a membrane,en,MRC,tematica,musica,musica
+OPERA,Drama sung to orchestral music,en,MRC,tematica,musica,musica
+CHOIR,Group of singers,en,MRC,tematica,musica,musica
+NOTE,Single musical sound,en,MRC,tematica,musica,musica
+ATOM,Smallest unit of a chemical element,en,MRC,tematica,scienza,scienza
+ORBIT,Path of a planet around a star,en,MRC,tematica,scienza,scienza
+LASER,Device producing a narrow beam of light,en,MRC,tematica,scienza,scienza
+PRISM,Glass shape that splits white light,en,MRC,tematica,scienza,scienza
+CELL,Basic unit of living organisms,en,MRC,tematica,scienza,scienza
+ENERGY,Capacity to do work,en,MRC,tematica,scienza,scienza
+TREE,Plant with a woody trunk,en,MRC,tematica,natura,natura
+LEAF,Plant organ that usually captures sunlight,en,MRC,tematica,natura,natura
+RIVER,Natural stream flowing towards a lake or sea,en,MRC,tematica,natura,natura
+OCEAN,Vast body of salt water,en,MRC,tematica,natura,natura
+EAGLE,Bird of prey with powerful talons,en,MRC,tematica,natura,natura
+FOREST,Large area covered with trees,en,MRC,tematica,natura,natura
+EMPIRE,Group of territories under one supreme ruler,en,MRC,tematica,storia,storia
+CASTLE,Fortified residence of a medieval lord,en,MRC,tematica,storia,storia
+CROWN,Ceremonial headwear of a monarch,en,MRC,tematica,storia,storia
+ARCHIVE,Collection of historical records,en,MRC,tematica,storia,storia
+RUINS,Remains of damaged ancient buildings,en,MRC,tematica,storia,storia
+ERA,Long period marked by particular events,en,MRC,tematica,storia,storia
+ISLAND,Land surrounded by water,en,MRC,tematica,geografia,geografia
+DELTA,Landform at a river mouth,en,MRC,tematica,geografia,geografia
+DESERT,Region with very little rain,en,MRC,tematica,geografia,geografia
+VALLEY,Low land between hills,en,MRC,tematica,geografia,geografia
+COAST,Land beside the sea,en,MRC,tematica,geografia,geografia
+MAP,Representation of an area,en,MRC,tematica,geografia,geografia
+TENNIS,Racket sport played across a net,en,MRC,tematica,sport,sport
+GOAL,Score made by putting a ball into a net,en,MRC,tematica,sport,sport
+RACE,Contest to finish first,en,MRC,tematica,sport,sport
+TEAM,Group of players on one side,en,MRC,tematica,sport,sport
+SWIM,Move through water using the body,en,MRC,tematica,sport,sport
+MEDAL,Award worn on a ribbon,en,MRC,tematica,sport,sport
+NOVEL,Long work of fictional prose,en,MRC,tematica,letteratura,letteratura
+POEM,Literary work written in verse,en,MRC,tematica,letteratura,letteratura
+AUTHOR,Person who writes a book,en,MRC,tematica,letteratura,letteratura
+RHYME,Matching sounds at the ends of words,en,MRC,tematica,letteratura,letteratura
+FABLE,Short story teaching a moral,en,MRC,tematica,letteratura,letteratura
+PLOT,Sequence of events in a story,en,MRC,tematica,letteratura,letteratura
+ROBOT,Machine programmed to perform tasks,en,MRC,tematica,tecnologia,tecnologia
+CODE,Instructions written for a computer,en,MRC,tematica,tecnologia,tecnologia
+MOUSE,Handheld computer pointing device,en,MRC,tematica,tecnologia,tecnologia
+PIXEL,Smallest addressable element of an image,en,MRC,tematica,tecnologia,tecnologia
+SENSOR,Device that detects a physical condition,en,MRC,tematica,tecnologia,tecnologia
+CHIP,Small piece of semiconductor with a circuit,en,MRC,tematica,tecnologia,tecnologia
+CLOCK,Instrument that tells the time,en,MRC,tematica,curiosita,curiosita
+KEY,Object used to open a lock,en,MRC,tematica,curiosita,curiosita
+MIRROR,Surface that reflects an image,en,MRC,tematica,curiosita,curiosita
+PAPER,Material commonly used for writing,en,MRC,tematica,curiosita,curiosita
+BASKET,Container made of woven strips,en,MRC,tematica,curiosita,curiosita
+LADDER,Portable set of rungs used for climbing,en,MRC,tematica,curiosita,curiosita

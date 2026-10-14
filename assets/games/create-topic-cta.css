@@ -7,3 +7,10 @@
 .mrc-create-topic-tool{margin:12px 0 20px;max-width:850px}
 .mrc-create-topic-tool a{font-weight:600;text-underline-offset:3px}
 @media(max-width:700px){.mrc-create-topic-cta{padding:14px 16px;margin:14px 0 18px}}
+
+/* Primary personal-crossword action, scoped to the two game pages. */
+.mrc-create-crossword-primary{border-color:#796e89;background:#f3eff9;padding:22px 24px}
+.mrc-create-crossword-primary strong{font-size:1.3rem;font-weight:700}
+.mrc-create-crossword-primary .mrc-create-crossword-action{display:inline-flex;align-items:center;min-height:44px;margin-top:14px;padding:9px 16px;box-sizing:border-box;border-radius:5px;background:#30283e;color:#fff;font-weight:600;font-size:.96rem}
+.mrc-create-crossword-primary:hover{background:#eae4f2;border-color:#51465f}
+@media(max-width:700px){.mrc-create-crossword-primary{padding:18px}.mrc-create-crossword-primary strong{font-size:1.2rem}}

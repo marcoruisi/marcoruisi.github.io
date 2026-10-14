@@ -66,6 +66,8 @@ def check_discovery(pages):
 
 
 def main():
+    from scripts.cleanup_obsolete_crosswords import cleanup
+    cleanup(ROOT)
     planned = plan_shared_ui()
     pages = inspect_pages(ROOT, planned)
     reachable = check_discovery(pages)

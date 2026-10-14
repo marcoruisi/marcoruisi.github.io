@@ -50,7 +50,7 @@ body.guide-modal.guide-areas #photoEditor .photo-tip,body.guide-modal.guide-area
 </header>
 <!-- MRC SHARED TOOL HEADER END -->
 
-<main><h1>Crossword</h1><p class="muted">Play a crossword from the collection or import a project.</p><div class="mrc-crossword-bridge"><span>Want to create or digitize a crossword?</span> <a href="/tools/crossword/">Open the Digital Crossword Tool →</a></div><a class="mrc-create-topic-cta" href="/tools/topic-games/"><strong>Make a crossword on the fly →</strong><span>Choose a topic, confirm the clues and return here to play and share.</span></a><div id="startScreen" role="region" aria-labelledby="startTitle"><div class="start-inner"><h2 id="startTitle">Choose a crossword</h2><p class="muted">Pick a puzzle, resume a saved game or open a personal JSON.</p><div class="start-actions"><button type="button" hidden id="startBlank"><strong>1 · Create a grid from scratch</strong><small>Set rows and columns and mark black squares.</small></button><button type="button" hidden id="startPhoto"><strong>2 · Copy a crossword from a photo</strong><small>Guided steps: measure, align and enter clues.</small></button><button type="button" id="startProject"><strong>Open file (.json)</strong><small>Open a crossword or resume a saved game.</small></button><button type="button" id="startLocal" class="hidden"><strong>Resume on this browser</strong><small>Continue from your local progress.</small></button></div></div></div>
+<main><h1>Crossword</h1><p class="muted">Play a crossword from the collection or import a project.</p><a class="mrc-create-topic-cta mrc-create-crossword-primary" href="/tools/crossword/"><strong>Create your crossword</strong><span>Choose a category or enter a topic: the grid is built automatically.</span><span class="mrc-create-crossword-action">Create a new crossword →</span></a><div id="startScreen" role="region" aria-labelledby="startTitle"><div class="start-inner"><h2 id="startTitle">Choose a crossword</h2><p class="muted">Pick a puzzle, resume a saved game or open a personal JSON.</p><div class="start-actions"><button type="button" hidden id="startBlank"><strong>1 · Create a grid from scratch</strong><small>Set rows and columns and mark black squares.</small></button><button type="button" hidden id="startPhoto"><strong>2 · Copy a crossword from a photo</strong><small>Guided steps: measure, align and enter clues.</small></button><button type="button" id="startProject"><strong>Open file (.json)</strong><small>Open a crossword or resume a saved game.</small></button><button type="button" id="startLocal" class="hidden"><strong>Resume on this browser</strong><small>Continue from your local progress.</small></button></div></div></div>
 <div class="toolbar" role="group" aria-label="Mode"><button type="button" data-mode="build" aria-pressed="true" data-i="build">Schema</button><button type="button" data-mode="clues" aria-pressed="false" data-i="clues">Definizioni</button><button type="button" data-mode="play" aria-pressed="false" data-i="play">Gioca</button></div>
 <div class="toolbar" id="dimensions"><div class="dimension-stepper"><span data-i="rows">Righe</span><button type="button" data-step="rows:-1" aria-label="Decrease rows">−</button><input id="rows" type="number" min="3" max="30" value="10" aria-label="Number of rows"><button type="button" data-step="rows:1" aria-label="Increase rows">+</button></div><div class="dimension-stepper"><span data-i="cols">Colonne</span><button type="button" data-step="cols:-1" aria-label="Decrease columns">−</button><input id="cols" type="number" min="3" max="30" value="10" aria-label="Number of columns"><button type="button" data-step="cols:1" aria-label="Increase columns">+</button></div></div>
 <div class="photo-controls" id="photoControls">
@@ -218,7 +218,7 @@ function applyDimensionInputs(){let nr=Number($('rows').value),nc=Number($('cols
 $('dimensions').addEventListener('click',ev=>{let btn=ev.target.closest('[data-step]');if(!btn)return;let [id,delta]=btn.dataset.step.split(':');setDimensions(state.rows+(id==='rows'?Number(delta):0),state.cols+(id==='cols'?Number(delta):0))});
 for(const id of ['rows','cols'])$(id).addEventListener('change',applyDimensionInputs);
 $('export').addEventListener('click',()=>{try{MRCCrosswordJSON.download(state,{progress:true})}catch{setMsg(tx('invalid'))}});
-$('mrcDownloadPuzzle').addEventListener('click',()=>{try{MRCCrosswordJSON.download(state)}catch{window.alert(state.ui.lang==='it'?'Completa le definizioni prima di scaricare il cruciverba.':'Complete the clues before downloading the crossword.')}});
+$('mrcDownloadPuzzle').addEventListener('click',()=>{try{MRCCrosswordJSON.download(state)}catch{window.alert(state.ui.lang==='it'?'Lo schema deve contenere parole collegate.':'The grid must contain connected entries.')}});
 $('import').addEventListener('click',()=>$('file').click());
 async function openJSON(input){
  const f=input.files[0];if(!f)return;
@@ -472,7 +472,7 @@ const presetRoot=document.querySelector('#startScreen .start-actions');
 if(presetRoot){
  const safeName=name=>typeof name==='string'&&/^[a-zA-Z0-9][a-zA-Z0-9._-]*\.json$/.test(name)&&!name.includes('..');
  const groups={};
- for(const [category,heading] of [['daily',"Daily crossword"],['history',"Time machine · On this day"],['classic',"Ready-to-play crosswords"],['themed',"Themed crosswords"]]){
+ for(const [category,heading] of [['daily',"Daily crossword"],['history',"Time machine · On this day"],['classic',"Sample puzzles"]]){
   const wrap=document.createElement('section');wrap.className='mrc-crossword-collection';wrap.dataset.category=category;
   const h=document.createElement('h3');h.textContent=heading;h.style.cssText='font-size:1.08rem;margin:0 0 .5rem';
   const list=document.createElement('div');list.className='mrc-crossword-collection-list';list.style.cssText='display:grid;gap:12px';
@@ -490,17 +490,16 @@ if(presetRoot){
  async function listExamples(){
   try{const r=await fetch('/assets/games/crosswords/index.json',{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw Error('HTTP '+r.status);
    const manifest=await r.json();if(!Array.isArray(manifest.games))throw Error('Invalid index');
-   const items=manifest.games.filter(x=>x.language===pageLang&&safeName(x.file)&&(x.file!=='mrc-del-giorno.json'||x.type==='daily-news'));
+   const items=manifest.games.filter(x=>x.language===pageLang&&(x.type==='daily-news'||x.type==='time-machine'||x.category==='history'||x.category==='classic')&&safeName(x.file)&&(x.file!=='mrc-del-giorno.json'||x.type==='daily-news'));
    for(const item of items){
-    const category=item.type==='daily-news'?'daily':item.type==='time-machine'||item.category==='history'?'history':item.category==='classic'?'classic':'themed';
+    const category=item.type==='daily-news'?'daily':item.type==='time-machine'||item.category==='history'?'history':'classic';
     const button=document.createElement('button');button.type='button';
     const strong=document.createElement('strong');strong.textContent=item.title||item.file;button.appendChild(strong);
     button.addEventListener('click',()=>loadExample(item.file).catch(e=>{groups[category].note.textContent="Cannot open crossword: "+e.message}));
     groups[category].list.appendChild(button);
    }
+   groups.classic.note.textContent=groups.classic.list.children.length?'':'No sample puzzles available.';
    for(const name of ['daily','history'])groups[name].note.textContent=groups[name].list.children.length?'':'No published preview yet.';
-   groups.classic.note.textContent=groups.classic.list.children.length?'':"No ready-made puzzles yet.";
-   groups.themed.note.textContent=groups.themed.list.children.length?'':"No themed crosswords yet.";
   }catch(err){for(const group of Object.values(groups))group.note.textContent="Collection unavailable: "+err.message;}
  }
  listExamples();
@@ -509,6 +508,8 @@ if(presetRoot){
 
 
 
+ const transfer=sessionStorage.getItem('mrc-crossword-transfer');
+ if(transfer){try{const next=MRCCrosswordJSON.load(JSON.parse(transfer),{playable:true});if(next){state=next;state.ui.lang=pageLang;closeStart();document.body.classList.add('game-ready')}}catch{}sessionStorage.removeItem('mrc-crossword-transfer')}
  render();save();
 })();
 </script><script src="/assets/games/playtime.js" defer></script><script src="/assets/language-preference.js" defer></script>
