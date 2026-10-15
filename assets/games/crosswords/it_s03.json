@@ -234,5 +234,10 @@
     "d:148": "Sono uguali nel box doccia",
     "d:155": "Le vocali in tivù."
   },
-  "clueSources": {}
+  "ui": {
+    "mode": "play",
+    "dir": "a",
+    "selected": 0,
+    "lang": "it"
+  }
 }

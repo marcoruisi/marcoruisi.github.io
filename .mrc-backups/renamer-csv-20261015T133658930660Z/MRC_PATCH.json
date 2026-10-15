@@ -1,0 +1,29 @@
+{
+  "files": {
+    "tools/file-renamer/tool.mjs": {
+      "before": "e342d6c371efa1ea024421a206c21b4ec71610814721adc29d23770dc2c6da75",
+      "after": "d786eac76102ffee7875e534f5162f07628eee346490fa25a14a19f88124dcaf"
+    },
+    "tools/file-renamer/tool.css": {
+      "before": "15b4a0d7c32c9cf1a3dfe05d60288264f2d37cb638291978053775b5000c1b45",
+      "after": "afd06317c9bfa16d48ef0a47b7300318451edb610c6f53e826e4956a5bae65a0"
+    },
+    "tools/file-renamer/index.html": {
+      "before": "4898015b97b73527a994696fbad3b4c95d780b5521944965a453ea6139da262a",
+      "after": "6233ca29f6c77fa5b8ab45a99be4e4ef8e9a1325d95b1515eaea652406fd9e46"
+    },
+    "it/tools/file-renamer/index.html": {
+      "before": "5bb16fa19613884c4b9b367782f8725a0f38f9aa6980811c348ea8d07c5aa627",
+      "after": "247b0c2dfa75096e219f066e2fd361624d4b31b9111e01fd8926881e6cc05e86"
+    },
+    "tools/file-renamer/csv.mjs": {
+      "before": null,
+      "after": "47d6dde022f31e8e20db3ec3d9a07107cc5150db9a7140e0b6908da84112e0e6"
+    }
+  },
+  "requires": {
+    "shared/tools.json": "376c1147aad9143687d884002e0f8522036998f5f010ee12f9dd1b7609b50724",
+    "tools/multiple-find-replace/core.mjs": "5543d7000fa958cad1f9ba133b977a8022ddc4dca542f18a6e0c06e9518d4454",
+    "tools/multiple-find-replace/case-transform.mjs": "c3dd82c395a3602f56f98b721636e19479278d86b26170b684277fc1d519861e"
+  }
+}

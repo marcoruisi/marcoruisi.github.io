@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/list-filter/list-filter.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcorui.si/tools/list-filter/">
+<meta property="og:url" content="https://marcorui.si/tools/list-filter/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/list-filter/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/filtra-liste/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/list-filter/">
+<title>List Filter | MRC · Marco Ruisi</title>
+<meta name="description" content="Filter pasted lists or CSV files, choose and reorder columns, and copy results into Google Sheets. Browser-based.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="List Filter | MRC · Marco Ruisi">
+<meta property="og:description" content="Filter pasted lists or CSV files, choose and reorder columns, and copy results into Google Sheets. Browser-based.">
+<meta name="twitter:title" content="List Filter | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Filter pasted lists or CSV files, choose and reorder columns, and copy results into Google Sheets. Browser-based.">
+<!-- MRC SHARED METADATA END -->
+</head><body>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/" aria-label="marcorui.si home">marcorui.si</a>
+        <a href="/tools/" aria-current="page">Tools</a><a href="/games/">Games</a><a href="/kit/">Kit</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/list-filter/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/filtra-liste/" lang="it">IT</a></nav>
+</header>
+<nav class="mrc-tools-secondary" aria-label="Tools navigation"><a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a><a href="/tool-flows/">Tool Flows</a></nav>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app lf" data-list-filter data-lang="en">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>List Filter</h1><p>Find the rows you need, choose the columns and copy results to Excel or Google Sheets. Your original data stays unchanged.</p>
+<section class="lf-box"><h2>Choose how to import your list</h2><p class="lf-hint">Three alternative methods: open the one you prefer.</p>
+<div class="lf-input-methods" id="lf-input-methods">
+<details class="lf-input-method"><summary>Paste a list</summary><div class="lf-input-body"><label for="lf-raw">Paste cells from Excel, Google Sheets or CSV text</label><textarea id="lf-raw" placeholder="Name&#9;Province&#9;Country&#10;Store A&#9;Taranto&#9;Italy"></textarea><div class="lf-actions"><button type="button" class="lf-primary" id="lf-loadpaste">Load pasted text</button></div></div></details>
+<details class="lf-input-method"><summary>Upload a CSV / TXT file</summary><div class="lf-input-body"><label for="lf-file">Choose a file from your device</label><input type="file" id="lf-file" accept=".csv,.txt,.tsv,text/csv,text/plain,text/tab-separated-values"><p class="lf-hint">Up to 10 MB, 50,000 rows and 100 columns.</p></div></details>
+<details class="lf-input-method"><summary>Import a public CSV / Google Sheet</summary><div class="lf-input-body"><label for="lf-url">Public Google Sheet or CSV URL</label><input type="url" id="lf-url" placeholder="https://docs.google.com/spreadsheets/d/…"><div class="lf-actions"><button type="button" id="lf-loadurl">Load from URL</button></div><p class="lf-hint">The sheet must be public. If direct access is blocked, download and upload the CSV file instead.</p>
+<div class="lf-example"><strong>Public CSV to test this tool</strong><p>ANPR historical Italian municipalities archive from Italy’s Ministry of the Interior. Includes names, location codes and provinces to test filters and columns without providing personal information.</p><p><a href="https://github.com/italia/anpr/blob/master/src/archivi/ANPR_archivio_comuni.csv" target="_blank" rel="noopener noreferrer">View the official dataset ↗</a> · <a href="https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv" target="_blank" rel="noopener noreferrer">Download CSV ↗</a></p><button type="button" class="lf-example-url" data-csv-url="https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv">Fill URL field</button><p class="lf-hint">If your browser blocks direct access, download the CSV and upload it as a file.</p></div></div></details>
+</div><p id="lf-loaded" class="lf-stat" role="status"></p><p class="lf-hint">First row contains column names. Automatically detects tabs, commas, semicolons and pipes.</p></section>
+<div id="lf-workspace" class="lf-hidden">
+<section class="lf-box"><h2>2. Filter rows</h2><label for="lf-search">Search all columns</label><input type="search" id="lf-search" placeholder="E.g. Taranto, Spain, shop name…"><div class="lf-toolbar"><h3>Column filters</h3><div class="lf-actions"><button type="button" id="lf-addrule">+ Add filter</button><button type="button" id="lf-clear">Clear filters</button></div></div><p class="lf-hint">Different filters use AND. Separate multiple values with | in one field for OR. Search ignores case and accents.</p><div id="lf-rules"></div></section>
+<section class="lf-box"><div class="lf-toolbar"><h2>3. Arrange output columns</h2><div class="lf-actions"><button type="button" id="lf-allcols">Show all</button><button type="button" id="lf-resetcols">Reset columns</button></div></div><p class="lf-hint">Uncheck to exclude, use ↑ ↓ to reorder, and edit output header names. Hidden columns are still searchable.</p><div id="lf-columns"></div></section>
+<section class="lf-box"><div class="lf-toolbar"><h2>4. Results</h2><span id="lf-stats" class="lf-stat"></span></div><div class="lf-actions"><button type="button" class="lf-primary" id="lf-copy">Copy for Excel / Sheets</button><button type="button" id="lf-csv">Download CSV</button><button type="button" id="lf-txt">Download TXT</button></div><p id="lf-previewinfo" class="lf-hint"></p><div class="lf-overflow"><table id="lf-table"></table></div></section>
+</div><p id="lf-message" class="lf-message" role="status" aria-live="polite"></p>
+<section class="lf-box"><h2>Your data stays yours</h2><p>Uploaded files and pasted lists are processed in your browser, not sent to MRC servers. When loading a public URL, your browser contacts the CSV host directly.</p></section>
+</main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">What if this were just the first step?</h2><p>The result of one tool can be the starting point for another. The connections are yours to find.</p></div>
+    <a class="mrc-flow-prompt-link" href="/tool-flows/">Explore Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Related tools</h2><ul><li><a href="/tools/mrc-dynamic-content/">MRC Dynamic Content</a></li><li><a href="/tools/mrc-uploader/">MRC Uploader</a></li><li><a href="/tools/multiple-find-replace/">Multiple Find &amp; Replace</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Something not working?</h2>
+    <p>Found a problem or have an idea to improve this tool?</p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20List%20Filter%20%E2%80%94%20Feedback&amp;body=Tool%3A%20List%20Filter%0D%0APage%3A%20https%3A%2F%2Fmarcorui.si%2Ftools%2Flist-filter%2F%0D%0A%0D%0AFeedback%20type%3A%20bug%20%2F%20suggestion%20%2F%20other%0D%0A%0D%0ADescription%3A%0D%0A%0D%0A%0D%0ABrowser%20and%20device%20%28optional%29%3A">Send feedback →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="/assets/list-filter/list-filter.js" defer></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+</body></html>

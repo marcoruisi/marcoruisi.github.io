@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/watermark/tool.css">
+<link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<link rel="stylesheet" href="/assets/shared-ui.css">
+<!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcorui.si/it/tools/watermark/">
+<meta property="og:url" content="https://marcorui.si/it/tools/watermark/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/watermark/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/watermark/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/watermark/">
+<title>Watermark | MRC · Marco Ruisi</title>
+<meta name="description" content="Aggiungi watermark di testo, immagine o PDF a immagini e documenti multipli. Scegli pagine e posizione in percentuale.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Watermark | MRC · Marco Ruisi">
+<meta property="og:description" content="Aggiungi watermark di testo, immagine o PDF a immagini e documenti multipli. Scegli pagine e posizione in percentuale.">
+<meta name="twitter:title" content="Watermark | MRC · Marco Ruisi">
+<meta name="twitter:description" content="Aggiungi watermark di testo, immagine o PDF a immagini e documenti multipli. Scegli pagine e posizione in percentuale.">
+<!-- MRC SHARED METADATA END -->
+</head><body>
+<!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/it/" aria-label="marcorui.si home">marcorui.si</a>
+        <a href="/it/tools/" aria-current="page">Tools</a><a href="/it/giochi/">Giochi</a><a href="/it/kit/">Kit</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Selezione lingua"><a href="/tools/watermark/" lang="en">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/watermark/" lang="it" aria-current="page">IT</a></nav>
+</header>
+<nav class="mrc-tools-secondary" aria-label="Navigazione Tools"><a href="/it/tools/">Everyday Tools</a><a href="/it/tools/tutti/">Tutti gli strumenti</a><a href="/it/tool-flows/">Tool Flows</a></nav>
+<!-- MRC SHARED TOOL HEADER END -->
+<main class="app">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>Watermark</h1><p class="intro">Un marchio, molti formati. Aggiungi testo, un logo o una pagina PDF a immagini e documenti. Tutto resta nel tuo browser.</p>
+<fieldset id="controls" class="wm-controls"><legend class="sr-only">Impostazioni watermark</legend>
+<section class="wm-panel"><h2>1. Aggiungi i file</h2>
+<label for="files">Immagini PNG, JPEG, WebP e documenti PDF, anche insieme</label>
+<input id="files" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf" multiple>
+<label for="pages">Pagine PDF: tutte oppure una selezione</label><input id="pages" type="text" placeholder="Vuoto = tutte · Esempio: 1, 3-5">
+<p class="wm-help">La selezione vale per tutti i PDF. Puoi sostituirla per ciascun file qui sotto. I numeri oltre la fine del documento vengono ignorati; un PDF senza pagine corrispondenti non viene esportato. Le immagini vengono sempre marcate.</p>
+<div id="file-list" aria-label="File caricati e selezioni pagine"></div>
+</section>
+<section class="wm-panel"><h2>2. Scegli il marchio</h2>
+<label for="mark-type">Tipo di marchio</label><select id="mark-type"><option value="text">Testo</option><option value="file">Immagine o pagina PDF</option></select>
+<div id="text-fields"><label for="mark-text">Testo del watermark</label><textarea id="mark-text" rows="2" maxlength="1000">BOZZA</textarea><label for="mark-color">Colore</label><input id="mark-color" type="color" value="#202124"></div>
+<div id="file-fields" hidden><label for="mark-file">Carica il marchio</label><input id="mark-file" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf"><div id="pdf-mark-fields" hidden><label for="mark-page">Pagina da usare come marchio</label><input id="mark-page" type="number" min="1" step="1" value="1"></div><p class="wm-help">Per un logo senza sfondo usa un PNG trasparente. Il marchio PDF viene convertito in immagine; il bianco disegnato nel file resta bianco.</p></div>
+</section>
+<section class="wm-panel"><h2>3. Posizione e dimensione</h2>
+<p>X e Y indicano il centro del marchio, dall’angolo in alto a sinistra. 50% / 50% = centro pagina.</p>
+<div class="wm-grid"><label for="x">X (%)<input id="x" type="number" min="0" max="100" step="0.1" value="50"></label><label for="y">Y (%)<input id="y" type="number" min="0" max="100" step="0.1" value="50"></label><label for="size">Larghezza (% pagina)<input id="size" type="number" min="0.1" max="100" step="0.1" value="30"></label><label for="opacity">Opacità (%)<input id="opacity" type="number" min="1" max="100" step="1" value="35"></label></div>
+<div class="wm-actions"><button type="button" class="secondary" data-position="10,10">Alto a sinistra</button><button type="button" class="secondary" data-position="50,50">Centro</button><button type="button" class="secondary" data-position="90,90">Basso a destra</button></div>
+<p class="wm-help">Le proporzioni del marchio sono conservate. Vicino ai bordi la posizione viene limitata per mantenerlo interamente nella pagina; se troppo alto, il marchio viene ridotto.</p>
+</section>
+<section class="wm-panel"><h2>4. Controlla e applica</h2>
+<div class="wm-grid"><label for="preview-file">File da visualizzare<select id="preview-file"></select></label><label for="preview-page">Pagina da visualizzare<input id="preview-page" type="number" min="1" step="1" value="1" disabled></label></div>
+<div class="wm-actions"><button id="preview-button" class="secondary" type="button">Aggiorna anteprima</button><button id="process" type="button">Applica a tutti i file</button></div>
+<p id="preview-note" class="wm-help">Controlla una pagina prima di esportare.</p><div id="preview-wrap" hidden><canvas id="preview" aria-label="Anteprima del watermark"></canvas></div>
+</section></fieldset>
+<p id="status" role="status" aria-live="polite"></p><section class="wm-panel"><h2>File pronti</h2><div id="results" aria-live="polite"></div><button id="download-all" type="button" hidden>Scarica tutti in ZIP</button>
+<p class="wm-help">Scarica ogni file dal suo nome oppure raccogli i risultati in uno ZIP. I PDF mantengono le pagine originali: viene aggiunto soltanto il marchio. Le immagini mantengono le dimensioni in pixel: JPEG in JPEG, PNG e WebP in PNG. I metadati delle immagini non vengono trasferiti.</p></section></main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">E se fosse solo il primo passaggio?</h2><p>Il risultato di uno strumento può essere il punto di partenza per un altro. I collegamenti li trovi tu.</p></div>
+    <a class="mrc-flow-prompt-link" href="/it/tool-flows/">Scopri Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Strumenti correlati</h2><ul><li><a href="/it/tools/immagini-in-pdf/">Immagini in PDF</a></li><li><a href="/it/tools/webp-compressor/">WebP Compressor</a></li><li><a href="/it/tools/pdf-compressor/">PDF Compressor</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Qualcosa non funziona?</h2>
+    <p>Hai trovato un problema o hai un suggerimento per migliorare questo strumento?</p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20Watermark%20%E2%80%94%20Feedback&amp;body=Tool%3A%20Watermark%0D%0APagina%3A%20https%3A%2F%2Fmarcorui.si%2Fit%2Ftools%2Fwatermark%2F%0D%0A%0D%0ATipo%20di%20segnalazione%3A%20problema%20%2F%20suggerimento%20%2F%20altro%0D%0A%0D%0ADescrizione%3A%0D%0A%0D%0A%0D%0ABrowser%20e%20dispositivo%20%28facoltativo%29%3A">Invia una segnalazione →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="Informazioni su questo strumento gratuito">
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Ti serve qualcosa di più specifico?</h2>
+        <p>Questo strumento risolve un problema comune. Se il tuo lavoro richiede regole, integrazioni o automazioni diverse, posso progettare una soluzione intorno a quelle esigenze.</p>
+        <p><a href="/it/contatti/">Raccontami il tuo problema →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+
+<script src="/tools/images-to-pdf/pdf-lib-1.17.1.min.js"></script><script type="module" src="/tools/watermark/tool.mjs"></script>
+
+<script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+</body></html>

@@ -1,0 +1,62 @@
+[
+  {
+    "path": "assets/games/crosswords/mrc-tema-storia.json",
+    "sha256": "f3f747fce2d9c2607dbe69e8261f76b1cc7b56497c7d211ddc4971d9dc0c3b9a"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-tecnologia.json",
+    "sha256": "55828016652449abd8d5bf88693235561b0a13537cfe1aefd0f13844bc9f797a"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-scienza.json",
+    "sha256": "26d5d1398ed965aac9d9bbf3ad9ff471b87caeff04ae04b475adad93fd73d585"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-musica.json",
+    "sha256": "4c84efabbb8eb25c78b644b2a06bb95d436b64df73967c8ae35576222f42d9ab"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-geografia.json",
+    "sha256": "b5b311582a4b8d173ec6f610dc9f945d17939640f61b2eac8064c8add6be4ad7"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-cinema.json",
+    "sha256": "5f175f9105ba7570c32f2afa92ed84ede724329dc9cd527e57e7e90d67998cca"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-letteratura.json",
+    "sha256": "7194b72e15872822fe2da3f24a0688a926e21b9c8e211f8bd9be3203e47404b4"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-natura.json",
+    "sha256": "de71e5576874934ceab98f754c528cd8ba9d8e910c9d66cdeb597aecebd16744"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-curiosita.json",
+    "sha256": "2233cf01c04f70587a9e6085181b02fb32f57b6940a29642d1d18beddc95119f"
+  },
+  {
+    "path": "assets/games/crosswords/mrc-tema-sport.json",
+    "sha256": "c5c3ed6d4f37ca9e2684dccf17dc3ff94e0ab6ff060d53fc60cf334c2a5d6645"
+  },
+  {
+    "path": "data/natura.json",
+    "sha256": "3b9b65f444e90c6ccd18850c9226881f52e4fcb2fba96785dc36367c60f257d6"
+  },
+  {
+    "path": "data/culture-en.json",
+    "sha256": "cccd46b70be73b7358e31c50fc44f2294ca478a946656c743170259270d17aee"
+  },
+  {
+    "path": "data/nature-en.json",
+    "sha256": "5ee66192915d4e0caa4145dd996f18d053c2f6e92434e5639921a00e864f01f1"
+  },
+  {
+    "path": "data/cultura.json",
+    "sha256": "ac595c19aa6ed5cc2de654a2f242170e44b98455391197a3567675868db50ab2"
+  },
+  {
+    "path": "scripts/previews/preview-2026-10-14.json",
+    "sha256": "f2b3e30b3e816227aebb899f6bd4672d8c6f87c11371f75813cfcb48efd72d34"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "files": {
+    "assets/support.js": {
+      "before": "fe4a85045113f9b2922e397b414ae445dbd14e36a7572fde9ab60e32b35f9096",
+      "after": "77bb112192dee3175e579bb834d211ab232301a8ed34dc61a125c71835192fe9"
+    }
+  },
+  "requires": {}
+}
