@@ -32,6 +32,14 @@
       "language": "en",
       "type": "curated",
       "category": "classic"
+    },
+    {
+      "id": "en_s02",
+      "file": "en_s02.json",
+      "title": "Sample 02",
+      "language": "en",
+      "type": "curated",
+      "category": "classic"
     }
   ]
 }
