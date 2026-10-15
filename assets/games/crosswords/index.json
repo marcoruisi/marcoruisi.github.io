@@ -2,18 +2,34 @@
   "version": 1,
   "games": [
     {
-      "id": "sample1",
-      "file": "mrc-cruciverba-sample01.json",
+      "id": "it_s01",
+      "file": "it_s01.json",
       "title": "Esempio 01",
       "language": "it",
       "type": "curated",
       "category": "classic"
     },
     {
-      "id": "sample2",
-      "file": "mrc-cruciverba-sample02.json",
+      "id": "it_s02",
+      "file": "it_s00.json",
       "title": "Esempio 02",
       "language": "it",
+      "type": "curated",
+      "category": "classic"
+    },
+    {
+      "id": "it_s03",
+      "file": "it_s03.json",
+      "title": "Esempio 03",
+      "language": "it",
+      "type": "curated",
+      "category": "classic"
+    },
+    {
+      "id": "en_s01",
+      "file": "en_s01.json",
+      "title": "Sample 01",
+      "language": "en",
       "type": "curated",
       "category": "classic"
     }
