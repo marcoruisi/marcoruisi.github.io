@@ -40,8 +40,8 @@
 <h1>Watermark</h1><p class="intro">One watermark, many formats. Add text, a logo or a PDF page to images and documents. Everything stays in your browser.</p>
 <fieldset id="controls" class="wm-controls"><legend class="sr-only">Watermark settings</legend>
 <section class="wm-panel"><h2>1. Add files</h2>
-<label for="files">PNG, JPEG, WebP images and PDF documents, including mixed batches</label>
-<input id="files" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf" multiple>
+<div id="file-drop" class="wm-drop"><label for="files">PNG, JPEG, WebP images and PDF documents, including mixed batches</label>
+<input id="files" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf" multiple><p class="wm-help">You can also drop files or folders here.</p></div>
 <label for="pages">PDF pages: all or a selection</label><input id="pages" type="text" placeholder="Empty = all · Example: 1, 3-5">
 <p class="wm-help">This selection applies to all PDFs. Override it for each file below. Numbers beyond the end are ignored; a PDF with no matching pages is not exported. Images are always watermarked.</p>
 <div id="file-list" aria-label="Uploaded files and page selections"></div>
@@ -49,7 +49,7 @@
 <section class="wm-panel"><h2>2. Choose a watermark</h2>
 <label for="mark-type">Watermark type</label><select id="mark-type"><option value="text">Text</option><option value="file">Image or PDF page</option></select>
 <div id="text-fields"><label for="mark-text">Watermark text</label><textarea id="mark-text" rows="2" maxlength="1000">DRAFT</textarea><label for="mark-color">Colour</label><input id="mark-color" type="color" value="#202124"></div>
-<div id="file-fields" hidden><label for="mark-file">Upload watermark</label><input id="mark-file" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf"><div id="pdf-mark-fields" hidden><label for="mark-page">Page to use as watermark</label><input id="mark-page" type="number" min="1" step="1" value="1"></div><p class="wm-help">Use a transparent PNG for a logo without a background. The PDF watermark is converted to an image; white areas drawn in the file remain white.</p></div>
+<div id="file-fields" hidden><div id="mark-drop" class="wm-drop"><label for="mark-file">Upload watermark</label><input id="mark-file" type="file" accept="image/png,image/jpeg,image/webp,application/pdf,.pdf"><p class="wm-help">You can also drop your watermark here.</p></div><div id="pdf-mark-fields" hidden><label for="mark-page">Page to use as watermark</label><input id="mark-page" type="number" min="1" step="1" value="1"></div><p class="wm-help">Use a transparent PNG for a logo without a background. The PDF watermark is converted to an image; white areas drawn in the file remain white.</p></div>
 </section>
 <section class="wm-panel"><h2>3. Position and size</h2>
 <p>X and Y locate the watermark centre, measured from the top-left corner. 50% / 50% = page centre.</p>
@@ -59,8 +59,9 @@
 </section>
 <section class="wm-panel"><h2>4. Preview and apply</h2>
 <div class="wm-grid"><label for="preview-file">Preview file<select id="preview-file"></select></label><label for="preview-page">Preview page<input id="preview-page" type="number" min="1" step="1" value="1" disabled></label></div>
-<div class="wm-actions"><button id="preview-button" class="secondary" type="button">Refresh preview</button><button id="process" type="button">Apply to all files</button></div>
+
 <p id="preview-note" class="wm-help">Preview a page before exporting.</p><div id="preview-wrap" hidden><canvas id="preview" aria-label="Watermark preview"></canvas></div>
+<div class="wm-actions"><button id="preview-button" class="secondary" type="button">Refresh preview</button><button id="process" type="button">Apply to all files</button></div>
 </section></fieldset>
 <p id="status" role="status" aria-live="polite"></p><section class="wm-panel"><h2>Ready files</h2><div id="results" aria-live="polite"></div><button id="download-all" type="button" hidden>Download all as ZIP</button>
 <p class="wm-help">Download each file by its name or collect the results in a ZIP. PDFs retain their original pages: only the watermark is added. Images keep their pixel dimensions: JPEG to JPEG, PNG and WebP to PNG. Image metadata is not transferred.</p></section></main>

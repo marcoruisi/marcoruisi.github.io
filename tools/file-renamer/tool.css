@@ -7,3 +7,5 @@
 .duplicate-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.duplicate-preview{border:1px solid #c8d3e0;border-radius:8px;padding:14px;margin:14px 0;background:#f8fafc}.duplicate-preview h3{margin:0 0 8px;font-size:17px}.duplicate-preview td{overflow-wrap:anywhere}
 
 [hidden]{display:none!important}#rename-mode{max-width:100%;margin-bottom:8px}#original-mode,#csv-mode{border-top:1px solid #d7dbe0;margin-top:18px;padding-top:12px}#csv-status{white-space:pre-line;line-height:1.5}#csv-columns .table-wrap{margin:15px 0}#csv-old,#csv-new{max-width:100%}
+
+#folder-choice{max-width:560px;width:calc(100% - 60px);border:1px solid #d7dbe0;border-radius:12px;padding:24px;font:inherit}#folder-choice::backdrop{background:#0006}

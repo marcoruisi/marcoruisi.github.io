@@ -1,3 +1,4 @@
+import {readDrop} from '../shared/file-drop.mjs';
 import {pageSelection,placement,watermarkPDF,outputName,makeZip} from './core.mjs';
 const $=id=>document.getElementById(id),it=document.documentElement.lang==='it',tr=(a,b)=>it?a:b;
 const errors={pages:tr('Pagine non valide. Usa ad esempio 1, 3-5.','Invalid pages. Use e.g. 1, 3-5.'),geometry:tr('Controlla posizione e dimensione.','Check position and size.'),noPages:tr('Nessuna pagina corrisponde alla selezione.','No pages match the selection.'),signed:tr('PDF con firme: usa una copia senza firme.','Signed PDF: use an unsigned copy.'),zipLimit:tr('Limite ZIP superato: scarica i file singolarmente.','ZIP limit exceeded: download individual files.'),image:tr('Immagine non leggibile. Usa PNG, JPEG o WebP.','Cannot read image. Use PNG, JPEG or WebP.'),large:tr('Immagine troppo grande (massimo 40 milioni di pixel).','Image too large (maximum 40 million pixels).'),mark:tr('Inserisci un testo o carica il marchio.','Enter text or upload a watermark.'),markPage:tr('Pagina del marchio PDF non valida.','Invalid PDF watermark page.')};
@@ -65,9 +66,9 @@ function renderFiles(){
 }
 function syncPage(){const e=entries[Number($('preview-file').value)];$('preview-page').max=e?.pages||1;$('preview-page').value='1';$('preview-page').disabled=!e?.pdf;}
 async function busy(fn){$('controls').disabled=true;$('download-all').disabled=true;try{await fn();}catch(e){$('status').textContent=message(e);}finally{$('controls').disabled=false;$('download-all').disabled=false;}}
-$('files').addEventListener('change',()=>busy(async()=>{
+async function addFiles(files){await busy(async()=>{
  invalidate();const failures=[];
- for(const file of $('files').files){
+ for(const file of files){
   try{
    const pdf=isPDF(file);let pages=1;
    if(pdf){const doc=await PDFLib.PDFDocument.load(await file.arrayBuffer(),{updateMetadata:false});pages=doc.getPageCount();if(!pages)throw Error('noPages');}
@@ -76,7 +77,8 @@ $('files').addEventListener('change',()=>busy(async()=>{
   }catch(e){failures.push(file.name+': '+message(e));}
  }
  $('files').value='';renderFiles();$('status').textContent=tr(`${entries.length} file pronti.`,`${entries.length} files ready.`)+(failures.length?'\n'+failures.join('\n'):'');
-}));
+});}
+$('files').addEventListener('change',()=>addFiles([...$('files').files]));
 $('controls').addEventListener('input',invalidate);
 $('mark-type').addEventListener('change',()=>{const text=$('mark-type').value==='text';$('text-fields').hidden=!text;$('file-fields').hidden=text;invalidate();});
 $('mark-file').addEventListener('change',()=>{$('pdf-mark-fields').hidden=!$('mark-file').files[0]||!isPDF($('mark-file').files[0]);invalidate();});
@@ -119,3 +121,24 @@ $('process').addEventListener('click',()=>busy(async()=>{
 $('download-all').addEventListener('click',()=>busy(async()=>{
  const zip=await makeZip(outputs),url=URL.createObjectURL(zip),a=document.createElement('a');a.href=url;a.download='mrc-watermark.zip';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
 }));
+
+for(const type of ['dragover','drop'])window.addEventListener(type,event=>{if([...event.dataTransfer?.types||[]].includes('Files'))event.preventDefault();});
+for(const id of ['file-drop','mark-drop']){
+ const zone=$(id);
+ zone.addEventListener('dragover',event=>{event.preventDefault();if(!$('controls').disabled)zone.classList.add('drag');});
+ zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+ zone.addEventListener('drop',async event=>{
+  event.preventDefault();zone.classList.remove('drag');if($('controls').disabled)return;
+  if(id==='file-drop'){
+   // Only documents/images are meaningful here; traverse dropped folders.
+   $('controls').disabled=true;
+   try{const items=await readDrop(event.dataTransfer,async()=> 'files');$('controls').disabled=false;await addFiles(items.map(i=>i.file));}
+   catch{$('status').textContent=tr('Impossibile leggere i file trascinati.','Cannot read the dropped files.');}
+   finally{$('controls').disabled=false;}
+  }else{
+   const files=[...event.dataTransfer.files];
+   if(files.length!==1){$('status').textContent=tr('Trascina un solo marchio.','Drop one watermark file.');return;}
+   const transfer=new DataTransfer();transfer.items.add(files[0]);$('mark-file').files=transfer.files;$('mark-file').dispatchEvent(new Event('change',{bubbles:true}));
+  }
+ });
+}

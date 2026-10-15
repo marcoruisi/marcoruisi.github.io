@@ -24,23 +24,25 @@ export function parseTable(text, separator='auto') {
 }
 export function planMapping(entries,rows,oldColumn,newColumn,hasHeader=true){
  if(!Number.isInteger(oldColumn)||!Number.isInteger(newColumn)||oldColumn<0||newColumn<0||oldColumn===newColumn)throw Error('csvChoice');
- const lookup=new Map();
+ const lookup=new Map();let skipped=0;
  for(const row of rows.slice(hasHeader?1:0)){
-  if(oldColumn>=row.length||newColumn>=row.length)throw Error('csvColumns');
-  const old=row[oldColumn].normalize('NFC'),next=row[newColumn];
-  if(!old||!next)throw Error('csvEmpty');
+  const old=(row[oldColumn]??'').normalize('NFC'),next=row[newColumn]??'';
+  if(!old.trim()||!next.trim()){skipped++;continue;}
   if(lookup.has(old)&&lookup.get(old)!==next)throw Error('csvAmbiguous');
   lookup.set(old,next);
  }
  if(!lookup.size)throw Error('csvEmpty');
  const used=new Set();let matched=0;
  const changes=entries.map(entry=>{
-  const key=entry.file.name.normalize('NFC'),original=entry.file.name.slice(0,entry.file.name.length-entry.ext.length);
+  const path=(entry.originalPath||entry.file.name).normalize('NFC');
+  const basename=entry.file.name.normalize('NFC');
+  const key=lookup.has(path)?path:basename,original=entry.file.name.slice(0,entry.file.name.length-entry.ext.length);
   if(!lookup.has(key))return {entry,base:original,matched:false};
-  const next=lookup.get(key),p=next.lastIndexOf('.'),ext=p>0?next.slice(p):'',base=p>0?next.slice(0,p):next;
+  if(key===basename&&entries.filter(e=>e.file.name.normalize('NFC')===basename).length>1)throw Error('csvAmbiguous');
+  const next=lookup.get(key),p=entry.isDirectory?-1:next.lastIndexOf('.'),ext=p>0?next.slice(p):'',base=p>0?next.slice(0,p):next;
   if(ext.toLowerCase()!==entry.ext.toLowerCase())throw Error('csvExtension');
   if(!base||base==='.'||base==='..'||/[\\/\x00-\x1f<>:"|?*]/.test(next)||/[. ]$/.test(base)||/[. ]$/.test(next))throw Error('csvName');
   matched++;used.add(key);return {entry,base,matched:true};
  });
- return {changes,matched,unmatched:entries.length-matched,unused:lookup.size-used.size};
+ return {changes,matched,unmatched:entries.length-matched,unused:lookup.size-used.size,skipped};
 }
