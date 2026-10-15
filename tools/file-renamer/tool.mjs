@@ -1,8 +1,14 @@
+import {parseTable, planMapping} from './csv.mjs';
 import {changeCase} from '../multiple-find-replace/case-transform.mjs';
 import {replaceAll} from '../multiple-find-replace/core.mjs';
 const it=document.documentElement.lang==='it', $=id=>document.getElementById(id);
 const tr=(a,b)=>it?a:b;
 let entries=[];
+let renameMode='original',csvData=null,csvText='',csvRead=0;
+const draftKey=()=>renameMode==='csv'?'csvBase':'originalBase';
+function saveDraft(){for(const e of entries)e[draftKey()]=e.base;}
+function setMode(mode){saveDraft();renameMode=mode;for(const e of entries)e.base=e[draftKey()];$('original-mode').hidden=mode!=='original';$('csv-mode').hidden=mode!=='csv';render();refreshMapping();}
+$('rename-mode').addEventListener('change',()=>setMode($('rename-mode').value));
 const split=name=>{const p=name.lastIndexOf('.');return p>0?{base:name.slice(0,p),ext:name.slice(p)}:{base:name,ext:''};};
 const invalid=name=>!name||name==='.'||name==='..'||/[\\/\x00-\x1f<>:"|?*]/.test(name)||/[. ]$/.test(name);
 const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -57,17 +63,18 @@ $('duplicate-confirm').addEventListener('click',()=>{
  if(!pendingDuplicateChanges)return;
  const changes=pendingDuplicateChanges;
  for(const c of changes)entries[c.i].base=c.base;
+ saveDraft();
  render();
  $('status').textContent=tr(`${changes.length} nomi duplicati risolti.`,`${changes.length} duplicate names resolved.`);
 });
-$('rows').addEventListener('input',event=>{const t=event.target;if(t.dataset.name===undefined)return;entries[+t.dataset.name].base=t.value;validate();updateErrors();});
+$('rows').addEventListener('input',event=>{const t=event.target;if(t.dataset.name===undefined)return;entries[+t.dataset.name].base=t.value;saveDraft();validate();updateErrors();});
 $('rows').addEventListener('change',event=>{const t=event.target;if(t.dataset.select===undefined)return;entries[+t.dataset.select].selected=t.checked;validate();});
 $('all').addEventListener('change',e=>{entries.forEach(x=>x.selected=e.target.checked);render();});
-function addFiles(files){for(const file of files){const {base,ext}=split(file.name);entries.push({file,base,ext,selected:true,error:''});}render();$('file-status').textContent=tr(`${files.length} file aggiunti.`,`Added ${files.length} files.`);}
+function addFiles(files){for(const file of files){const {base,ext}=split(file.name);entries.push({file,base,ext,originalBase:base,csvBase:base,selected:true,error:''});}render();refreshMapping();$('file-status').textContent=tr(`${files.length} file aggiunti.`,`Added ${files.length} files.`);}
 $('files').addEventListener('change',e=>{addFiles([...e.target.files]);e.target.value='';});
 for(const eventName of ['dragover','dragenter'])$('drop').addEventListener(eventName,e=>{e.preventDefault();$('drop').classList.add('drag');});
 for(const eventName of ['drop','dragleave'])$('drop').addEventListener(eventName,e=>{e.preventDefault();$('drop').classList.remove('drag');if(eventName==='drop')addFiles([...e.dataTransfer.files]);});
-$('reset').addEventListener('click',()=>{entries.forEach(e=>e.base=split(e.file.name).base);render();});
+$('reset').addEventListener('click',()=>{entries.forEach(e=>e.base=split(e.file.name).base);saveDraft();render();});
 const rules=[];
 function addRule(find='',replace=''){
  const rule={find,replace};rules.push(rule);
@@ -81,49 +88,84 @@ function addRule(find='',replace=''){
 }
 $('add-rule').addEventListener('click',()=>addRule());addRule();
 $('apply').addEventListener('click',()=>{
+ if(renameMode!=='original')return;
  if(rules.some(r=>!r.find&&r.replace)){$('status').textContent=tr('Completa la coppia Trova/Sostituisci.','Complete the Find/Replace pair.');return;}
- const mode=$('case-mode').value;
- for(const e of entries.filter(e=>e.selected)){
-   let name=e.base;
-   name=replaceAll(name,rules,$('case-sensitive').checked).text;
-   e.base=changeCase(name,mode,it?'it':'en');
- }
- render();
-});
-// Prefix and suffix are literal. Sequence is a special prefix/suffix placed at the outer edge.
-$('apply-extras').addEventListener('click',()=>{
  const chosen=entries.filter(e=>e.selected);
  if(!chosen.length){$('status').textContent=tr('Seleziona almeno un file.','Select at least one file.');return;}
- const prefix=$('prefix').value, suffix=$('suffix').value;
- const numbered=$('sequence-on').checked, width=Number($('sequence-digits').value);
- const first=Number($('sequence-first').value), glue=$('sequence-separator').value;
- if(numbered&&(!Number.isSafeInteger(first)||first<0||first>999999||!Number.isSafeInteger(first+chosen.length-1))){
-   $('status').textContent=tr('Numero iniziale non valido.','Invalid starting number.');return;
- }
- if(!prefix&&!suffix&&!numbered){$('status').textContent=tr('Inserisci un prefisso, un suffisso o attiva la numerazione.','Enter a prefix or suffix, or enable numbering.');return;}
- const atStart=$('sequence-position').value==='start';
- chosen.forEach((e,i)=>{
-   const seq=numbered?String(first+i).padStart(width,'0'):'';
-   e.base=(numbered&&atStart?seq+glue:'')+prefix+e.base+suffix+(numbered&&!atStart?glue+seq:'');
+ const numbered=$('sequence-on').checked,width=Number($('sequence-digits').value),first=Number($('sequence-first').value);
+ if(numbered&&(![2,3,4].includes(width)||!$('sequence-first').value.trim()||!Number.isSafeInteger(first)||first<0||first>999999||!Number.isSafeInteger(first+chosen.length-1))){$('status').textContent=tr('Numero iniziale non valido.','Invalid starting number.');return;}
+ const prefix=$('prefix').value,suffix=$('suffix').value,glue=$('sequence-separator').value,atStart=$('sequence-position').value==='start';
+ const changes=chosen.map((e,i)=>{
+  const original=split(e.file.name).base;
+  const name=changeCase(replaceAll(original,rules,$('case-sensitive').checked).text,$('case-mode').value,it?'it':'en');
+  const seq=numbered?String(first+i).padStart(width,'0'):'';
+  return {e,base:(numbered&&atStart?seq+glue:'')+prefix+name+suffix+(numbered&&!atStart?glue+seq:'')};
  });
- render();
+ for(const {e,base} of changes)e.base=base;
+ saveDraft();render();
 });
-function parseCSV(text){const result=[];let row=[],field='',quoted=false;for(let i=0;i<text.length;i++){
- const c=text[i];if(quoted){if(c==='"'){if(text[i+1]==='"'){field+='"';i++;}else quoted=false;}else field+=c;}
- else if(c==='"'&&field==='')quoted=true;
- else if(c===','||c==='\r'||c==='\n'){row.push(field);field='';if(c!==','){if(row.some(x=>x!==''))result.push(row);row=[];if(c==='\r'&&text[i+1]==='\n')i++;}}
- else field+=c;
- }if(quoted)throw Error(tr('Virgolette CSV non chiuse','Unclosed CSV quotes'));if(row.length||field){row.push(field);result.push(row);}return result;
+const csvErrors={
+ csvSyntax:tr('CSV non valido: controlla virgolette e separatore.','Invalid CSV: check quotes and delimiter.'),
+ csvColumns:tr('Servono almeno due colonne; verifica il separatore e le colonne scelte.','At least two columns are required; check the delimiter and selected columns.'),
+ csvChoice:tr('Scegli due colonne diverse per nome originale e nuovo nome.','Choose different columns for original and new name.'),
+ csvEmpty:tr('La tabella è vuota oppure contiene nomi mancanti nelle colonne scelte.','The table is empty or a selected name column contains empty values.'),
+ csvAmbiguous:tr('Lo stesso nome originale ha più nuovi nomi diversi.','The same original name has different replacement names.'),
+ csvExtension:tr('Una nuova estensione non corrisponde al file originale. Le estensioni sono protette.','A new extension differs from the original file. Extensions are protected.'),
+ csvName:tr('La tabella contiene un nuovo nome non valido.','The table contains an invalid new filename.')
+};
+function mappingPlan(){return planMapping(entries,csvData.rows,Number($('csv-old').value),Number($('csv-new').value),$('csv-header').checked);}
+function refreshMapping(){
+ $('csv-apply').disabled=true;$('csv-preview').replaceChildren();
+ if(!csvData)return;
+ const old=Number($('csv-old').value),next=Number($('csv-new').value);
+ const rows=csvData.rows.slice($('csv-header').checked?1:0);
+ $('csv-preview').innerHTML=rows.slice(0,8).map(row=>`<tr><td>${escapeHTML(row[old]??'')}</td><td>${escapeHTML(row[next]??'')}</td></tr>`).join('');
+ try{
+  const plan=mappingPlan();
+  $('csv-status').textContent=tr(`${rows.length} righe · ${plan.matched} file associati · ${plan.unmatched} file senza corrispondenza · ${plan.unused} nomi CSV non caricati. Anteprima delle prime 8 righe. Premi Applica tabella per confermare.`,`${rows.length} rows · ${plan.matched} matched files · ${plan.unmatched} unmatched files · ${plan.unused} CSV names not uploaded. Preview of the first 8 rows. Press Apply table to confirm.`);
+  $('csv-apply').disabled=!plan.matched;
+ }catch(error){$('csv-status').textContent=csvErrors[error.message]||error.message;}
 }
-$('mapping').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{
- const csv=new TextDecoder('utf-8',{fatal:true}).decode(await file.arrayBuffer()).replace(/^\ufeff/,'');const rows=parseCSV(csv);
- if(rows[0]?.[0]?.toLowerCase()!=='old_name'||rows[0]?.[1]?.toLowerCase()!=='new_name')throw Error(tr('Intestazioni richieste: old_name,new_name','Required headers: old_name,new_name'));
- const lookup=new Map();for(const row of rows.slice(1)){if(row.length!==2||lookup.has(row[0]))throw Error(tr('CSV ambiguo o non valido','Ambiguous or invalid CSV'));lookup.set(row[0],row[1]);}
- const changes=[];for(const entry of entries){if(!lookup.has(entry.file.name))continue;const proposed=lookup.get(entry.file.name),p=split(proposed);if(p.ext.toLowerCase()!==entry.ext.toLowerCase())throw Error(tr(`Estensione diversa: ${entry.file.name}`,`Extension mismatch: ${entry.file.name}`));if(invalid(p.base))throw Error(tr(`Nome non valido: ${proposed}`,`Invalid name: ${proposed}`));changes.push({entry,base:p.base});}
- for(const {entry,base} of changes)entry.base=base;
- const count=changes.length;
- render();$('file-status').textContent=tr(`${count} nomi associati.`,`${count} names matched.`);
- }catch(error){$('file-status').textContent=error.message;}e.target.value='';});
+function showColumns(preserve=false){
+ const previous=[$('csv-old').value,$('csv-new').value],heads=csvData.rows[0],header=$('csv-header').checked;
+ for(const [index,id] of ['csv-old','csv-new'].entries()){
+  const select=$(id);select.replaceChildren();
+  heads.forEach((name,i)=>{const option=document.createElement('option');option.value=String(i);option.textContent=header?`${i+1}. ${name||tr('Senza titolo','Untitled')}`:tr(`Colonna ${i+1}: ${name}`,`Column ${i+1}: ${name}`);select.append(option);});
+  const guess=header?heads.findIndex(h=>(index===0?/^(old[_ ]?name|nome originale)$/i:/^(new[_ ]?name|nuovo nome)$/i).test(h.trim())):-1;
+  select.value=preserve&&previous[index]!==''&&Number(previous[index])<heads.length?previous[index]:String(guess>=0?guess:index);
+ }
+ $('csv-columns').hidden=false;refreshMapping();
+}
+$('mapping').addEventListener('change',async event=>{
+ const file=event.target.files[0];if(!file)return;const ticket=++csvRead;csvData=null;csvText='';$('csv-columns').hidden=true;$('csv-apply').disabled=true;
+ try{
+  const text=new TextDecoder('utf-8',{fatal:true}).decode(await file.arrayBuffer());if(ticket!==csvRead)return;
+  csvText=text;const data=parseTable(text,$('csv-separator').value);csvData=data;showColumns();
+ }catch(error){if(ticket===csvRead)$('csv-status').textContent=csvErrors[error.message]||tr('Impossibile leggere il CSV. Esportalo in UTF-8.','Cannot read CSV. Export it as UTF-8.');}
+ finally{if(ticket===csvRead)event.target.value='';}
+});
+$('csv-separator').addEventListener('change',()=>{
+ if(!csvText)return;
+ try{csvData=parseTable(csvText,$('csv-separator').value);showColumns();}catch(error){csvData=null;$('csv-columns').hidden=true;$('csv-apply').disabled=true;$('csv-status').textContent=csvErrors[error.message]||error.message;}
+});
+$('csv-header').addEventListener('change',()=>{if(csvData)showColumns(true);});
+for(const id of ['csv-old','csv-new'])$(id).addEventListener('change',refreshMapping);
+$('csv-apply').addEventListener('click',()=>{
+ if(renameMode!=='csv'||!csvData)return;
+ try{
+  const plan=mappingPlan();if(!plan.matched){refreshMapping();return;}
+  for(const {entry,base} of plan.changes){entry.csvBase=base;entry.base=base;}
+  render();$('csv-status').textContent=tr(`${plan.matched} file rinominati dalla tabella; ${plan.unmatched} mantengono il nome originale. I file caricati sono tutti presenti.`,`${plan.matched} files renamed from the table; ${plan.unmatched} keep their original name. All uploaded files are still present.`);
+ }catch(error){$('csv-status').textContent=csvErrors[error.message]||error.message;}
+});
+// Prevent browser navigation (and loss of in-memory files) on file drops.
+for(const type of ['dragover','drop'])window.addEventListener(type,event=>{if([...event.dataTransfer?.types||[]].includes('Files'))event.preventDefault();});
+$('csv-drop').addEventListener('dragover',event=>event.preventDefault());
+$('csv-drop').addEventListener('drop',event=>{
+ event.preventDefault();const files=[...event.dataTransfer.files];
+ if(files.length!==1||! /\.(csv|tsv)$/i.test(files[0].name)){$('csv-status').textContent=tr('Trascina una sola tabella CSV o TSV.','Drop one CSV or TSV table.');return;}
+ const transfer=new DataTransfer();transfer.items.add(files[0]);$('mapping').files=transfer.files;$('mapping').dispatchEvent(new Event('change',{bubbles:true}));
+});
 const csvQuote=s=>'"'+String(s).replace(/"/g,'""')+'"';
 function mapping(){return 'old_name,new_name\r\n'+entries.map(e=>[e.file.name,e.base+e.ext].map(csvQuote).join(',')).join('\r\n');}
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}

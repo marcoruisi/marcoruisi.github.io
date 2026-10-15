@@ -5,3 +5,5 @@
 .name-extras{border:1px solid #d7dbe0;border-radius:8px;margin:18px 0;padding:14px}.name-extras legend{font-weight:600;padding:0 6px}.extras-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}.name-extras input[type=number],.name-extras input[type=text],.name-extras select{display:block;width:100%;max-width:none;box-sizing:border-box;padding:10px;border:1px solid #bcc2c9;border-radius:6px;font:inherit}.name-extras .inline{margin:14px 0}.helper{font-size:13px;color:#555}@media(max-width:600px){.extras-grid{grid-template-columns:1fr}}
 
 .duplicate-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.duplicate-preview{border:1px solid #c8d3e0;border-radius:8px;padding:14px;margin:14px 0;background:#f8fafc}.duplicate-preview h3{margin:0 0 8px;font-size:17px}.duplicate-preview td{overflow-wrap:anywhere}
+
+[hidden]{display:none!important}#rename-mode{max-width:100%;margin-bottom:8px}#original-mode,#csv-mode{border-top:1px solid #d7dbe0;margin-top:18px;padding-top:12px}#csv-status{white-space:pre-line;line-height:1.5}#csv-columns .table-wrap{margin:15px 0}#csv-old,#csv-new{max-width:100%}
