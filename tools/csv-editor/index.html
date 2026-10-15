@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><!-- MRC SHARED METADATA START -->
+<meta property="og:site_name" content="Marco Ruisi">
+<link rel="canonical" href="https://marcorui.si/tools/csv-editor/">
+<meta property="og:url" content="https://marcorui.si/tools/csv-editor/">
+<link rel="alternate" hreflang="en" href="https://marcorui.si/tools/csv-editor/">
+<link rel="alternate" hreflang="it" href="https://marcorui.si/it/tools/editor-csv/">
+<link rel="alternate" hreflang="x-default" href="https://marcorui.si/tools/csv-editor/">
+<title>View and edit CSV | MRC · Marco Ruisi</title>
+<meta name="description" content="View and edit cells, rows and columns. Filter data and split CSV files by column values. Everything stays in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="View and edit CSV | MRC · Marco Ruisi">
+<meta property="og:description" content="View and edit cells, rows and columns. Filter data and split CSV files by column values. Everything stays in your browser.">
+<meta name="twitter:title" content="View and edit CSV | MRC · Marco Ruisi">
+<meta name="twitter:description" content="View and edit cells, rows and columns. Filter data and split CSV files by column values. Everything stays in your browser.">
+<!-- MRC SHARED METADATA END -->
+<link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+</head><body><!-- MRC SHARED TOOL HEADER START -->
+<header class="mrc-tool-header">
+    <nav class="mrc-tools-nav" aria-label="MRC Tools">
+        <a class="mrc-tools-brand" href="/" aria-label="marcorui.si home">marcorui.si</a>
+        <a href="/tools/" aria-current="page">Tools</a><a href="/games/">Games</a><a href="/kit/">Kit</a>
+    </nav>
+    <nav class="mrc-tool-language" aria-label="Language selection"><a href="/tools/csv-editor/" lang="en" aria-current="page">EN</a><span class="mrc-language-separator" aria-hidden="true">/</span><a href="/it/tools/editor-csv/" lang="it">IT</a></nav>
+</header>
+<nav class="mrc-tools-secondary" aria-label="Tools navigation"><a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a><a href="/tool-flows/">Tool Flows</a></nav>
+<!-- MRC SHARED TOOL HEADER END --><main class="app mrc-data-tool">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<h1>View and edit CSV</h1><p class="intro">View and edit cells, rows and columns. Filter data and split CSV files by column values. Everything stays in your browser.</p><section class="panel"><h2>1. Open a CSV</h2><div class="drop" id="drop"><strong>Drop your CSV here</strong><label for="file">or select a file<input id="file" type="file" accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values"></label></div><div class="controls"><label for="delimiter">Input delimiter<select id="delimiter" ><option value="auto">Automatic</option><option value=",">Comma ,</option><option value=";">Semicolon ;</option><option value="	">Tab</option><option value="|">Pipe |</option></select></label><label for="encoding">Input encoding<select id="encoding" ><option value="auto">Automatic (Unicode)</option><option value="utf-8">UTF-8</option><option value="windows-1252">Windows-1252</option><option value="utf-16le">UTF-16 LE</option><option value="utf-16be">UTF-16 BE</option></select></label><button type="button" id="reload" >Re-read original file</button></div><label class="inline"><input type="checkbox" id="header" checked> First row contains headers</label><p class="hint">Maximum 10 MB, 200 columns and 300,000 cells. Values stay as text: no automatic conversion of codes, dates or leading zeros. Formulas are not executed.</p></section>
+<section class="panel"><h2>2. Search and filter</h2><label for="search">Search all columns<input id="search" type="search"></label><div id="filters"></div><div class="actions"><button type="button" id="add-filter" data-needs-data>Add column filter</button><button type="button" id="clear-filters" >Clear filters</button><label class="inline"><input type="checkbox" id="case" > Case-sensitive column filters</label></div><p class="hint">Filters are combined with AND: all conditions must match. They do not delete rows. Numeric comparisons use a decimal point.</p></section>
+<section class="panel" id="resultSection"><h2>3. Edit the table</h2><div class="actions"><button type="button" id="undo" disabled>Undo</button><button type="button" id="redo" disabled>Redo</button></div><details><summary>Columns and sorting</summary><div class="controls"><label for="column">Column<select id="column" ></select></label><button type="button" id="left" data-needs-data>← Move column</button><button type="button" id="right" data-needs-data>Move column →</button><button type="button" id="delete-column" data-needs-data>Delete column</button></div><div class="actions"><button type="button" id="ascending" data-needs-data>Sort ascending</button><button type="button" id="descending" data-needs-data>Sort descending</button><label class="inline"><input type="checkbox" id="numeric" > Sort numeric values</label></div><p class="hint">Sorting applies to all rows and keeps the header. Column structure changes and Undo/Redo clear column filters.</p></details><div class="actions"><button type="button" id="select-visible" data-needs-data>Select all filtered rows</button><button type="button" id="deselect" >Deselect</button><button type="button" id="delete-rows" data-needs-data>Delete selected</button><button type="button" id="up" data-needs-data>↑ Move rows</button><button type="button" id="down" data-needs-data>↓ Move rows</button></div><p id="selection-count"></p><p id="count" role="status"></p><div class="table-wrap"><table class="editor-table"><thead id="heads"></thead><tbody id="rows"></tbody></table></div><div class="actions"><button type="button" id="prev" >← Previous</button><span id="page"></span><button type="button" id="next" >Next →</button></div><p class="hint">Edit a cell and leave the field to apply. Edit headers in the highlighted first row. Changes stay in this session until you download the result.</p></section>
+<section class="panel"><h2>4. Download or split</h2><div class="controls"><label for="scope">Rows to export<select id="scope" ><option value="all">All rows</option><option value="filtered">Filtered rows only</option></select></label><label for="output-delimiter">Export delimiter<select id="output-delimiter" ><option value=",">Comma ,</option><option value=";">Semicolon ;</option><option value="	">Tab</option><option value="|">Pipe |</option></select></label><label class="inline"><input type="checkbox" id="bom" checked> UTF-8 BOM (Excel compatibility)</label></div><button type="button" id="save" data-needs-data>Download new CSV</button><hr><h3>One CSV per column value</h3><p>Example: choose City to get one file per city. Each file retains headers when enabled. Empty values form a separate group.</p><div class="controls"><label for="split-column">Split by<select id="split-column" ></select></label><button type="button" id="preview-split" data-needs-data>Preview groups</button><button type="button" id="split" data-needs-data>Download CSV ZIP</button></div><div id="split-preview" class="split-preview"></div><p class="hint">Grouping distinguishes case and spaces. Filenames have a numeric prefix to avoid collisions. Maximum 2,000 files per ZIP.</p></section><p id="status" class="status-line" role="status"></p><section class="panel"><p>Continue with <a href="/tools/file-inventory/">List files →</a></p></section><section class="mrc-donation panel"><h2>Found this useful?</h2><p>This tool is free. You can support the MRC project if you wish.</p><a href="https://buy.stripe.com/eVq5kCaff0BE1VFdQL4sE02" target="_blank" rel="noopener noreferrer" data-support-link>Support MRC →</a></section></main>
+<!-- MRC SHARED TOOL FLOWS START -->
+<aside class="mrc-flow-prompt" aria-labelledby="mrc-flow-prompt-heading">
+    <div><p class="mrc-flows-eyebrow">Tool Flows</p><h2 id="mrc-flow-prompt-heading">What if this were just the first step?</h2><p>The result of one tool can be the starting point for another. The connections are yours to find.</p></div>
+    <a class="mrc-flow-prompt-link" href="/tool-flows/">Explore Tool Flows →</a>
+</aside>
+<!-- MRC SHARED TOOL FLOWS END -->
+<!-- MRC SHARED RELATED TOOLS START -->
+<section class="mrc-related"><h2>Related tools</h2><ul><li><a href="/tools/file-renamer/">File Renamer</a></li><li><a href="/tools/list-filter/">List Filter</a></li><li><a href="/tools/file-inventory/">List files</a></li></ul></section>
+<!-- MRC SHARED RELATED TOOLS END -->
+<!-- MRC SHARED TOOL FEEDBACK START -->
+<section class="mrc-tool-feedback" aria-labelledby="mrc-feedback-heading">
+    <h2 id="mrc-feedback-heading">Something not working?</h2>
+    <p>Found a problem or have an idea to improve this tool?</p>
+    <p><a href="mailto:ciao@marcorui.si?subject=MRC%20%E2%80%94%20View%20and%20edit%20CSV%20%E2%80%94%20Feedback&amp;body=Tool%3A%20View%20and%20edit%20CSV%0D%0APage%3A%20https%3A%2F%2Fmarcorui.si%2Ftools%2Fcsv-editor%2F%0D%0A%0D%0AFeedback%20type%3A%20bug%20%2F%20suggestion%20%2F%20other%0D%0A%0D%0ADescription%3A%0D%0A%0D%0A%0D%0ABrowser%20and%20device%20%28optional%29%3A">Send feedback →</a></p>
+</section>
+<!-- MRC SHARED TOOL FEEDBACK END -->
+<!-- MRC SHARED TOOL AFTERWORD START -->
+<footer class="mrc-tool-afterword" aria-label="About this free tool">
+    <section class="mrc-tool-specific" aria-labelledby="mrc-specific-heading">
+        <h2 id="mrc-specific-heading">Need something more specific?</h2>
+        <p>This tool solves a common problem. If your workflow needs different rules, integrations or automation, I can build something around it.</p>
+        <p><a href="/contact/">Tell me about your problem →</a></p>
+    </section>
+</footer>
+<!-- MRC SHARED TOOL AFTERWORD END -->
+<!-- MRC SHARED FOOTER START -->
+<footer class="footer mrc-site-footer">
+    <p class="footer-name">Marco Ruisi</p>
+    <p class="footer-claim">Simple systems. Better questions.</p>
+    <p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p>
+    <p class="copyright">© 2026</p>
+    <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
+</footer>
+<!-- MRC SHARED FOOTER END -->
+<script type="module" src="/tools/csv-editor/tool.mjs"></script><script src="/assets/support.js" defer></script>
+
+<script type="module"
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token":"f6a993093ede44e599ae20e330c2d147"}'></script>
+</body></html>

@@ -1,0 +1,62 @@
+import {parseCSV,detectDelimiter,csvText,download,orderRows} from '../table-utils/data.mjs';
+import {matches,width,moveColumn} from './model.mjs';
+import {makeZip,splitRows,groupFilename} from '../table-utils/zip.mjs';
+const it=document.documentElement.lang==='it',say=(a,b)=>it?a:b,$=id=>document.getElementById(id);
+let rows=[],file=null,page=0,filters=[],selected=new Set(),undo=[],redo=[],dirty=false,loaded=false,ending='\r\n',terminal=true,loadToken=0;
+const msg=t=>$('status').textContent=t;
+function snapshot(){return JSON.stringify(rows)}
+function remember(){undo.push(snapshot());while(undo.length>20||undo.reduce((n,s)=>n+s.length,0)>12000000&&undo.length>1)undo.shift();redo=[];dirty=true}
+function heading(c){return ($('header').checked&&rows[0]?.[c])||say('Colonna ','Column ')+(c+1)}
+function start(){return $('header').checked?1:0}
+function visible(){const q=$('search').value.toLocaleLowerCase();return rows.map((r,i)=>({r,i})).filter(({r,i})=>i>=start()&&(!q||r.some(x=>x.toLocaleLowerCase().includes(q)))&&matches(r,filters,$('case').checked))}
+function output(){return $('scope').value==='filtered'?(start()&&rows.length?[rows[0]]:[]).concat(visible().map(x=>x.r)):rows}
+function resetFilters(){filters=[];selected.clear();renderFilters();$('split-preview').textContent=''}
+function options(select,previous=0){select.replaceChildren();for(let c=0;c<width(rows);c++){const o=document.createElement('option');o.value=c;o.textContent=`${c+1} · ${heading(c)}`;select.append(o)}select.value=String(Math.min(Number(previous)||0,Math.max(0,width(rows)-1)))}
+function render(){
+ const n=width(rows),data=visible();page=Math.max(0,Math.min(page,Math.ceil(data.length/50)-1));
+ for(const id of ['column','split-column'])options($(id),$(id).value);
+ $('heads').replaceChildren();const head=document.createElement('tr');const marker=document.createElement('th');marker.textContent='#';head.append(marker);
+ for(let c=0;c<n;c++){const th=document.createElement('th');th.textContent=heading(c);head.append(th)}$('heads').append(head);$('rows').replaceChildren();
+ const shown=data.slice(page*50,page*50+50);
+ if(start()&&rows.length)shown.unshift({r:rows[0],i:0,header:true});
+ for(const {r,i,header} of shown){const tr=document.createElement('tr');if(header)tr.className='header-row';const mark=document.createElement('td');
+  if(header)mark.textContent=say('Intestazione','Header');else{const box=document.createElement('input');box.type='checkbox';box.checked=selected.has(i);box.setAttribute('aria-label',say('Seleziona riga ','Select row ')+(i+1));box.onchange=()=>{box.checked?selected.add(i):selected.delete(i);$('selection-count').textContent=say(`${selected.size} righe selezionate`,`${selected.size} selected rows`)};mark.append(box,document.createTextNode(String(i+1)))}tr.append(mark);
+  for(let c=0;c<n;c++){const td=document.createElement('td'),input=document.createElement('textarea');input.rows=1;input.value=r[c]??'';input.setAttribute('aria-label',`${i+1} · ${heading(c)}`);input.onchange=()=>{if(input.value===(rows[i][c]??''))return;remember();while(rows[i].length<=c)rows[i].push('');rows[i][c]=input.value;if(i===0&&$('header').checked)renderFilters();render();msg(say('Cella aggiornata.','Cell updated.'))};td.append(input);tr.append(td)}$('rows').append(tr)
+ }
+ $('count').textContent=say(`${data.length} righe visibili / ${Math.max(0,rows.length-start())} · ${n} colonne`,`${data.length} visible rows / ${Math.max(0,rows.length-start())} · ${n} columns`);
+ $('selection-count').textContent=say(`${selected.size} righe selezionate`,`${selected.size} selected rows`);
+ $('page').textContent=`${page+1} / ${Math.max(1,Math.ceil(data.length/50))}`;$('prev').disabled=page===0;$('next').disabled=(page+1)*50>=data.length;
+ $('undo').disabled=!undo.length;$('redo').disabled=!redo.length;
+ document.querySelectorAll('[data-needs-data]').forEach(b=>b.disabled=!loaded||!n);
+ $('split-preview').textContent='';
+}
+async function load(newFile=file){if(!newFile)return;if(newFile.size>10*1024*1024){msg(say('Limite: 10 MB per CSV.','Limit: 10 MB per CSV.'));return}if(dirty&&!confirm(say('Aprire o rileggere il file scarta le modifiche non scaricate. Continuare?','Opening or re-reading discards edits not downloaded. Continue?')))return;
+ const token=++loadToken;try{const bytes=await newFile.arrayBuffer();if(token!==loadToken)return;let encoding=$('encoding').value;if(encoding==='auto')encoding=new Uint8Array(bytes)[0]===255&&new Uint8Array(bytes)[1]===254?'utf-16le':new Uint8Array(bytes)[0]===254&&new Uint8Array(bytes)[1]===255?'utf-16be':'utf-8';const text=new TextDecoder(encoding,{fatal:true}).decode(bytes);const delimiter=$('delimiter').value==='auto'?detectDelimiter(text):$('delimiter').value;const parsed=parseCSV(text,delimiter);
+ if(width(parsed)>200||parsed.reduce((n,r)=>n+r.length,0)>300000)throw Error('LIMIT');
+ rows=parsed;file=newFile;ending=text.includes('\r\n')?'\r\n':text.includes('\n')?'\n':text.includes('\r')?'\r':'\r\n';terminal=/[\r\n]$/.test(text);$('output-delimiter').value=delimiter;$('bom').checked=true;undo=[];redo=[];dirty=false;loaded=true;page=0;$('search').value='';resetFilters();render();
+ msg(say(`${file.name} · caricato. Esportazione UTF-8.`,`${file.name} · loaded. UTF-8 export.`)+(new Set(rows.map(r=>r.length)).size>1?say(' Righe con numeri diversi di campi: conservate.',' Rows with different field counts are preserved.'):'') );
+ }catch(e){msg(e.message==='LIMIT'?say('Limite: 200 colonne e 300.000 celle.','Limit: 200 columns and 300,000 cells.'):say('CSV non letto. Controlla separatore, codifica e virgolette. I dati precedenti restano disponibili.','Could not read CSV. Check delimiter, encoding and quotes. Previous data remains available.'))}}
+$('file').onchange=()=>{load($('file').files[0]);$('file').value=''};$('reload').onclick=()=>load();
+$('drop').ondragover=e=>{e.preventDefault();$('drop').classList.add('drag')};$('drop').ondragleave=()=>$('drop').classList.remove('drag');$('drop').ondrop=e=>{e.preventDefault();$('drop').classList.remove('drag');if(e.dataTransfer.files.length!==1){msg(say('Trascina un solo CSV.','Drop one CSV.'));return}load(e.dataTransfer.files[0])};
+const operators=[['contains','Contiene','Contains'],['equals','È uguale a','Equals'],['not','È diverso da','Does not equal'],['starts','Inizia con','Starts with'],['ends','Finisce con','Ends with'],['empty','È vuoto','Is empty'],['filled','Non è vuoto','Is not empty'],['gt','Numero maggiore di','Number greater than'],['lt','Numero minore di','Number less than']];
+function renderFilters(){const host=$('filters');host.replaceChildren();filters.forEach((f,i)=>{const div=document.createElement('div');div.className='filter-row';const col=document.createElement('select'),op=document.createElement('select'),v=document.createElement('input'),remove=document.createElement('button');options(col,f.col);col.setAttribute('aria-label',say('Colonna filtro','Filter column'));op.setAttribute('aria-label',say('Condizione','Condition'));v.setAttribute('aria-label',say('Valore filtro','Filter value'));for(const [key,a,b] of operators){const o=document.createElement('option');o.value=key;o.textContent=say(a,b);op.append(o)}op.value=f.op;v.value=f.value;v.disabled=['empty','filled'].includes(f.op);col.onchange=()=>{f.col=Number(col.value);page=0;selected.clear();render()};op.onchange=()=>{f.op=op.value;v.disabled=['empty','filled'].includes(f.op);page=0;selected.clear();render()};v.oninput=()=>{f.value=v.value;page=0;selected.clear();render()};remove.textContent='×';remove.setAttribute('aria-label',say('Rimuovi filtro','Remove filter'));remove.onclick=()=>{filters.splice(i,1);renderFilters();page=0;selected.clear();render()};div.append(col,op,v,remove);host.append(div)})}
+$('add-filter').onclick=()=>{filters.push({col:0,op:'contains',value:''});renderFilters();render()};$('clear-filters').onclick=()=>{$('search').value='';resetFilters();page=0;render()};
+for(const id of ['search','case'])$(id).oninput=()=>{page=0;selected.clear();render()};$('header').onchange=()=>{resetFilters();render()};$('scope').onchange=()=>$('split-preview').textContent='';
+$('prev').onclick=()=>{page--;render()};$('next').onclick=()=>{page++;render()};
+$('undo').onclick=()=>{if(!undo.length)return;redo.push(snapshot());rows=JSON.parse(undo.pop());dirty=true;resetFilters();render();msg(say('Operazione annullata.','Action undone.'))};$('redo').onclick=()=>{if(!redo.length)return;undo.push(snapshot());rows=JSON.parse(redo.pop());dirty=true;resetFilters();render()};
+function change(fn,structure=false){if(!rows.length)return;remember();fn();selected.clear();if(structure)resetFilters();render()}
+$('left').onclick=()=>{const c=Number($('column').value);if(c>0){change(()=>rows=moveColumn(rows,c,c-1),true);$('column').value=c-1}};
+$('right').onclick=()=>{const c=Number($('column').value);if(c<width(rows)-1){change(()=>rows=moveColumn(rows,c,c+1),true);$('column').value=c+1}};
+$('delete-column').onclick=()=>{const c=Number($('column').value);if(width(rows)<=1){msg(say('Mantieni almeno una colonna.','Keep at least one column.'));return}change(()=>rows=rows.map(r=>r.filter((_,i)=>i!==c)),true);msg(say('Colonna eliminata. Puoi annullare.','Column deleted. You can undo.'))};
+for(const [id,desc] of [['ascending',false],['descending',true]])$(id).onclick=()=>{change(()=>rows=orderRows(rows,Number($('column').value),desc,$('header').checked,$('numeric').checked));msg(say('Ordinate tutte le righe, mantenendo unite le celle.','All rows sorted, keeping cells together.'))};
+$('select-visible').onclick=()=>{selected=new Set(visible().map(x=>x.i));render()};$('deselect').onclick=()=>{selected.clear();render()};
+$('delete-rows').onclick=()=>{if(!selected.size)return;change(()=>rows=rows.filter((_,i)=>!selected.has(i)));msg(say('Righe eliminate. Puoi annullare.','Rows deleted. You can undo.'))};
+function moveRows(delta){if(!selected.size)return;if(filters.length||$('search').value){msg(say('Rimuovi i filtri per spostare manualmente le righe.','Clear filters to move rows manually.'));return}remember();const next=new Set(selected),ids=[...selected].sort((a,b)=>delta<0?a-b:b-a);for(const i of ids){const j=i+delta;if(j<start()||j>=rows.length||next.has(j))continue;[rows[i],rows[j]]=[rows[j],rows[i]];next.delete(i);next.add(j)}selected=next;render()}
+$('up').onclick=()=>moveRows(-1);$('down').onclick=()=>moveRows(1);
+function csv(data){return ($('bom').checked?'\uFEFF':'')+csvText(data,$('output-delimiter').value,ending,terminal)}
+$('save').onclick=()=>{download(csv(output()),(file?.name.replace(/\.[^.]+$/,'')||'table')+'_modified.csv','text/csv;charset=utf-8');if($('scope').value==='all')dirty=false;msg(say('Nuovo CSV scaricato. Il file originale non è stato modificato.','New CSV downloaded. Original file unchanged.'))};
+function groups(){return splitRows(output(),Number($('split-column').value),$('header').checked)}
+$('preview-split').onclick=()=>{const all=groups();$('split-preview').replaceChildren();const count=document.createElement('p');count.textContent=say(`${all.size} file da creare.`,`${all.size} files to create.`);$('split-preview').append(count);let i=0;for(const [key,r] of all){if(i>=100){const note=document.createElement('p');note.textContent=say('Anteprima limitata ai primi 100 gruppi.','Preview limited to the first 100 groups.');$('split-preview').append(note);break}const p=document.createElement('p');p.textContent=groupFilename(key,i++)+' — '+(r.length-start())+say(' righe',' rows');$('split-preview').append(p)}};
+$('split-column').onchange=()=>$('split-preview').textContent='';
+$('split').onclick=()=>{const all=groups();if(!all.size){msg(say('Nessuna riga da suddividere.','No rows to split.'));return}if(all.size>2000){msg(say('Troppi gruppi: massimo 2.000. Filtra i dati o scegli un’altra colonna.','Too many groups: maximum 2,000. Filter data or choose another column.'));return}const files=[];let i=0;for(const [key,r] of all)files.push({name:groupFilename(key,i++),text:csv(r)});const blob=makeZip(files),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=(file?.name.replace(/\.[^.]+$/,'')||'table')+'_split.zip';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);msg(say(`${files.length} CSV inclusi nello ZIP.`,`${files.length} CSV files included in the ZIP.`))};
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});render();

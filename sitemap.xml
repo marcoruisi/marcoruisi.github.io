@@ -175,6 +175,12 @@
     <loc>https://marcorui.si/it/tools/disabilita-commenti-wordpress/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/it/tools/editor-csv/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/it/tools/elenca-file/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/it/tools/estrazione-dati-punti/</loc>
   </url>
   <url>
@@ -307,7 +313,13 @@
     <loc>https://marcorui.si/tools/crossword/</loc>
   </url>
   <url>
+    <loc>https://marcorui.si/tools/csv-editor/</loc>
+  </url>
+  <url>
     <loc>https://marcorui.si/tools/disable-wordpress-comments/</loc>
+  </url>
+  <url>
+    <loc>https://marcorui.si/tools/file-inventory/</loc>
   </url>
   <url>
     <loc>https://marcorui.si/tools/file-renamer/</loc>

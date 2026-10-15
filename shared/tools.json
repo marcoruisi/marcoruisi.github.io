@@ -831,6 +831,57 @@
       ],
       "type": "tool",
       "availability": "free"
+    },
+    {
+      "id": "file-inventory",
+      "name": {
+        "it": "Elenca file",
+        "en": "List files"
+      },
+      "action": {
+        "it": "Crea un inventario dei file",
+        "en": "Create a file inventory"
+      },
+      "description": {
+        "it": "Elenca i file di cartelle e sottocartelle con profondità configurabile. Scarica percorsi, dimensioni e ultima modifica in CSV o TXT.",
+        "en": "List files in folders and subfolders with adjustable depth. Download paths, sizes and last modified dates as CSV or TXT."
+      },
+      "url": {
+        "it": "/it/tools/elenca-file/",
+        "en": "/tools/file-inventory/"
+      },
+      "tags": [
+        "everyday",
+        "csv"
+      ],
+      "type": "tool",
+      "availability": "free"
+    },
+    {
+      "id": "csv-editor",
+      "name": {
+        "it": "Visualizza e modifica CSV",
+        "en": "View and edit CSV"
+      },
+      "action": {
+        "it": "Modifica, filtra e dividi un CSV",
+        "en": "Edit, filter and split a CSV"
+      },
+      "description": {
+        "it": "Visualizza e modifica celle, righe e colonne. Filtra i dati e dividi il CSV in più file per valore di una colonna. Tutto nel browser.",
+        "en": "View and edit cells, rows and columns. Filter data and split CSV files by column values. Everything stays in your browser."
+      },
+      "url": {
+        "it": "/it/tools/editor-csv/",
+        "en": "/tools/csv-editor/"
+      },
+      "tags": [
+        "everyday",
+        "csv",
+        "text"
+      ],
+      "type": "tool",
+      "availability": "free"
     }
   ]
 }
