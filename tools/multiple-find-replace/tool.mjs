@@ -1,3 +1,5 @@
+import './case-addon.mjs';
+import {changeCase} from './case-transform.mjs';
 import {replaceAll, cleanup, exportCSV, parseCSV} from './core.mjs';
 const it = document.documentElement.lang === 'it';
 const pick = (a, b) => it ? a : b;
@@ -35,7 +37,7 @@ function download(text, name, type) {
  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 30000);
 }
 $('add-rule').addEventListener('click', () => {addRule('', '', true); stale();});
-for (const id of ['source', 'case-sensitive', 'clean-spaces', 'clean-trim', 'clean-lines']) $(id).addEventListener('input', stale);
+for (const id of ['source', 'case-sensitive', 'clean-spaces', 'clean-trim', 'clean-lines', 'mrc-case-mode']) $(id).addEventListener('input', stale);
 $('apply').addEventListener('click', () => {
  stale();
  if ($('source').value === '') { $('status').textContent = pick('Inserisci un testo da elaborare.', 'Enter some text to process.'); $('source').focus(); return; }
@@ -43,11 +45,13 @@ $('apply').addEventListener('click', () => {
  try {
    const replaced = replaceAll($('source').value, rules, $('case-sensitive').checked);
    result = cleanup(replaced.text, {spaces: $('clean-spaces').checked, trim: $('clean-trim').checked, blankLines: $('clean-lines').checked});
+   const cleaned = result;
+   result = changeCase(result, $('mrc-case-mode').value, it ? 'it' : 'en');
    $('result').value = result; $('result-section').hidden = false;
    const count = replaced.count.toLocaleString(it ? 'it-IT' : 'en-GB');
    $('count').textContent = pick(`Sostituzioni effettuate: ${count}.`, `Replacements made: ${count}.`) +
      (replaced.count === 0 ? pick(' Nessuna corrispondenza.', ' No matches.') : '') +
-     (result !== replaced.text ? pick(' Pulizia del testo applicata.', ' Text cleanup applied.') : '') +
+     (cleaned !== replaced.text ? pick(' Pulizia del testo applicata.', ' Text cleanup applied.') : '') +
      (result === '' ? pick(' Il risultato è vuoto.', ' The result is empty.') : '');
    $('status').textContent = pick('Elaborazione completata.', 'Processing complete.');
  } catch { $('status').textContent = pick('Impossibile elaborare il testo. Prova con meno testo o meno regole.', 'Unable to process the text. Try less text or fewer rules.'); }

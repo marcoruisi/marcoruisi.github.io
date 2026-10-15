@@ -386,6 +386,58 @@
       "availability": "free"
     },
     {
+      "id": "file-renamer",
+      "name": {
+        "en": "File Renamer",
+        "it": "Rinomina file"
+      },
+      "url": {
+        "en": "/tools/file-renamer/",
+        "it": "/it/tools/file-renamer/"
+      },
+      "description": {
+        "en": "Rename multiple files locally with find and replace, CSV mapping, numbering and ZIP export.",
+        "it": "Rinomina più file nel browser con Trova e Sostituisci, CSV, numerazione ed esportazione ZIP."
+      },
+      "tags": [
+        "everyday",
+        "text",
+        "csv"
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Rename files",
+        "it": "Rinomina file"
+      }
+    },
+    {
+      "id": "watermark",
+      "name": {
+        "en": "Watermark",
+        "it": "Watermark"
+      },
+      "url": {
+        "en": "/tools/watermark/",
+        "it": "/it/tools/watermark/"
+      },
+      "description": {
+        "en": "Add text, image or PDF watermarks to images and PDF batches. Select pages and position your mark in percentages.",
+        "it": "Aggiungi watermark di testo, immagine o PDF a immagini e documenti multipli. Scegli pagine e posizione in percentuale."
+      },
+      "tags": [
+        "everyday",
+        "images",
+        "pdf"
+      ],
+      "type": "tool",
+      "availability": "free",
+      "action": {
+        "en": "Add a watermark",
+        "it": "Aggiungi un watermark"
+      }
+    },
+    {
       "id": "list-filter",
       "name": {
         "it": "Filtra liste",
