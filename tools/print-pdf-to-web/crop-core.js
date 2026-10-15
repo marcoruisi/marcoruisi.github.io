@@ -130,5 +130,72 @@
     });
     return {keptLinks,removedLinks};
   }
-  root.PrintPdfCore={inspect,rectangles,crop,mm,contains};
+  function splitRects(rect,rotation) {
+    const sideways=rotation===90||rotation===270;
+    if((sideways?rect.height:rect.width)<=(sideways?rect.width:rect.height))return [rect];
+    const first={...rect},second={...rect};
+    if(sideways){first.height=second.height=rect.height/2;second.y+=first.height;}
+    else {first.width=second.width=rect.width/2;second.x+=first.width;}
+    return rotation===180||rotation===270?[second,first]:[first,second];
+  }
+  function excludedPages(text,count) {
+    const excluded=new Set();
+    if(!text.trim())return excluded;
+    for(const part of text.split(/[,;]/)){
+      const match=/^\s*(\d+)\s*(?:-\s*(\d+)\s*)?$/.exec(part);
+      if(!match)fail('excludePages');
+      const start=Number(match[1]),end=Number(match[2]||match[1]);
+      if(start<1||end<start||end>count)fail('excludePages');
+      for(let n=start;n<=end;n++)excluded.add(n-1);
+    }
+    return excluded;
+  }
+  function splitAndCrop(doc,info,rects,excluded=new Set()) {
+    // Labels indexed by the original page count need a separate numbering editor.
+    if(doc.catalog.has(name('PageLabels')))fail('splitLabels');
+    const original=doc.getPages(),expanded=[],targets=new Map();
+    original.forEach((page,i)=>{
+      const parts=excluded.has(i)?[rects[i]]:splitRects(rects[i],info.pages[i].rotation),pages=[page];
+      if(parts.length===2){
+        const node=page.node.clone();
+        for(const key of ['Resources','MediaBox','CropBox','Rotate']){
+          const value=page.node.getInheritableAttribute(name(key));if(value)node.set(name(key),value);
+        }
+        const ref=doc.context.register(node),copy=P.PDFPage.of(node,ref,doc);
+        doc.insertPage(doc.getPages().indexOf(page)+1,copy);pages.push(copy);
+        // Each half needs its own mutable array/dictionaries, but shares original streams.
+        for(const p of pages){
+          const content=lookup(doc,p.node.get(name('Contents')));
+          if(content instanceof P.PDFArray)p.node.set(name('Contents'),content.clone());
+          const annots=p.node.Annots();
+          if(annots)p.node.set(name('Annots'),doc.context.obj(annots.asArray().map(a=>{
+            const cloned=lookup(doc,a).clone();cloned.set(name('P'),p.ref);
+            return doc.context.register(cloned);
+          })));
+        }
+      }
+      targets.set(page.ref.toString(),pages.map((p,j)=>({ref:p.ref,rect:parts[j]})));
+      expanded.push(...parts);
+    });
+    // Route explicit/named/bookmark destinations before the existing offset adjustment.
+    const seen=new Set();
+    function walk(value){
+      const v=lookup(doc,value);if(!v||seen.has(v))return;seen.add(v);
+      if(v instanceof P.PDFArray){
+        const choices=v.size()>1&&v.get(0) instanceof P.PDFRef&&targets.get(v.get(0).toString());
+        const kind=v.size()>1?lookup(doc,v.get(1))?.toString():'';
+        if(choices&&choices.length===2&&['/XYZ','/FitR','/FitH','/FitBH','/FitV','/FitBV','/Fit','/FitB'].includes(kind)){
+          const x=['/XYZ','/FitR','/FitV','/FitBV'].includes(kind)&&v.size()>2?num(lookup(doc,v.get(2))):NaN;
+          const y=['/XYZ','/FitR'].includes(kind)&&v.size()>3?num(lookup(doc,v.get(3))):['/FitH','/FitBH'].includes(kind)&&v.size()>2?num(lookup(doc,v.get(2))):NaN;
+          const axis=choices[0].rect.x!==choices[1].rect.x?'x':'y',coordinate=axis==='x'?x:y;
+          const target=Number.isFinite(coordinate)?choices.find(p=>coordinate>=p.rect[axis]&&coordinate<p.rect[axis]+p.rect[axis==='x'?'width':'height']):null;
+          v.set(0,(target||choices[0]).ref);
+        }
+        v.asArray().forEach(walk);
+      }else if(v instanceof P.PDFDict)v.entries().forEach(([,item])=>walk(item));
+    }
+    doc.context.enumerateIndirectObjects().forEach(([,v])=>walk(v));
+    return crop(doc,inspect(doc),expanded);
+  }
+  root.PrintPdfCore={inspect,rectangles,crop,splitRects,splitAndCrop,excludedPages,mm,contains};
 })(typeof window==='undefined'?globalThis:window);

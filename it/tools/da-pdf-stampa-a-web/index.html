@@ -46,7 +46,7 @@
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>Da PDF stampa a PDF web</h1><p class="intro">Ritaglia un PDF da stampa al formato finale. Conserva testo selezionabile, immagini originali, vettori e link.</p><p class="privacy">Il PDF rimane nel tuo browser. Nessun caricamento e nessuna rasterizzazione delle pagine.</p>
 <section class="workspace" id="workspace" aria-busy="false">
-<button id="choose" type="button">Scegli PDF</button><input id="file" type="file" accept="application/pdf,.pdf" hidden>
+<div id="drop-zone" class="drop-zone"><button id="choose" type="button">Scegli PDF</button><input id="file" type="file" accept="application/pdf,.pdf" hidden><p class="help">Oppure trascina qui il file PDF. Un file alla volta.</p></div>
 <p class="help">PDF · Fino a 100 MB e 500 pagine.</p>
 <p id="error" class="error" role="alert"></p><p id="status" class="status" role="status" aria-live="polite"></p>
 <dl id="metadata" class="metadata" hidden></dl>
@@ -58,10 +58,11 @@
 <div id="manual" hidden><p id="margin-help" class="help">Riquadro di partenza: la MediaBox completa. I margini seguono la pagina visualizzata nell’anteprima e si applicano a tutte le pagine.</p>
 <label class="equal"><input id="equal" type="checkbox" checked>Stesso valore su tutti i lati</label><div class="margins"><label>Alto (mm)<input id="top" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Basso (mm)<input id="bottom" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Sinistra (mm)<input id="left" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label><label>Destra (mm)<input id="right" type="number" min="0" step="0.1" value="3" inputmode="decimal" aria-describedby="margin-help error"></label></div></div>
 </fieldset>
+<fieldset><legend>Pagine finali</legend><label class="mode"><input id="split-spreads" type="checkbox" aria-describedby="split-help">Dividi le pagine affiancate in pagine singole</label><p class="help" id="split-help">Divide a metà le pagine orizzontali dopo il ritaglio, da sinistra a destra. Le pagine verticali (ad esempio le copertine) restano intere. Non rileva automaticamente se una pagina orizzontale è davvero una doppia pagina.</p><div id="split-exclusions" hidden><label for="exclude-pages">Non dividere queste pagine</label><input id="exclude-pages" type="text" aria-describedby="exclude-help error" placeholder="1, 4-6, 12" style="display:block;width:100%;max-width:24rem;box-sizing:border-box"><p class="help" id="exclude-help">Prima e ultima pagina escluse per impostazione predefinita, anche se orizzontali. Usa i numeri delle pagine originali, separati da virgole, oppure intervalli (es. 4-6). Svuota il campo per non escludere nessuna pagina. I margini vengono comunque ritagliati.</p></div></fieldset>
 <section class="preview" aria-label="Anteprima">
 <div class="preview-nav"><button id="prev" type="button">← Precedente</button><p id="page-position"></p><button id="next" type="button">Successiva →</button></div>
 <p id="dimensions" class="dimensions" aria-live="polite"></p>
-<div id="preview-stage" class="preview-stage"><canvas id="canvas" aria-label="Anteprima"></canvas><div id="crop-area" class="crop-area" aria-hidden="true"></div></div>
+<div id="preview-stage" class="preview-stage"><canvas id="canvas" aria-label="Anteprima"></canvas><div id="crop-area" class="crop-area" aria-hidden="true"><span id="split-divider" hidden style="position:absolute;left:50%;top:0;height:100%;border-left:2px dashed currentColor"></span></div></div>
 <p class="preview-note">Il contorno blu indica l’area da conservare. Le zone ombreggiate saranno nascoste. La risoluzione dell’anteprima non influisce sul PDF esportato.</p>
 <details id="all-sizes"><summary>Dimensioni delle pagine</summary><ol id="page-sizes" class="page-sizes"></ol></details>
 </section>

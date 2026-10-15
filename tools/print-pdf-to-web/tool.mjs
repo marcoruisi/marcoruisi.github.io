@@ -4,6 +4,8 @@ if(document.readyState==='loading') await new Promise(resolve=>document.addEvent
 const $=id=>document.getElementById(id),it=document.documentElement.lang==='it';
 const tr=(en,italian)=>it?italian:en;
 const errors={
+ excludePages:tr('Enter original page numbers or ranges, for example 1, 4-6, 12. All numbers must be within this PDF.','Inserisci numeri o intervalli di pagine originali, ad esempio 1, 4-6, 12. I numeri devono essere compresi nelle pagine di questo PDF.'),
+ splitLabels:tr('Splitting PDFs with custom page numbering is not supported yet. Disable splitting or export a copy without custom page labels.','La divisione dei PDF con numerazione personalizzata non è ancora supportata. Disattiva la divisione oppure esporta una copia senza etichette di pagina personalizzate.'),
  encrypted:tr('Password-protected or encrypted PDFs are not supported. Export an unprotected copy first.','I PDF protetti da password o cifrati non sono supportati. Esporta prima una copia non protetta.'),
  forms:tr('This PDF contains forms or signature information. Cropping cannot safely preserve them in this version.','Questo PDF contiene moduli o informazioni di firma. Questa versione non può conservarli in sicurezza durante il ritaglio.'),
  tagged:tr('This PDF has accessibility tags. This version cannot safely update their layout coordinates. Export is unavailable.','Questo PDF contiene tag di accessibilità. Questa versione non può aggiornare in sicurezza le loro coordinate di impaginazione. L’esportazione non è disponibile.'),
@@ -47,6 +49,8 @@ function showMetadata(doc,file){
  rows([[tr('File','File'),file.name],[tr('Title','Titolo'),safe(()=>doc.getTitle())],[tr('Author','Autore'),safe(()=>doc.getAuthor())],[tr('Created with','Creato con'),safe(()=>doc.getCreator())],[tr('PDF producer','Generatore PDF'),safe(()=>doc.getProducer())],[tr('Creation date','Data creazione'),date(safe(()=>doc.getCreationDate()))],[tr('Modification date','Data modifica'),date(safe(()=>doc.getModificationDate()))],[tr('Pages','Pagine'),info.pages.length],[tr('Original dimensions (MediaBox)','Dimensioni originali (MediaBox)'),info.mixed?tr('Different page sizes or orientations; shown below','Pagine di dimensioni o orientamenti differenti; dettagli sotto'):dimensions(info.pages[0].media,info.pages[0].rotation)],[tr('Final dimensions (TrimBox)','Dimensioni finali (TrimBox)'),finalDimensions],[tr('Original size','Peso originale'),size(file.size)],['TrimBox',trim],[tr('Bleed','Abbondanza'),bleed]]);
 }
 function update(){
+ $('split-exclusions').hidden=!$('split-spreads').checked;
+ $('exclude-pages').removeAttribute('aria-invalid');
  resetResult();$('error').textContent='';$('manual').hidden=mode()!=='manual';
  const equal=$('equal').checked;
  for(const k of ['bottom','left','right']){$(k).closest('label').hidden=equal;if(equal)$(k).value=$('top').value;}
@@ -54,12 +58,15 @@ function update(){
  if(!info)return;
  try{
   const rects=PrintPdfCore.rectangles(info,mode(),margins());
+  const excluded=$('split-spreads').checked?PrintPdfCore.excludedPages($('exclude-pages').value,info.pages.length):new Set();
+  const parts=rects.map((r,i)=>$('split-spreads').checked&&!excluded.has(i)?PrintPdfCore.splitRects(r,info.pages[i].rotation):[r]);
   for(const k of ['top','bottom','left','right'])$(k).removeAttribute('aria-invalid');
-  const p=info.pages[current];$('dimensions').textContent=`${dimensions(p.media,p.rotation)} → ${dimensions(rects[current],p.rotation)}`;
-  $('page-sizes').replaceChildren();info.pages.forEach((page,i)=>{const li=document.createElement('li');li.textContent=`${i+1}: ${dimensions(page.media,page.rotation)} → ${dimensions(rects[i],page.rotation)}${page.bleed?tr(' · bleed T/B/L/R: ',' · abbondanza A/B/S/D: ')+[page.bleed.top,page.bleed.bottom,page.bleed.left,page.bleed.right].map(fmt).join('/')+' mm':''}`;$('page-sizes').append(li);});
+  const p=info.pages[current];$('dimensions').textContent=`${dimensions(p.media,p.rotation)} → ${parts[current].length===2?'2 × ':''}${dimensions(parts[current][0],p.rotation)} · ${parts.flat().length} ${tr('output pages','pagine finali')}`;
+  $('split-divider').hidden=parts[current].length!==2;
+  $('page-sizes').replaceChildren();info.pages.forEach((page,i)=>{const li=document.createElement('li');li.textContent=`${i+1}: ${dimensions(page.media,page.rotation)} → ${parts[i].length===2?'2 × ':''}${dimensions(parts[i][0],page.rotation)}${page.bleed?tr(' · bleed T/B/L/R: ',' · abbondanza A/B/S/D: ')+[page.bleed.top,page.bleed.bottom,page.bleed.left,page.bleed.right].map(fmt).join('/')+' mm':''}`;$('page-sizes').append(li);});
   if(viewport){const r=rects[current];const a=viewport.convertToViewportRectangle([r.x,r.y,r.x+r.width,r.y+r.height]);const x=Math.min(a[0],a[2]),y=Math.min(a[1],a[3]);Object.assign($('crop-area').style,{left:100*x/viewport.width+'%',top:100*y/viewport.height+'%',width:100*Math.abs(a[2]-a[0])/viewport.width+'%',height:100*Math.abs(a[3]-a[1])/viewport.height+'%'});$('crop-area').hidden=false;}
   $('export').disabled=busy||exporting||!viewport;
- }catch(e){error(e);$('export').disabled=true;$('crop-area').hidden=true;$('dimensions').textContent='';for(const k of ['top','bottom','left','right'])$(k).setAttribute('aria-invalid','true');}
+ }catch(e){error(e);$('export').disabled=true;$('crop-area').hidden=true;$('dimensions').textContent='';for(const k of e.message==='excludePages'?['exclude-pages']:['top','bottom','left','right'])$(k).setAttribute('aria-invalid','true');}
 }
 async function render(){
  const serial=++renderSerial,token=generation;viewport=null;$('export').disabled=true;$('crop-area').hidden=true;
@@ -76,6 +83,8 @@ async function render(){
  }catch(e){if(e.name!=='RenderingCancelledException'&&token===generation){error(new Error('preview'));$('export').disabled=true;}}
 }
 async function load(file){
+ if(busy||exporting)return;
+ if(file&&!(/\.pdf$/i.test(file.name)||file.type==='application/pdf')){$('error').textContent=tr('Choose a PDF file.','Scegli un file PDF.');return;}
  if(!file)return;const token=++generation;busy=true;bytes=null;info=null;viewport=null;current=0;resetResult();$('controls').hidden=true;$('metadata').hidden=true;$('error').textContent='';$('status').textContent=tr('Reading PDF…','Lettura del PDF…');$('workspace').setAttribute('aria-busy','true');$('choose').disabled=true;
  try{
   if(file.size>100*1024*1024)throw new Error(tr('The file exceeds 100 MB. Choose a smaller PDF.','Il file supera 100 MB. Scegli un PDF più piccolo.'));
@@ -86,6 +95,7 @@ async function load(file){
   const doc=await PDFLib.PDFDocument.load(input,{updateMetadata:false,throwOnInvalidObject:true});
   const scanned=PrintPdfCore.inspect(doc);if(scanned.pages.length>500)throw new Error(tr('This version supports up to 500 pages.','Questa versione supporta fino a 500 pagine.'));
   if(token!==generation)return;bytes=input;info=scanned;fileName=file.name;showMetadata(doc,file);
+  $('exclude-pages').value=info.pages.length===1?'1':`1, ${info.pages.length}`;
   $('mode-trim').disabled=!info.auto;$('mode-trim').checked=info.auto;$('mode-manual').checked=!info.auto;
   $('trim-help').textContent=info.auto?tr('The explicit TrimBox defines the final size on each page. You can still choose manual margins.','Il TrimBox esplicito definisce il formato finale di ogni pagina. Puoi comunque scegliere i margini manuali.'):errors.trim;
   for(const key of ['top','bottom','left','right'])$(key).value='0';$('equal').checked=true;
@@ -101,6 +111,19 @@ async function load(file){
 }
 $('choose').addEventListener('click',()=>{$('file').value='';$('file').click();});
 $('file').addEventListener('change',()=>load($('file').files[0]));
+const dropZone=$('drop-zone');let dragDepth=0;
+const draggingFiles=e=>Array.from(e.dataTransfer?.types||[]).includes('Files');
+for(const event of ['dragover','drop'])window.addEventListener(event,e=>{if(draggingFiles(e))e.preventDefault();});
+dropZone.addEventListener('dragenter',e=>{if(!draggingFiles(e))return;e.preventDefault();if(!busy&&!exporting){dragDepth++;dropZone.classList.add('is-dragging');}});
+dropZone.addEventListener('dragleave',()=>{dragDepth=Math.max(0,dragDepth-1);if(!dragDepth)dropZone.classList.remove('is-dragging');});
+dropZone.addEventListener('dragover',e=>{if(!draggingFiles(e))return;e.preventDefault();e.dataTransfer.dropEffect=busy||exporting?'none':'copy';});
+dropZone.addEventListener('drop',e=>{
+ if(!draggingFiles(e))return;e.preventDefault();dragDepth=0;dropZone.classList.remove('is-dragging');
+ if(busy||exporting)return;
+ const files=Array.from(e.dataTransfer.files||[]);
+ if(files.length!==1){$('error').textContent=tr('Drop one PDF at a time.','Trascina un solo PDF alla volta.');return;}
+ load(files[0]);
+});
 for(const element of document.querySelectorAll('#controls input'))element.addEventListener('input',update);
 $('prev').addEventListener('click',async()=>{if(current>0){current--;await render();}});
 $('next').addEventListener('click',async()=>{if(info&&current<info.pages.length-1){current++;await render();}});
@@ -110,11 +133,11 @@ $('export').addEventListener('click',async()=>{
   const rects=PrintPdfCore.rectangles(info,mode(),margins());
   // Reload the original bytes: preview and previous exports never accumulate crop offsets.
   const doc=await PDFLib.PDFDocument.load(bytes,{updateMetadata:false,throwOnInvalidObject:true});
-  const fresh=PrintPdfCore.inspect(doc);const report=PrintPdfCore.crop(doc,fresh,rects);
+  const fresh=PrintPdfCore.inspect(doc);const report=$('split-spreads').checked?PrintPdfCore.splitAndCrop(doc,fresh,rects,PrintPdfCore.excludedPages($('exclude-pages').value,fresh.pages.length)):PrintPdfCore.crop(doc,fresh,rects);
   MRCOutputMetadata.pdf(doc);
   const output=await doc.save({updateFieldAppearances:false});
   downloadUrl=URL.createObjectURL(new Blob([output],{type:'application/pdf'}));$('download').href=downloadUrl;$('download').download=fileName.replace(/\.pdf$/i,'')+'-web.pdf';
-  $('result-summary').textContent=tr(`${info.pages.length} pages · ${size(output.length)}. Page boxes match the final format. Links wholly outside the crop are removed.`,`${info.pages.length} pagine · ${size(output.length)}. I riquadri delle pagine corrispondono al formato finale. I link interamente esterni al ritaglio vengono rimossi.`)+(report.removedLinks?tr(` ${report.removedLinks} outside links removed.`,` ${report.removedLinks} link esterni rimossi.`):'');
+  $('result-summary').textContent=tr(`${doc.getPageCount()} pages · ${size(output.length)}. Page boxes match the final format. Links wholly outside the crop are removed.`,`${doc.getPageCount()} pagine · ${size(output.length)}. I riquadri delle pagine corrispondono al formato finale. I link interamente esterni al ritaglio vengono rimossi.`)+(report.removedLinks?tr(` ${report.removedLinks} outside links removed.`,` ${report.removedLinks} link esterni rimossi.`):'');
   $('result').hidden=false;$('status').textContent=tr('PDF ready for the web.','PDF pronto per il web.');$('download').focus();
  }catch(e){error(e);$('status').textContent='';}
  finally{exporting=false;$('choose').disabled=false;$('controls').removeAttribute('inert');$('export').disabled=false;$('workspace').setAttribute('aria-busy','false');}
