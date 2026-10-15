@@ -106,7 +106,7 @@ function selectWordForTyping(i,dir){
  const firstEmpty=entry?.cells.find(cell=>!state.letters[cell]);
  select(state.ui.mode==='play'&&firstEmpty!==undefined?firstEmpty:i,chosen||undefined);
 }
-function save(){try{localStorage.setItem('mrc-crossword-game-it-v1',JSON.stringify(state))}catch(e){$('message').textContent=pageLang==='it'?'Memoria locale non disponibile. Esporta il progetto.':'Local storage unavailable. Export your project.'}}
+function save(){if(history.state?.mrcCrosswordView==='play'){history.replaceState({...history.state,puzzle:JSON.parse(JSON.stringify(state))},'',location.href)}try{localStorage.setItem('mrc-crossword-game-it-v1',JSON.stringify(state))}catch(e){$('message').textContent=pageLang==='it'?'Memoria locale non disponibile. Esporta il progetto.':'Local storage unavailable. Export your project.'}}
 function setMsg(x){$('message').textContent=x}function labelEntry(e){return e.num+' '+(e.dir==='a'?'→':'↓')+' · '+e.cells.length}
 function render(){compute();
 // When a crossword opens, start on the first playable numbered entry,
@@ -226,8 +226,7 @@ async function openJSON(input){
   if(f.size>2*1024*1024)throw Error('large');
   const parsed=MRCCrosswordJSON.load(JSON.parse(await f.text()),{playable:document.body.classList.contains('mrc-crossword-game')});if(!parsed)throw Error('invalid');
   parsed.ui.lang=document.documentElement.lang.startsWith('it')?'it':'en';
-  state=parsed;document.getElementById('startScreen')?.classList.add('hidden');
-  if(document.body.classList.contains('mrc-crossword-game'))document.body.classList.add('game-ready');
+  state=parsed;closeStart();
   render();save();setMsg(tx('imported'));
  }catch{window.alert(document.documentElement.lang.startsWith('it')?'File non valido o incompleto. Lo schema attuale è rimasto invariato.':'Invalid or incomplete file. The current puzzle has not changed.')}
  input.value='';
@@ -461,7 +460,37 @@ $('ocrRun').addEventListener('click',async()=>{const status=$('ocrStatus');if(!d
  }catch(e){status.textContent='OCR non disponibile: '+e.message+'. Puoi usare il testo copiato dal Mac.'}finally{btn.disabled=false}});
 window.addEventListener('resize',()=>{if(photoImg)setPhotoZoom();schedulePhotoDraw()});if('ResizeObserver'in window)new ResizeObserver(schedulePhotoDraw).observe($('board'));
 document.addEventListener('mrc-crossword-clear-confirmed',()=>{state.letters.fill('');render();save()});$('reset').addEventListener('click',()=>{if(!confirm(tx('sure')))return;let lang=state.ui.lang;state=fresh();state.ui.lang=lang;render();save()});
- const start=$('startScreen');const closeStart=()=>{start.classList.add('hidden');document.body.classList.add('game-ready');document.body.classList.remove('guide-modal');state.ui.mode='play';render();save()};
+ const start=$('startScreen');
+ // Keep the chooser as a distinct browser-history entry.
+ const historyKey='mrcCrosswordView';
+ const initialHistory=history.state;
+ if(!initialHistory?.[historyKey])history.replaceState({...history.state,[historyKey]:'list'},'',location.href);
+ function showGame(){start.classList.add('hidden');document.body.classList.add('game-ready');document.body.classList.remove('guide-modal');state.ui.mode='play';render();save()}
+ const closeStart=()=>{
+  if(history.state?.[historyKey]!=='play'){
+   history.replaceState({...history.state,[historyKey]:'list',listScroll:window.scrollY},'',location.href);
+   history.pushState({[historyKey]:'play',puzzle:JSON.parse(JSON.stringify(state))},'',location.href);
+  }
+  showGame();
+ };
+ function restoreHistory(entry){
+  if(entry?.[historyKey]==='play'){
+   const restored=validate(entry.puzzle);
+   if(restored){state=restored;state.ui.lang=pageLang}
+   showGame();
+  }else{
+   save();start.classList.remove('hidden');document.body.classList.remove('game-ready','mrc-cw-touch-play','mrc-cw-mini-open');
+   $('startLocal').classList.remove('hidden');
+   document.activeElement?.blur();
+   requestAnimationFrame(()=>window.scrollTo({top:entry?.listScroll||0,behavior:'instant'}));
+  }
+ }
+ window.addEventListener('popstate',event=>restoreHistory(event.state));
+ // The existing mobile “Back” control must use the same history entry.
+ new MutationObserver(()=>{
+  if(!document.body.classList.contains('game-ready')&&history.state?.[historyKey]==='play')history.back();
+ }).observe(document.body,{attributes:true,attributeFilter:['class']});
+
  const existing=localStorage.getItem('mrc-crossword-game-it-v1');if(existing){try{const old=validate(JSON.parse(existing));if(old && (old.blacks.some(Boolean)||Object.keys(old.clues).length||old.letters.some(Boolean)))$('startLocal').classList.remove('hidden')}catch{}}
  $('startBlank').addEventListener('click',()=>{const lang=state.ui.lang;state=fresh();state.ui.lang=lang;closeStart();render();save()});
  $('startPhoto').addEventListener('click',()=>{closeStart();state.ui.mode='build';render();$('photoFile').click()});
@@ -508,6 +537,7 @@ if(presetRoot){
 
 
 
+ if(initialHistory?.[historyKey]==='play')restoreHistory(initialHistory);
  const transfer=sessionStorage.getItem('mrc-crossword-transfer');
  if(transfer){try{const next=MRCCrosswordJSON.load(JSON.parse(transfer),{playable:true});if(next){state=next;state.ui.lang=pageLang;closeStart();document.body.classList.add('game-ready')}}catch{}sessionStorage.removeItem('mrc-crossword-transfer')}
  render();save();
