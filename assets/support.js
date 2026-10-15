@@ -27,7 +27,8 @@
   const outputTools = new Set([
     "pdf-compressor", "webp-compressor", "image-to-target-size", "foto-entro-peso",
     "white-to-transparent", "bianco-trasparente", "images-to-pdf", "immagini-in-pdf",
-    "print-pdf-to-web", "da-pdf-stampa-a-web", "clean-wp-clipboard", "multiple-find-replace"
+    "print-pdf-to-web", "da-pdf-stampa-a-web", "clean-wp-clipboard", "multiple-find-replace",
+    "file-renamer", "watermark"
   ]);
   const slug = location.pathname.split("/").filter(Boolean).at(-1);
   // Snippet pages produce a usable result when the visitor copies code.
