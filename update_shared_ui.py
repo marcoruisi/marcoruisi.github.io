@@ -453,6 +453,7 @@ def plan_shared_ui(root=ROOT):
         # technical header, leaving all game/script markup untouched.
         standalone = url.startswith(('/games/', '/it/giochi/')) or url in (
             '/tools/crossword/', '/it/tools/cruciverba/',
+            '/tools/free-crossword/', '/it/tools/cruciverba-libero/',
             '/tools/puzzle-maker/', '/it/tools/crea-sfida/',
             '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
             '/tools/address-geocoding/', '/it/tools/geocodifica-indirizzi/',
@@ -478,7 +479,8 @@ def plan_shared_ui(root=ROOT):
                     text = re.sub(r'(<main\b[^>]*>)\s*', lambda m: m[1] + '\n' + block + '\n', text, count=1)
                 if text != original: planned[path] = text
             continue
-        if url.startswith(('/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
+        if url.startswith(('/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/',
+            '/tools/free-crossword/', '/it/tools/cruciverba-libero/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',
                 '/tools/address-geocoding/', '/it/tools/geocodifica-indirizzi/'):
             continue  # Standalone game/kit pages already have their own HTML shell.
         lang_match = re.search(r'<html\b[^>]*\blang=["\'](en|it)["\']', text, re.I)

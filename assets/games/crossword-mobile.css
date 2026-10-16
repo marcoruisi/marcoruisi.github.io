@@ -311,3 +311,12 @@
     padding:4px!important;
   }
 }
+
+/* Game sidebar shows only the current clue or current row/column sequence. */
+body.mrc-crossword-game #wordList,
+body.mrc-crossword-game aside [data-i="words"]{display:none!important}
+body.mrc-crossword-game .mrc-cw-desktop-exit{display:none;margin:0 0 16px}
+body.mrc-crossword-game.game-ready .mrc-cw-desktop-exit{display:inline-flex;align-items:center}
+@media(max-width:800px) and (pointer:coarse){
+ body.mrc-crossword-game.game-ready .mrc-cw-desktop-exit{display:none}
+}

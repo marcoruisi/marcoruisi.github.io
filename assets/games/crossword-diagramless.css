@@ -1,0 +1,5 @@
+.mrc-cw-variant{display:flex;flex-wrap:wrap;gap:10px;font-weight:600;margin:16px 0 8px}.mrc-cw-variant select{font:inherit;padding:8px;border:1px solid #aaa;border-radius:4px;background:#fff;color:#222}
+.mrc-diagramless-controls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.mrc-diagramless-controls[hidden]{display:none}.mrc-diagramless-controls .hint{flex-basis:100%;margin:4px 0;font-size:.8rem}
+.mrc-diagramless .cell.black.current{background:#222;box-shadow:inset 0 0 0 3px #e9a950}.mrc-diagramless #wordList{display:block}.mrc-diagramless #wordList section{padding:10px 0;border-bottom:1px solid #ddd}.mrc-diagramless #wordList ol,.mrc-diagramless #currentClue ol{padding-left:1.3em;margin:.4em 0}.mrc-diagramless #wordList li,.mrc-diagramless #currentClue li{margin:.4em 0}.mrc-diagramless #wordList h3{font-size:1rem}.mrc-diagramless #wordList a,.mrc-diagramless #currentClue a{color:inherit;font-size:.85em}
+
+.mrc-diagramless-controls button[hidden]{display:none!important}

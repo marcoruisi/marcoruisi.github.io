@@ -3,7 +3,19 @@
 function validate(x,playable=false){
  if(!x||x.version!==1||!Number.isInteger(x.rows)||!Number.isInteger(x.cols)||x.rows<3||x.rows>30||x.cols<3||x.cols>30)return null;
  const n=x.rows*x.cols;
+ const unknown=x.layoutKnown===false;
+ if(unknown){
+  if(x.variant!=='diagramless'||!Number.isInteger(x.blackCount)||x.blackCount<0||x.blackCount>=n)return null;
+  if(!x.orderedClues||typeof x.orderedClues!=='object')return null;
+  for(const dir of ['a','d']){
+   const lines=x.orderedClues[dir];
+   if(!Array.isArray(lines)||lines.length!==(dir==='a'?x.rows:x.cols)||!lines.every(line=>Array.isArray(line)&&line.length<=30&&line.every(v=>typeof v==='string'&&v.trim()&&v.length<=1000)))return null;
+  }
+  if(!['a','d'].some(dir=>x.orderedClues[dir].some(line=>line.length)))return null;
+ }
+
  if(!Array.isArray(x.blacks)||x.blacks.length!==n||!x.blacks.every(v=>typeof v==='boolean')||!x.clues||typeof x.clues!=='object'||Array.isArray(x.clues))return null;
+ if(unknown&&x.blacks.some(Boolean))return null;
  const clues={},clueSources={};
  for(const [k,v] of Object.entries(x.clues)){
   if(!/^[ad]:\d+$/.test(k)||Number(k.slice(2))>=n||typeof v!=='string'||v.length>1000)return null;
@@ -15,7 +27,7 @@ function validate(x,playable=false){
   clueSources[k]={name:v.name,url:v.url};
   for(const f of ['date','publishedAt','year','category'])if(typeof v[f]==='string'||typeof v[f]==='number')clueSources[k][f]=String(v[f]).slice(0,100);
  }
- if(playable){
+ if(playable&&!unknown){
   const covered=new Set();let count=0;
   for(let i=0;i<n;i++)if(!x.blacks[i])for(const dir of ['a','d']){
    const c=i%x.cols,r=Math.floor(i/x.cols),step=dir==='a'?1:x.cols;
@@ -33,16 +45,23 @@ function validate(x,playable=false){
  if(!Array.isArray(letters)||letters.length!==n||!letters.every(v=>typeof v==='string'&&v.length<=2))return null;
  const ui=progress.ui||{};
  if(typeof ui!=='object'||Array.isArray(ui))return null;
- const first=x.blacks.findIndex(b=>!b);
- const s={version:1,rows:x.rows,cols:x.cols,blacks:x.blacks.slice(),letters:letters.map(v=>v.toLocaleUpperCase().slice(0,1)),clues,clueSources,ui:{mode:['build','clues','play'].includes(ui.mode)?ui.mode:'build',dir:ui.dir==='d'?'d':'a',selected:Number.isInteger(ui.selected)&&ui.selected>=0&&ui.selected<n&&!x.blacks[ui.selected]?ui.selected:Math.max(0,first),lang:ui.lang==='en'?'en':'it'}};
+ const first=x.variant==='diagramless'?0:x.blacks.findIndex(b=>!b);
+ const s={version:1,rows:x.rows,cols:x.cols,blacks:x.blacks.slice(),letters:letters.map(v=>v.toLocaleUpperCase().slice(0,1)),clues,clueSources,ui:{mode:['build','clues','play'].includes(ui.mode)?ui.mode:'build',dir:ui.dir==='d'?'d':'a',selected:Number.isInteger(ui.selected)&&ui.selected>=0&&ui.selected<n&&(x.variant==='diagramless'||!x.blacks[ui.selected])?ui.selected:Math.max(0,first),lang:ui.lang==='en'?'en':'it'}};
+ if(x.variant==='diagramless'){
+  const marks=progress.diagramlessBlacks===undefined?Array(n).fill(false):progress.diagramlessBlacks;
+  if(!Array.isArray(marks)||marks.length!==n||!marks.every(v=>typeof v==='boolean'))return null;
+  s.variant='diagramless';s.diagramlessBlacks=marks.slice();
+  s.letters=s.letters.map((v,i)=>marks[i]?'':v);
+ }
+ if(unknown){s.layoutKnown=false;s.blackCount=x.blackCount;s.orderedClues={a:x.orderedClues.a.map(line=>line.slice()),d:x.orderedClues.d.map(line=>line.slice())};s.ui.mode='play';}
  for(const f of ['title','date'])if(typeof x[f]==='string')s[f]=x[f].slice(0,200);
  return s;
 }
 function documentData(input,{progress=false,title=''}={}){
  const s=validate(input,!progress);if(!s)throw Error('invalid');
  if(title)s.title=title.slice(0,200);
- const {letters,ui,...puzzle}=s;
- if(progress)puzzle.progress={letters,ui};
+ const {letters,ui,diagramlessBlacks,...puzzle}=s;
+ if(progress){puzzle.progress={letters,ui};if(diagramlessBlacks)puzzle.progress.diagramlessBlacks=diagramlessBlacks;}
  return puzzle;
 }
 function load(input,{playable=false}={}){

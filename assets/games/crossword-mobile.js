@@ -75,6 +75,9 @@
   document.body.classList.remove('mrc-cw-touch-play','mrc-cw-mini-open');
   window.scrollTo({top:0,behavior:'instant'});
  });
+ const desktopExit=document.createElement('button');desktopExit.type='button';desktopExit.className='mrc-cw-desktop-exit';
+ desktopExit.textContent=it?'← Torna ai cruciverba':'← Back to crosswords';
+ desktopExit.addEventListener('click',()=>exit.click());layout.before(desktopExit);
  bar.append(exit,saveGame,share,buttons);wrap.parentElement.insertBefore(bar,wrap);
  const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
  const info=document.createElement('div');info.className='mrc-cw-info-row';

@@ -26,6 +26,14 @@
       "category": "classic"
     },
     {
+      "id": "it_s04",
+      "file": "it_s04.json",
+      "title": "Esempio 04",
+      "language": "it",
+      "type": "curated",
+      "category": "classic"
+    },
+    {
       "id": "en_s01",
       "file": "en_s01.json",
       "title": "Sample 01",
