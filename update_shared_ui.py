@@ -255,6 +255,8 @@ def editorial_header(root, text, lang, pair=None):
         language_navigation = (f'<nav class="header-language" aria-label="{language_label}">'
                                + '<span>/</span>'.join(links) + '</nav>')
     utilities = template(root, 'header-utilities.html', {
+        'resources_url': '/it/risorse/' if lang == 'it' else '/resources/',
+        'resources_label': 'Risorse' if lang == 'it' else 'Resources',
         'tools_url': '/it/tools/' if lang == 'it' else '/tools/',
         'games_url': '/it/giochi/' if lang == 'it' else '/games/',
         'games_label': 'Giochi' if lang == 'it' else 'Games',
