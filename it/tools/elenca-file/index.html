@@ -1,4 +1,7 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><!-- MRC SHARED METADATA START -->
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcorui.si/it/tools/elenca-file/">
 <meta property="og:url" content="https://marcorui.si/it/tools/elenca-file/">
@@ -14,9 +17,6 @@
 <meta name="twitter:title" content="Elenca file | MRC · Marco Ruisi">
 <meta name="twitter:description" content="Elenca i file di cartelle e sottocartelle con profondità configurabile. Scarica percorsi, dimensioni e ultima modifica in CSV o TXT.">
 <!-- MRC SHARED METADATA END -->
-<link rel="stylesheet" href="/assets/tool-flows.css">
-<link rel="stylesheet" href="/assets/tools-content.css">
-<link rel="stylesheet" href="/assets/tool-feedback.css">
 </head><body><!-- MRC SHARED TOOL HEADER START -->
 <header class="mrc-tool-header">
     <nav class="mrc-tools-nav" aria-label="MRC Tools">
@@ -28,7 +28,7 @@
 <nav class="mrc-tools-secondary" aria-label="Navigazione Tools"><a href="/it/tools/">Everyday Tools</a><a href="/it/tools/tutti/">Tutti gli strumenti</a><a href="/it/tool-flows/">Tool Flows</a></nav>
 <!-- MRC SHARED TOOL HEADER END --><main class="app mrc-data-tool">
 <!-- MRC SHARED TOOL STATUS START -->
-<p class="mrc-tool-model">TOOL · FREE</p>
+<p class="mrc-tool-model">TOOL · FREE · Cartelle, file di ogni formato → CSV, TXT</p>
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>Elenca file</h1><p class="intro">Elenca i file di cartelle e sottocartelle con profondità configurabile. Scarica percorsi, dimensioni e ultima modifica in CSV o TXT.</p><section class="panel"><h2>1. Scegli la profondità e la cartella</h2><div class="controls"><label class="inline"><input type="checkbox" id="all-depth" checked> Tutte le sottocartelle</label><label for="depth">Livelli di sottocartelle<input id="depth" type="number" min="0" max="99" step="1" value="1" disabled></label></div><p class="hint">0 = solo file nella cartella principale; 1 = anche le sottocartelle dirette. Dopo una modifica premi Scansiona di nuovo.</p><div class="drop" id="drop"><strong>Trascina qui una cartella</strong><label for="folder">oppure seleziona una cartella<input type="file" id="folder" webkitdirectory multiple></label></div><p class="hint">Legge soltanto nomi e metadati. Con la selezione cartella, il browser può prima raccogliere tutti i file: la profondità limita quelli inclusi nell’elenco. Il trascinamento dipende dal supporto del browser.</p><div class="actions"><button type="button" id="scan" >Scansiona di nuovo</button><button type="button" id="stop" disabled>Interrompi</button></div><p id="status" role="status"></p><details><summary>Elementi non leggibili</summary><ul id="issues"></ul></details></section>
 <section class="panel" id="resultSection"><h2>2. Consulta e scarica</h2><div class="controls"><label for="search">Cerca nel percorso<input id="search" type="search"></label><label for="sort">Ordina per<select id="sort" ><option value="path">Percorso</option><option value="name">Nome</option><option value="extension">Estensione</option><option value="bytes">Dimensione decrescente</option><option value="modified">Ultima modifica</option></select></label><label class="inline"><input type="checkbox" id="hidden-files" checked> Includi file e cartelle che iniziano con un punto</label></div><p id="count" role="status"></p><div class="table-wrap"><table><thead id="heads"></thead><tbody id="rows"></tbody></table></div><div class="actions"><button type="button" id="prev" >← Precedente</button><span id="page"></span><button type="button" id="next" >Successiva →</button></div><p class="hint">Il download comprende tutti i risultati filtrati, non solo la pagina visibile. Date in UTC; il tipo MIME può non essere disponibile.</p><div class="actions"><button type="button" id="csv" disabled>Scarica tabella CSV</button><button type="button" id="txt" disabled>Scarica elenco TXT</button><button type="button" id="copy" disabled>Copia percorsi</button></div></section><section class="panel"><p>Continua con <a href="/it/tools/editor-csv/">Visualizza e modifica CSV →</a></p></section><section class="mrc-donation panel"><h2>Ti è stato utile?</h2><p>Questo tool è gratuito. Se vuoi, puoi sostenere il progetto MRC.</p><a href="https://buy.stripe.com/eVq5kCaff0BE1VFdQL4sE02" target="_blank" rel="noopener noreferrer" data-support-link>Supporta MRC →</a></section></main>
@@ -66,6 +66,7 @@
     <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
 </footer>
 <!-- MRC SHARED FOOTER END -->
+
 <script type="module" src="/tools/file-inventory/tool.mjs"></script><script src="/assets/support.js" defer></script>
 
 <script type="module"

@@ -113,7 +113,9 @@ body>footer{max-width:920px;margin:40px auto 0!important;padding:20px 0!importan
 <nav class="mrc-tools-secondary" aria-label="Tools navigation"><a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a><a href="/tool-flows/">Tool Flows</a></nav>
 <!-- MRC SHARED TOOL HEADER END -->
 <main class="app mrc-crossword-page">
-
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE · Images, JSON</p>
+<!-- MRC SHARED TOOL STATUS END -->
 <section class="mrc-crossword-intro"><div><small>MRC / TOOLS</small><h1>Cruciverba digitale</h1><div class="muted">Costruisci, compila, conserva.</div></div><div><button id="lang" type="button">EN</button></div></section>
 <div id="startScreen" aria-labelledby="startTitle"><div class="start-inner"><small>MRC / TOOLS</small><h2 id="startTitle">Da dove vuoi iniziare?</h2><p class="muted">Il cruciverba resta sul tuo dispositivo.</p><div class="start-actions"><button type="button" id="startBlank"><strong>1 · Crea uno schema da zero</strong><small>Imposta righe e colonne e annerisci le caselle.</small></button><button type="button" id="startPhoto"><strong>2 · Copia uno schema da una foto</strong><small>Procedura guidata: misura, sovrapponi, inserisci le definizioni.</small></button><button type="button" id="startProject"><strong>3 · Apri un progetto salvato</strong><small>Riprendi schema, definizioni e avanzamenti da un file JSON.</small></button><button type="button" id="startLocal" class="hidden"><strong>Continua il progetto su questo browser</strong><small>Riprendi il lavoro salvato automaticamente.</small></button></div></div></div>
 <div class="mrc-crossword-bridge" style="margin:0 0 20px;padding:13px 0;border-bottom:1px solid #ccc"><span>Just want to play?</span> <a href="/games/crossword/">Play a ready-made crossword →</a></div>
@@ -577,4 +579,5 @@ $('fresh').addEventListener('click',()=>{if(!confirm(tx('surefresh')))return;sta
  const fileObserve=new MutationObserver(()=>{if($('message').textContent===tx('imported'))closeStart()});fileObserve.observe($('message'),{childList:true,characterData:true,subtree:true});
  render();save();
 })();
-</script></body></html>
+</script>
+</body></html>

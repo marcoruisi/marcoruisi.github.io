@@ -1,5 +1,5 @@
 import {parseCSV,detectDelimiter,csvText,download,orderRows} from '../table-utils/data.mjs';
-import {matches,width,moveColumn} from './model.mjs';
+import {matches,width,moveColumn,moveRow} from './model.mjs';
 import {makeZip,splitRows,groupFilename} from '../table-utils/zip.mjs';
 const it=document.documentElement.lang==='it',say=(a,b)=>it?a:b,$=id=>document.getElementById(id);
 let rows=[],file=null,page=0,filters=[],selected=new Set(),undo=[],redo=[],dirty=false,loaded=false,ending='\r\n',terminal=true,loadToken=0;
@@ -12,15 +12,26 @@ function visible(){const q=$('search').value.toLocaleLowerCase();return rows.map
 function output(){return $('scope').value==='filtered'?(start()&&rows.length?[rows[0]]:[]).concat(visible().map(x=>x.r)):rows}
 function resetFilters(){filters=[];selected.clear();renderFilters();$('split-preview').textContent=''}
 function options(select,previous=0){select.replaceChildren();for(let c=0;c<width(rows);c++){const o=document.createElement('option');o.value=c;o.textContent=`${c+1} · ${heading(c)}`;select.append(o)}select.value=String(Math.min(Number(previous)||0,Math.max(0,width(rows)-1)))}
+let dragging=null;
+function clearDrag(){dragging=null;document.querySelectorAll('.drop-column,.drop-before,.drop-after').forEach(el=>el.classList.remove('drop-column','drop-before','drop-after'))}
+function dragHandle(kind,index){
+ const b=document.createElement('button');b.type='button';b.className='drag-handle';b.textContent='⠿';b.draggable=true;
+ const label=kind==='column'?say('Trascina colonna','Drag column'):say('Trascina riga','Drag row');b.title=label;b.setAttribute('aria-label',label+' '+(index+1));
+ b.ondragstart=e=>{
+  if(kind==='row'&&(filters.length||$('search').value)){e.preventDefault();msg(say('Rimuovi i filtri per spostare le righe.','Clear filters to move rows.'));return}
+  dragging={kind,index};e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',kind+':'+index);
+ };b.ondragend=clearDrag;return b;
+}
 function render(){
  const n=width(rows),data=visible();page=Math.max(0,Math.min(page,Math.ceil(data.length/50)-1));
  for(const id of ['column','split-column'])options($(id),$(id).value);
  $('heads').replaceChildren();const head=document.createElement('tr');const marker=document.createElement('th');marker.textContent='#';head.append(marker);
- for(let c=0;c<n;c++){const th=document.createElement('th');th.textContent=heading(c);head.append(th)}$('heads').append(head);$('rows').replaceChildren();
+ for(let c=0;c<n;c++){const th=document.createElement('th');th.append(dragHandle('column',c),document.createTextNode(heading(c)));th.ondragover=e=>{if(dragging?.kind==='column'){e.preventDefault();e.dataTransfer.dropEffect='move';th.classList.add('drop-column')}};th.ondragleave=()=>th.classList.remove('drop-column');th.ondrop=e=>{if(dragging?.kind!=='column')return;e.preventDefault();const from=dragging.index;clearDrag();if(from!==c){change(()=>rows=moveColumn(rows,from,c),true);msg(say('Colonna spostata. Puoi annullare.','Column moved. You can undo.'))}};head.append(th)}$('heads').append(head);$('rows').replaceChildren();
  const shown=data.slice(page*50,page*50+50);
  if(start()&&rows.length)shown.unshift({r:rows[0],i:0,header:true});
  for(const {r,i,header} of shown){const tr=document.createElement('tr');if(header)tr.className='header-row';const mark=document.createElement('td');
-  if(header)mark.textContent=say('Intestazione','Header');else{const box=document.createElement('input');box.type='checkbox';box.checked=selected.has(i);box.setAttribute('aria-label',say('Seleziona riga ','Select row ')+(i+1));box.onchange=()=>{box.checked?selected.add(i):selected.delete(i);$('selection-count').textContent=say(`${selected.size} righe selezionate`,`${selected.size} selected rows`)};mark.append(box,document.createTextNode(String(i+1)))}tr.append(mark);
+  if(header)mark.textContent=say('Intestazione','Header');else{const box=document.createElement('input');box.type='checkbox';box.checked=selected.has(i);box.setAttribute('aria-label',say('Seleziona riga ','Select row ')+(i+1));box.onchange=()=>{box.checked?selected.add(i):selected.delete(i);$('selection-count').textContent=say(`${selected.size} righe selezionate`,`${selected.size} selected rows`)};mark.append(dragHandle('row',i),box,document.createTextNode(String(i+1)))}tr.append(mark);
+  if(!header){tr.ondragover=e=>{if(dragging?.kind!=='row')return;e.preventDefault();e.dataTransfer.dropEffect='move';const after=e.clientY>tr.getBoundingClientRect().top+tr.offsetHeight/2;tr.classList.toggle('drop-after',after);tr.classList.toggle('drop-before',!after)};tr.ondragleave=e=>{if(!tr.contains(e.relatedTarget))tr.classList.remove('drop-before','drop-after')};tr.ondrop=e=>{if(dragging?.kind!=='row')return;e.preventDefault();const from=dragging.index,after=e.clientY>tr.getBoundingClientRect().top+tr.offsetHeight/2;clearDrag();if(from!==i){change(()=>rows=moveRow(rows,from,i,after));msg(say('Riga spostata. Puoi annullare.','Row moved. You can undo.'))}}}
   for(let c=0;c<n;c++){const td=document.createElement('td'),input=document.createElement('textarea');input.rows=1;input.value=r[c]??'';input.setAttribute('aria-label',`${i+1} · ${heading(c)}`);input.onchange=()=>{if(input.value===(rows[i][c]??''))return;remember();while(rows[i].length<=c)rows[i].push('');rows[i][c]=input.value;if(i===0&&$('header').checked)renderFilters();render();msg(say('Cella aggiornata.','Cell updated.'))};td.append(input);tr.append(td)}$('rows').append(tr)
  }
  $('count').textContent=say(`${data.length} righe visibili / ${Math.max(0,rows.length-start())} · ${n} colonne`,`${data.length} visible rows / ${Math.max(0,rows.length-start())} · ${n} columns`);
@@ -59,4 +70,5 @@ function groups(){return splitRows(output(),Number($('split-column').value),$('h
 $('preview-split').onclick=()=>{const all=groups();$('split-preview').replaceChildren();const count=document.createElement('p');count.textContent=say(`${all.size} file da creare.`,`${all.size} files to create.`);$('split-preview').append(count);let i=0;for(const [key,r] of all){if(i>=100){const note=document.createElement('p');note.textContent=say('Anteprima limitata ai primi 100 gruppi.','Preview limited to the first 100 groups.');$('split-preview').append(note);break}const p=document.createElement('p');p.textContent=groupFilename(key,i++)+' — '+(r.length-start())+say(' righe',' rows');$('split-preview').append(p)}};
 $('split-column').onchange=()=>$('split-preview').textContent='';
 $('split').onclick=()=>{const all=groups();if(!all.size){msg(say('Nessuna riga da suddividere.','No rows to split.'));return}if(all.size>2000){msg(say('Troppi gruppi: massimo 2.000. Filtra i dati o scegli un’altra colonna.','Too many groups: maximum 2,000. Filter data or choose another column.'));return}const files=[];let i=0;for(const [key,r] of all)files.push({name:groupFilename(key,i++),text:csv(r)});const blob=makeZip(files),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=(file?.name.replace(/\.[^.]+$/,'')||'table')+'_split.zip';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);msg(say(`${files.length} CSV inclusi nello ZIP.`,`${files.length} CSV files included in the ZIP.`))};
-window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});render();
+const dragHelp=document.createElement('p');dragHelp.className='hint';dragHelp.textContent=say('Trascina ⠿ per spostare colonne e righe nella pagina visibile. Per le righe disattiva i filtri. Le frecce restano disponibili anche su touch e tastiera.','Drag ⠿ to move columns and rows on the visible page. Clear filters before moving rows. Arrow buttons remain available for touch and keyboard.');$('heads').closest('.table-wrap').before(dragHelp);
+window.addEventListener('beforeunload' ,e=>{if(dirty){e.preventDefault();e.returnValue=''}});render();

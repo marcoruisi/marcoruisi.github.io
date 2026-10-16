@@ -6,6 +6,7 @@ import json
 import re
 from urllib.parse import quote, urlencode
 from render_tool_flows import FLOW_URLS, flow_page_content
+from tool_formats import formats_for
 
 ROOT = Path(__file__).resolve().parent
 
@@ -331,7 +332,9 @@ def tool_flows_shell(root, text, lang, pair, current):
 def status(tool, tags, lang):
     words = {'tool': 'TOOL', 'snippet': 'SNIPPET', 'plugin': 'PLUGIN'}
     availability = 'ON REQUEST' if tool['availability'] == 'on-request' else 'FREE'
-    return f'<p class="mrc-tool-model">{words[tool["type"]]} · {availability}</p>'
+    formats = formats_for(tool, lang)
+    suffix = (' · ' + html.escape(formats)) if formats else ''
+    return f'<p class="mrc-tool-model">{words[tool["type"]]} · {availability}{suffix}</p>' 
 
 
 def related_tools(tool, tools):
@@ -389,6 +392,7 @@ def index_content(root, tools, tags, lang, everyday):
             return ''.join(f'<button type="button" data-tool-filter="{f["value"]}" data-filter-field="{f["field"]}" aria-pressed="{"true" if f["value"] == "all" else "false"}" aria-controls="mrc-tools-list">{html.escape(f["label"][lang])}</button>' for f in items)
         buttons = '<div class="mrc-tool-views" role="group" aria-label="' + pick('Vista', 'View') + '">' + controls(dataset['views']) + '</div>'
         buttons += '<div class="mrc-tool-scopes" role="group" aria-label="' + pick('Ambito', 'Scope') + '">' + controls(dataset['filters']) + '</div>'
+        content += '<div class="mrc-tool-search" hidden><label for="mrc-tool-search">' + pick('Cerca strumenti', 'Search tools') + '</label><input type="search" id="mrc-tool-search" placeholder="' + pick('Nome, funzione o formato: PDF, CSV…', 'Name, task or format: PDF, CSV…') + '" aria-controls="mrc-tools-list"><button type="button" id="mrc-tool-search-clear">' + pick('Cancella ricerca', 'Clear search') + '</button></div>'
         rows = ''.join(f'<li class="mrc-tool-row" data-tool-tags="{" ".join(t["tags"])}" data-tool-type="{t["type"]}" data-tool-availability="{t["availability"]}"><h2>{link(t["url"][lang], t["name"][lang])}</h2><p>{html.escape(t["description"][lang])}</p>{status(t,tags,lang)}</li>' for t in tools)
         content += f'<div class="mrc-tool-filters"  role="group" aria-label="{pick("Filtra gli strumenti", "Filter tools")}" hidden>{buttons}</div><p class="mrc-tool-filter-count" role="status" aria-live="polite" data-count-label="{pick("strumenti visibili", "tools shown")}" hidden></p><ul class="mrc-tools-list" id="mrc-tools-list">{rows}</ul>'
     resource_url = '/it/kit/' if it else '/kit/'
@@ -464,6 +468,12 @@ def plan_shared_ui(root=ROOT):
                         text = original[:header.start()] + marked('TOOL HEADER', content) + original[header.end():]
                     else:
                         text = original
+                standalone_tool = tool_by_url.get(url)
+                if standalone_tool:
+                    text = replace_block(text, 'TOOL STATUS', status(standalone_tool, tags, lang))
+                    block = re.search(r'<!-- MRC SHARED TOOL STATUS START -->.*?<!-- MRC SHARED TOOL STATUS END -->', text, re.S)[0]
+                    text = text.replace(block, '')
+                    text = re.sub(r'(<main\b[^>]*>)\s*', lambda m: m[1] + '\n' + block + '\n', text, count=1)
                 if text != original: planned[path] = text
             continue
         if url.startswith(('/kit/', '/it/kit/')) or url in ('/tools/crossword/', '/it/tools/cruciverba/', '/tools/puzzle-maker/', '/it/tools/crea-sfida/', '/tools/topic-games/', '/it/tools/giochi-da-argomento/',

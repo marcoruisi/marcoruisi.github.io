@@ -28,13 +28,17 @@
     "pdf-compressor", "webp-compressor", "image-to-target-size", "foto-entro-peso",
     "white-to-transparent", "bianco-trasparente", "images-to-pdf", "immagini-in-pdf",
     "print-pdf-to-web", "da-pdf-stampa-a-web", "clean-wp-clipboard", "multiple-find-replace",
-    "file-renamer", "watermark"
+    "file-renamer", "watermark", "file-inventory", "elenca-file", "csv-editor", "editor-csv"
   ]);
   const slug = location.pathname.split("/").filter(Boolean).at(-1);
   // Snippet pages produce a usable result when the visitor copies code.
   // Exclude request-only pages (which have no copyable snippet).
   const isSnippet = !!document.querySelector('[data-copy]');
   if (!outputTools.has(slug) && !isSnippet) return;
+  // Replace the short initial fallback with the shared donation choices.
+  if (["file-inventory", "elenca-file", "csv-editor", "editor-csv"].includes(slug)) {
+    document.querySelectorAll(".mrc-donation").forEach(el => el.remove());
+  }
   // Use a single block. It starts before feedback and moves to the successful result.
   const section = document.createElement("section");
   section.className = "mrc-donation";

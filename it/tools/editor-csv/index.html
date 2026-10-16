@@ -1,4 +1,7 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><!-- MRC SHARED METADATA START -->
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcorui.si/it/tools/editor-csv/">
 <meta property="og:url" content="https://marcorui.si/it/tools/editor-csv/">
@@ -14,9 +17,6 @@
 <meta name="twitter:title" content="Visualizza e modifica CSV | MRC · Marco Ruisi">
 <meta name="twitter:description" content="Visualizza e modifica celle, righe e colonne. Filtra i dati e dividi il CSV in più file per valore di una colonna. Tutto nel browser.">
 <!-- MRC SHARED METADATA END -->
-<link rel="stylesheet" href="/assets/tool-flows.css">
-<link rel="stylesheet" href="/assets/tools-content.css">
-<link rel="stylesheet" href="/assets/tool-feedback.css">
 </head><body><!-- MRC SHARED TOOL HEADER START -->
 <header class="mrc-tool-header">
     <nav class="mrc-tools-nav" aria-label="MRC Tools">
@@ -28,7 +28,7 @@
 <nav class="mrc-tools-secondary" aria-label="Navigazione Tools"><a href="/it/tools/">Everyday Tools</a><a href="/it/tools/tutti/">Tutti gli strumenti</a><a href="/it/tool-flows/">Tool Flows</a></nav>
 <!-- MRC SHARED TOOL HEADER END --><main class="app mrc-data-tool">
 <!-- MRC SHARED TOOL STATUS START -->
-<p class="mrc-tool-model">TOOL · FREE</p>
+<p class="mrc-tool-model">TOOL · FREE · CSV, TSV, TXT → CSV, ZIP</p>
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>Visualizza e modifica CSV</h1><p class="intro">Visualizza e modifica celle, righe e colonne. Filtra i dati e dividi il CSV in più file per valore di una colonna. Tutto nel browser.</p><section class="panel"><h2>1. Apri un CSV</h2><div class="drop" id="drop"><strong>Trascina qui il CSV</strong><label for="file">oppure seleziona un file<input id="file" type="file" accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values"></label></div><div class="controls"><label for="delimiter">Separatore di lettura<select id="delimiter" ><option value="auto">Automatico</option><option value=",">Virgola ,</option><option value=";">Punto e virgola ;</option><option value="	">Tabulazione</option><option value="|">Barra |</option></select></label><label for="encoding">Codifica di lettura<select id="encoding" ><option value="auto">Automatico (Unicode)</option><option value="utf-8">UTF-8</option><option value="windows-1252">Windows-1252</option><option value="utf-16le">UTF-16 LE</option><option value="utf-16be">UTF-16 BE</option></select></label><button type="button" id="reload" >Rileggi file originale</button></div><label class="inline"><input type="checkbox" id="header" checked> La prima riga contiene le intestazioni</label><p class="hint">Massimo 10 MB, 200 colonne e 300.000 celle. I valori restano testo: nessuna conversione automatica di codici, date o zeri iniziali. Le formule non vengono eseguite.</p></section>
 <section class="panel"><h2>2. Cerca e filtra</h2><label for="search">Cerca in tutte le colonne<input id="search" type="search"></label><div id="filters"></div><div class="actions"><button type="button" id="add-filter" data-needs-data>Aggiungi filtro per colonna</button><button type="button" id="clear-filters" >Rimuovi filtri</button><label class="inline"><input type="checkbox" id="case" > Distingui maiuscole nei filtri</label></div><p class="hint">I filtri si combinano con E: devono essere tutti soddisfatti. Non cancellano le righe. I confronti numerici usano il punto decimale.</p></section>
@@ -68,6 +68,7 @@
     <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
 </footer>
 <!-- MRC SHARED FOOTER END -->
+
 <script type="module" src="/tools/csv-editor/tool.mjs"></script><script src="/assets/support.js" defer></script>
 
 <script type="module"

@@ -1,4 +1,7 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><!-- MRC SHARED METADATA START -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcorui.si/tools/file-inventory/">
 <meta property="og:url" content="https://marcorui.si/tools/file-inventory/">
@@ -14,9 +17,6 @@
 <meta name="twitter:title" content="List files | MRC · Marco Ruisi">
 <meta name="twitter:description" content="List files in folders and subfolders with adjustable depth. Download paths, sizes and last modified dates as CSV or TXT.">
 <!-- MRC SHARED METADATA END -->
-<link rel="stylesheet" href="/assets/tool-flows.css">
-<link rel="stylesheet" href="/assets/tools-content.css">
-<link rel="stylesheet" href="/assets/tool-feedback.css">
 </head><body><!-- MRC SHARED TOOL HEADER START -->
 <header class="mrc-tool-header">
     <nav class="mrc-tools-nav" aria-label="MRC Tools">
@@ -28,7 +28,7 @@
 <nav class="mrc-tools-secondary" aria-label="Tools navigation"><a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a><a href="/tool-flows/">Tool Flows</a></nav>
 <!-- MRC SHARED TOOL HEADER END --><main class="app mrc-data-tool">
 <!-- MRC SHARED TOOL STATUS START -->
-<p class="mrc-tool-model">TOOL · FREE</p>
+<p class="mrc-tool-model">TOOL · FREE · Folders, any file format → CSV, TXT</p>
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>List files</h1><p class="intro">List files in folders and subfolders with adjustable depth. Download paths, sizes and last modified dates as CSV or TXT.</p><section class="panel"><h2>1. Choose depth and folder</h2><div class="controls"><label class="inline"><input type="checkbox" id="all-depth" checked> All subfolders</label><label for="depth">Subfolder levels<input id="depth" type="number" min="0" max="99" step="1" value="1" disabled></label></div><p class="hint">0 = files in the root folder only; 1 = also direct subfolders. After a change, select Scan again.</p><div class="drop" id="drop"><strong>Drop a folder here</strong><label for="folder">or select a folder<input type="file" id="folder" webkitdirectory multiple></label></div><p class="hint">Reads names and metadata only. With the folder picker, your browser may collect all files first: depth limits those included in the list. Folder drag-and-drop depends on browser support.</p><div class="actions"><button type="button" id="scan" >Scan again</button><button type="button" id="stop" disabled>Stop</button></div><p id="status" role="status"></p><details><summary>Unreadable items</summary><ul id="issues"></ul></details></section>
 <section class="panel" id="resultSection"><h2>2. Review and download</h2><div class="controls"><label for="search">Search paths<input id="search" type="search"></label><label for="sort">Sort by<select id="sort" ><option value="path">Path</option><option value="name">Name</option><option value="extension">Extension</option><option value="bytes">Size descending</option><option value="modified">Last modified</option></select></label><label class="inline"><input type="checkbox" id="hidden-files" checked> Include files and folders starting with a dot</label></div><p id="count" role="status"></p><div class="table-wrap"><table><thead id="heads"></thead><tbody id="rows"></tbody></table></div><div class="actions"><button type="button" id="prev" >← Previous</button><span id="page"></span><button type="button" id="next" >Next →</button></div><p class="hint">Downloads include all filtered results, not just the visible page. Dates use UTC; MIME type may be unavailable.</p><div class="actions"><button type="button" id="csv" disabled>Download CSV table</button><button type="button" id="txt" disabled>Download TXT list</button><button type="button" id="copy" disabled>Copy paths</button></div></section><section class="panel"><p>Continue with <a href="/tools/csv-editor/">View and edit CSV →</a></p></section><section class="mrc-donation panel"><h2>Found this useful?</h2><p>This tool is free. You can support the MRC project if you wish.</p><a href="https://buy.stripe.com/eVq5kCaff0BE1VFdQL4sE02" target="_blank" rel="noopener noreferrer" data-support-link>Support MRC →</a></section></main>
@@ -66,6 +66,7 @@
     <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
 </footer>
 <!-- MRC SHARED FOOTER END -->
+
 <script type="module" src="/tools/file-inventory/tool.mjs"></script><script src="/assets/support.js" defer></script>
 
 <script type="module"

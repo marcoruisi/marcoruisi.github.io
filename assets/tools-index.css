@@ -15,3 +15,5 @@
 .mrc-tool-row .mrc-tool-model{font-size:11px!important;white-space:nowrap;color:var(--muted,#68655e);letter-spacing:.06em}
 .mrc-tool-filters[hidden],.mrc-tool-filter-count[hidden],.mrc-tool-row[hidden]{display:none!important}
 @media(max-width:600px){.mrc-tool-scopes{gap:2px 14px}}
+
+.mrc-tool-search{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:20px 0}.mrc-tool-search[hidden]{display:none}.mrc-tool-search input{min-width:180px;flex:1;padding:10px;font:inherit;border:1px solid var(--border,#aaa);border-radius:3px;background:var(--panel,#fff);color:inherit}.mrc-tool-search button{font:inherit;padding:10px;border:1px solid var(--border,#aaa);border-radius:3px;background:var(--panel,#fff);color:inherit;cursor:pointer}

@@ -9,7 +9,11 @@
 </header>
 <nav class="mrc-tools-secondary" aria-label="Tools navigation"><a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a><a href="/tool-flows/">Tool Flows</a></nav>
 <!-- MRC SHARED TOOL HEADER END -->
-<main class="app geo-main" data-geocoding data-lang="en"><small class="geo-muted">MRC / TOOLS</small><h1>Address geocoding</h1><p class="geo-muted">Convert addresses to latitude and longitude. Copy two columns directly into Google Sheets.</p>
+<main class="app geo-main" data-geocoding data-lang="en">
+<!-- MRC SHARED TOOL STATUS START -->
+<p class="mrc-tool-model">TOOL · FREE · Addresses, CSV</p>
+<!-- MRC SHARED TOOL STATUS END -->
+<small class="geo-muted">MRC / TOOLS</small><h1>Address geocoding</h1><p class="geo-muted">Convert addresses to latitude and longitude. Copy two columns directly into Google Sheets.</p>
 <section class="geo-panel"><h2>Choose a search method</h2><p class="geo-muted">Two alternative methods: open the one you prefer.</p>
 <div class="geo-accordion">
 <details class="geo-accordion-item" id="geo-option-shared"><summary data-mode="shared">Single address · MRC API</summary><div class="geo-accordion-content" id="geo-shared"><p>Three immediate searches each day, then gradually longer waiting periods. One address at a time. No account required.</p><p class="geo-muted">Immediate searches left today: <strong id="geo-remaining">3</strong></p><p class="geo-muted" id="geo-wait" role="status"></p><p class="geo-note geo-muted geo-hidden" id="geo-shared-key-warning">Shared search will be enabled once the MRC key is configured. You can use your own free API key now.</p></div></details>
@@ -24,4 +28,5 @@
 <section class="geo-panel"><div class="geo-row" style="justify-content:space-between"><h2>Result · two columns</h2><small id="geo-output-count" class="geo-muted"></small></div><p class="geo-muted">Columns are tab-separated. Blank and unresolved lines remain in place. Paste into the first cell in Google Sheets.</p><textarea id="geo-output" class="geo-result" rows="7" readonly spellcheck="false" aria-label="Coordinates for Google Sheets"></textarea><div class="geo-actions"><button class="geo-primary" id="geo-copy" type="button">Copy coordinates</button></div><div id="geo-issues-wrap" class="geo-hidden"><h3>Rows needing attention</h3><ol id="geo-issues" class="geo-issues"></ol></div></section>
 <section class="geo-panel"><h2>Why use a personal API key for lists?</h2><p>To keep MRC free for everyone, the shared lookup is intended for occasional use. For lists, use your own free Geoapify key, independently of other users’ quotas.</p><p>Requests run in your browser: MRC does not receive or store addresses. Addresses are sent to Geoapify to retrieve coordinates. Results and your key, if you save it, are kept in local browser storage.</p><p class="geo-muted">Coordinates are automated suggestions: verify low-confidence results before using them. Limit of 100 rows per run.</p><p class="geo-credit">Geocoding powered by <a href="https://www.geoapify.com/" target="_blank" rel="noopener noreferrer">Geoapify</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a></p></section></main>
 <footer class="footer mrc-site-footer geo-footer"><p class="footer-name">Marco Ruisi</p><p class="footer-claim">Simple systems. Better questions.</p><p><a href="mailto:ciao@marcorui.si">ciao@marcorui.si</a></p><p class="copyright">© 2026</p></footer>
-<script src="/assets/geocoding/geocoding-config.js"></script><script src="/assets/geocoding/geocoding.js" defer></script><script src="/assets/language-preference.js" defer></script></body></html>
+<script src="/assets/geocoding/geocoding-config.js"></script><script src="/assets/geocoding/geocoding.js" defer></script><script src="/assets/language-preference.js" defer></script>
+</body></html>

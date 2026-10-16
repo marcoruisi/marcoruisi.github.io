@@ -1,4 +1,7 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><!-- MRC SHARED METADATA START -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/shared-ui.css"><link rel="stylesheet" href="/assets/tool-shell.css"><link rel="stylesheet" href="/assets/tool-afterword.css"><link rel="stylesheet" href="/tools/table-utils/table.css"><link rel="stylesheet" href="/assets/tool-flows.css">
+<link rel="stylesheet" href="/assets/tools-content.css">
+<link rel="stylesheet" href="/assets/tool-feedback.css">
+<!-- MRC SHARED METADATA START -->
 <meta property="og:site_name" content="Marco Ruisi">
 <link rel="canonical" href="https://marcorui.si/tools/csv-editor/">
 <meta property="og:url" content="https://marcorui.si/tools/csv-editor/">
@@ -14,9 +17,6 @@
 <meta name="twitter:title" content="View and edit CSV | MRC · Marco Ruisi">
 <meta name="twitter:description" content="View and edit cells, rows and columns. Filter data and split CSV files by column values. Everything stays in your browser.">
 <!-- MRC SHARED METADATA END -->
-<link rel="stylesheet" href="/assets/tool-flows.css">
-<link rel="stylesheet" href="/assets/tools-content.css">
-<link rel="stylesheet" href="/assets/tool-feedback.css">
 </head><body><!-- MRC SHARED TOOL HEADER START -->
 <header class="mrc-tool-header">
     <nav class="mrc-tools-nav" aria-label="MRC Tools">
@@ -28,7 +28,7 @@
 <nav class="mrc-tools-secondary" aria-label="Tools navigation"><a href="/tools/">Everyday Tools</a><a href="/tools/all/">All Tools</a><a href="/tool-flows/">Tool Flows</a></nav>
 <!-- MRC SHARED TOOL HEADER END --><main class="app mrc-data-tool">
 <!-- MRC SHARED TOOL STATUS START -->
-<p class="mrc-tool-model">TOOL · FREE</p>
+<p class="mrc-tool-model">TOOL · FREE · CSV, TSV, TXT → CSV, ZIP</p>
 <!-- MRC SHARED TOOL STATUS END -->
 <h1>View and edit CSV</h1><p class="intro">View and edit cells, rows and columns. Filter data and split CSV files by column values. Everything stays in your browser.</p><section class="panel"><h2>1. Open a CSV</h2><div class="drop" id="drop"><strong>Drop your CSV here</strong><label for="file">or select a file<input id="file" type="file" accept=".csv,.tsv,.txt,text/csv,text/tab-separated-values"></label></div><div class="controls"><label for="delimiter">Input delimiter<select id="delimiter" ><option value="auto">Automatic</option><option value=",">Comma ,</option><option value=";">Semicolon ;</option><option value="	">Tab</option><option value="|">Pipe |</option></select></label><label for="encoding">Input encoding<select id="encoding" ><option value="auto">Automatic (Unicode)</option><option value="utf-8">UTF-8</option><option value="windows-1252">Windows-1252</option><option value="utf-16le">UTF-16 LE</option><option value="utf-16be">UTF-16 BE</option></select></label><button type="button" id="reload" >Re-read original file</button></div><label class="inline"><input type="checkbox" id="header" checked> First row contains headers</label><p class="hint">Maximum 10 MB, 200 columns and 300,000 cells. Values stay as text: no automatic conversion of codes, dates or leading zeros. Formulas are not executed.</p></section>
 <section class="panel"><h2>2. Search and filter</h2><label for="search">Search all columns<input id="search" type="search"></label><div id="filters"></div><div class="actions"><button type="button" id="add-filter" data-needs-data>Add column filter</button><button type="button" id="clear-filters" >Clear filters</button><label class="inline"><input type="checkbox" id="case" > Case-sensitive column filters</label></div><p class="hint">Filters are combined with AND: all conditions must match. They do not delete rows. Numeric comparisons use a decimal point.</p></section>
@@ -68,6 +68,7 @@
     <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
 </footer>
 <!-- MRC SHARED FOOTER END -->
+
 <script type="module" src="/tools/csv-editor/tool.mjs"></script><script src="/assets/support.js" defer></script>
 
 <script type="module"
