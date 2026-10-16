@@ -67,14 +67,7 @@
  const saveGame=document.createElement('button');saveGame.type='button';saveGame.className='mrc-cw-save-progress';
  saveGame.textContent=it?'Salva progressi':'Save progress';
  saveGame.addEventListener('click',()=>document.getElementById('export')?.click());
- exit.addEventListener('click',ev=>{
-  ev.preventDefault();setKeyboard(false);
-  document.body.classList.remove('game-ready');
-  const start=document.getElementById('startScreen');if(start)start.classList.remove('hidden');
-  const resume=document.getElementById('startLocal');if(resume)resume.classList.remove('hidden');
-  document.body.classList.remove('mrc-cw-touch-play','mrc-cw-mini-open');
-  window.scrollTo({top:0,behavior:'instant'});
- });
+ exit.addEventListener('click',ev=>{ev.preventDefault();setKeyboard(false);document.dispatchEvent(new Event('mrc-crossword-exit'))});
  const desktopExit=document.createElement('button');desktopExit.type='button';desktopExit.className='mrc-cw-desktop-exit';
  desktopExit.textContent=it?'← Torna ai cruciverba':'← Back to crosswords';
  desktopExit.addEventListener('click',()=>exit.click());layout.before(desktopExit);

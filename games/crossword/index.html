@@ -79,7 +79,7 @@ body.guide-modal.guide-areas #photoEditor .photo-tip,body.guide-modal.guide-area
   <p class="copyright">© 2026</p>
   <p class="mrc-publish"><a href="https://mrc-publish.marcoruisi.workers.dev/" target="_blank" rel="noopener noreferrer nofollow">Publish ↗</a></p>
 </footer>
-<script src="/assets/games/crossword-json.js"></script><script src="/assets/games/crossword-diagramless.js"></script>
+<script src="/assets/games/crossword-json.js"></script><script src="/assets/games/crossword-diagramless.js"></script><script src="/assets/games/crossword-catalog.js"></script>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);const pageLang='en';const T={it:{build:'Schema',clues:'Definizioni',play:'Gioca',rows:'Righe',cols:'Colonne',apply:'Applica dimensioni',across:'→ Orizzontale',down:'↓ Verticale',clue:'Definizione',saveclue:'Salva definizione',next:'Successiva mancante',letter:'Inserisci lettera',erase:'Cancella casella',back:'← Indietro',keyhelp:'Puoi usare anche la tastiera fisica.',buildpanel:'La numerazione si aggiorna quando modifichi le caselle nere. Schema e definizioni si possono salvare anche incompleti.',bulkTitle:'Incolla tutte le definizioni',bulkHelp:'Incolla il testo riconosciuto dal Mac, con ORIZZONTALI e VERTICALI. Verifica le associazioni prima di importare.',bulkCheck:'Controlla testo',bulkApply:'Importa definizioni',bulkReady:'Definizioni riconosciute',bulkMissing:'Da inserire',bulkUnknown:'Numeri non presenti nello schema',bulkDuplicate:'Numeri ripetuti',bulkOverwrite:'definizioni esistenti che saranno sostituite',bulkNone:'Nessuna definizione identificata. Controlla intestazioni e numeri.',bulkDone:'Definizioni importate',words:'Parole nello schema',export:'Salva progressi (.json)',import:'Apri file (.json)',fresh:'Svuota schema',reset:'Nuovo schema',storage:'Salvataggio automatico su questo browser. Esporta il file JSON per riprendere su un altro dispositivo. Nessun dato viene inviato a MRC.',select:'Seleziona una casella',blank:'Definizione mancante',missing:'definizioni mancanti',filled:'caselle compilate',helpbuild:'Tocca le caselle per annerirle. Le parole vengono numerate automaticamente.',helpclues:'Tocca un numero per scrivere la definizione. Usa le frecce per cambiare direzione.',helpplay:'Tocca una casella e scrivi. Due tocchi rapidi su un incrocio cambiano direzione.',sure:'Creare un nuovo schema? I dati non esportati andranno persi.',surefresh:'Cancellare le lettere inserite? Schema e definizioni resteranno intatti.',no:'Nessuna parola disponibile',saved:'Definizione salvata.',imported:'Progetto aperto.',invalid:'File non valido.',size:'Dimensioni da 3 a 30.',subtitle:'Costruisci, compila, conserva.',title:'Cruciverba digitale',footer:'MRC — Il progetto e i progressi appartengono a te.',cluePlaceholder:'Scrivi la definizione...',confirmresize:'Cambiare dimensioni? Le celle esterne alla nuova griglia andranno perse.',photoLabel:'Foto di riferimento',photoOpacity:'Visibilità foto',photoHide:'Nascondi foto',photoShow:'Mostra foto',photoRemove:'Rimuovi foto',photoHelp:'Sposta i quattro punti sugli angoli esterni della griglia nella foto. Verrà raddrizzata e sovrapposta alle caselle.',photoError:'Immagine non valida o troppo grande (max 15 MB).',photoTransient:'La foto è temporanea: il progetto JSON salva schema e progressi, non la fotografia.',photoDetect:'Conta righe e colonne',photoUse:'Usa dimensioni rilevate',photoResult:'Rilevate',photoUncertain:'Non riesco a contare le linee con sicurezza. Regola i quattro angoli e premi «Conta righe e colonne», oppure imposta le dimensioni manualmente.',photoCheck:'Verifica le dimensioni proposte prima di applicarle.',measureCell:'Misura una casella',measureCancel:'Annulla misura',measureHelp:'Tocca due angoli opposti della stessa casella (meglio se nera) sulla fotografia: primo angolo in alto a sinistra, secondo in basso a destra. Usa gli angoli della griglia blu per allineare prima la foto.',measureRetry:'Seleziona di nuovo una casella ben visibile, oppure correggi i quattro angoli della griglia.',measureInvalid:'La misura non è attendibile. ',measureDone:'Dimensioni stimate da una casella'},en:{build:'Grid',clues:'Clues',play:'Play',rows:'Rows',cols:'Columns',apply:'Apply size',across:'→ Across',down:'↓ Down',clue:'Clue',saveclue:'Save clue',next:'Next missing',letter:'Enter letter',erase:'Erase cell',back:'← Back',keyhelp:'You can also use a physical keyboard.',buildpanel:'Numbering updates when you change black squares. You can save unfinished puzzles.',bulkTitle:'Paste all clues',bulkHelp:'Paste text from your Mac, including ACROSS and DOWN headings. Check matches before importing.',bulkCheck:'Check text',bulkApply:'Import clues',bulkReady:'Recognized clues',bulkMissing:'Still missing',bulkUnknown:'Numbers absent from grid',bulkDuplicate:'Duplicate numbers',bulkOverwrite:'existing clues to be replaced',bulkNone:'No clues found. Check headings and numbers.',bulkDone:'Clues imported',words:'Entries in grid',export:'Save progress (.json)',import:'Open file (.json)',fresh:'Clear grid',reset:'New grid',storage:'Autosaved in this browser. Export the JSON file to continue on another device. No data is sent to MRC.',select:'Select a cell',blank:'Missing clue',missing:'missing clues',filled:'filled cells',helpbuild:'Tap cells to make them black. Entries are numbered automatically.',helpclues:'Tap a numbered cell to enter a clue. Use the arrows to switch direction.',helpplay:'Tap a cell to type. Double-tap an intersection to switch direction.',sure:'Create a new grid? Unsaved data will be lost.',surefresh:'Clear entered letters? Grid and clues remain.',no:'No entries available',saved:'Clue saved.',imported:'Project opened.',invalid:'Invalid project file.',size:'Dimensions must be 3–30.',subtitle:'Build, solve, keep.',title:'Digital crossword',footer:'MRC — Your puzzle and progress belong to you.',cluePlaceholder:'Write the clue...',confirmresize:'Change size? Cells outside the new grid will be lost.',photoLabel:'Reference photo',photoOpacity:'Photo visibility',photoHide:'Hide photo',photoShow:'Show photo',photoRemove:'Remove photo',photoHelp:'Move the four points onto the outer corners of the crossword grid in the photo. It will be straightened and laid over the cells.',photoError:'Invalid or oversized image (15 MB max).',photoTransient:'Photo is temporary: project JSON saves grid and progress, not the image.',photoDetect:'Count rows and columns',photoUse:'Use detected dimensions',photoResult:'Detected',photoUncertain:'Could not count grid lines reliably. Adjust the four corners and select Count rows and columns, or enter the size manually.',photoCheck:'Check suggested dimensions before applying.',measureCell:'Measure one cell',measureCancel:'Cancel measurement',measureHelp:'Tap opposite corners of the same square (preferably black) in the photo: upper left, then lower right. Align the four blue grid corners first.',measureRetry:'Select a clearer cell or adjust the four grid corners.',measureInvalid:'Measurement is unreliable. ',measureDone:'Estimated from one square'}};
@@ -466,78 +466,51 @@ document.addEventListener('mrc-crossword-clear-confirmed',()=>{diagramless.clear
  // Keep the chooser as a distinct browser-history entry.
  const historyKey='mrcCrosswordView';
  const initialHistory=history.state;
- if(!initialHistory?.[historyKey])history.replaceState({...history.state,[historyKey]:'list'},'',location.href);
- function showGame(){start.classList.add('hidden');document.body.classList.add('game-ready');document.body.classList.remove('guide-modal');state.ui.mode='play';render();save()}
- const closeStart=()=>{
+ const initialRequestURL=location.href;
+ const listURL=new URL(location.href);listURL.searchParams.delete('puzzle');listURL.searchParams.delete('mode');
+ let exiting=false,lastExampleURL=initialHistory?.exampleURL||null;
+ if(!initialHistory?.[historyKey])history.replaceState({[historyKey]:'list'},'',listURL.href);
+ function notifyView(){document.dispatchEvent(new Event('mrc-crossword-view'))}
+ function showGame(){start.classList.add('hidden');document.body.classList.add('game-ready');document.body.classList.remove('guide-modal');state.ui.mode='play';render();save();notifyView()}
+ const closeStart=(exampleURL=null)=>{
+  lastExampleURL=exampleURL;
   if(history.state?.[historyKey]!=='play'){
-   history.replaceState({...history.state,[historyKey]:'list',listScroll:window.scrollY},'',location.href);
-   history.pushState({[historyKey]:'play',puzzle:JSON.parse(JSON.stringify(state))},'',location.href);
-  }
+   history.replaceState({[historyKey]:'list',listScroll:window.scrollY},'',listURL.href);
+   history.pushState({[historyKey]:'play',listBehind:true,exampleURL,puzzle:JSON.parse(JSON.stringify(state))},'',exampleURL||listURL.href);
+  }else history.replaceState({...history.state,exampleURL,puzzle:JSON.parse(JSON.stringify(state))},'',exampleURL||listURL.href);
   showGame();
  };
  function restoreHistory(entry){
+  exiting=false;
   if(entry?.[historyKey]==='play'){
    const restored=validate(entry.puzzle);
    if(restored){state=restored;state.ui.lang=pageLang}
-   showGame();
+   lastExampleURL=entry.exampleURL||null;showGame();
   }else{
    save();start.classList.remove('hidden');document.body.classList.remove('game-ready','mrc-cw-touch-play','mrc-cw-mini-open');
-   $('startLocal').classList.remove('hidden');
-   document.activeElement?.blur();
+   $('startLocal').classList.remove('hidden');document.activeElement?.blur();notifyView();
    requestAnimationFrame(()=>window.scrollTo({top:entry?.listScroll||0,behavior:'instant'}));
   }
  }
  window.addEventListener('popstate',event=>restoreHistory(event.state));
- // The existing mobile “Back” control must use the same history entry.
- new MutationObserver(()=>{
-  if(!document.body.classList.contains('game-ready')&&history.state?.[historyKey]==='play')history.back();
- }).observe(document.body,{attributes:true,attributeFilter:['class']});
+ // One explicit exit path. Body class observers must never traverse history.
+ document.addEventListener('mrc-crossword-exit',()=>{
+  if(exiting||history.state?.[historyKey]!=='play')return;
+  save();exiting=true;
+  if(history.state.listBehind){history.back()}
+  else{const entry={[historyKey]:'list',listScroll:0};history.replaceState(entry,'',listURL.href);restoreHistory(entry)}
+ });
 
  const existing=localStorage.getItem('mrc-crossword-game-en-v1');if(existing){try{const old=validate(JSON.parse(existing));if(old && (old.blacks.some(Boolean)||Object.keys(old.clues).length||old.letters.some(Boolean)))$('startLocal').classList.remove('hidden')}catch{}}
  $('startBlank').addEventListener('click',()=>{const lang=state.ui.lang;state=fresh();state.ui.lang=lang;closeStart();render();save()});
  $('startPhoto').addEventListener('click',()=>{closeStart();state.ui.mode='build';render();$('photoFile').click()});
  $('startProject').addEventListener('click',()=>$('file').click());
- $('startLocal').addEventListener('click',()=>{closeStart();render()});
+ $('startLocal').addEventListener('click',()=>{closeStart(lastExampleURL);render()});
 
-const presetRoot=document.querySelector('#startScreen .start-actions');
-if(presetRoot){
- const safeName=name=>typeof name==='string'&&/^[a-zA-Z0-9][a-zA-Z0-9._-]*\.json$/.test(name)&&!name.includes('..');
- const groups={};
- for(const [category,heading] of [['daily',"Daily crossword"],['history',"Time machine · On this day"],['classic',"Sample puzzles"]]){
-  const wrap=document.createElement('section');wrap.className='mrc-crossword-collection';wrap.dataset.category=category;
-  const h=document.createElement('h3');h.textContent=heading;h.style.cssText='font-size:1.08rem;margin:0 0 .5rem';
-  const list=document.createElement('div');list.className='mrc-crossword-collection-list';list.style.cssText='display:grid;gap:12px';
-  const note=document.createElement('p');note.className='muted';note.textContent="Loading collection…";
-  wrap.append(h,note,list);presetRoot.append(wrap);
-  groups[category]={list,note};
- }
- async function loadExample(name){
-  if(!safeName(name))throw Error('Invalid filename');
-  const response=await fetch('/assets/games/crosswords/'+encodeURIComponent(name),{cache:'no-store'});
-  if(!response.ok)throw Error('HTTP '+response.status);
-  const raw=await response.json(),clean=validate(raw);if(!clean)throw Error('Invalid crossword JSON');
-  clean.letters.fill('');clean.ui.mode='play';clean.ui.lang=pageLang;state=diagramless.prepare(clean);closeStart();render();save();
- }
- async function listExamples(){
-  try{const r=await fetch('/assets/games/crosswords/index.json',{cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw Error('HTTP '+r.status);
-   const manifest=await r.json();if(!Array.isArray(manifest.games))throw Error('Invalid index');
-   const items=manifest.games.filter(x=>x.language===pageLang&&(x.type==='daily-news'||x.type==='time-machine'||x.category==='history'||x.category==='classic')&&safeName(x.file)&&(x.file!=='mrc-del-giorno.json'||x.type==='daily-news'));
-   for(const item of items){
-    const category=item.type==='daily-news'?'daily':item.type==='time-machine'||item.category==='history'?'history':'classic';
-    const button=document.createElement('button');button.type='button';
-    const strong=document.createElement('strong');strong.textContent=item.title||item.file;button.appendChild(strong);
-    button.addEventListener('click',()=>loadExample(item.file).catch(e=>{groups[category].note.textContent="Cannot open crossword: "+e.message}));
-    groups[category].list.appendChild(button);
-   }
-   groups.classic.note.textContent=groups.classic.list.children.length?'':'No sample puzzles available.';
-   for(const name of ['daily','history'])groups[name].note.textContent=groups[name].list.children.length?'':'No published preview yet.';
-  }catch(err){for(const group of Object.values(groups))group.note.textContent="Collection unavailable: "+err.message;}
- }
- listExamples();
-}
-
-
-
+MRCCrosswordCatalog.init({lang:pageLang,requestURL:initialRequestURL,
+ canAutoOpen:()=>initialHistory?.[historyKey]!=='play'&&history.state?.[historyKey]==='list'&&!sessionStorage.getItem('mrc-crossword-transfer'),
+ open:(clean,mode,url)=>{clean.letters.fill('');if(clean.diagramlessBlacks)clean.diagramlessBlacks.fill(false);clean.ui.mode='play';clean.ui.lang=pageLang;clean.ui.selected=0;state=diagramless.prepare(clean,{mode});closeStart(url);}
+});
 
  if(initialHistory?.[historyKey]==='play')restoreHistory(initialHistory);
  const transfer=sessionStorage.getItem('mrc-crossword-transfer');
@@ -545,4 +518,4 @@ if(presetRoot){
  render();save();
 })();
 </script><script src="/assets/games/playtime.js" defer></script><script src="/assets/language-preference.js" defer></script>
-<script src="/assets/games/crossword-mobile.js?v=20261012-save3" defer></script><script src="/assets/games/crossword-follow.js" defer></script></body></html>
+<script src="/assets/games/crossword-mobile.js?v=20261016-catalog" defer></script><script src="/assets/games/crossword-follow.js" defer></script></body></html>

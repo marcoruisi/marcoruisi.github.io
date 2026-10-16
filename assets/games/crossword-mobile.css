@@ -320,3 +320,23 @@ body.mrc-crossword-game.game-ready .mrc-cw-desktop-exit{display:inline-flex;alig
 @media(max-width:800px) and (pointer:coarse){
  body.mrc-crossword-game.game-ready .mrc-cw-desktop-exit{display:none}
 }
+
+/* Coordinate labels are fixed row/column references, never word numbers. */
+body.mrc-crossword-game .cell .cw-axis{position:absolute;left:2px;top:2px;font-size:clamp(7px,.7vw,10px);font-family:Arial,sans-serif;line-height:1;white-space:nowrap;color:#444;pointer-events:none}
+body.mrc-crossword-game .cell.black .cw-axis{color:#fff}
+body.mrc-crossword-game .cw-status-line{display:block;line-height:1.4}
+.mrc-cw-catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:16px 0}
+.mrc-cw-catalog-column{min-width:0;border-top:1px solid #aaa;padding-top:16px}.mrc-cw-catalog-column h3{margin:0 0 8px}.mrc-cw-catalog-column p{font-size:.9rem;line-height:1.5}
+.mrc-cw-catalog-list{display:grid;gap:10px}.mrc-cw-catalog-card{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid #aaa;border-radius:5px;color:inherit;text-decoration:none}.mrc-cw-catalog-card:hover{border-color:currentColor}.mrc-cw-catalog-card:focus-visible{outline:3px solid #1765ad;outline-offset:2px}.mrc-cw-catalog-card small{font-size:.85rem;color:inherit}
+.mrc-cw-example-link{margin:0 0 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}.mrc-cw-example-link[hidden],.mrc-cw-example-link [hidden]{display:none!important}.mrc-cw-example-link input{max-width:100%;min-width:0;flex:1 1 250px}.mrc-cw-example-link span{font-size:.85rem}
+@media(max-width:650px){.mrc-cw-catalog{grid-template-columns:1fr}}
+@media(max-width:800px) and (pointer:coarse){
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-info-row{width:100%;min-width:0;gap:6px;box-sizing:border-box}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-word-info:empty{display:none}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-word-info{white-space:normal;min-width:0;flex:0 1 auto}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-progress-controls{flex:1 1 0;min-width:0;width:100%;justify-content:space-between}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-info-row #status{flex:1 1 0;min-width:0;white-space:normal!important;text-align:left!important;overflow-wrap:anywhere}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-progress-controls #fresh{flex:0 0 44px}
+ body.mrc-crossword-game.mrc-cw-touch-play .cell .cw-axis{font-size:9px}
+ body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-example-link{display:none}
+}

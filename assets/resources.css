@@ -1,7 +1,7 @@
 .resources-entry{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:28px 0 48px}
 .resources-entry a{display:flex;flex-direction:column;gap:10px;padding:18px 0;border-top:1px solid currentColor;text-decoration:none;color:inherit}
 .resources-entry strong{font-family:Manrope,system-ui,sans-serif;font-weight:600}
-.resources-entry .resources-link-arrow{display:inline-block;margin-left:.3em;font-family:Arial,sans-serif;font-size:.85em;font-weight:400;line-height:1;vertical-align:baseline}
+.resources-entry .resources-link-arrow{display:inline-block;width:.85em;height:.85em;margin-left:.3em;vertical-align:baseline;overflow:visible}
 .resources-entry a:hover strong{text-decoration:underline;text-underline-offset:5px}
 .resources-entry a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 .resources-content h2{scroll-margin-top:24px}

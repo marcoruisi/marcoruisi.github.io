@@ -3,10 +3,10 @@
 window.MRCDiagramless={create({getState,save,render,focus}){
  const $=id=>document.getElementById(id),it=document.documentElement.lang==='it',say=(a,b)=>it?a:b;
  const chooser=document.createElement('label');chooser.className='mrc-cw-variant';
- chooser.append(document.createTextNode(say('Modalità di gioco ','Game mode ')));
+ chooser.append(document.createTextNode(say('Modalità per i file JSON aperti ','Mode for opened JSON files ')));
  const mode=document.createElement('select');mode.id='cwVariant';
  for(const [value,label] of [['classic',say('Classico','Classic')],['diagramless',say('Senza schema','Diagramless')]]){const o=document.createElement('option');o.value=value;o.textContent=label;mode.append(o)}chooser.append(mode);
- const help=document.createElement('p');help.className='muted';help.textContent=say('Senza schema: inserisci lettere e caselle nere. Le definizioni sono riordinate per riga e colonna e il contatore indica quante nere collocare. I file con schema sconosciuto si giocano solo senza schema. La modalità si applica al prossimo cruciverba aperto; le partite salvate conservano la loro.','Diagramless: enter letters and black squares. Clues are reordered by row and column; the counter shows how many black squares to place. Files with an unknown layout can only be played diagramless. The mode applies to the next puzzle opened; saved games keep their mode.');
+ const help=document.createElement('p');help.className='muted';help.textContent=say('Le due raccolte aprono il gioco nella modalità indicata. Questa scelta vale per i file JSON: i progressi salvati conservano la loro modalità e gli schemi liberi si aprono solo senza schema.','The two collections open puzzles in the indicated mode. This choice applies to JSON files: saved games keep their mode and free grids open only as diagramless.');
  $('startScreen').querySelector('.start-actions').before(chooser,help);
  const controls=document.createElement('div');controls.className='mrc-diagramless-controls';controls.hidden=true;
  const black=document.createElement('button');black.type='button';black.textContent=say('■ Nera / bianca','■ Black / white');black.setAttribute('aria-pressed','false');
@@ -51,16 +51,21 @@ window.MRCDiagramless={create({getState,save,render,focus}){
   for(let i=0;i<s.rows*s.cols;i++){
    const b=document.createElement('button');b.type='button';b.dataset.index=i;b.className='cell'+(m[i]?' black':'')+(i===s.ui.selected?' current':'');
    b.setAttribute('aria-label',say('Riga ','Row ')+(Math.floor(i/s.cols)+1)+say(', colonna ', ', column ')+(i%s.cols+1)+(m[i]?say(', nera',', black'):', '+(s.letters[i]||say('vuota','empty'))));
+   if(i<s.cols||i%s.cols===0){const axis=document.createElement('span');axis.className='cw-axis';axis.setAttribute('aria-hidden','true');axis.textContent=(i%s.cols===0?(Math.floor(i/s.cols)+1)+'→':'')+(i===0?' ':'')+(i<s.cols?(i+1)+'↓':'');b.append(axis)}
    if(!m[i]){const ch=document.createElement('span');ch.className='char';ch.textContent=s.letters[i];b.append(ch)}frag.append(b);
   }
   $('board').replaceChildren(frag);$('board').style.gridTemplateColumns=`repeat(${s.cols},minmax(0,1fr))`;
-  $('status').textContent=say('Lettere: ','Letters: ')+s.letters.filter((v,i)=>v&&!m[i]).length+say(' · Nere inserite: ',' · Black squares placed: ')+m.filter(Boolean).length+' / '+total(s)+(m.filter(Boolean).length>total(s)?say(' · Troppe nere',' · Too many black squares'):'')+(s.layoutKnown===false?say(' · Schema libero: verifica non disponibile',' · Free grid: checking unavailable'):'');
+  const status=$('status'),letters=document.createElement('span'),blacks=document.createElement('span');letters.className=blacks.className='cw-status-line';
+  letters.textContent=say('Lettere inserite: ','Letters entered: ')+s.letters.filter((v,i)=>v&&!m[i]).length;
+  blacks.textContent=say('Nere inserite: ','Black squares placed: ')+m.filter(Boolean).length+' / '+total(s)+(m.filter(Boolean).length>total(s)?say(' · Troppe nere',' · Too many'):'');status.replaceChildren(letters,blacks);
+  hint.textContent=say('Seleziona una casella e usa ■ (oppure # da tastiera). Le etichette sui bordi indicano riga → e colonna ↓.','Select a square and press ■ (or # on your keyboard). Edge labels indicate row → and column ↓.')+(s.layoutKnown===false?say(' Schema libero: verifica della soluzione non disponibile.',' Free grid: solution checking unavailable.'):'');
+
   const list=document.createDocumentFragment();
   for(const dir of ['a','d']){const h=document.createElement('h3');h.textContent=say(dir==='a'?'Orizzontali':'Verticali',dir==='a'?'Across':'Down');list.append(h);for(let l=0;l<(dir==='a'?s.rows:s.cols);l++){const box=document.createElement('section');renderClues(entries,dir,l,box);list.append(box)}}
   $('wordList').replaceChildren(list);
  }
  function sync(){const on=active();controls.hidden=!on;document.body.classList.toggle('mrc-diagramless',on);const description=$('mrc-cw-clear-description');if(description)description.textContent=on?say('Verranno cancellate lettere e caselle nere inserite. Il cruciverba resterà lo stesso.','Entered letters and black squares will be cleared. The puzzle will stay the same.'):say('Verranno cancellate tutte le lettere inserite. Il cruciverba resterà lo stesso.','All entered letters will be removed. The crossword will stay the same.')}
  $('fresh').addEventListener('click',sync);
- return {active,sync,render:draw,select,letter,erase,keydown,toggle,advance:n=>select(next(n)),prepare(s,{saved=false}={}){if(!saved&&s.layoutKnown!==false){if(mode.value==='diagramless'){s.variant='diagramless';s.diagramlessBlacks=Array(s.rows*s.cols).fill(false);s.letters.fill('');s.ui.selected=0}else{delete s.variant;delete s.diagramlessBlacks}}return s},clear(){if(active())marks().fill(false)}};
+ return {active,sync,render:draw,select,letter,erase,keydown,toggle,advance:n=>select(next(n)),prepare(s,{saved=false,mode:requested=mode.value}={}){if(!saved&&s.layoutKnown!==false){if(requested==='diagramless'){s.variant='diagramless';s.diagramlessBlacks=Array(s.rows*s.cols).fill(false);s.letters.fill('');s.ui.selected=0}else{delete s.variant;delete s.diagramlessBlacks}}return s},clear(){if(active())marks().fill(false)}};
 }};
 })();
