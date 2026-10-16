@@ -12,7 +12,7 @@ function visible(){const q=$('search').value.toLocaleLowerCase();return rows.map
 function output(){return $('scope').value==='filtered'?(start()&&rows.length?[rows[0]]:[]).concat(visible().map(x=>x.r)):rows}
 function resetFilters(){filters=[];selected.clear();renderFilters();$('split-preview').textContent=''}
 function options(select,previous=0){select.replaceChildren();for(let c=0;c<width(rows);c++){const o=document.createElement('option');o.value=c;o.textContent=`${c+1} · ${heading(c)}`;select.append(o)}select.value=String(Math.min(Number(previous)||0,Math.max(0,width(rows)-1)))}
-let dragging=null;
+let dragging=null,headSignature='';
 function clearDrag(){dragging=null;document.querySelectorAll('.drop-column,.drop-before,.drop-after').forEach(el=>el.classList.remove('drop-column','drop-before','drop-after'))}
 function dragHandle(kind,index){
  const b=document.createElement('button');b.type='button';b.className='drag-handle';b.textContent='⠿';b.draggable=true;
@@ -25,8 +25,10 @@ function dragHandle(kind,index){
 function render(){
  const n=width(rows),data=visible();page=Math.max(0,Math.min(page,Math.ceil(data.length/50)-1));
  for(const id of ['column','split-column'])options($(id),$(id).value);
- $('heads').replaceChildren();const head=document.createElement('tr');const marker=document.createElement('th');marker.textContent='#';head.append(marker);
- for(let c=0;c<n;c++){const th=document.createElement('th');th.append(dragHandle('column',c),document.createTextNode(heading(c)));th.ondragover=e=>{if(dragging?.kind==='column'){e.preventDefault();e.dataTransfer.dropEffect='move';th.classList.add('drop-column')}};th.ondragleave=()=>th.classList.remove('drop-column');th.ondrop=e=>{if(dragging?.kind!=='column')return;e.preventDefault();const from=dragging.index;clearDrag();if(from!==c){change(()=>rows=moveColumn(rows,from,c),true);msg(say('Colonna spostata. Puoi annullare.','Column moved. You can undo.'))}};head.append(th)}$('heads').append(head);$('rows').replaceChildren();
+ $('search-cell').colSpan=n+1;
+ const signature=JSON.stringify(Array.from({length:n},(_,c)=>heading(c)));
+ if(signature!==headSignature){headSignature=signature;$('column-head')?.remove();const head=document.createElement('tr');head.id='column-head';const marker=document.createElement('th');marker.textContent='#';head.append(marker);
+ for(let c=0;c<n;c++){const th=document.createElement('th');th.append(dragHandle('column',c),document.createTextNode(heading(c)));th.ondragover=e=>{if(dragging?.kind==='column'){e.preventDefault();e.dataTransfer.dropEffect='move';th.classList.add('drop-column')}};th.ondragleave=()=>th.classList.remove('drop-column');th.ondrop=e=>{if(dragging?.kind!=='column')return;e.preventDefault();const from=dragging.index;clearDrag();if(from!==c){change(()=>rows=moveColumn(rows,from,c),true);msg(say('Colonna spostata. Puoi annullare.','Column moved. You can undo.'))}};const panel=document.createElement('details');panel.className='csv-column-filter';panel.dataset.column=c;const summary=document.createElement('summary');panel.append(summary,document.createElement('div'));th.append(panel);head.append(th)}$('heads').append(head);renderFilters()}$('rows').replaceChildren();
  const shown=data.slice(page*50,page*50+50);
  if(start()&&rows.length)shown.unshift({r:rows[0],i:0,header:true});
  for(const {r,i,header} of shown){const tr=document.createElement('tr');if(header)tr.className='header-row';const mark=document.createElement('td');
@@ -50,8 +52,27 @@ async function load(newFile=file){if(!newFile)return;if(newFile.size>10*1024*102
 $('file').onchange=()=>{load($('file').files[0]);$('file').value=''};$('reload').onclick=()=>load();
 $('drop').ondragover=e=>{e.preventDefault();$('drop').classList.add('drag')};$('drop').ondragleave=()=>$('drop').classList.remove('drag');$('drop').ondrop=e=>{e.preventDefault();$('drop').classList.remove('drag');if(e.dataTransfer.files.length!==1){msg(say('Trascina un solo CSV.','Drop one CSV.'));return}load(e.dataTransfer.files[0])};
 const operators=[['contains','Contiene','Contains'],['equals','È uguale a','Equals'],['not','È diverso da','Does not equal'],['starts','Inizia con','Starts with'],['ends','Finisce con','Ends with'],['empty','È vuoto','Is empty'],['filled','Non è vuoto','Is not empty'],['gt','Numero maggiore di','Number greater than'],['lt','Numero minore di','Number less than']];
-function renderFilters(){const host=$('filters');host.replaceChildren();filters.forEach((f,i)=>{const div=document.createElement('div');div.className='filter-row';const col=document.createElement('select'),op=document.createElement('select'),v=document.createElement('input'),remove=document.createElement('button');options(col,f.col);col.setAttribute('aria-label',say('Colonna filtro','Filter column'));op.setAttribute('aria-label',say('Condizione','Condition'));v.setAttribute('aria-label',say('Valore filtro','Filter value'));for(const [key,a,b] of operators){const o=document.createElement('option');o.value=key;o.textContent=say(a,b);op.append(o)}op.value=f.op;v.value=f.value;v.disabled=['empty','filled'].includes(f.op);col.onchange=()=>{f.col=Number(col.value);page=0;selected.clear();render()};op.onchange=()=>{f.op=op.value;v.disabled=['empty','filled'].includes(f.op);page=0;selected.clear();render()};v.oninput=()=>{f.value=v.value;page=0;selected.clear();render()};remove.textContent='×';remove.setAttribute('aria-label',say('Rimuovi filtro','Remove filter'));remove.onclick=()=>{filters.splice(i,1);renderFilters();page=0;selected.clear();render()};div.append(col,op,v,remove);host.append(div)})}
-$('add-filter').onclick=()=>{filters.push({col:0,op:'contains',value:''});renderFilters();render()};$('clear-filters').onclick=()=>{$('search').value='';resetFilters();page=0;render()};
+function renderFilters(){
+ document.querySelectorAll('.csv-column-filter').forEach(panel=>{
+  const c=Number(panel.dataset.column),host=panel.querySelector('div'),summary=panel.querySelector('summary');
+  const active=filters.filter(f=>f.col===c);summary.textContent=say('Filtri','Filters')+(active.length?' ('+active.length+')':'');summary.setAttribute('aria-label',say('Filtri: ','Filters: ')+heading(c));host.replaceChildren();
+  active.forEach(f=>{
+   const div=document.createElement('div');div.className='csv-filter-condition';
+   const op=document.createElement('select'),v=document.createElement('input'),remove=document.createElement('button');
+   op.setAttribute('aria-label',say('Condizione: ','Condition: ')+heading(c));v.setAttribute('aria-label',say('Valore filtro: ','Filter value: ')+heading(c));
+   for(const [key,a,b] of operators){const o=document.createElement('option');o.value=key;o.textContent=say(a,b);op.append(o)}
+   op.value=f.op;v.value=f.value;v.placeholder=say('Valore','Value');v.disabled=['empty','filled'].includes(f.op);
+   const apply=()=>{page=0;selected.clear();render()};
+   op.onchange=()=>{f.op=op.value;v.disabled=['empty','filled'].includes(f.op);apply()};
+   v.oninput=()=>{f.value=v.value;apply()};
+   remove.type='button';remove.textContent=say('Rimuovi','Remove');remove.onclick=()=>{filters.splice(filters.indexOf(f),1);renderFilters();apply()};
+   div.append(op,v,remove);host.append(div);
+  });
+  const add=document.createElement('button');add.type='button';add.textContent=say('Aggiungi condizione','Add condition');
+  add.onclick=()=>{filters.push({col:c,op:'contains',value:''});renderFilters();page=0;selected.clear();render();panel.querySelector('div').querySelectorAll('input')[active.length]?.focus()};host.append(add);
+ });
+}
+$('clear-filters').onclick=()=>{$('search').value='';resetFilters();page=0;render()};
 for(const id of ['search','case'])$(id).oninput=()=>{page=0;selected.clear();render()};$('header').onchange=()=>{resetFilters();render()};$('scope').onchange=()=>$('split-preview').textContent='';
 $('prev').onclick=()=>{page--;render()};$('next').onclick=()=>{page++;render()};
 $('undo').onclick=()=>{if(!undo.length)return;redo.push(snapshot());rows=JSON.parse(undo.pop());dirty=true;resetFilters();render();msg(say('Operazione annullata.','Action undone.'))};$('redo').onclick=()=>{if(!redo.length)return;undo.push(snapshot());rows=JSON.parse(redo.pop());dirty=true;resetFilters();render()};

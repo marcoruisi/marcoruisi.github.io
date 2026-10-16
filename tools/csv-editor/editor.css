@@ -1,0 +1,12 @@
+.mrc-data-tool .editor-table thead{position:sticky;top:0;z-index:2;background:#edf0ea;color:#20251f}
+.mrc-data-tool .editor-table th{position:static;min-width:190px}
+.mrc-data-tool .editor-table #search-cell{padding:12px;background:#edf0ea;white-space:normal}
+.csv-header-search{width:min(700px,70vw);font-weight:400}
+.csv-header-search .actions{margin:10px 0}
+.csv-header-search .hint{margin:8px 0 0}
+.mrc-data-tool .csv-column-filter{margin:6px 0 0;font-weight:400;white-space:normal}
+.mrc-data-tool .csv-column-filter summary{font-size:.85rem;padding:4px 0}
+.csv-column-filter>div{max-height:220px;overflow:auto;min-width:190px;padding:3px}
+.csv-filter-condition{display:grid;gap:6px;padding:8px 0;border-bottom:1px solid #bcc5b7;margin-bottom:8px}
+.csv-filter-condition input,.csv-filter-condition select{width:100%;min-width:0;box-sizing:border-box}
+.mrc-data-tool .csv-column-filter button{font-size:.8rem;min-height:32px;padding:5px 8px}
