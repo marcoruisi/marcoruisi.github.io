@@ -51,14 +51,14 @@ window.MRCDiagramless={create({getState,save,render,focus}){
   for(let i=0;i<s.rows*s.cols;i++){
    const b=document.createElement('button');b.type='button';b.dataset.index=i;b.className='cell'+(m[i]?' black':'')+(i===s.ui.selected?' current':'');
    b.setAttribute('aria-label',say('Riga ','Row ')+(Math.floor(i/s.cols)+1)+say(', colonna ', ', column ')+(i%s.cols+1)+(m[i]?say(', nera',', black'):', '+(s.letters[i]||say('vuota','empty'))));
-   if(i<s.cols||i%s.cols===0){const axis=document.createElement('span');axis.className='cw-axis';axis.setAttribute('aria-hidden','true');axis.textContent=(i%s.cols===0?(Math.floor(i/s.cols)+1)+'→':'')+(i===0?' ':'')+(i<s.cols?(i+1)+'↓':'');b.append(axis)}
+   if(i<s.cols||i%s.cols===0){const axis=document.createElement('span');axis.className='cw-axis';axis.setAttribute('aria-hidden','true');axis.textContent=String(i<s.cols?i+1:Math.floor(i/s.cols)+1);b.append(axis)}
    if(!m[i]){const ch=document.createElement('span');ch.className='char';ch.textContent=s.letters[i];b.append(ch)}frag.append(b);
   }
   $('board').replaceChildren(frag);$('board').style.gridTemplateColumns=`repeat(${s.cols},minmax(0,1fr))`;
   const status=$('status'),letters=document.createElement('span'),blacks=document.createElement('span');letters.className=blacks.className='cw-status-line';
   letters.textContent=say('Lettere inserite: ','Letters entered: ')+s.letters.filter((v,i)=>v&&!m[i]).length;
   blacks.textContent=say('Nere inserite: ','Black squares placed: ')+m.filter(Boolean).length+' / '+total(s)+(m.filter(Boolean).length>total(s)?say(' · Troppe nere',' · Too many'):'');status.replaceChildren(letters,blacks);
-  hint.textContent=say('Seleziona una casella e usa ■ (oppure # da tastiera). Le etichette sui bordi indicano riga → e colonna ↓.','Select a square and press ■ (or # on your keyboard). Edge labels indicate row → and column ↓.')+(s.layoutKnown===false?say(' Schema libero: verifica della soluzione non disponibile.',' Free grid: solution checking unavailable.'):'');
+  hint.textContent=say('Seleziona una casella e usa ■ (oppure # da tastiera). I numeri sui bordi indicano le righe e le colonne.','Select a square and press ■ (or # on your keyboard). Numbers along the edges identify rows and columns.')+(s.layoutKnown===false?say(' Schema libero: verifica della soluzione non disponibile.',' Free grid: solution checking unavailable.'):'');
 
   const list=document.createDocumentFragment();
   for(const dir of ['a','d']){const h=document.createElement('h3');h.textContent=say(dir==='a'?'Orizzontali':'Verticali',dir==='a'?'Across':'Down');list.append(h);for(let l=0;l<(dir==='a'?s.rows:s.cols);l++){const box=document.createElement('section');renderClues(entries,dir,l,box);list.append(box)}}
