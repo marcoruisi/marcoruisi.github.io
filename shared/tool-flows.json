@@ -185,6 +185,120 @@
           }
         }
       ]
+    },
+    {
+      "id": "folder-inventory",
+      "title": {
+        "it": "Documentare il contenuto di una cartella",
+        "en": "Document the contents of a folder"
+      },
+      "description": {
+        "it": "Crea un inventario dei file per una consegna o un archivio. Scegli quali informazioni conservare e come organizzarle.",
+        "en": "Create a file inventory for a handover or archive. Choose which information to keep and how to organise it."
+      },
+      "note": {
+        "it": "Scarica la tabella CSV da Elenca file e aprila nell’Editor CSV. Puoi anche suddividerla per estensione o cartella.",
+        "en": "Download the CSV table from List files and open it in the CSV Editor. You can also split it by extension or folder."
+      },
+      "steps": [
+        {
+          "kind": "input",
+          "label": {
+            "it": "Cartella di lavoro",
+            "en": "Project folder"
+          },
+          "detail": {
+            "it": "File e sottocartelle",
+            "en": "Files and subfolders"
+          }
+        },
+        {
+          "kind": "tool",
+          "label": {
+            "it": "Elenca file",
+            "en": "List files"
+          },
+          "detail": {
+            "it": "Scegli profondità e filtri",
+            "en": "Choose depth and filters"
+          },
+          "tool": "file-inventory"
+        },
+        {
+          "kind": "tool",
+          "label": {
+            "it": "Editor CSV",
+            "en": "CSV Editor"
+          },
+          "detail": {
+            "it": "Riordina, filtra e scegli le colonne",
+            "en": "Sort, filter and choose columns"
+          },
+          "tool": "csv-editor"
+        },
+        {
+          "kind": "output",
+          "label": {
+            "it": "Inventario CSV",
+            "en": "CSV inventory"
+          },
+          "detail": {
+            "it": "Pronto da consultare o consegnare",
+            "en": "Ready to review or hand over"
+          }
+        }
+      ]
+    },
+    {
+      "id": "csv-split",
+      "title": {
+        "it": "Dividere una tabella in elenchi pronti all’uso",
+        "en": "Split a table into ready-to-use lists"
+      },
+      "description": {
+        "it": "Da una tabella unica a elenchi separati per città, lingua o categoria. Controlla i dati e scegli come raggrupparli.",
+        "en": "Turn a single table into separate lists by city, language or category. Review the data and choose how to group it."
+      },
+      "note": {
+        "it": "Nello stesso editor, correggi i dati e applica eventuali filtri. Poi scegli la colonna di suddivisione: ogni CSV conserva le intestazioni, se attive. Puoi esportare tutte le righe o solo quelle filtrate.",
+        "en": "In the same editor, correct the data and apply any filters. Then choose the split column: each CSV keeps the headers when enabled. Export all rows or only the filtered ones."
+      },
+      "steps": [
+        {
+          "kind": "input",
+          "label": {
+            "it": "Tabella CSV",
+            "en": "CSV table"
+          },
+          "detail": {
+            "it": "Contatti, prodotti o materiali",
+            "en": "Contacts, products or assets"
+          }
+        },
+        {
+          "kind": "tool",
+          "label": {
+            "it": "Editor CSV",
+            "en": "CSV Editor"
+          },
+          "detail": {
+            "it": "Modifica, filtra e suddividi per colonna",
+            "en": "Edit, filter and split by column"
+          },
+          "tool": "csv-editor"
+        },
+        {
+          "kind": "output",
+          "label": {
+            "it": "ZIP con i singoli CSV",
+            "en": "ZIP of individual CSV files"
+          },
+          "detail": {
+            "it": "Un elenco per ogni valore",
+            "en": "One list for each value"
+          }
+        }
+      ]
     }
   ]
 }

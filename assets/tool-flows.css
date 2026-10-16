@@ -13,7 +13,7 @@
 .mrc-flow-number{flex-shrink:0;font-size:12px;letter-spacing:.06em;color:var(--muted,#687078);font-variant-numeric:tabular-nums}
 .mrc-flow-example h3{margin:0;font-family:inherit;font-size:22px;font-weight:600;line-height:1.3;letter-spacing:normal}
 .mrc-flow-description{margin:8px 0 18px;font-size:15px;line-height:1.5}
-.mrc-flow-path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;margin:0;padding:0;list-style:none}
+.mrc-flow-path{display:grid;grid-template-columns:repeat(var(--flow-step-count,4),minmax(0,1fr));gap:26px;margin:0;padding:0;list-style:none}
 .mrc-flow-step{position:relative;min-width:0;margin:0}
 .mrc-flow-node{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;min-height:140px;height:100%;padding:16px 14px;border:1px solid var(--border,#d7dbe0);border-radius:0;background:var(--panel,#fff);text-decoration:none;overflow-wrap:anywhere}
 /* Endpoints are static: visual emphasis must not imply another tool link. */

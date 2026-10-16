@@ -19,7 +19,7 @@ def flow_page_content(root: Path, lang: str) -> str:
     pick = lambda a,b: a if it else b
     intro = pick("Uno strumento risolve un problema. Il suo risultato pu\u00f2 diventare il punto di partenza per un altro.", "One tool solves a problem. Its result can become the starting point for another.")
     out = [f'<header class="mrc-flows-intro"><h1>Tool Flows</h1><p class="intro mrc-flows-lead">{esc(intro)}</p></header>']
-    out.append(f'<section class="mrc-flow-examples" aria-labelledby="mrc-flow-examples-heading"><h2 id="mrc-flow-examples-heading" class="mrc-flows-sr-only">{pick("Tre idee per iniziare", "Three ideas to get started")}</h2>')
+    out.append(f'<section class="mrc-flow-examples" aria-labelledby="mrc-flow-examples-heading"><h2 id="mrc-flow-examples-heading" class="mrc-flows-sr-only">{pick("Idee per iniziare", "Ideas to get started")}</h2>')
     seen = set()
     for number, flow in enumerate(data["examples"], start=1):
         fid = flow["id"]
@@ -28,7 +28,7 @@ def flow_page_content(root: Path, lang: str) -> str:
         seen.add(fid)
         title = esc(flow["title"][lang])
         out.append(f'<article class="mrc-flow-example" aria-labelledby="flow-{fid}"><div class="mrc-flow-example-heading"><span class="mrc-flow-number" aria-hidden="true">{number:02d}</span><h3 id="flow-{fid}">{title}</h3></div><p class="mrc-flow-description">{esc(flow["description"][lang])}</p>')
-        out.append(f'<ol class="mrc-flow-path" aria-label="{title}">')
+        out.append(f'<ol class="mrc-flow-path" style="--flow-step-count:{len(flow["steps"])}" aria-label="{title}">')
         for index, step in enumerate(flow["steps"]):
             kind = step["kind"]
             if kind not in ("input", "tool", "output"):
@@ -52,7 +52,7 @@ def flow_page_content(root: Path, lang: str) -> str:
         out.append('</article>')
     out.append('</section>')
     heading = pick("Il flusso pi\u00f9 utile potrebbe essere quello che non abbiamo immaginato.", "The most useful flow might be one we haven\u2019t imagined.")
-    paragraph = pick("Questi sono soltanto tre esempi, non percorsi obbligati. I Tools funzionano da soli, ma puoi collegarli e continuare anche con strumenti esterni. Scegli tu le combinazioni, in base al risultato che ti serve.", "These are just three examples, not fixed routes. Each tool works on its own, but you can connect them and carry on with tools from elsewhere. Choose the combinations that suit what you need to achieve.")
+    paragraph = pick("Questi sono soltanto alcuni esempi, non percorsi obbligati. I Tools funzionano da soli, ma puoi collegarli e continuare anche con strumenti esterni. Scegli tu le combinazioni, in base al risultato che ti serve.", "These are just a few examples, not fixed routes. Each tool works on its own, but you can connect them and carry on with tools from elsewhere. Choose the combinations that suit what you need to achieve.")
     handoff = pick("Un copia e incolla o un file scaricato possono bastare. Controlla il formato richiesto dal passaggio successivo: non ogni risultato entra in ogni strumento.", "Copy and paste, or a downloaded file, may be all you need. Check the format required by the next step: not every result fits every tool.")
     out.append(f'<section class="mrc-flows-outro" aria-labelledby="mrc-flows-outro-heading"><p class="mrc-flows-eyebrow">{pick("I collegamenti li trovi tu", "The connections are yours to find")}</p><h2 id="mrc-flows-outro-heading">{esc(heading)}</h2><p>{esc(paragraph)}</p><p class="mrc-flows-handoff">{esc(handoff)}</p><nav class="mrc-flows-links" aria-label="{pick("Continua a esplorare", "Keep exploring")}"><a class="mrc-flows-primary-link" href="{pick("/it/tools/tutti/", "/tools/all/")}">{pick("Esplora tutti i Tools", "Explore all the Tools")} \u2192</a><a href="{pick("/it/storie/connessioni/", "/stories/connections/")}">{pick("Leggi la storia Connessioni", "Read the Connections story")} \u2192</a></nav></section>')
     return "\n".join(out)
