@@ -23,9 +23,18 @@ window.MRCCrosswordCatalog={init({lang,open,canAutoOpen,requestURL=location.href
   if(requestedId&&!interacted&&canAutoOpen()){const item=itemsById.get(requestedId);if(item)await start(item,requestedMode);else columns[requestedMode].note.textContent=say('Il cruciverba di questo link non è disponibile nella raccolta.','The crossword in this link is not available in the collection.')}
  }catch{for(const mode of ['classic','diagramless'])columns[mode].note.textContent=say('Raccolta non disponibile. Puoi aprire un file JSON.','Collection unavailable. You can open a JSON file.')}}
  list();
- const share=document.createElement('button');share.type='button';share.id='mrcShareExample';share.className='mrc-cw-share-example';share.textContent=say('Copia link allo schema iniziale','Copy starting puzzle link');share.hidden=true;
+ const warning=say('Il link apre lo schema iniziale, senza progressi. Per inviare anche i progressi, scarica il JSON con “Salva progressi”.','The link opens the starting puzzle without progress. To send progress too, download the JSON using “Save progress”.');
+ const share=document.createElement('button');share.type='button';share.id='mrcShareExample';share.className='mrc-cw-share-example';share.textContent=say('Condividi','Share');share.hidden=true;
  const panel=document.createElement('div');panel.className='mrc-cw-example-link';const fallback=document.createElement('input');fallback.type='url';fallback.readOnly=true;fallback.hidden=true;fallback.setAttribute('aria-label',say('Link allo schema iniziale','Starting puzzle link'));const note=document.createElement('span');note.setAttribute('role','status');panel.append(share,fallback,note);document.querySelector('main > .layout').before(panel);
- share.onclick=async()=>{const url=history.state?.exampleURL;if(!url)return;try{await navigator.clipboard.writeText(url);note.textContent=say('Link copiato: apre uno schema pulito.','Link copied: opens a clean puzzle.')}catch{fallback.value=url;fallback.hidden=false;fallback.focus();fallback.select();note.textContent=say('Copia questo indirizzo.','Copy this address.')}};
- document.addEventListener('mrc-crossword-view',()=>{const available=history.state?.mrcCrosswordView==='play'&&!!history.state.exampleURL;share.hidden=!available;fallback.hidden=true;note.textContent='';panel.hidden=!available});panel.hidden=true;
+ async function shareLink(output=note){
+  const url=history.state?.exampleURL;if(!url)return;
+  output.textContent=warning;
+  if(navigator.share){try{await navigator.share({title:say('Cruciverba','Crossword'),text:warning,url});return}catch(error){if(error.name==='AbortError')return}}
+  try{await navigator.clipboard.writeText(url);output.textContent=say('Link copiato. ','Link copied. ')+warning}
+  catch{fallback.value=url;fallback.hidden=false;panel.hidden=false;fallback.focus();fallback.select();output.textContent=say('Copia questo indirizzo: ','Copy this address: ')+url+' — '+warning}
+ }
+ window.MRCShareCrossword={share:shareLink,warning};
+ share.onclick=()=>shareLink();
+ document.addEventListener('mrc-crossword-view',()=>{const available=history.state?.mrcCrosswordView==='play'&&!!history.state.exampleURL;share.hidden=!available;fallback.hidden=true;note.textContent=warning;panel.hidden=!available});panel.hidden=true;
 }};
 })();

@@ -63,7 +63,13 @@
  const share=document.createElement('button');share.type='button';share.className='mrc-cw-share-progress';
  share.textContent=it?'Scarica .json':'Download .json';
  share.setAttribute('aria-label',it?'Scarica cruciverba (.json)':'Download crossword (.json)');
- share.addEventListener('click',()=>document.getElementById('mrcDownloadPuzzle')?.click());
+ const shareNote=document.createElement('p');shareNote.className='mrc-cw-share-note';shareNote.setAttribute('role','status');
+ shareNote.style.cssText='margin:4px 0 8px;white-space:normal;overflow-wrap:anywhere;font-size:12px;line-height:1.4;min-width:0;max-width:100%';
+ bar.after(shareNote);
+ function syncShare(){const available=!!history.state?.exampleURL&&!!window.MRCShareCrossword;share.textContent=available?(it?'Condividi':'Share'):(it?'Scarica .json':'Download .json');share.setAttribute('aria-label',share.textContent);shareNote.textContent=available?window.MRCShareCrossword.warning:'';shareNote.hidden=!available||!mq.matches||!body.classList.contains('game-ready')}
+ share.addEventListener('click',()=>{if(history.state?.exampleURL&&window.MRCShareCrossword)window.MRCShareCrossword.share(shareNote);else document.getElementById('mrcDownloadPuzzle')?.click()});
+ document.addEventListener('mrc-crossword-view',syncShare);mq.addEventListener('change',syncShare);
+
  const saveGame=document.createElement('button');saveGame.type='button';saveGame.className='mrc-cw-save-progress';
  saveGame.textContent=it?'Salva progressi':'Save progress';
  saveGame.addEventListener('click',()=>document.getElementById('export')?.click());
@@ -71,7 +77,7 @@
  const desktopExit=document.createElement('button');desktopExit.type='button';desktopExit.className='mrc-cw-desktop-exit';
  desktopExit.textContent=it?'← Torna ai cruciverba':'← Back to crosswords';
  desktopExit.addEventListener('click',()=>exit.click());layout.before(desktopExit);
- bar.append(exit,saveGame,share,buttons);wrap.parentElement.insertBefore(bar,wrap);
+ bar.append(exit,saveGame,share,buttons);wrap.parentElement.insertBefore(bar,wrap);bar.after(shareNote);syncShare();
  const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
  const info=document.createElement('div');info.className='mrc-cw-info-row';
  const word=document.createElement('span');word.className='mrc-cw-word-info';
