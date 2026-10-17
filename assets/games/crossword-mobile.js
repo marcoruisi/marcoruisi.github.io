@@ -63,17 +63,14 @@
  const share=document.createElement('button');share.type='button';share.className='mrc-cw-share-progress';
  share.textContent=it?'Scarica .json':'Download .json';
  share.setAttribute('aria-label',it?'Scarica cruciverba (.json)':'Download crossword (.json)');
- const shareNote=document.createElement('p');shareNote.className='mrc-cw-share-note';shareNote.setAttribute('role','status');
- shareNote.style.cssText='margin:4px 0 8px;white-space:normal;overflow-wrap:anywhere;font-size:12px;line-height:1.4;min-width:0;max-width:100%';
- function syncShare(){share.textContent=it?'Salva / condividi':'Save / share';share.setAttribute('aria-label',share.textContent);shareNote.replaceChildren();shareNote.hidden=!mq.matches||!body.classList.contains('game-ready')}
- share.addEventListener('click',()=>window.MRCShareCrossword?.share(shareNote));
- document.addEventListener('mrc-crossword-view',syncShare);mq.addEventListener('change',syncShare);
+ share.textContent=it?'Condividi / salva':'Share / save';share.setAttribute('aria-label',share.textContent);
+ share.addEventListener('click',()=>window.MRCShareCrossword?.share());
 
  exit.addEventListener('click',ev=>{ev.preventDefault();setKeyboard(false);document.dispatchEvent(new Event('mrc-crossword-exit'))});
  const desktopExit=document.createElement('button');desktopExit.type='button';desktopExit.className='mrc-cw-desktop-exit';
  desktopExit.textContent=it?'← Torna ai cruciverba':'← Back to crosswords';
  desktopExit.addEventListener('click',()=>exit.click());layout.before(desktopExit);
- bar.append(exit,share,buttons);wrap.parentElement.insertBefore(bar,wrap);bar.after(shareNote);syncShare();
+ bar.append(exit,share,buttons);wrap.parentElement.insertBefore(bar,wrap);
  const status=document.getElementById('status'),selectedTitle=document.getElementById('selectionTitle');
  const info=document.createElement('div');info.className='mrc-cw-info-row';
  const word=document.createElement('span');word.className='mrc-cw-word-info';

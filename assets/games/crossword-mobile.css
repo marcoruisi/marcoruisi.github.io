@@ -348,3 +348,11 @@ body.mrc-crossword-game .mrc-cw-share-note:empty{display:none}
  body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar > .mrc-cw-share-progress{flex:2 1 0!important;white-space:normal!important}
  body.mrc-crossword-game .mrc-cw-share-note{flex:none;max-height:35dvh;overflow:auto}
 }
+
+.mrc-cw-share-dialog{box-sizing:border-box;width:min(460px,calc(100% - 32px));max-height:85dvh;overflow:auto;padding:22px;border:1px solid #aaa;border-radius:12px;background:var(--panel,#fff);color:var(--text,#222)}
+.mrc-cw-share-dialog::backdrop{background:rgba(0,0,0,.4)}
+.mrc-cw-share-dialog h2{font-size:1.25rem;margin:0 0 12px}
+.mrc-cw-share-dialog p{white-space:normal;overflow-wrap:anywhere;line-height:1.5}
+.mrc-cw-share-dialog input{box-sizing:border-box;width:100%;min-width:0;padding:10px;font-size:16px}
+.mrc-cw-share-actions{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.mrc-cw-share-dialog button{font:inherit;padding:10px 14px;min-height:44px;white-space:normal;color:inherit;background:var(--panel,#fff);border:1px solid #aaa;border-radius:6px;cursor:pointer}

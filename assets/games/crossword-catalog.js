@@ -23,32 +23,40 @@ window.MRCCrosswordCatalog={init({lang,open,canAutoOpen,requestURL=location.href
   if(requestedId&&!interacted&&canAutoOpen()){const item=itemsById.get(requestedId);if(item)await start(item,requestedMode,requested.hash);else columns[requestedMode].note.textContent=say('Il cruciverba di questo link non è disponibile nella raccolta.','The crossword in this link is not available in the collection.')}
  }catch{for(const mode of ['classic','diagramless'])columns[mode].note.textContent=say('Raccolta non disponibile. Puoi aprire un file JSON.','Collection unavailable. You can open a JSON file.')}}
  list();
- const warning=say('Scarica un JSON da conservare e riaprire anche offline. Per gli esempi della raccolta puoi condividere anche un link.','Download a JSON to keep and reopen offline. Catalogue puzzles can also be shared by link.');
- const share=document.createElement('button');share.type='button';share.id='mrcShareExample';share.className='mrc-cw-share-example';share.textContent=say('Salva / condividi','Save / share');share.hidden=true;
- const panel=document.createElement('div');panel.className='mrc-cw-example-link';const fallback=document.createElement('input');fallback.type='url';fallback.readOnly=true;fallback.hidden=true;fallback.setAttribute('aria-label',say('Link allo schema iniziale','Starting puzzle link'));const note=document.createElement('span');note.setAttribute('role','status');panel.append(share,fallback,note);document.querySelector('main > .layout').before(panel);
- async function sendLink(output,withProgress){
+ const share=document.createElement('button');share.type='button';share.id='mrcShareExample';share.className='mrc-cw-share-example';share.textContent=say('Condividi / salva','Share / save');
+ const panel=document.createElement('div');panel.className='mrc-cw-example-link';panel.append(share);document.querySelector('main > .layout').before(panel);panel.hidden=true;
+ const dialog=document.createElement('dialog');dialog.className='mrc-cw-share-dialog';dialog.setAttribute('aria-labelledby','mrc-share-title');
+ const title=document.createElement('h2');title.id='mrc-share-title';const content=document.createElement('div');const actions=document.createElement('div');actions.className='mrc-cw-share-actions';
+ const close=document.createElement('button');close.type='button';close.textContent=say('Chiudi','Close');close.onclick=()=>dialog.close();dialog.append(title,content,actions,close);document.body.append(dialog);
+ let format='json',opener=null;
+ dialog.addEventListener('close',()=>opener?.focus({preventScroll:true}));
+ function screen(heading){title.textContent=heading;content.replaceChildren();actions.replaceChildren()}
+ function action(label,run){const button=document.createElement('button');button.type='button';button.textContent=label;button.onclick=run;actions.append(button)}
+ function message(text){const p=document.createElement('p');p.textContent=text;content.append(p)}
+ function hasProgress(){const s=history.state?.puzzle;return !!s&&(s.letters?.some((v,i)=>!!v&&!(s.variant==='diagramless'?s.diagramlessBlacks?.[i]:s.blacks?.[i]))||s.variant==='diagramless'&&s.diagramlessBlacks?.some(Boolean))}
+ async function sendLink(withProgress){
   let url=history.state?.exampleURL;if(!url)return;
-  const message=withProgress?say('Cruciverba con i progressi condivisi.','Crossword with shared progress.'):say('Cruciverba: schema iniziale senza progressi.','Crossword: starting puzzle without progress.');
-  try{const u=new URL(url);u.hash='';if(withProgress){u.hash='p'+MRCCrosswordLink.encode(history.state.puzzle,u.searchParams.get('mode')==='diagramless'?'diagramless':'classic')}url=u.href;if(url.length>1800)throw Error('length')}catch{output.textContent=say('Impossibile creare un link compatto. Usa “JSON con progressi” e invia il file.','Cannot create a compact link. Use “JSON with progress” and send the file.');return}
-  output.textContent=message;
-  if(navigator.share){try{await navigator.share({title:say('Cruciverba','Crossword'),text:message,url});return}catch(error){if(error.name==='AbortError')return}}
-  try{await navigator.clipboard.writeText(url);output.textContent=say('Link copiato. ','Link copied. ')+message}
-  catch{fallback.value=url;fallback.hidden=false;panel.hidden=false;fallback.focus();fallback.select();output.textContent=say('Copia questo indirizzo: ','Copy this address: ')+url+' — '+message}
+  try{const u=new URL(url);u.hash='';if(withProgress)u.hash='p'+MRCCrosswordLink.encode(history.state.puzzle,u.searchParams.get('mode')==='diagramless'?'diagramless':'classic');url=u.href;if(url.length>1800)throw Error('length')}
+  catch{screen(say('Usa il file JSON','Use a JSON file'));message(say('Non è stato possibile creare un link compatto per questi dati.','A compact link could not be created for this data.'));action(say('Scarica JSON','Download JSON'),()=>{document.getElementById(withProgress?'export':'mrcDownloadPuzzle')?.click();dialog.close()});return}
+  screen(say('Il tuo link','Your link'));message(withProgress?say('Include le lettere e le nere inserite.','Includes entered letters and black squares.'):say('Apre lo schema iniziale, senza progressi.','Opens the starting puzzle, without progress.'));
+  const input=document.createElement('input');input.type='url';input.readOnly=true;input.value=url;input.setAttribute('aria-label',say('Link al cruciverba','Crossword link'));content.append(input);
+  const status=document.createElement('p');status.setAttribute('role','status');content.append(status);
+  async function copy(){try{await navigator.clipboard.writeText(url);status.textContent=say('Link copiato.','Link copied.')}catch{input.focus();input.select();status.textContent=say('Seleziona e copia il link.','Select and copy the link.')}}
+  async function send(){try{await navigator.share({title:say('Cruciverba','Crossword'),url})}catch(error){if(error.name!=='AbortError')await copy()}}
+  action(say('Copia link','Copy link'),copy);if(navigator.share)action(say('Condividi link','Share link'),send);
+  action(say('Indietro','Back'),()=>hasProgress()?chooseProgress():chooseFormat());
+  if(navigator.share)await send();else await copy();
  }
- function shareLink(output=note){
-  output.replaceChildren();const label=document.createElement('span');label.textContent=warning;label.style.display='block';output.append(label);
-  function action(title,run){const button=document.createElement('button');button.type='button';button.textContent=title;button.style.cssText='margin:6px 6px 0 0;white-space:normal';button.onclick=run;output.append(button)}
-  if(history.state?.exampleURL){
-   action(say('Link allo schema iniziale','Link to starting puzzle'),()=>sendLink(output,false));
-   action(say('Link con progressi','Link with progress'),()=>sendLink(output,true));
-  }
-  action(say('JSON dello schema iniziale','Starting puzzle JSON'),()=>document.getElementById('mrcDownloadPuzzle')?.click());
-  action(say('JSON con progressi','JSON with progress'),()=>document.getElementById('export')?.click());
-  action(say('Chiudi','Close'),()=>output.replaceChildren());
+ function finish(withProgress){if(format==='link')sendLink(withProgress);else{document.getElementById(withProgress?'export':'mrcDownloadPuzzle')?.click();dialog.close()}}
+ function chooseProgress(){
+  if(!hasProgress()){finish(false);return}
+  screen(say('Includere i progressi?','Include progress?'));message(say('Puoi inviare lo schema iniziale oppure conservare le lettere e le nere inserite.','Send the starting puzzle or keep the letters and black squares you have entered.'));
+  action(say('Con progressi','With progress'),()=>finish(true));action(say('Senza progressi','Without progress'),()=>finish(false));if(history.state?.exampleURL)action(say('Indietro','Back'),chooseFormat);
  }
+ function chooseFormat(){screen(say('Come vuoi condividere o salvare?','How would you like to share or save?'));message(say('Il JSON conserva il cruciverba in un file. Il link permette di aprirlo dal sito.','JSON saves the crossword in a file. A link opens it from the website.'));action(say('File JSON','JSON file'),()=>{format='json';chooseProgress()});action(say('Link','Link'),()=>{format='link';chooseProgress()})}
+ function shareLink(){opener=document.activeElement;format='json';if(history.state?.exampleURL){if(!dialog.open)dialog.showModal();chooseFormat()}else if(hasProgress()){if(!dialog.open)dialog.showModal();chooseProgress()}else finish(false)}
+ window.MRCShareCrossword={share:shareLink};share.onclick=shareLink;
+ document.addEventListener('mrc-crossword-view',()=>{panel.hidden=history.state?.mrcCrosswordView!=='play';if(dialog.open)dialog.close()});
 
- window.MRCShareCrossword={share:shareLink,warning};
- share.onclick=()=>shareLink();
- document.addEventListener('mrc-crossword-view',()=>{const available=history.state?.mrcCrosswordView==='play';share.hidden=!available;fallback.hidden=true;note.replaceChildren();panel.hidden=!available});panel.hidden=true;
 }};
 })();
