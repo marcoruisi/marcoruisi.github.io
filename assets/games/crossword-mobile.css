@@ -340,3 +340,11 @@ body.mrc-crossword-game .cw-status-line{display:block;line-height:1.4}
  body.mrc-crossword-game.mrc-cw-touch-play .cell .cw-axis{font-size:9px}
  body.mrc-crossword-game.mrc-cw-touch-play .mrc-cw-example-link{display:none}
 }
+
+/* Downloads are grouped in Save / share; their handlers remain available. */
+body.mrc-crossword-game #mrcDownloadPuzzle,body.mrc-crossword-game #export{display:none!important}
+body.mrc-crossword-game .mrc-cw-share-note:empty{display:none}
+@media(max-width:800px) and (pointer:coarse){
+ body.mrc-crossword-game.game-ready.mrc-cw-touch-play .mrc-cw-board-bar > .mrc-cw-share-progress{flex:2 1 0!important;white-space:normal!important}
+ body.mrc-crossword-game .mrc-cw-share-note{flex:none;max-height:35dvh;overflow:auto}
+}
